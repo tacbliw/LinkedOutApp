@@ -12,9 +12,19 @@
     "noUnusedLocals": true,
     "sourceMap": true,
     "target": "esnext",
-    "lib": ["esnext"],
-    "skipLibCheck": true
+    "lib": [
+      "esnext"
+    ],
+    "skipLibCheck": true,
+    "noImplicitAny": false
   },
-  "exclude": ["node_modules"],
-    "include": ["index.js", "app", "test", "storybook"]
-  }
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "index.js",
+    "app",
+    "test",
+    "storybook"
+  ]
+}

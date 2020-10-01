@@ -4,10 +4,11 @@
  *
  * You'll likely spend most of your time in this file.
  */
+import { createDrawerNavigator } from "@react-navigation/drawer"
 import React from "react"
-
-import { createNativeStackNavigator } from "react-native-screens/native-stack"
-import { WelcomeScreen, DemoScreen } from "../screens"
+import NamedIcon from "../components/named-icon/named-icon"
+import { FollowingScreen, ProfileScreen, SettingsScreen } from "../screens"
+import { HomeNavigator } from "./home-navigator"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -22,24 +23,44 @@ import { WelcomeScreen, DemoScreen } from "../screens"
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
 export type PrimaryParamList = {
-  welcome: undefined
-  demo: undefined
+  home: undefined
+  profile: undefined
+  following: undefined
+  settings: undefined
 }
 
 // Documentation: https://github.com/software-mansion/react-native-screens/tree/master/native-stack
-const Stack = createNativeStackNavigator<PrimaryParamList>()
+const Drawer = createDrawerNavigator<PrimaryParamList>()
 
 export function PrimaryNavigator() {
   return (
-    <Stack.Navigator
+    <Drawer.Navigator
       screenOptions={{
-        headerShown: false,
         gestureEnabled: true,
       }}
     >
-      <Stack.Screen name="welcome" component={WelcomeScreen} />
-      <Stack.Screen name="demo" component={DemoScreen} />
-    </Stack.Navigator>
+      <Drawer.Screen name="home" component={HomeNavigator}
+        options={{
+          drawerLabel: 'Home',
+          drawerIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'home')
+        }}
+      />
+      <Drawer.Screen name="profile" component={ProfileScreen}
+        options={{
+          drawerLabel: 'Profile',
+          drawerIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'user')
+        }} />
+      <Drawer.Screen name="following" component={FollowingScreen}
+        options={{
+          drawerLabel: 'Following',
+          drawerIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'users')
+        }} />
+      <Drawer.Screen name="settings" component={SettingsScreen}
+        options={{
+          drawerLabel: 'Settings',
+          drawerIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'gear'),
+        }} />
+    </Drawer.Navigator>
   )
 }
 

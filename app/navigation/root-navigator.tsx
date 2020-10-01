@@ -4,10 +4,10 @@
  * and a "main" flow (which is contained in your PrimaryNavigator) which the user
  * will use once logged in.
  */
-import React from "react"
 import { NavigationContainer, NavigationContainerRef } from "@react-navigation/native"
-
+import React from "react"
 import { createNativeStackNavigator } from "react-native-screens/native-stack"
+import { LoginNavigator } from "./login-navigator"
 import { PrimaryNavigator } from "./primary-navigator"
 
 /**
@@ -21,28 +21,30 @@ import { PrimaryNavigator } from "./primary-navigator"
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
 export type RootParamList = {
-  primaryStack: undefined
+  primaryStack: undefined,
+  login: undefined,
+  register: undefined,
 }
 
 const Stack = createNativeStackNavigator<RootParamList>()
 
 const RootStack = () => {
+  const loggedIn = true
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
         gestureEnabled: true,
-
         stackPresentation: "modal",
       }}
     >
-      <Stack.Screen
-        name="primaryStack"
-        component={PrimaryNavigator}
-        options={{
-          headerShown: false,
-        }}
-      />
+      { loggedIn ? (
+        <Stack.Screen name="primaryStack" component={PrimaryNavigator} options={{ headerShown: false, }} />
+      ) : (
+          <>
+            <Stack.Screen name="login" component={LoginNavigator} options={{ headerShown: false, }} />
+          </>
+        )}
     </Stack.Navigator>
   )
 }
