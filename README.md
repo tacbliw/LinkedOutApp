@@ -15,6 +15,7 @@ yarn global add react-native ignite-cli
 ```
 
 Cài Android SDK cho Android Studio. Chạy Android Studio -> làm theo hướng dẫn
+
 Cài emulator cho Android Studio. Chạy Android Studio -> Configure -> AVD Manager -> Bấm download bản emulator có trong list.
 
 Đảm bảo tất cả các lệnh sau đều cho ra kết quả, nếu không thì kiểm tra lại PATH.
