@@ -6,7 +6,7 @@
  */
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import React from "react"
-import NamedIcon from "../components/named-icon/named-icon"
+import { NamedIcon } from "../components"
 import { MessagesScreen, NewsfeedScreen, NotificationsScreen, SearchScreen } from "../screens"
 
 /**
@@ -38,7 +38,7 @@ export function HomeNavigator() {
         <Tabs.Screen name="newsfeed" component={NewsfeedScreen}
           options={{
             tabBarLabel: 'Feed',
-            tabBarIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'newspaper-outline')
+            tabBarIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'home-outline')
           }} />
         <Tabs.Screen name="search" component={SearchScreen}
           options={{

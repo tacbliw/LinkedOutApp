@@ -6,7 +6,7 @@
  */
 import { createDrawerNavigator } from "@react-navigation/drawer"
 import React from "react"
-import NamedIcon from "../components/named-icon/named-icon"
+import { NamedIcon, NullComponent } from "../components"
 import { FollowingScreen, ProfileScreen, SettingsScreen } from "../screens"
 import { HomeNavigator } from "./home-navigator"
 
@@ -41,8 +41,8 @@ export function PrimaryNavigator() {
     >
       <Drawer.Screen name="home" component={HomeNavigator}
         options={{
-          drawerLabel: 'Home',
-          drawerIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'home-outline')
+          drawerLabel: () => NullComponent(),
+          // drawerIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'home-outline')
         }}
       />
       <Drawer.Screen name="profile" component={ProfileScreen}

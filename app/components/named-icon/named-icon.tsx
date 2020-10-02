@@ -15,13 +15,9 @@ export interface NamedIconProps {
 /**
  * Describe your component here
  */
-function NamedIcon(props: NamedIconProps, name: string) {
+export function NamedIcon(props: NamedIconProps, name: string) {
   const { focused, color, size } = props
   return (
     <Ionicons color={color} size={size} name={name} style={style} />
   )
 }
-
-NamedIcon.displayname = "Icon"
-
-export default NamedIcon
