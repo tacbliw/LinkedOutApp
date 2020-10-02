@@ -4,9 +4,9 @@
  *
  * You'll likely spend most of your time in this file.
  */
-import { createDrawerNavigator } from "@react-navigation/drawer"
+import { createDrawerNavigator } from '@react-navigation/drawer'
 import React from "react"
-import { NamedIcon, NullComponent } from "../components"
+import { NamedIcon, Sidebar } from "../components"
 import { FollowingScreen, ProfileScreen, SettingsScreen } from "../screens"
 import { HomeNavigator } from "./home-navigator"
 
@@ -29,19 +29,20 @@ export type PrimaryParamList = {
   settings: undefined
 }
 
-// Documentation: https://github.com/software-mansion/react-native-screens/tree/master/native-stack
 const Drawer = createDrawerNavigator<PrimaryParamList>()
 
 export function PrimaryNavigator() {
   return (
     <Drawer.Navigator
+      initialRouteName="home"
+      drawerContent={Sidebar}
       screenOptions={{
         gestureEnabled: true,
       }}
     >
       <Drawer.Screen name="home" component={HomeNavigator}
         options={{
-          drawerLabel: () => NullComponent(),
+          drawerLabel: () => null,
           // drawerIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'home-outline')
         }}
       />
