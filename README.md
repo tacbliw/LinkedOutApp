@@ -9,16 +9,16 @@
 
 ## Prepare
 
-Cài `react-native` và `ignite-cli`
+- Cài `react-native` và `ignite-cli`
 ```
 yarn global add react-native ignite-cli
 ```
 
-Cài Android SDK cho Android Studio. Chạy Android Studio -> làm theo hướng dẫn
+- Cài Android SDK cho Android Studio. Chạy Android Studio -> làm theo hướng dẫn
 
-Cài emulator cho Android Studio. Chạy Android Studio -> Configure -> AVD Manager -> Bấm download bản emulator có trong list.
+- Cài emulator cho Android Studio. Chạy Android Studio -> Configure -> AVD Manager -> Bấm download bản emulator có trong list.
 
-Đảm bảo tất cả các lệnh sau đều cho ra kết quả, nếu không thì kiểm tra lại PATH.
+- Đảm bảo tất cả các lệnh sau đều cho ra kết quả, nếu không thì kiểm tra lại PATH.
 ```
 java -version        # folder cài đặt java sdk
 emulator -list-avds  # folder Android/Sdk/emulator
