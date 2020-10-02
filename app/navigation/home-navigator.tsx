@@ -38,22 +38,22 @@ export function HomeNavigator() {
         <Tabs.Screen name="newsfeed" component={NewsfeedScreen}
           options={{
             tabBarLabel: 'Feed',
-            tabBarIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'newspaper-o')
+            tabBarIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'newspaper-outline')
           }} />
         <Tabs.Screen name="search" component={SearchScreen}
           options={{
             tabBarLabel: 'Search',
-            tabBarIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'search')
+            tabBarIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'search-outline')
           }} />
         <Tabs.Screen name="notification" component={NotificationsScreen}
           options={{
             tabBarLabel: 'Notifications',
-            tabBarIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'bell')
+            tabBarIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'notifications-outline')
           }} />
         <Tabs.Screen name="messages" component={MessagesScreen}
           options={{
             tabBarLabel: 'Messages',
-            tabBarIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'comments-o')
+            tabBarIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'chatbubbles-outline')
           }} />
       </Tabs.Navigator>
     </>

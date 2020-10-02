@@ -42,23 +42,23 @@ export function PrimaryNavigator() {
       <Drawer.Screen name="home" component={HomeNavigator}
         options={{
           drawerLabel: 'Home',
-          drawerIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'home')
+          drawerIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'home-outline')
         }}
       />
       <Drawer.Screen name="profile" component={ProfileScreen}
         options={{
           drawerLabel: 'Profile',
-          drawerIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'user')
+          drawerIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'person-outline')
         }} />
       <Drawer.Screen name="following" component={FollowingScreen}
         options={{
           drawerLabel: 'Following',
-          drawerIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'users')
+          drawerIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'people-outline')
         }} />
       <Drawer.Screen name="settings" component={SettingsScreen}
         options={{
           drawerLabel: 'Settings',
-          drawerIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'gear'),
+          drawerIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'settings-outline'),
         }} />
     </Drawer.Navigator>
   )
