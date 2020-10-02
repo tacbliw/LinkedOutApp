@@ -2,10 +2,10 @@
 
 ## Install
 
-Java SDK: [https://www.oracle.com/java/technologies/javase-jdk15-downloads.html](https://www.oracle.com/java/technologies/javase-jdk15-downloads.html)
-Node: [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
-Yarn: [https://classic.yarnpkg.com/en/docs/install/#windows-stable](https://classic.yarnpkg.com/en/docs/install/#windows-stable)
-Android Studio: [https://developer.android.com/studio](https://developer.android.com/studio)
+- Java SDK: [https://www.oracle.com/java/technologies/javase-jdk15-downloads.html](https://www.oracle.com/java/technologies/javase-jdk15-downloads.html)
+- Node: [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
+- Yarn: [https://classic.yarnpkg.com/en/docs/install/#windows-stable](https://classic.yarnpkg.com/en/docs/install/#windows-stable)
+- Android Studio: [https://developer.android.com/studio](https://developer.android.com/studio)
 
 ## Prepare
 
