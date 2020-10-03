@@ -40,12 +40,6 @@ export function PrimaryNavigator() {
         gestureEnabled: true,
       }}
     >
-      <Drawer.Screen name="home" component={HomeNavigator}
-        options={{
-          drawerLabel: () => null,
-          // drawerIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'home-outline')
-        }}
-      />
       <Drawer.Screen name="profile" component={ProfileScreen}
         options={{
           drawerLabel: 'Profile',
@@ -61,6 +55,7 @@ export function PrimaryNavigator() {
           drawerLabel: 'Settings',
           drawerIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'settings-outline'),
         }} />
+      <Drawer.Screen name="home" component={HomeNavigator} />
     </Drawer.Navigator>
   )
 }
