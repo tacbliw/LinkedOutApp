@@ -1,5 +1,5 @@
 
-export interface LOGlobalState {
+export interface GlobalState {
   /**
    * User access token.
    */
@@ -7,6 +7,6 @@ export interface LOGlobalState {
 
 }
 
-export const defaultGlobalState: LOGlobalState = {
+export const defaultGlobalState: GlobalState = {
   accessToken: null
 }

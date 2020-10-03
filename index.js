@@ -1,3 +1,13 @@
+import * as eva from '@eva-design/eva'
+import AsyncStorage from '@react-native-community/async-storage'
+import { ApplicationProvider } from '@ui-kitten/components'
+import { Root } from 'native-base'
+import { AppRegistry, StatusBar } from "react-native"
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { enableScreens } from 'react-native-screens'
+import React, { Suspense } from 'reactn'
+import { defaultGlobalState } from './app/config/global'
+import { SplashScreen } from './app/screens'
 // This is the first file that ReactNative will run when it starts up.
 //
 // We jump out of here immediately and into our main entry point instead.
@@ -7,8 +17,6 @@
 // side effect of breaking other tooling like mobile-center and react-native-rename.
 //
 // It's easier just to leave it here.
-import App from "./app/app.tsx"
-import { AppRegistry } from "react-native"
 
 /**
  * This needs to match what's found in your app_delegate.m and MainActivity.java.
@@ -18,13 +26,59 @@ const APP_NAME = "LinkedOutApp"
 // Should we show storybook instead of our app?
 //
 // ⚠️ Leave this as `false` when checking into git.
-const SHOW_STORYBOOK = false
+// const SHOW_STORYBOOK = false
 
-let RootComponent = App
-if (__DEV__ && SHOW_STORYBOOK) {
-  // Only include Storybook if we're in dev mode
-  const { StorybookUIRoot } = require("./storybook")
-  RootComponent = StorybookUIRoot
+enableScreens()
+
+const App = React.lazy(async () => {
+  /**
+   * Initial Global State
+   */
+  const globalState = {
+    ...defaultGlobalState,
+    token: await AsyncStorage.getItem('token'),
+  }
+  /**
+   * Initialize global state
+   */
+  await React.setGlobal(globalState)
+  /**
+   * Import app entry
+   */
+  return import('./app/App')
+})
+
+// if (__DEV__ && SHOW_STORYBOOK) {
+//   // Only include Storybook if we're in dev mode
+//   const { StorybookUIRoot } = require("./storybook")
+//   RootComponent = StorybookUIRoot
+// }
+
+if (__DEV__) {
+  import('./ReactotronConfig').then(() => console.log('Reactotron Configured'))
 }
 
-AppRegistry.registerComponent(APP_NAME, () => RootComponent)
+function AppEntry() {
+  return (
+    <Suspense fallback={<SplashScreen />}>
+      {/* <Button text="LOL" /> */}
+      <Root>
+        <ApplicationProvider {...eva} theme={eva.light}>
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor="#EE534D"
+            networkActivityIndicatorVisible={true}
+            showHideTransition="fade"
+            animated={true}
+            translucent={true}
+          />
+          <SafeAreaProvider>
+            <App />
+          </SafeAreaProvider>
+        </ApplicationProvider>
+      </Root>
+    </Suspense>
+  )
+}
+
+AppRegistry.registerComponent(APP_NAME, () => AppEntry)

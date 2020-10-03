@@ -9,26 +9,24 @@
  * The app navigation resides in ./app/navigation, so head over there
  * if you're interested in adding screens and navigators.
  */
-import "./i18n"
-import "./utils/ignore-warnings"
-import React, { useState, useEffect, useRef } from "react"
 import { NavigationContainerRef } from "@react-navigation/native"
-import { SafeAreaProvider, initialWindowSafeAreaInsets } from "react-native-safe-area-context"
-import * as storage from "./utils/storage"
-import {
-  useBackButtonHandler,
-  RootNavigator,
-  canExit,
-  setRootNavigation,
-  useNavigationPersistence,
-} from "./navigation"
+import React, { useEffect, useRef, useState } from "react"
+import { initialWindowSafeAreaInsets, SafeAreaProvider } from "react-native-safe-area-context"
+import "./i18n"
 import { RootStore, RootStoreProvider, setupRootStore } from "./models"
+import {
+  canExit, RootNavigator,
+
+  setRootNavigation, useBackButtonHandler,
+
+  useNavigationPersistence
+} from "./navigation"
+import "./utils/ignore-warnings"
+import * as storage from "./utils/storage"
 
 // This puts screens in a native ViewController or Activity. If you want fully native
 // stack navigation, use `createNativeStackNavigator` in place of `createStackNavigator`:
 // https://github.com/kmagiera/react-native-screens#using-native-stack-navigator
-import { enableScreens } from 'react-native-screens'
-enableScreens()
 
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
 

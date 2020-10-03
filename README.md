@@ -29,6 +29,16 @@ ignite
 
 ## Run
 Mở cmd trong folder LinkedOutApp
+- Cài các dependencies
+```
+yarn install
+```
+- Linking assets
+```
+react-native link
+react-native link react-native-vector-icons
+```
+- Chạy
 ```
 react-native run-android
 ```

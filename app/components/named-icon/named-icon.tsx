@@ -1,5 +1,5 @@
 import * as React from "react"
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import Icon from 'react-native-vector-icons/Ionicons'
 
 const style = {
   position: "absolute",
@@ -18,6 +18,6 @@ export interface NamedIconProps {
 export function NamedIcon(props: NamedIconProps, name: string) {
   const { focused, color, size } = props
   return (
-    <Ionicons color={color} size={size} name={name} style={style} />
+    <Icon color={color} size={size} name={name} />
   )
 }
