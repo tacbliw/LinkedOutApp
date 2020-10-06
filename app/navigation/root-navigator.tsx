@@ -29,7 +29,7 @@ export type RootParamList = {
 const Stack = createNativeStackNavigator<RootParamList>()
 
 const RootStack = () => {
-  const loggedIn = true
+  const loggedIn = false
   return (
     <Stack.Navigator
       screenOptions={{

@@ -36,12 +36,13 @@ const App = React.lazy(async () => {
    */
   const globalState = {
     ...defaultGlobalState,
-    token: await AsyncStorage.getItem('token'),
+    accessToken: await AsyncStorage.getItem('token'),
   }
   /**
    * Initialize global state
    */
   await React.setGlobal(globalState)
+  console.log(React.getGlobal())
   /**
    * Import app entry
    */
@@ -70,7 +71,7 @@ function AppEntry() {
             networkActivityIndicatorVisible={true}
             showHideTransition="fade"
             animated={true}
-            translucent={true}
+          // translucent={true}
           />
           <SafeAreaProvider>
             <App />

@@ -1,7 +1,9 @@
-import React from "react"
 import { observer } from "mobx-react-lite"
+import { Input } from "native-base"
+import React from "react"
 import { ViewStyle } from "react-native"
-import { Screen, Text } from "../../components"
+import { Button, Screen, Text } from "../../components"
+import { accountService } from "../../services/account-service"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color } from "../../theme"
@@ -12,16 +14,29 @@ const ROOT: ViewStyle = {
 }
 
 export const LoginScreen = observer(function LoginScreen() {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-  // OR
-  // const rootStore = useStores()
-
-  // Pull in navigation via hook
-  // const navigation = useNavigation()
+  const [
+    username,
+    handleUsernameChange,
+    password,
+    handlePasswordChange,
+    loading,
+    handleLogin,
+  ] = accountService.useLogin()
   return (
     <Screen style={ROOT} preset="scroll">
       <Text preset="header" text="loginScreen" />
+      <Input value={username}
+        onChange={handleUsernameChange}
+        placeholder="Username"
+        autoFocus />
+      <Input
+        value={password}
+        onChange={handlePasswordChange}
+        textContentType="password"
+        secureTextEntry
+        placeholder={"Password"}
+      />
+      <Button text='Log me in please!' onPress={handleLogin} />
     </Screen>
   )
 })

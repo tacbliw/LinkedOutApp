@@ -36,6 +36,7 @@
     "@types/react-native-vector-icons": "^6.4.6",
     "@ui-kitten/components": "^5.0.0",
     "apisauce": "1.1.2",
+    "axios": "^0.20.0",
     "i18n-js": "^3.0.11",
     "lodash.throttle": "4.1.1",
     "mobx": "^4.15.4",
@@ -118,12 +119,6 @@
       "node_modules/(?!(jest-)?react-native|react-native|@react-navigation|@storybook|@react-native-community)"
     ]
   },
-  "prettier": {
-    "printWidth": 100,
-    "semi": false,
-    "singleQuote": false,
-    "trailingComma": "all"
-  },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
     "extends": [
@@ -165,6 +160,7 @@
       "it": false
     },
     "rules": {
+      "indent": "off",
       "comma-dangle": 0,
       "no-unused-vars": 0,
       "no-undef": 0,
