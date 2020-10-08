@@ -6,6 +6,7 @@
  */
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs"
 import React from "react"
+import { screens } from "../config/screens"
 import { LoginScreen, RegisterScreen } from "../screens"
 
 /**
@@ -20,20 +21,16 @@ import { LoginScreen, RegisterScreen } from "../screens"
  *   https://reactnavigation.org/docs/params/
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
-export type LoginParamList = {
-  login: undefined
-  register: undefined
-}
 
 // Documentation: https://github.com/software-mansion/react-native-screens/tree/master/native-stack
-const Tabs = createMaterialTopTabNavigator<LoginParamList>()
+const Tabs = createMaterialTopTabNavigator()
 
 export function LoginNavigator() {
   return (
     <>
       <Tabs.Navigator>
-        <Tabs.Screen name="login" component={LoginScreen} />
-        <Tabs.Screen name="register" component={RegisterScreen} />
+        <Tabs.Screen name={screens.basic.login} component={LoginScreen} />
+        <Tabs.Screen name={screens.basic.register} component={RegisterScreen} />
       </Tabs.Navigator>
     </>
   )

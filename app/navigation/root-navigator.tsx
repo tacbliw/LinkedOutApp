@@ -8,8 +8,9 @@ import { NavigationContainer, NavigationContainerRef } from "@react-navigation/n
 import { createNativeStackNavigator } from "react-native-screens/native-stack"
 import React from "reactn"
 import { GlobalState } from "../config/global"
+import { screens } from "../config/screens"
 import { LoginNavigator } from "./login-navigator"
-import { PrimaryNavigator } from "./primary-navigator"
+import { PrimaryUserNavigator } from "./primary-navigator"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -21,13 +22,8 @@ import { PrimaryNavigator } from "./primary-navigator"
  *   https://reactnavigation.org/docs/params/
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
-export type RootParamList = {
-  primaryStack: undefined,
-  login: undefined,
-  register: undefined,
-}
 
-const Stack = createNativeStackNavigator<RootParamList>()
+const Stack = createNativeStackNavigator()
 
 const RootStack = () => {
   const loggedIn = React.useGlobal<GlobalState, 'accessToken'>('accessToken')[0]
@@ -43,7 +39,7 @@ const RootStack = () => {
           stackPresentation: "modal",
         }}
       >
-        <Stack.Screen name="primaryStack" component={PrimaryNavigator} options={{ headerShown: false, }} />
+        <Stack.Screen name={screens.authenticated.user.navigator} component={PrimaryUserNavigator} options={{ headerShown: false, }} />
       </Stack.Navigator>
     )
   } else {
@@ -55,7 +51,7 @@ const RootStack = () => {
           stackPresentation: "modal",
         }}
       >
-        <Stack.Screen name="login" component={LoginNavigator} options={{ headerShown: false, }} />
+        <Stack.Screen name={screens.basic.navigator} component={LoginNavigator} options={{ headerShown: false, }} />
       </Stack.Navigator>
     )
   }

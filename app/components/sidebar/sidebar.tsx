@@ -1,5 +1,6 @@
 import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer"
 import * as React from "react"
+import { screens } from "../../config/screens"
 import { accountService } from "../../services/account-service"
 import { Button } from "../button/button"
 
@@ -7,7 +8,10 @@ export function Sidebar(props) {
   // remove the option to go to Home screen
   const { state, ...rest } = props
   const newState = { ...state }
-  newState.routes = newState.routes.filter(item => item.name !== 'home')
+  newState.routes = newState.routes.filter(item =>
+    item.name !== screens.authenticated.user.home &&
+    item.name !== screens.authenticated.company.home
+  )
 
   // handle logout event
   const [loading, handleLogout] = accountService.useLogout()
