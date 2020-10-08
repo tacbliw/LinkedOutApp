@@ -48,6 +48,10 @@ export const color = {
    * Error messages and icons.
    */
   error: palette.angry,
+  /**
+   * Logout button icon and text
+   */
+  logout: palette.logout,
 
   /**
    * Storybook background for Text stories, or any stories where

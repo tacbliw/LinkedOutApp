@@ -10,7 +10,7 @@ import React from "reactn"
 import { GlobalState } from "../config/global"
 import { screens } from "../config/screens"
 import { LoginNavigator } from "./login-navigator"
-import { PrimaryUserNavigator } from "./primary-navigator"
+import { PrimaryUserNavigator } from "./primary-user-navigator"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -27,8 +27,6 @@ const Stack = createNativeStackNavigator()
 
 const RootStack = () => {
   const loggedIn = React.useGlobal<GlobalState, 'accessToken'>('accessToken')[0]
-  console.log('Re-rendering navigator!')
-  console.log(loggedIn)
 
   if (typeof loggedIn === 'string' && loggedIn !== '') {
     return (

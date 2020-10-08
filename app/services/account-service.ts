@@ -45,7 +45,6 @@ export const accountService = {
       setLoading(true)
       try {
         const response = await accountRepository.login(username, password) as LoginResponse
-        console.log(typeof response)
         await saveCredentials(response.accessToken)
       } catch (error) {
         if (error?.response?.data) {
