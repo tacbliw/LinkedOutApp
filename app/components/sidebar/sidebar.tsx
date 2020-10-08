@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { screens } from "../../config/screens"
 import { accountService } from "../../services/account-service"
-import { LogoutButton } from "./logout-button/logout -button"
+import { LogoutButton } from "./logout-button/logout-button"
 
 const style = StyleSheet.create({
   container: {
