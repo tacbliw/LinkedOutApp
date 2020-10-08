@@ -1,7 +1,18 @@
-import React from "react"
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native"
+import React from "reactn"
+import { GlobalState } from "../config/global"
+import { removeCredentials, saveCredentials } from "../helpers/account-helper"
 import { showError } from "../helpers/toast"
 import { accountRepository } from "../repositories/account-repository"
+
+interface LoginResponse {
+  accessToken: string;
+  account: {
+    accountType: string;
+    id: number;
+    username: string;
+  }
+}
 
 export const accountService = {
   useLogin(): [
@@ -33,9 +44,9 @@ export const accountService = {
     const handleLogin = React.useCallback(async () => {
       setLoading(true)
       try {
-        const response = await accountRepository.login(username, password)
-        console.log(response)
-        // await this.saveCredentials(user)
+        const response = await accountRepository.login(username, password) as LoginResponse
+        console.log(typeof response)
+        await saveCredentials(response.accessToken)
       } catch (error) {
         if (error?.response?.data) {
           showError('login.cannotLogin')
@@ -51,5 +62,32 @@ export const accountService = {
       loading,
       handleLogin,
     ]
-  }
+  },
+
+  useLogout(): [boolean, () => Promise<void>] {
+    const [loading, setLoading] = React.useState<boolean>(false)
+
+    const handleLogout = React.useCallback(async () => {
+      if (!loading) {
+        setLoading(true)
+        await removeCredentials()
+      }
+    }, [loading])
+
+    return [loading, handleLogout]
+  },
+
+  // do not use this yet
+  useAutoLogin(): [boolean] {
+    const [token] = React.useGlobal<GlobalState, 'accessToken'>('accessToken')
+    const [loading, setLoading] = React.useState<boolean>(false)
+
+    React.useEffect(() => {
+      if (typeof token === 'string' && token !== '') {
+        setLoading(true)
+      }
+    }, [token])
+
+    return [loading]
+  },
 }

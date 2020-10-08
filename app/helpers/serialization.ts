@@ -1,3 +1,16 @@
+function toCamel(s: string): string {
+  return s.replace(/([-_][a-z])/ig, ($1) => {
+    return $1.toUpperCase()
+      .replace('-', '')
+      .replace('_', '')
+  })
+}
+
+function toSnake(key) {
+  const result = key.replace(/([A-Z])/g, " $1")
+  return result.split(' ').join('_').toLowerCase()
+}
+
 /**
  * Serialize data to a serializable object
  *
@@ -18,7 +31,7 @@ export function serialize<T>(data: T): T {
     return Object.fromEntries(
       Object
         .entries(data)
-        .map(([key, value]) => [key, serialize(value)]),
+        .map(([key, value]) => [toSnake(key), serialize(value)]),
     ) as any as T
   }
   return data as any as T
@@ -45,7 +58,7 @@ export function deserialize<T>(data: T): T {
     return Object.fromEntries(
       Object
         .entries(data)
-        .map(([key, value]) => [key, deserialize(value)]),
+        .map(([key, value]) => [toCamel(key), deserialize(value)]),
     )
   }
   return data as any as T

@@ -57,7 +57,8 @@ function App() {
   // with your own loading component if you wish.
   if (!rootStore) return null
 
-  // otherwise, we're ready to render the app
+  // Process some business logic and render the app
+
   return (
     <RootStoreProvider value={rootStore}>
       <SafeAreaProvider initialSafeAreaInsets={initialWindowSafeAreaInsets}>
