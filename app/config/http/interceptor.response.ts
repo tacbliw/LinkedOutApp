@@ -7,9 +7,7 @@ export function responseInterceptor(response: AxiosResponse) {
   }
   if (process.env.NODE_ENV === 'development') {
     console.log('<!-- Begin Response -->')
-    // eslint-disable-next-line no-console
     console.log(response.data)
-    // eslint-disable-next-line no-console
     console.log('<!-- End Response -->')
   }
   return response

@@ -79,14 +79,14 @@ export const accountService = {
 
   // do not use this yet
   useAutoLogin(): [boolean] {
-    const [token] = React.useGlobal<GlobalState, 'accessToken'>('accessToken')
+    const [accessToken] = React.useGlobal<GlobalState, 'accessToken'>('accessToken')
     const [loading, setLoading] = React.useState<boolean>(false)
 
     React.useEffect(() => {
-      if (typeof token === 'string' && token !== '') {
+      if (typeof accessToken === 'string' && accessToken !== '') {
         setLoading(true)
       }
-    }, [token])
+    }, [accessToken])
 
     return [loading]
   },

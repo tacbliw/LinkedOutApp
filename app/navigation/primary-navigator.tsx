@@ -35,7 +35,8 @@ export function PrimaryNavigator() {
   return (
     <Drawer.Navigator
       initialRouteName="home"
-      drawerContent={Sidebar}
+      // https://github.com/react-navigation/react-navigation/issues/7725
+      drawerContent={props => <Sidebar {...props} />}
       screenOptions={{
         gestureEnabled: true,
       }}

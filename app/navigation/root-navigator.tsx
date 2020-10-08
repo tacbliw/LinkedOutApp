@@ -5,8 +5,9 @@
  * will use once logged in.
  */
 import { NavigationContainer, NavigationContainerRef } from "@react-navigation/native"
-import React from "react"
 import { createNativeStackNavigator } from "react-native-screens/native-stack"
+import React from "reactn"
+import { GlobalState } from "../config/global"
 import { LoginNavigator } from "./login-navigator"
 import { PrimaryNavigator } from "./primary-navigator"
 
@@ -29,24 +30,35 @@ export type RootParamList = {
 const Stack = createNativeStackNavigator<RootParamList>()
 
 const RootStack = () => {
-  const loggedIn = false
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-        gestureEnabled: true,
-        stackPresentation: "modal",
-      }}
-    >
-      { loggedIn ? (
+  const loggedIn = React.useGlobal<GlobalState, 'accessToken'>('accessToken')[0]
+  console.log('Re-rendering navigator!')
+  console.log(loggedIn)
+
+  if (typeof loggedIn === 'string' && loggedIn !== '') {
+    return (
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          gestureEnabled: true,
+          stackPresentation: "modal",
+        }}
+      >
         <Stack.Screen name="primaryStack" component={PrimaryNavigator} options={{ headerShown: false, }} />
-      ) : (
-          <>
-            <Stack.Screen name="login" component={LoginNavigator} options={{ headerShown: false, }} />
-          </>
-        )}
-    </Stack.Navigator>
-  )
+      </Stack.Navigator>
+    )
+  } else {
+    return (
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          gestureEnabled: true,
+          stackPresentation: "modal",
+        }}
+      >
+        <Stack.Screen name="login" component={LoginNavigator} options={{ headerShown: false, }} />
+      </Stack.Navigator>
+    )
+  }
 }
 
 export const RootNavigator = React.forwardRef<
