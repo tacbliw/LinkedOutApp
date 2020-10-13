@@ -9,7 +9,7 @@ export const screens = {
   authenticated: {
     company: {
       navigator: 'company-navigator',
-      home: 'company-home',
+      home: 'company-home-navigator',
       profile: 'company-profile',
       jobs: 'company-jobs',
       messages: 'company-messages',
@@ -17,7 +17,7 @@ export const screens = {
     },
     user: {
       navigator: 'user-navigator',
-      home: 'user-home',
+      home: 'user-home-navigator',
       profile: 'user-profile',
       newsfeed: 'user-newsfeed',
       search: 'user-search',

@@ -5,15 +5,6 @@ import { removeCredentials, saveCredentials } from "../helpers/account-helper"
 import { showError } from "../helpers/toast"
 import { accountRepository } from "../repositories/account-repository"
 
-interface LoginResponse {
-  accessToken: string;
-  account: {
-    accountType: string;
-    id: number;
-    username: string;
-  }
-}
-
 export const accountService = {
   useLogin(): [
     string,
@@ -44,7 +35,7 @@ export const accountService = {
     const handleLogin = React.useCallback(async () => {
       setLoading(true)
       try {
-        const response = await accountRepository.login(username, password) as LoginResponse
+        const response = await accountRepository.login(username, password)
         await saveCredentials(response.accessToken)
       } catch (error) {
         if (error?.response?.data) {
