@@ -65,4 +65,13 @@ export const color = {
    * white background
    */
   storybookTextColor: palette.black,
+
+  // custom color from @native-base\src\theme\variables
+  brandPrimary: '#3F51B5', // android
+  brandInfo: '#62B1F6',
+  brandSuccess: '#5cb85c',
+  brandDanger: '#d9534f',
+  brandWarning: '#f0ad4e',
+  brandDark: '#000',
+  brandLight: '#a9a9a9',
 }

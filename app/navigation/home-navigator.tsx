@@ -4,11 +4,12 @@
  *
  * You'll likely spend most of your time in this file.
  */
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import React from "react"
-import { NamedIcon } from "../components"
-import { screens } from "../config/screens"
-import { MessagesScreen, NewsfeedScreen, NotificationsScreen, SearchScreen } from "../screens"
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Button, Icon } from "native-base";
+import React from "react";
+import { View } from "react-native";
+import { screens } from "../config/screens";
+import { MessagesScreen, NewsfeedScreen, NotificationsScreen, SearchScreen } from "../screens";
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -26,31 +27,71 @@ import { MessagesScreen, NewsfeedScreen, NotificationsScreen, SearchScreen } fro
 // Documentation: https://github.com/software-mansion/react-native-screens/tree/master/native-stack
 const Tabs = createBottomTabNavigator()
 
+function MyTabBar({ state, descriptors, navigation }) {
+  const focusedOptions = descriptors[state.routes[state.index].key].options;
+
+  var map_icon = {}
+  map_icon[screens.authenticated.user.newsfeed] = "home"
+  map_icon[screens.authenticated.user.search] = "search"
+  map_icon[screens.authenticated.user.notification] = "notifications"
+  map_icon[screens.authenticated.user.messages] = "mail"
+
+  if (focusedOptions.tabBarVisible === false) {
+    return null;
+  }
+
+  return (
+    <View style={{ flexDirection: 'row' }}>
+      {state.routes.map((route, index) => {
+        const { options } = descriptors[route.key];
+        const label =
+          options.tabBarLabel !== undefined
+            ? options.tabBarLabel
+            : options.title !== undefined
+            ? options.title
+            : route.name;
+
+        const isFocused = state.index === index;
+
+        const onPress = () => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: route.key,
+            canPreventDefault: true,
+          });
+
+          if (!isFocused && !event.defaultPrevented) {
+            navigation.navigate(route.name);
+          }
+        };
+
+        const onLongPress = () => {
+          navigation.emit({
+            type: 'tabLongPress',
+            target: route.key,
+          });
+        };
+
+        return (
+            <Button full key={label} onPress={onPress} onLongPress={onLongPress} style={{flex: 1}}>
+              <Icon name = {isFocused ? map_icon[label]: map_icon[label] + "-outline" }>
+              </Icon>
+            </Button>
+        );
+      })}
+    </View>
+  );
+}
+
 export function HomeNavigator() {
   return (
     <>
-      <Tabs.Navigator>
-        <Tabs.Screen name={screens.authenticated.user.newsfeed} component={NewsfeedScreen}
-          options={{
-            tabBarLabel: 'Feed',
-            tabBarIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'home-outline')
-          }} />
-        <Tabs.Screen name={screens.authenticated.user.search} component={SearchScreen}
-          options={{
-            tabBarLabel: 'Search',
-            tabBarIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'search-outline')
-          }} />
-        <Tabs.Screen name={screens.authenticated.user.notification} component={NotificationsScreen}
-          options={{
-            tabBarLabel: 'Notifications',
-            tabBarIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'notifications-outline')
-          }} />
-        <Tabs.Screen name={screens.authenticated.user.messages} component={MessagesScreen}
-          options={{
-            tabBarLabel: 'Messages',
-            tabBarIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'chatbubbles-outline')
-          }} />
-      </Tabs.Navigator>
+    <Tabs.Navigator tabBar={props => <MyTabBar {...props} />}>
+      <Tabs.Screen name={screens.authenticated.user.newsfeed} component={NewsfeedScreen}/>
+      <Tabs.Screen name={screens.authenticated.user.search} component={SearchScreen}/>
+      <Tabs.Screen name={screens.authenticated.user.notification} component={NotificationsScreen}/>
+      <Tabs.Screen name={screens.authenticated.user.messages} component={MessagesScreen}/>
+    </Tabs.Navigator>
     </>
   )
 }

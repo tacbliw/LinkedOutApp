@@ -6,7 +6,7 @@
  */
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import React from "react"
-import { NamedIcon, Sidebar } from "../components"
+import { Sidebar } from "../components"
 import { screens } from '../config/screens'
 import { FollowingScreen, ProfileScreen, SettingsScreen } from "../screens"
 import { HomeNavigator } from "./home-navigator"
@@ -28,31 +28,19 @@ const Drawer = createDrawerNavigator()
 
 export function PrimaryUserNavigator() {
   return (
-    <Drawer.Navigator
-      initialRouteName={screens.authenticated.user.home}
-      // https://github.com/react-navigation/react-navigation/issues/7725
-      drawerContent={props => <Sidebar {...props} />}
-      screenOptions={{
-        gestureEnabled: true,
-      }}
-    >
-      <Drawer.Screen name={screens.authenticated.user.profile} component={ProfileScreen}
-        options={{
-          drawerLabel: 'Profile',
-          drawerIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'person-outline')
-        }} />
-      <Drawer.Screen name={screens.authenticated.user.following} component={FollowingScreen}
-        options={{
-          drawerLabel: 'Following',
-          drawerIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'people-outline')
-        }} />
-      <Drawer.Screen name={screens.authenticated.user.settings} component={SettingsScreen}
-        options={{
-          drawerLabel: 'Settings',
-          drawerIcon: ({ focused, color, size }) => NamedIcon({ focused, color, size }, 'settings-outline'),
-        }} />
-      <Drawer.Screen name={screens.authenticated.user.home} component={HomeNavigator} />
-    </Drawer.Navigator>
+      <Drawer.Navigator
+        initialRouteName={screens.authenticated.user.home}
+        // https://github.com/react-navigation/react-navigation/issues/7725
+        drawerContent={props => <Sidebar {...props} />}
+        screenOptions={{
+          gestureEnabled: true,
+        }}
+      >
+        <Drawer.Screen name={screens.authenticated.user.profile} component={ProfileScreen}/>
+        <Drawer.Screen name={screens.authenticated.user.following} component={FollowingScreen} />
+        <Drawer.Screen name={screens.authenticated.user.settings} component={SettingsScreen}/>
+        <Drawer.Screen name={screens.authenticated.user.home} component={HomeNavigator} />
+      </Drawer.Navigator>
   )
 }
 

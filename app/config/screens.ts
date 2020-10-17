@@ -2,6 +2,7 @@
 // bad practice. Defining consts for screen navigation.
 export const screens = {
   basic: {
+    splash: 'splash',
     navigator: 'basic-navigator',
     login: 'login',
     register: 'register',

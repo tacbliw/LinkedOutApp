@@ -1,11 +1,11 @@
+import { Icon, Left, List, ListItem, Text } from "native-base"
 import React from "react"
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
-import Icon from "react-native-vector-icons/Ionicons"
+import { StyleSheet } from "react-native"
 import { color } from "../../../theme"
 
 const styles = StyleSheet.create({
   icon: {
-    color: color.logout,
+    color: "#ffffff",
     fontSize: 25,
   },
   iconContainer: {
@@ -22,18 +22,34 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     margin: 16,
   },
+
+  logoutText: {
+    color: color.brandDanger,
+  },
+
+  routeIcon: {
+    fontSize: 24,
+    width: 26,
+    color: color.brandDanger,
+  },
+
+  routeName: {
+    fontSize: 16,
+    color: color.brandDanger,
+    width: 60
+  },
 })
 
 export function LogoutButton(props) {
   const { onPress } = props
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={styles.item}>
-        <View style={styles.iconContainer}>
-          <Icon name='log-out-outline' style={styles.icon} />
-        </View>
-        <Text style={styles.label}>Logout</Text>
-      </View>
-    </TouchableOpacity>
+        <List>
+          <ListItem noBorder button onPress={onPress}>
+            <Left style={styles.item}>
+              <Icon style={styles.routeIcon} name = "log-out"></Icon>
+              <Text style={styles.routeName}>Log out</Text>
+            </Left>
+          </ListItem>
+        </List>
   )
 }
