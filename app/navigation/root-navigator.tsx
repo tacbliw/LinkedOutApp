@@ -9,6 +9,7 @@ import { createNativeStackNavigator } from "react-native-screens/native-stack"
 import React from "reactn"
 import { GlobalState } from "../config/global"
 import { screens } from "../config/screens"
+import { LoginNavigator } from "./login-navigator"
 import { PrimaryUserNavigator } from "./primary-user-navigator"
 
 /**
@@ -36,8 +37,8 @@ const RootStack = () => {
           stackPresentation: "modal",
         }}
       >
-        {/* <Stack.Screen name={screens.basic.navigator} component={LoginNavigator} options={{ headerShown: false, }} /> */}
-        <Stack.Screen name={screens.authenticated.user.navigator} component={PrimaryUserNavigator} options={{ headerShown: false, }} />
+        <Stack.Screen name={screens.basic.navigator} component={LoginNavigator} options={{ headerShown: false, }} />
+        {/* <Stack.Screen name={screens.authenticated.user.navigator} component={PrimaryUserNavigator} options={{ headerShown: false, }} /> */}
       </Stack.Navigator>
     )
   } else {

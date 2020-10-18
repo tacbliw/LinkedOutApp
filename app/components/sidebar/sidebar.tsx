@@ -6,131 +6,131 @@ import { accountService } from "../../services/account-service"
 import { color } from "../../theme/color"
 import { LogoutButton } from "./logout-button/logout-button"
 
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingBottom: 5,
-    backgroundColor: color.brandPrimary,
-  },
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		paddingBottom: 5,
+		backgroundColor: color.brandPrimary,
+	},
 
-  avatar: {
-    borderRadius: 100,
-    width: 100,
-    height: 100,
-  },
-  
-  userName: {
-    fontSize: 24,
-    color: "#FFFFFF"
-  },
+	avatar: {
+		borderRadius: 100,
+		width: 100,
+		height: 100,
+	},
 
-  atname: {
-    fontSize: 20,
-    color: color.brandLight
-  },
+	userName: {
+		fontSize: 24,
+		color: "#FFFFFF"
+	},
 
-  followInfoContainer: {
-    marginTop: 6,
-    flexDirection: 'row',
-    alignItems: "flex-end",
-  },
+	atname: {
+		fontSize: 20,
+		color: color.brandLight
+	},
 
-  followingContainter: {
-    flexDirection: 'row', 
-    justifyContent: "space-around",
-  },
+	followInfoContainer: {
+		marginTop: 6,
+		flexDirection: 'row',
+		alignItems: "flex-end",
+	},
 
-  following: {
-    color: "#FFFFFF",
-  },
+	followingContainter: {
+		flexDirection: 'row',
+		justifyContent: "space-around",
+	},
 
-  followerContainer: {
-    flexDirection: 'row', 
-    justifyContent: "space-between", 
-    marginLeft: 12
-  },
+	following: {
+		color: "#FFFFFF",
+	},
 
-  follower: {
-    color: "#FFFFFF",
-  },
+	followerContainer: {
+		flexDirection: 'row',
+		justifyContent: "space-between",
+		marginLeft: 12
+	},
 
-  basicInfo: {
-    marginLeft: 20,
-    marginTop: 16,
-  },
+	follower: {
+		color: "#FFFFFF",
+	},
 
-  routeName: {
-    fontSize: 16,
-    color: "#FFFFFF"
-  },
+	basicInfo: {
+		marginLeft: 20,
+		marginTop: 16,
+	},
 
-  routeIcon: {
-    color: "#FFFFFF",
-    fontSize: 24,
-    width: 26
-  },
+	routeName: {
+		fontSize: 16,
+		color: "#FFFFFF"
+	},
 
-  routeList: {
-    marginTop: 16
-  }
+	routeIcon: {
+		color: "#FFFFFF",
+		fontSize: 24,
+		width: 26
+	},
+
+	routeList: {
+		marginTop: 16
+	}
 
 
 })
 
-export function Sidebar({state, descriptors, navigation}) {
+export function Sidebar({ state, descriptors, navigation }) {
 
-  var map_icon = {}
-  map_icon[screens.authenticated.user.profile] = "person"
-  map_icon[screens.authenticated.user.following] = "heart"
-  map_icon[screens.authenticated.user.settings] = "settings"
+	var map_icon = {}
+	map_icon[screens.authenticated.user.profile] = "person"
+	map_icon[screens.authenticated.user.following] = "heart"
+	map_icon[screens.authenticated.user.settings] = "settings"
 
-  var map_name = {}
-  map_name[screens.authenticated.user.profile] = "Profile"
-  map_name[screens.authenticated.user.following] = "Following"
-  map_name[screens.authenticated.user.settings] = "Settings"
+	var map_name = {}
+	map_name[screens.authenticated.user.profile] = "Profile"
+	map_name[screens.authenticated.user.following] = "Following"
+	map_name[screens.authenticated.user.settings] = "Settings"
 
-  // remove the option to go to Home screen
-  // const { state, descriptors, navigation, ...rest } = props
-  const newState = { ...state }
-  
-  newState.routes = newState.routes.filter(item =>
-    item.name !== screens.authenticated.user.home &&
-    item.name !== screens.authenticated.company.home
-  )
+	// remove the option to go to Home screen
+	// const { state, descriptors, navigation, ...rest } = props
+	const newState = { ...state }
 
-  // handle logout event
-  const [loading, handleLogout] = accountService.useLogout()
+	newState.routes = newState.routes.filter(item =>
+		item.name !== screens.authenticated.user.home &&
+		item.name !== screens.authenticated.company.home
+	)
 
-  return (
-        <Container style={style.container}>
-          
-          <View style={style.basicInfo}>
-            <Image source={require("./avatar.jpg")} style={style.avatar} resizeMode="cover"></Image>
-            <Text style={style.userName}>Siraj</Text>
-            <Text style={style.atname}>@thesiraj</Text>
-            <View style={style.followInfoContainer}>
-              <View style={style.followingContainter}>
-                <Text style={style.following}>1 </Text>
-                <Text style={{color: color.brandLight}}>Following</Text>
-              </View>
-              <View style={style.followerContainer}>
-                <Text style={style.follower}>215 </Text>
-                <Text style={{color: color.brandLight}}>Followers</Text>
-              </View>
-            </View>
-            </View>
-            <List style={style.routeList} dataArray={newState.routes}
-            renderRow={(route, index) => 
-              <ListItem button noBorder onPress={() => {navigation.navigate(route.name)}}>
-              <Left>
-                <Icon style={style.routeIcon} name = {map_icon[route.name]}></Icon>
-                <Text style={style.routeName}> {map_name[route.name]}</Text>
-               </Left>
-             </ListItem>
-            }
-            >
-            </List>
-          <LogoutButton onPress={handleLogout} />
-          </Container>
-  )
+	// handle logout event
+	const [loading, handleLogout] = accountService.useLogout()
+
+	return (
+		<Container style={styles.container}>
+
+			<View style={styles.basicInfo}>
+				<Image source={require("./avatar.jpg")} style={styles.avatar} resizeMode="cover"></Image>
+				<Text style={styles.userName}>Siraj</Text>
+				<Text style={styles.atname}>@thesiraj</Text>
+				<View style={styles.followInfoContainer}>
+					<View style={styles.followingContainter}>
+						<Text style={styles.following}>1 </Text>
+						<Text style={{ color: color.brandLight }}>Following</Text>
+					</View>
+					<View style={styles.followerContainer}>
+						<Text style={styles.follower}>215 </Text>
+						<Text style={{ color: color.brandLight }}>Followers</Text>
+					</View>
+				</View>
+			</View>
+			<List style={styles.routeList} dataArray={newState.routes}
+				renderRow={(route, index) =>
+					<ListItem button noBorder onPress={() => { navigation.navigate(route.name) }}>
+						<Left>
+							<Icon style={styles.routeIcon} name={map_icon[route.name]}></Icon>
+							<Text style={styles.routeName}> {map_name[route.name]}</Text>
+						</Left>
+					</ListItem>
+				}
+			>
+			</List>
+			<LogoutButton onPress={handleLogout} />
+		</Container>
+	)
 }

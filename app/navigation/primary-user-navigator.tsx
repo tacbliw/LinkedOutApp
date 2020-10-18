@@ -27,21 +27,21 @@ import { HomeNavigator } from "./home-navigator"
 const Drawer = createDrawerNavigator()
 
 export function PrimaryUserNavigator() {
-  return (
-      <Drawer.Navigator
-        initialRouteName={screens.authenticated.user.home}
-        // https://github.com/react-navigation/react-navigation/issues/7725
-        drawerContent={props => <Sidebar {...props} />}
-        screenOptions={{
-          gestureEnabled: true,
-        }}
-      >
-        <Drawer.Screen name={screens.authenticated.user.profile} component={ProfileScreen}/>
-        <Drawer.Screen name={screens.authenticated.user.following} component={FollowingScreen} />
-        <Drawer.Screen name={screens.authenticated.user.settings} component={SettingsScreen}/>
-        <Drawer.Screen name={screens.authenticated.user.home} component={HomeNavigator} />
-      </Drawer.Navigator>
-  )
+	return (
+		<Drawer.Navigator
+			initialRouteName={screens.authenticated.user.home}
+			// https://github.com/react-navigation/react-navigation/issues/7725
+			drawerContent={props => <Sidebar {...props} />}
+			screenOptions={{
+				gestureEnabled: true,
+			}}
+		>
+			<Drawer.Screen name={screens.authenticated.user.profile} component={ProfileScreen} />
+			<Drawer.Screen name={screens.authenticated.user.following} component={FollowingScreen} />
+			<Drawer.Screen name={screens.authenticated.user.settings} component={SettingsScreen} />
+			<Drawer.Screen name={screens.authenticated.user.home} component={HomeNavigator} />
+		</Drawer.Navigator>
+	)
 }
 
 /**
