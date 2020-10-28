@@ -4,6 +4,7 @@ import { API_BASE_URL } from "../config/consts"
 import { httpConfig } from "../config/http/config"
 import { Repository } from "./base-repository"
 
+
 export interface LoginRequest {
   username: string;
   password: string;
@@ -16,6 +17,20 @@ export interface LoginResponse {
     id: number;
   }
 }
+
+
+export interface RegisterRequest {
+  username: string;
+  password: string;
+  email: string;
+  accountType: string;
+}
+
+export interface ChangePasswordRequest {
+  currentPassword: string;
+  newPassword: string;
+}
+
 
 export class AccountRepository extends Repository {
   constructor() {
