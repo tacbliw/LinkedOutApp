@@ -21,9 +21,9 @@ import Svg, { Ellipse } from "react-native-svg";
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIconsIcon from "react-native-vector-icons/MaterialIcons";
 import { screens } from "../../config/screens";
+import { color } from "../../theme";
 
 const {width,height} = Dimensions.get("screen");
-
 
 export const SplashScreen = ({navigation}) => { 
   // useEffect(() => {
@@ -75,17 +75,15 @@ export const SplashScreen = ({navigation}) => {
             </View>
           </View>
           <View style={styles.rightFooter}>
-
+          
             <TouchableOpacity style={styles.button} onPressOut={()=>navigation.navigate(screens.basic.login)}>
               <View style={styles.iconStack}>
                 <MaterialIconsIcon
                   name="navigate-next"
                   style={styles.icon}
                 ></MaterialIconsIcon>
-
-                <Text style={styles.skip}>SKIP</Text>
-                
               </View>
+              <Text style={styles.skip}>SKIP</Text>
             </TouchableOpacity>
             
           </View>
@@ -100,7 +98,7 @@ export const SplashScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgba(235,103,89,1)"
+    backgroundColor: color.brandPrimary
   },
   footer: {
     width: width,
@@ -118,13 +116,13 @@ const styles = StyleSheet.create({
   rect: {
     width: 40,
     height: 12,
-    backgroundColor: "#E6E6E6",
+    backgroundColor: color.palette.white,
     borderRadius: 40
   },
   rect2: {
     width: 20,
     height: 12,
-    backgroundColor: "#E6E6E6",
+    backgroundColor: color.palette.white,
     borderRadius: 40,
     marginLeft: 10
   },
@@ -138,18 +136,13 @@ const styles = StyleSheet.create({
     marginLeft: width/3
   },
   button: {
-    width: 98,
-    height: 47,
-    backgroundColor: "rgba(230,230, 230,1)",
-    shadowColor: "rgba(0,0,0,1)",
-    shadowOffset: {
-      height: 3,
-      width: 3
-    },
-    elevation: 5,
-    shadowOpacity: 0.25,
+    width: width*0.25,
+    height: height*0.07,
+    backgroundColor: color.palette.white,
+    
+    elevation: 30,
     shadowRadius: 0,
-    borderRadius: 19
+    borderRadius: 33 
   },
   icon: {
     top: 1,
@@ -161,11 +154,11 @@ const styles = StyleSheet.create({
     // width: 40
   },
   skip: {
-    top:8,
-    left: 0,
+    marginTop: height*0.02,
+    marginLeft: width*0.05,
     position: "absolute",
     fontFamily: "roboto-700",
-    color: "rgba(235,103,89,1)",
+    color: color.brandPrimary,
     fontSize: 20
   },
   iconStack: {
