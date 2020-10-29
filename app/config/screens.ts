@@ -6,6 +6,8 @@ export const screens = {
     navigator: 'basic-navigator',
     login: 'login',
     register: 'register',
+    register_company:'register-company',
+    register_user:'register-user',
   },
   authenticated: {
     company: {

@@ -9,8 +9,8 @@ import { createNativeStackNavigator } from "react-native-screens/native-stack"
 import React from "reactn"
 import { GlobalState } from "../config/global"
 import { screens } from "../config/screens"
-import { LoginNavigator } from "./login-navigator"
-import { PrimaryUserNavigator } from "./primary-user-navigator"
+import RootStackStart from "./login-navigator"
+
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -37,7 +37,7 @@ const RootStack = () => {
           stackPresentation: "modal",
         }}
       >
-        <Stack.Screen name={screens.basic.navigator} component={LoginNavigator} options={{ headerShown: false, }} />
+        <Stack.Screen name={screens.basic.navigator} component={RootNavigator} options={{ headerShown: false, }} />
         {/* <Stack.Screen name={screens.authenticated.user.navigator} component={PrimaryUserNavigator} options={{ headerShown: false, }} /> */}
       </Stack.Navigator>
     )
@@ -50,9 +50,12 @@ const RootStack = () => {
           stackPresentation: "modal",
         }}
       >
-        <Stack.Screen name={screens.authenticated.user.navigator} component={PrimaryUserNavigator} options={{ headerShown: false, }} />
+        {/* <Stack.Screen name={screens.authenticated.user.navigator} component={PrimaryUserNavigator} options={{ headerShown: false, }} /> */}
         {/* <Stack.Screen name={screens.basic.navigator} component={LoginNavigator} options={{ headerShown: false, }} /> */}
+        <Stack.Screen name={screens.basic.navigator} component={RootStackStart} options={{ headerShown: false, }} />
+  
       </Stack.Navigator>
+
     )
   }
 }
