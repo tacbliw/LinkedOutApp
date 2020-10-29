@@ -77,4 +77,5 @@ export const color = {
 
   //custom
   placeHolder: 'rgba(217,188,188,1)',
+  googleIcon:'rgba(233,13,28,0.85)',
 }

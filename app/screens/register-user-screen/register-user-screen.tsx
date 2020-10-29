@@ -59,6 +59,8 @@ const styles = StyleSheet.create({
 container: {
   flex: 1,
   backgroundColor: color.brandPrimary,
+  justifyContent: 'center',
+  alignItems: 'center',
 },
 header: {
   fontFamily: "roboto-700",
@@ -79,7 +81,8 @@ footer: {
 rect: {
   width: width,
   height: height*0.8,
-  borderRadius: 44,
+  borderTopLeftRadius: 44,
+  borderTopRightRadius:44,
   backgroundColor: color.palette.white,//"#E6E6E6",
   marginTop: height/15,
   elevation: 30,
@@ -115,50 +118,14 @@ textInput: {
   elevation: 10,
   alignSelf: "center"
 },
-// firstName: {
-//   width: 289,
-//   height: 56,
-//   justifyContent: "center"
-// },
-
-// lastName: {
-//   width: 289,
-//   height: 56,
-//   justifyContent: "center"
-// },
-
-// birth: {
-//   width: 289,
-//   height: 56,
-//   justifyContent: "center"
-// },
-
-// gender: {
-//   width: 289,
-//   height: 56,
-//   justifyContent: "center"
-// },
-
-// description: {
-//   width: 289,
-//   height: 56,
-//   justifyContent: "center"
-// },
 
 submitButton: {
   width: 213,
   height: 47
 },
 button: {
-  backgroundColor: "rgba(235,103,89,1)",
-  borderWidth: 2,
-  borderColor: "rgba(235,103,89,1)",
+  backgroundColor: color.brandPrimary,
   borderRadius: 33,
-  shadowColor: "rgba(171,108,108,1)",
-  shadowOffset: {
-    height: 4,
-    width: 4
-  },
   elevation: 15,
   shadowOpacity: 1,
   shadowRadius: 5,
@@ -167,7 +134,7 @@ button: {
 },
 submit: {
   fontFamily: "roboto-700",
-  color: "rgba(255,255,255,1)",
+  color:color.palette.white,
   fontSize: 23,
   alignSelf: "center"
 },

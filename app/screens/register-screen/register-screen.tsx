@@ -1,8 +1,9 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 import {
-  Dimensions, StyleSheet, TextInput, TouchableOpacity, View
+  Dimensions, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, TextInput, TouchableOpacity, View
 } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIconsIcon from "react-native-vector-icons/MaterialIcons";
@@ -31,98 +32,101 @@ export const RegisterScreen = observer(function RegisterScreen({navigation}) {
     console.log('RegisterScreen')
   }, [])
   return (
-    <View style={styles.container}>
-      {/* <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} >
-<TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
-      {/* <StatusBar barStyle="light-content" /> */}
-      <View style={styles.footer}>
-        <View style={styles.rect}>
-          <View style={styles.group2}>
-            <View style={styles.group}>
-              <View style={styles.userName}>
-                <View style={styles.iconStack}> 
-                  <TextInput
-                    placeholder="User Name"
-                    placeholderTextColor={color.placeHolder}
-                    autoFocus={true}
-                    style={styles.username}
-                  ></TextInput>
-                  <MaterialIconsIcon
-                    name="person-add"
-                    style={styles.icon}
-                  ></MaterialIconsIcon>
+    
+      <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.container} >
+        
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
+            <View style={styles.rect}>
+              <View style={styles.group2}>
+                <View style={styles.group}>
+                  <View style={styles.userName}>
+                    <View style={styles.iconStack}> 
+                      <TextInput
+                        placeholder="User Name"
+                        placeholderTextColor={color.placeHolder}
+                        autoFocus={true}
+                        style={styles.username}
+                      ></TextInput>
+                      <MaterialIconsIcon name="person-add" style={styles.icon}></MaterialIconsIcon>
+                    </View>
+                  </View>
+                  <View style={styles.email}>
+                    <View style={styles.icon2Stack}>
+                    <TextInput
+                        placeholder="Email"
+                        placeholderTextColor={color.placeHolder}
+                        style={styles.mail}
+                      ></TextInput>
+                      <FeatherIcon name="mail" style={styles.icon2}></FeatherIcon>
+                      
+                    </View>
+                  </View>
+                  <View style={styles.category}>
+                    <TextInput
+                      placeholder="User or Company"
+                      placeholderTextColor={color.placeHolder}
+                    // dataDetector="calendarEvent"
+                      style={styles.user}
+                    ></TextInput>
+                  </View>
+                  <View style={styles.gender}>
+                    <View style={styles.icon3Stack}>
+                      
+                      <TextInput
+                        placeholder="Password"
+                        placeholderTextColor={color.placeHolder}
+                        secureTextEntry={true}
+                        style={styles.password}
+                      ></TextInput>
+                      <MaterialCommunityIconsIcon name="key-plus" style={styles.icon3} ></MaterialCommunityIconsIcon>
+                    </View>
+                  </View>
                 </View>
-              </View>
-              <View style={styles.email}>
-                <View style={styles.icon2Stack}>
-                 <TextInput
-                    placeholder="Email"
-                    placeholderTextColor={color.placeHolder}
-                    style={styles.mail}
-                  ></TextInput>
-                   <FeatherIcon name="mail" style={styles.icon2}></FeatherIcon>
-                  
-                </View>
-              </View>
-              <View style={styles.category}>
-                <TextInput
-                  placeholder="User or Company"
-                  placeholderTextColor={color.placeHolder}
-                 // dataDetector="calendarEvent"
-                  style={styles.user}
-                ></TextInput>
-              </View>
-              <View style={styles.gender}>
-                <View style={styles.icon3Stack}>
-                  
-                  <TextInput
-                    placeholder="Password"
-                    placeholderTextColor={color.placeHolder}
-                    secureTextEntry={true}
-                    style={styles.password}
-                  ></TextInput>
-                  <MaterialCommunityIconsIcon
-                    name="key-plus"
-                    style={styles.icon3}
-                  ></MaterialCommunityIconsIcon>
+                <View style={styles.registerButton}>
+                  <TouchableOpacity
+                    onPress={()=> navigation.navigate(screens.basic.register_user)}//submit form}
+                    style={styles.button}
+                  >
+                    <Text style={styles.register}>REGISTER</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>
-            <View style={styles.registerButton}>
-              <TouchableOpacity
-                onPress={()=> navigation.navigate(screens.basic.register_user)}//submit form}
-                style={styles.button}
-              >
-                <Text style={styles.register}>REGISTER</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </View>
-      {/* </TouchableWithoutFeedback></KeyboardAvoidingView> */}
-    </View>
+         
+          </TouchableWithoutFeedback> 
+    
+      </KeyboardAvoidingView>
+   
   );
 });
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.palette.white,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: color.brandPrimary,
   },
-  footer: {
-    width: width,
-    height: height*0.8,
-    borderRadius: 44,
-    marginTop:height*0.15
-  },
+
+  // footer: {
+  //   width: width,
+  //   height: height*0.8,
+  //   borderRadius: 44,
+  //   marginTop:height*0.15, 
+  //  backgroundColor: color.brandPrimary,
+  
+  // },
   rect: {
     width: width,
     height: height*0.8,
+    marginTop:height*0.15, 
     backgroundColor: color.palette.white,
-    borderRadius: 44,
+    borderTopLeftRadius: 44,
+    borderTopRightRadius:44,
     elevation: 30,
     shadowOpacity: 10,
     shadowRadius: 10,
+ 
   },
   group2: {
     width: 297,
