@@ -3,6 +3,8 @@
 export const screens = {
   basic: {
     splash: 'splash',
+    introJobs: 'intro1',
+    introCompany: 'intro2',
     navigator: 'basic-navigator',
     login: 'login',
     register: 'register',
