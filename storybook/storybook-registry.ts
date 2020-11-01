@@ -1,3 +1,8 @@
+require("../app/components/card-top-job/card-top-job.story")
+require("../app/components/following-user/following-user.story")
+require("../app/components/card-job/card-job.story")
+require("../app/components/tag/tag.story")
+require("../app/components/container/container.story")
 require("../app/components/sidebar/sidebar.story")
 require("../app/components/named-icon/named-icon.story")
 require("../app/components/text/text.story")
