@@ -78,12 +78,6 @@ export const MessagesScreen = observer(function MessagesScreen({navigation}) {
             <Title>Messages</Title>
           </Body>
           <Right>
-          <Button transparent>
-              <Icon name='search' />
-            </Button>
-            <Button transparent>
-              <Icon name='settings' />
-            </Button>
           </Right>
         </Header>
         <Content>
