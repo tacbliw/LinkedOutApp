@@ -68,8 +68,11 @@ export const LoginScreen = observer(function LoginScreen({navigation}) {
               placeholderTextColor= {color.placeHolder} //"rgba(217,188,188,1)"
               style={styles.textInput}
               autoFocus
+              onSubmitEditing={()=>this.password.focus()}
             ></TextInput>
           </View>
+
+
           <View style={styles.iconPasswdRow}>
             <IoniconsIcon  name="md-key" style={styles.iconPasswd} ></IoniconsIcon>
             <View style={styles.passwordStack}>
@@ -81,6 +84,7 @@ export const LoginScreen = observer(function LoginScreen({navigation}) {
                 placeholder="Password"
                 placeholderTextColor={color.placeHolder}
                 style={styles.textInput}
+                ref={(input)=>this.password =input}
               ></TextInput>
               <TouchableOpacity style={styles.forgotPassword}  onPress={null}>
                   <Text style={ {color: color.brandWarning,} }> Forgot password?</Text> 

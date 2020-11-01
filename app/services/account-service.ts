@@ -80,4 +80,48 @@ export const accountService = {
 
     return [loading]
   },
+
+  useSignUp():[
+      string,
+      (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
+      string,
+      (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
+      string,
+      (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
+      string,
+      (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
+
+  ]{
+    const [username, setUsername] = React.useState<string>()
+    const [email, setEmail] = React.useState<string>()
+    const [type, setType] = React.useState<string>()
+    const [password, setPassword] = React.useState<string>()
+    const handleChangeUsername = React.useCallback(
+      (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+        setUsername(event.nativeEvent.text)
+      },
+      [],
+    )
+
+    const handleChangePassword = React.useCallback(
+      (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+        setPassword(event.nativeEvent.text)
+      },
+      [],
+    )
+    const handleChangeEmail = React.useCallback(
+      (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+        setEmail(event.nativeEvent.text)
+      },
+      [],
+    )
+
+    const handleChangeType = React.useCallback(
+      (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+        setType(event.nativeEvent.text)
+      },
+      [],
+    )
+    return [username,handleChangeUsername,email,handleChangeEmail,type,handleChangeType,password,handleChangePassword]
+  },
 }

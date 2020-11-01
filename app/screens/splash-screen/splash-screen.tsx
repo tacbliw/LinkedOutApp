@@ -26,7 +26,7 @@ import { styles } from './styles';
 export const SplashScreen =({navigation})=> {
    useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.navigate(screens.basic.introJobs)
+      navigation.navigate(screens.basic.login)
     }, 10000);
     return () => clearTimeout(timer);
   }, [])
@@ -58,7 +58,7 @@ export const IntroJob = ({navigation}) => {
     <View style={styles.container}>
 
       <View style={styles.header}>
-        <Text>Logo</Text>
+        <Text>Logo Image</Text>
       </View>
 
       <View style={styles.middle}>

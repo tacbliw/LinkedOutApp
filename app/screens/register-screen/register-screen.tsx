@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 import {
-  Dimensions, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, TextInput, TouchableOpacity, View
+  Keyboard, KeyboardAvoidingView, Platform, TextInput, TouchableOpacity, View
 } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import FeatherIcon from "react-native-vector-icons/Feather";
@@ -9,11 +9,12 @@ import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommun
 import MaterialIconsIcon from "react-native-vector-icons/MaterialIcons";
 import { Text } from "../../components";
 import { screens } from "../../config/screens";
+import { accountService } from "../../services/account-service";
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color } from "../../theme";
+import { styles } from './styles';
 
-const {width,height}=Dimensions.get("screen");
 // const ROOT: ViewStyle = {
 //   backgroundColor: color.palette.black,
 //   flex: 1,
@@ -27,7 +28,21 @@ export const RegisterScreen = observer(function RegisterScreen({navigation}) {
 
   // Pull in navigation via hook
   // const navigation = useNavigation()
+  
+  const [
+    username,
+    handleUsernameChange,
+    email,
+    handleEmailChange,
+    type,
+    handleTypeChange,
+    password,
+    handlePasswordChange,
+    
+  //  loading,
+   // handleLogin,
 
+  ] = accountService.useSignUp()
   React.useEffect(() => {
     console.log('RegisterScreen')
   }, [])
@@ -43,9 +58,12 @@ export const RegisterScreen = observer(function RegisterScreen({navigation}) {
                     <View style={styles.iconStack}> 
                       <TextInput
                         placeholder="User Name"
+                        value={username}
+                        onChange={handleUsernameChange}
                         placeholderTextColor={color.placeHolder}
                         autoFocus={true}
                         style={styles.username}
+                        onSubmitEditing={()=>this.email.focus()}
                       ></TextInput>
                       <MaterialIconsIcon name="person-add" style={styles.icon}></MaterialIconsIcon>
                     </View>
@@ -55,17 +73,27 @@ export const RegisterScreen = observer(function RegisterScreen({navigation}) {
                     <TextInput
                         placeholder="Email"
                         placeholderTextColor={color.placeHolder}
+                        keyboardType="email-address"
+                        value={email}
+                        onChange={handleEmailChange}
+                        ref={(input)=>this.email =input}
+                        onSubmitEditing={()=>this.type.focus()}
                         style={styles.mail}
+                        //
                       ></TextInput>
                       <FeatherIcon name="mail" style={styles.icon2}></FeatherIcon>
                       
                     </View>
                   </View>
-                  <View style={styles.category}>
+                  <View style={styles.type}>
                     <TextInput
                       placeholder="User or Company"
                       placeholderTextColor={color.placeHolder}
+                      value={type}
+                      onChange={handleTypeChange}
                     // dataDetector="calendarEvent"
+                      ref={(input)=>this.type =input}
+                      onSubmitEditing={()=>this.password.focus()}
                       style={styles.user}
                     ></TextInput>
                   </View>
@@ -74,9 +102,12 @@ export const RegisterScreen = observer(function RegisterScreen({navigation}) {
                       
                       <TextInput
                         placeholder="Password"
+                        value={password}
+                        onChange={handlePasswordChange}
                         placeholderTextColor={color.placeHolder}
                         secureTextEntry={true}
                         style={styles.password}
+                        ref={(input)=>this.password =input}
                       ></TextInput>
                       <MaterialCommunityIconsIcon name="key-plus" style={styles.icon3} ></MaterialCommunityIconsIcon>
                     </View>
@@ -98,173 +129,4 @@ export const RegisterScreen = observer(function RegisterScreen({navigation}) {
       </KeyboardAvoidingView>
    
   );
-});
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: color.brandPrimary,
-  },
-
-  // footer: {
-  //   width: width,
-  //   height: height*0.8,
-  //   borderRadius: 44,
-  //   marginTop:height*0.15, 
-  //  backgroundColor: color.brandPrimary,
-  
-  // },
-  rect: {
-    width: width,
-    height: height*0.8,
-    marginTop:height*0.15, 
-    backgroundColor: color.palette.white,
-    borderTopLeftRadius: 44,
-    borderTopRightRadius:44,
-    elevation: 30,
-    shadowOpacity: 10,
-    shadowRadius: 10,
- 
-  },
-  group2: {
-    width: 297,
-    height: 421,
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: 28,
-    marginLeft: 33
-  },
-  group: {
-    width: 297,
-    height: 326,
-    justifyContent: "space-around",
-    alignItems: "stretch"
-  },
-  userName: {
-    width: 289,
-    height: 56
-  },
-  icon: {
-    left: 5,
-    position: "absolute",
-    color: "rgba(128,128,128,1)",
-    fontSize: 32,
-    top: 12
-  },
-  username: {
-    position: "absolute",
-    fontFamily: "roboto-regular",
-    color: color.brandDark,
-    backgroundColor: color.palette.white,
-    height: height*0.08,
-    width: width*0.8,
-    borderRadius: 22,
-    textAlign: "center",
-    lineHeight: 20,
-    fontSize: 20,
-    elevation: 10,
-    
-    alignSelf: "center"
-  },
-  iconStack: {
-    height: 56
-  },
-  email: {
-    width: 289,
-    height: 56
-  },
-  icon2: {
-    top: 16,
-    left: 13,
-    position: "absolute",
-    color: "rgba(128,128,128,1)",
-    fontSize: 32
-  },
-  mail: {
-    position: "absolute",
-    fontFamily: "roboto-regular",
-    color: color.brandDark,
-    backgroundColor: color.palette.white,
-    height: height*0.08,
-    width: width*0.8,
-    borderRadius: 22,
-    textAlign: "center",
-    lineHeight: 20,
-    fontSize: 20,
-    elevation: 10,
-    alignSelf: "center"
-  },
-  icon2Stack: {
-    width: 289,
-    height: 56
-  },
-  category: {
-    width: 289,
-    height: 56,
-    justifyContent: "center"
-  },
-  user: {
-    fontFamily: "roboto-regular",
-    color: color.brandDark,
-    backgroundColor: color.palette.white,
-    height: height*0.08,
-    width: width*0.8,
-    borderRadius: 22,
-    textAlign: "center",
-    lineHeight: 20,
-    fontSize: 20,
-    elevation: 10,
-    alignSelf: "center"
-  },
-  gender: {
-    width: 289,
-    height: 56
-  },
-  icon3: {
-    left: 5,
-    position: "absolute",
-    color: "rgba(128,128,128,1)",
-    fontSize: 32,
-    top: 11
-  },
-  password: {
-    fontFamily: "roboto-regular",
-    color: color.brandDark,
-    backgroundColor: color.palette.white,
-    height: height*0.08,
-    width: width*0.8,
-    borderRadius: 22,
-    textAlign: "center",
-    lineHeight: 20,
-    fontSize: 20,
-    elevation: 10,
-    alignSelf: "center",
-  },
-  icon3Stack: {
-    width: 289,
-    height: 56
-  },
-  registerButton: {
-    width: 213,
-    height: 47
-  },
-  button: {
-    backgroundColor: color.brandPrimary,
-    borderWidth: 2,
-    borderColor: color.brandPrimary,
-    borderRadius: 33,
-    elevation: 10,
-    shadowColor: color.palette.black,
-   
-    justifyContent: "center",
-    flex: 1,
-  },
-  register: {
-    fontFamily: "roboto-700",
-    color: color.palette.white,
-    fontSize: 23,
-    alignSelf: "center"
-  }
 });
