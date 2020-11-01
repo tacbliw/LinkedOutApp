@@ -5,7 +5,7 @@
  * You'll likely spend most of your time in this file.
  */
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Button, Icon } from "native-base";
+import { Badge, Button, Icon, Text } from "native-base";
 import React from "react";
 import { View } from "react-native";
 import { screens } from "../config/screens";
@@ -48,8 +48,8 @@ function MyTabBar({ state, descriptors, navigation }) {
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
             : options.title !== undefined
-            ? options.title
-            : route.name;
+              ? options.title
+              : route.name;
 
         const isFocused = state.index === index;
 
@@ -72,12 +72,21 @@ function MyTabBar({ state, descriptors, navigation }) {
           });
         };
 
-        return (
-            <Button full key={label} onPress={onPress} onLongPress={onLongPress} style={{flex: 1}}>
-              <Icon name = {isFocused ? map_icon[label]: map_icon[label] + "-outline" }>
+        if (label == screens.authenticated.user.notification || label == screens.authenticated.user.messages)
+          return (
+            <Button full key={label} onPress={onPress} onLongPress={onLongPress} style={{ flex: 1 }}>
+              <Icon name={isFocused ? map_icon[label] : map_icon[label] + "-outline"}>
+                <Badge><Text>3</Text></Badge>
               </Icon>
             </Button>
-        );
+          );
+        else
+          return (
+            <Button full key={label} onPress={onPress} onLongPress={onLongPress} style={{ flex: 1 }}>
+              <Icon name={isFocused ? map_icon[label] : map_icon[label] + "-outline"}>
+              </Icon>
+            </Button>
+          );
       })}
     </View>
   );
@@ -86,12 +95,12 @@ function MyTabBar({ state, descriptors, navigation }) {
 export function HomeNavigator() {
   return (
     <>
-    <Tabs.Navigator tabBar={props => <MyTabBar {...props} />}>
-      <Tabs.Screen name={screens.authenticated.user.newsfeed} component={NewsfeedScreen}/>
-      <Tabs.Screen name={screens.authenticated.user.search} component={SearchScreen}/>
-      <Tabs.Screen name={screens.authenticated.user.notification} component={NotificationsScreen}/>
-      <Tabs.Screen name={screens.authenticated.user.messages} component={MessagesScreen}/>
-    </Tabs.Navigator>
+      <Tabs.Navigator tabBar={props => <MyTabBar {...props} />}>
+        <Tabs.Screen name={screens.authenticated.user.newsfeed} component={NewsfeedScreen} />
+        <Tabs.Screen name={screens.authenticated.user.search} component={SearchScreen} />
+        <Tabs.Screen name={screens.authenticated.user.notification} component={NotificationsScreen} />
+        <Tabs.Screen name={screens.authenticated.user.messages} component={MessagesScreen} />
+      </Tabs.Navigator>
     </>
   )
 }
