@@ -58,12 +58,15 @@ export const RegisterScreen = observer(function RegisterScreen({navigation}) {
                     <View style={styles.iconStack}> 
                       <TextInput
                         placeholder="User Name"
+                        autoFocus={true}
+                        style={styles.username}
+
                         value={username}
                         onChange={handleUsernameChange}
                         placeholderTextColor={color.placeHolder}
-                        autoFocus={true}
-                        style={styles.username}
-                        onSubmitEditing={()=>this.email.focus()}
+                        onSubmitEditing={()=>{this.email.focus();}}
+                        returnKeyType={"next"}
+                        
                       ></TextInput>
                       <MaterialIconsIcon name="person-add" style={styles.icon}></MaterialIconsIcon>
                     </View>
@@ -76,9 +79,10 @@ export const RegisterScreen = observer(function RegisterScreen({navigation}) {
                         keyboardType="email-address"
                         value={email}
                         onChange={handleEmailChange}
-                        ref={(input)=>this.email =input}
+                        ref={(input)=>{this.email =input;}}
                         onSubmitEditing={()=>this.type.focus()}
                         style={styles.mail}
+                        returnKeyType={"next"}
                         //
                       ></TextInput>
                       <FeatherIcon name="mail" style={styles.icon2}></FeatherIcon>
@@ -92,9 +96,10 @@ export const RegisterScreen = observer(function RegisterScreen({navigation}) {
                       value={type}
                       onChange={handleTypeChange}
                     // dataDetector="calendarEvent"
-                      ref={(input)=>this.type =input}
-                      onSubmitEditing={()=>this.password.focus()}
+                     ref={(input)=>this.type =input}
+                     onSubmitEditing={()=>this.password.focus()}
                       style={styles.user}
+                      returnKeyType={"next"} 
                     ></TextInput>
                   </View>
                   <View style={styles.gender}>
@@ -107,7 +112,7 @@ export const RegisterScreen = observer(function RegisterScreen({navigation}) {
                         placeholderTextColor={color.placeHolder}
                         secureTextEntry={true}
                         style={styles.password}
-                        ref={(input)=>this.password =input}
+                       ref={(input)=>this.password =input}
                       ></TextInput>
                       <MaterialCommunityIconsIcon name="key-plus" style={styles.icon3} ></MaterialCommunityIconsIcon>
                     </View>

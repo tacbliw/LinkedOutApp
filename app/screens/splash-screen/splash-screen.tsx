@@ -24,18 +24,19 @@ import { styles } from './styles';
 
 
 export const SplashScreen =({navigation})=> {
-   useEffect(() => {
-    const timer = setTimeout(() => {
-      navigation.navigate(screens.basic.login)
-    }, 10000);
-    return () => clearTimeout(timer);
-  }, [])
   React.useEffect(() => {
     console.log('Splash')
   }, [])
+   useEffect(() => {
+    const timer = setTimeout(() => {
+      navigation.navigate(screens.basic.introJobs)
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [])
+  
  return (
    <View>
-     <Text>Splash</Text>
+     <Text style={styles.imageLogoSplash}>Logo Image</Text>
    </View>
  );
 
@@ -52,7 +53,7 @@ export const IntroJob = ({navigation}) => {
   //   return () => clearTimeout(timer);
   // }, [])
   React.useEffect(() => {
-    console.log('Intro')
+    console.log('IntroJob')
   }, [])
   return (
     <View style={styles.container}>
@@ -78,6 +79,48 @@ export const IntroJob = ({navigation}) => {
         <View style={styles.leftFooter}>
             <View style={styles.rect}></View>
             <View style={styles.rect2}></View>
+        </View>
+
+        <View style={styles.rightFooter}>
+          <TouchableOpacity style={styles.button} onPressOut={()=>navigation.navigate(screens.basic.introCompany)}>
+          </TouchableOpacity>
+          <Text style={styles.skipText}>SKIP</Text>
+        </View>
+
+      </View>
+    </View>
+
+  );
+};
+
+export const IntroCompany = ({navigation}) => { 
+  React.useEffect(() => {
+    console.log('IntroCompany')
+  }, [])
+  return (
+    <View style={styles.container}>
+
+      <View style={styles.header}>
+        <Text>Logo Image</Text>
+      </View>
+
+      <View style={styles.middle}>
+          <View style={styles.messageHeader}> 
+            <MaterialCommunityIconsIcon name="message-text"  style={styles.iconMsg}></MaterialCommunityIconsIcon>
+            <Text style={styles.jobsText}>CANDICATES</Text>
+          </View>
+          <Text style={styles.text}>
+            Find the suitable candicates for your company
+          </Text>
+      </View>
+      
+      
+     
+      <View style={styles.footer}>
+        
+        <View style={styles.leftFooter}>
+            <View style={styles.rect2}></View>
+            <View style={styles.rect}></View> 
         </View>
 
         <View style={styles.rightFooter}>

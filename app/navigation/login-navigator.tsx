@@ -7,7 +7,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from "react";
 import { screens } from "../config/screens";
-import { IntroJob, LoginScreen, RegisterCompanyScreen, RegisterScreen, RegisterUserScreen, SplashScreen } from "../screens";
+import { IntroCompany, IntroJob, LoginScreen, RegisterCompanyScreen, RegisterScreen, RegisterUserScreen, SplashScreen } from "../screens";
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
  * as well as what properties (if any) they might take when navigating to them.
@@ -42,7 +42,7 @@ const RootStackStart = () =>{
 
     <StackStart.Screen name={screens.basic.splash} component={SplashScreen} />
     <StackStart.Screen name={screens.basic.introJobs} component={IntroJob} />
-    {/* <StackStart.Screen name={screens.basic.introCompany} component={IntroCompany} /> */}
+    <StackStart.Screen name={screens.basic.introCompany} component={IntroCompany} />
     <StackStart.Screen name={screens.basic.login} component={LoginScreen} />
     <StackStart.Screen name={screens.basic.register} component={RegisterScreen} />
     

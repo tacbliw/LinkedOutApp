@@ -40,7 +40,7 @@ export const RegisterUserScreen = observer(function RegisterUserScreen({navigati
               //  dataDetector="calendarEvent"
               ></TextInput>
               <TextInput placeholder="Gender" placeholderTextColor={color.placeHolder} style={styles.textInput}></TextInput>
-              <TextInput  placeholder="Description" placeholderTextColor={color.placeHolder}  style={styles.textInput}></TextInput>
+              <TextInput  placeholder="Description" placeholderTextColor={color.placeHolder}  style={styles.textInput} multiline={true}></TextInput>
             
           </View>
           <View style={styles.submitButton}>
