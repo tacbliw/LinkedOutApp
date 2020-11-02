@@ -10,9 +10,10 @@ import MaterialIconsIcon from "react-native-vector-icons/MaterialIcons";
 import { Text } from "../../components";
 import { screens } from "../../config/screens";
 import { accountService } from "../../services/account-service";
+import { color } from "../../theme";
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
-import { color } from "../../theme";
+//import { color } from "../../theme";
 import { styles } from './styles';
 
 // const ROOT: ViewStyle = {
@@ -120,7 +121,7 @@ export const RegisterScreen = observer(function RegisterScreen({navigation}) {
                 </View>
                 <View style={styles.registerButton}>
                   <TouchableOpacity
-                    onPress={()=> navigation.navigate(screens.basic.register_user)}//submit form}
+                    onPress={()=> navigation.navigate(screens.basic.register_company)}//submit form}
                     style={styles.button}
                   >
                     <Text style={styles.register}>REGISTER</Text>

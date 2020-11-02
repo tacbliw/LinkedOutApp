@@ -124,4 +124,56 @@ export const accountService = {
     )
     return [username,handleChangeUsername,email,handleChangeEmail,type,handleChangeType,password,handleChangePassword]
   },
+  
+  useRegisterCompany():[
+    string,
+    (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
+    string,
+    (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
+    string,
+    (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
+    string,
+    (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
+
+]{
+  const [companyName, setCompanyName] = React.useState<string>()
+  const [website, setWebsite] = React.useState<string>()
+  const [specialities, setSpecialities] = React.useState<string>()
+  const [description, setDescription] = React.useState<string>()
+  const handleCompanyNameChange = React.useCallback(
+    (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+      setCompanyName(event.nativeEvent.text)
+    },
+    [],
+  )
+
+  const handleWebsiteChange = React.useCallback(
+    (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+      setWebsite(event.nativeEvent.text)
+    },
+    [],
+  )
+  const handleSpecialitiesChange = React.useCallback(
+    (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+      setSpecialities(event.nativeEvent.text)
+    },
+    [],
+  )
+
+  const handleDescriptionChange = React.useCallback(
+    (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+      setDescription(event.nativeEvent.text)
+    },
+    [],
+  )
+  return [  companyName,
+    handleCompanyNameChange,
+    website,
+    handleWebsiteChange,
+    specialities,
+    handleSpecialitiesChange,
+    description,
+    handleDescriptionChange,
+    ]
+},
 }
