@@ -1,9 +1,9 @@
-import { observer } from "mobx-react-lite"
-import { Header, Icon, List, ListItem, Thumbnail, View } from "native-base"
+import { Header, Icon, List, ListItem } from "native-base"
 import React from "react"
 import { ScrollView, StyleSheet, ViewStyle } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import { Post } from "../../components"
+import { JobPost } from "../../components/job-post/job-post"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color } from "../../theme"
@@ -26,9 +26,9 @@ const styles = StyleSheet.create({
     flexDirection: "row", 
     justifyContent: "space-between", 
     alignItems: "center", 
-    backgroundColor: color.backgroundColor, 
-    borderBottomWidth: 1, 
-    borderBottomColor: color.headerBottomLine
+    // backgroundColor: color.backgroundColor, 
+    // borderBottomWidth: 1, 
+    // borderBottomColor: color.headerBottomLine
   }
 })
 
@@ -40,7 +40,7 @@ const tweetActionSheetButton = [
 ]
 
 
-export const NewsfeedScreen = observer(function NewsfeedScreen() {
+export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
   // OR
@@ -53,56 +53,34 @@ export const NewsfeedScreen = observer(function NewsfeedScreen() {
     //   <Text preset="header" text="newsfeedScreen" />
     // </Screen>
 
-    <View style={styles.container}>
-      <Header noShadow style={styles.header}>
-        <TouchableOpacity>
-          <Thumbnail small source={require("./avatar1.jpg")} />
-        </TouchableOpacity>
-          <Thumbnail small source={require("./compass.png")}></Thumbnail>
-          <TouchableOpacity>
-            <Icon name="build-outline" style={{color: color.brandPrimary}}></Icon>
-          </TouchableOpacity>
+    <ScrollView>
+      <Header transparent noShadow style={styles.header}>
+        <TouchableOpacity onPress={() => {navigation.openDrawer();}}><Icon name="menu-outline" style={{color: color.brandLight}}></Icon></TouchableOpacity>
+        <Icon name="settings-outline" style={{color: color.brandLight}}></Icon>
       </Header>
-      <ScrollView style={{backgroundColor: color.backgroundColor}}>
-        {/* Loop here. I'm lazy enough to copy paste this 3 times */}
         <List>
-          <ListItem style={{marginLeft: 0}}>
+          <ListItem noBorder>
             <Post
              avatarUri={require("./avatar1.jpg")}
-             tag={["#ha"]}
-             reaction={["1K", "1K", "1K", '1K']}
              name="Siasa"
-             atname="LUL"
              date="30 Jul"
-             content="Omeeaead"
+             content="Need 1 for ACM 😭😭😭😭😭😭😭😭😭😭"
+             image={require('./avatar2.jpg')}
              ></Post>
           </ListItem>
-          <ListItem style={{marginLeft: 0}}>
-            <Post
-             avatarUri={require("./avatar2.jpg")}
-             tag={["#ha"]}
-             reaction={["1K", "1K", "1K", '1K']}
-             name="Sama"
-             atname="LUL"
-             date="30 Jul"
-             content="Omeeaead"
-             ></Post>
-          </ListItem>
-          <ListItem style={{marginLeft: 0}}>
-            <Post
-             avatarUri={require("./avatar1.jpg")}
-             tag={["#ha"]}
-             reaction={["1K", "1K", "1K", '1K']}
-             name="Siasa"
-             atname="LUL"
-             date="30 Jul"
-             content="Omeeaead"
-             ></Post>
+          <ListItem noBorder>
+            <JobPost
+              avatarUri={require("./compass.png")}
+              name="UI/UX Designer Fresher"
+              date="Yesterday"
+              place = "Ha Noi"
+              seniority_level = "Fresher"
+              ></JobPost>
           </ListItem>
         </List>
         </ScrollView>
-    </View>
+    // </View>
   )
 
 
-})
+}

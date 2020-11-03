@@ -1,3 +1,4 @@
+require("../app/components/job-post/job-post.story")
 require("../app/components/post/post.story")
 require("../app/components/sidebar/sidebar.story")
 require("../app/components/named-icon/named-icon.story")
