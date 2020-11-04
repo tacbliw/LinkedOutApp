@@ -1,6 +1,6 @@
-import { Header, Icon, List, ListItem } from "native-base"
+import { Fab, Header, Icon, List, ListItem } from "native-base"
 import React from "react"
-import { ScrollView, StyleSheet, ViewStyle } from "react-native"
+import { ScrollView, StyleSheet, View, ViewStyle } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import { Post } from "../../components"
 import { JobPost } from "../../components/job-post/job-post"
@@ -52,7 +52,7 @@ export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
     // <Screen style={ROOT} preset="scroll">
     //   <Text preset="header" text="newsfeedScreen" />
     // </Screen>
-
+    <View style={{flex: 1}}>
     <ScrollView>
       <Header transparent noShadow style={styles.header}>
         <TouchableOpacity onPress={() => {navigation.openDrawer();}}><Icon name="menu-outline" style={{color: color.brandLight}}></Icon></TouchableOpacity>
@@ -79,7 +79,10 @@ export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
           </ListItem>
         </List>
         </ScrollView>
-    // </View>
+        <Fab style={{backgroundColor: color.brandPrimary}}>
+          <Icon name="brush-outline"></Icon>
+      </Fab>
+    </View>
   )
 
 
