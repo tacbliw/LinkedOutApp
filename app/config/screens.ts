@@ -20,7 +20,12 @@ export const screens = {
       navigator: 'user-navigator',
       home: 'user-home-navigator',
       profile: 'user-profile',
-      newsfeed: 'user-newsfeed',
+      newsfeed: {
+        navigator: 'user-newsfeed-navigator',
+        main: 'user-newsfeed-main',
+        write: 'user-newsfeed-write',
+        show: 'user-newsfeed-show',
+      },
       search: 'user-search',
       notification: 'user-notification',
       messages: 'user-messages',

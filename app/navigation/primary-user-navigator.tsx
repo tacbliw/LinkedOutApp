@@ -5,11 +5,11 @@
  * You'll likely spend most of your time in this file.
  */
 import { createDrawerNavigator } from '@react-navigation/drawer'
-import React from "react"
-import { Sidebar } from "../components"
+import React from 'react'
+import { Sidebar } from '../components'
 import { screens } from '../config/screens'
-import { FollowingScreen, ProfileUserScreen, SettingsScreen } from "../screens"
-import { HomeNavigator } from "./home-navigator"
+import { FollowingScreen, ProfileUserScreen, SettingsScreen } from '../screens'
+import { HomeNavigator } from './home-navigator'
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -27,21 +27,33 @@ import { HomeNavigator } from "./home-navigator"
 const Drawer = createDrawerNavigator()
 
 export function PrimaryUserNavigator() {
-	return (
-		<Drawer.Navigator
-			initialRouteName={screens.authenticated.user.home}
-			// https://github.com/react-navigation/react-navigation/issues/7725
-			drawerContent={props => <Sidebar {...props} />}
-			screenOptions={{
-				gestureEnabled: true,
-			}}
-		>
-			<Drawer.Screen name={screens.authenticated.user.profile} component={ProfileUserScreen} />
-			<Drawer.Screen name={screens.authenticated.user.following} component={FollowingScreen} />
-			<Drawer.Screen name={screens.authenticated.user.settings} component={SettingsScreen} />
-			<Drawer.Screen name={screens.authenticated.user.home} component={HomeNavigator} />
-		</Drawer.Navigator>
-	)
+  return (
+    <Drawer.Navigator
+      initialRouteName={screens.authenticated.user.home}
+      // https://github.com/react-navigation/react-navigation/issues/7725
+      drawerContent={(props) => <Sidebar {...props} />}
+      screenOptions={{
+        gestureEnabled: true,
+      }}
+    >
+      <Drawer.Screen
+        name={screens.authenticated.user.profile}
+        component={ProfileUserScreen}
+      />
+      <Drawer.Screen
+        name={screens.authenticated.user.following}
+        component={FollowingScreen}
+      />
+      <Drawer.Screen
+        name={screens.authenticated.user.settings}
+        component={SettingsScreen}
+      />
+      <Drawer.Screen
+        name={screens.authenticated.user.home}
+        component={HomeNavigator}
+      />
+    </Drawer.Navigator>
+  )
 }
 
 /**
@@ -53,5 +65,5 @@ export function PrimaryUserNavigator() {
  *
  * `canExit` is used in ./app/app.tsx in the `useBackButtonHandler` hook.
  */
-const exitRoutes = ["welcome"]
+const exitRoutes = ['welcome']
 export const canExit = (routeName: string) => exitRoutes.includes(routeName)

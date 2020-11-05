@@ -9,26 +9,29 @@
  * The app navigation resides in ./app/navigation, so head over there
  * if you're interested in adding screens and navigators.
  */
-import { NavigationContainerRef } from "@react-navigation/native"
-import React, { useEffect, useRef, useState } from "react"
-import { initialWindowSafeAreaInsets, SafeAreaProvider } from "react-native-safe-area-context"
-import "./i18n"
-import { RootStore, RootStoreProvider, setupRootStore } from "./models"
+import { NavigationContainerRef } from '@react-navigation/native'
+import React, { useEffect, useRef, useState } from 'react'
 import {
-  canExit, RootNavigator,
-
-  setRootNavigation, useBackButtonHandler,
-
-  useNavigationPersistence
-} from "./navigation"
-import "./utils/ignore-warnings"
-import * as storage from "./utils/storage"
+  initialWindowSafeAreaInsets,
+  SafeAreaProvider,
+} from 'react-native-safe-area-context'
+import './i18n'
+import { RootStore, RootStoreProvider, setupRootStore } from './models'
+import {
+  canExit,
+  RootNavigator,
+  setRootNavigation,
+  useBackButtonHandler,
+  useNavigationPersistence,
+} from './navigation'
+import './utils/ignore-warnings'
+import * as storage from './utils/storage'
 
 // This puts screens in a native ViewController or Activity. If you want fully native
 // stack navigation, use `createNativeStackNavigator` in place of `createStackNavigator`:
 // https://github.com/kmagiera/react-native-screens#using-native-stack-navigator
 
-export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
+export const NAVIGATION_PERSISTENCE_KEY = 'NAVIGATION_STATE'
 
 /**
  * This is the root component of our app.
@@ -39,14 +42,14 @@ function App() {
 
   setRootNavigation(navigationRef)
   useBackButtonHandler(navigationRef, canExit)
-  const { initialNavigationState, onNavigationStateChange } = useNavigationPersistence(
-    storage,
-    NAVIGATION_PERSISTENCE_KEY,
-  )
+  const {
+    initialNavigationState,
+    onNavigationStateChange,
+  } = useNavigationPersistence(storage, NAVIGATION_PERSISTENCE_KEY)
 
   // Kick off initial async loading actions, like loading fonts and RootStore
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       setupRootStore().then(setRootStore)
     })()
   }, [])

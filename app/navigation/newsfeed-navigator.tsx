@@ -4,10 +4,10 @@
  *
  * You'll likely spend most of your time in this file.
  */
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
 import { screens } from '../config/screens'
-import { LoginScreen, RegisterScreen } from '../screens'
+import { NewsfeedScreen, WriteFeedScreen } from '../screens'
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -23,15 +23,22 @@ import { LoginScreen, RegisterScreen } from '../screens'
  */
 
 // Documentation: https://github.com/software-mansion/react-native-screens/tree/master/native-stack
-const Tabs = createMaterialTopTabNavigator()
+const Stack = createStackNavigator()
 
-export function LoginNavigator() {
+export function NewsfeedNavigator() {
   return (
-    <>
-      <Tabs.Navigator>
-        <Tabs.Screen name={screens.basic.login} component={LoginScreen} />
-        <Tabs.Screen name={screens.basic.register} component={RegisterScreen} />
-      </Tabs.Navigator>
-    </>
+    <Stack.Navigator
+      initialRouteName={screens.authenticated.user.newsfeed.main}
+      headerMode="none"
+    >
+      <Stack.Screen
+        name={screens.authenticated.user.newsfeed.main}
+        component={NewsfeedScreen}
+      />
+      <Stack.Screen
+        name={screens.authenticated.user.newsfeed.write}
+        component={WriteFeedScreen}
+      />
+    </Stack.Navigator>
   )
 }

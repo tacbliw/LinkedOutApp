@@ -14,3 +14,4 @@ export * from "./settings-screen/settings-screen"
 export * from "./splash-screen/splash-screen"
 export * from "./welcome-screen/welcome-screen"
 
+export * from "./write-feed-screen/write-feed-screen"
