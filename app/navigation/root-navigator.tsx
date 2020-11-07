@@ -9,6 +9,7 @@ import { createNativeStackNavigator } from "react-native-screens/native-stack"
 import React from "reactn"
 import { GlobalState } from "../config/global"
 import { screens } from "../config/screens"
+import { MessagesScreen } from "../screens"
 import { LoginNavigator } from "./login-navigator"
 import { PrimaryUserNavigator } from "./primary-user-navigator"
 
@@ -51,7 +52,8 @@ const RootStack = () => {
         }}
       >
         <Stack.Screen name={screens.authenticated.user.navigator} component={PrimaryUserNavigator} options={{ headerShown: false, }} />
-        {/* <Stack.Screen name={screens.basic.navigator} component={LoginNavigator} options={{ headerShown: false, }} /> */}
+        {/* deo co bottom tab de het duoi nay */}
+        <Stack.Screen name='room' component={MessagesScreen} options={{ headerShown: false, }} />
       </Stack.Navigator>
     )
   }

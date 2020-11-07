@@ -1,8 +1,7 @@
-import { observer } from "mobx-react-lite";
-import { Body, Button, Container, Content, Header, Icon, Left, List, ListItem, Right, Text, Thumbnail, Title } from 'native-base';
-import React from "react";
-import { ViewStyle } from "react-native";
-import { screens } from "../../config/screens";
+import { Header, Icon, Left, Right, Text, Thumbnail, View } from "native-base";
+import React, { useCallback, useEffect, useState } from "react";
+import { TouchableOpacity, ViewStyle } from "react-native";
+import { Avatar, Bubble, GiftedChat, InputToolbar, Send, Time } from "react-native-gifted-chat";
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color } from "../../theme";
@@ -12,52 +11,7 @@ const ROOT: ViewStyle = {
   flex: 1,
 }
 
-const pratik = require("./avatar.jpg");
-const sanket = require("./avatar.jpg");
-const megha = require("./avatar.jpg");
-const atul = require("./avatar.jpg");
-const saurabh = require("./avatar.jpg");
-const varun = require("./avatar.jpg");
-
-const datas = [
-  {
-    img: pratik,
-    text: "Kumar Pratik",
-    note: "Its time to build a difference . .",
-    time: "3:43 pm"
-  },
-  {
-    img: sanket,
-    text: "Kumar Sanket",
-    note: "One needs courage to be happy and smiling all time . . ",
-    time: "1:12 pm"
-  },
-  {
-    img: megha,
-    text: "Megha",
-    note: "Live a life style that matchs your vision",
-    time: "10:03 am"
-  },
-  {
-    img: atul,
-    text: "Atul Ranjan",
-    note: "Failure is temporary, giving up makes it permanent",
-    time: "5:47 am"
-  },
-  {
-    img: saurabh,
-    text: "Saurabh Sahu",
-    note: "The biggest risk is a missed opportunity !!",
-    time: "11:11 pm"
-  },
-  {
-    img: varun,
-    text: "Varun Sahu",
-    note: "Wish I had a Time machine . .",
-    time: "8:54 pm"
-  }
-];
-export const MessagesScreen = observer(function MessagesScreen({navigation}) {
+export const MessagesScreen = function MessagesScreen({navigation}) {
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
   // OR
@@ -65,46 +19,113 @@ export const MessagesScreen = observer(function MessagesScreen({navigation}) {
 
   // Pull in navigation via hook
   // const navigation = useNavigation()
+  const customInputToolbar = props => {
+    return (
+      <InputToolbar
+       {...props} 
+       containerStyle={{
+         borderRadius: 100,
+         borderTopWidth: 0,
+         marginLeft: 16,
+         marginRight: 16,
+       }}></InputToolbar>
+    )
+  }
+
+  const customSend = props => {
+    return (
+      <Send {...props} containerStyle={{justifyContent: 'center'}}>
+          <Icon style={{fontSize: 26, marginRight: 8, color: color.brandPrimary}} name='arrow-up-outline'></Icon>
+      </Send>
+    )
+  }
+
+  const customAvatar = props => {
+    return (
+        <Avatar {...props} imageStyle={{
+          left: {
+            width: 36,
+            height: 36,
+            borderRadius: 100
+          },
+        }}></Avatar>
+    )
+  }
+
+  const customBubble = props => {
+    return (
+      <Bubble
+        {...props}
+        wrapperStyle={{
+          left: {
+            backgroundColor: '#ffffff'
+          }
+        }}
+      >
+
+      </Bubble>
+    )
+  }
+
+  const customTime = props => {
+    return (
+      <Time
+        {...props}
+        containerStyle={{
+          left: {
+            flex: 1,
+            justifyContent: 'flex-end',
+          }
+        }}
+      ></Time>
+    )
+  }
+
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    setMessages([{
+      _id: 1,
+      text: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      createdAt: new Date(),
+      user: {
+        _id: 2,
+        name: 'React Native',
+        avatar: 'https://placeimg.com/140/140/any',
+      },
+    }])
+  }, [])
+
+  const onSend = useCallback((messages = []) => {
+    setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
+  }, [])
   return (
-   // <Screen style={ROOT} preset="scroll">
-      <Container>
-        <Header>
-          <Left>
-            <Button transparent onPress = {() => navigation.navigate(screens.authenticated.user.newsfeed)}>
-              <Icon name='arrow-back' />
-            </Button>
+    <>
+      <Header transparent>
+        <Left>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <TouchableOpacity onPress={navigation.goBack}><Icon name='chevron-back-outline'></Icon></TouchableOpacity>
+            <Thumbnail style={{marginLeft: 10}} small source={require('./avatar.jpg')}></Thumbnail>
+            <Text style={{marginLeft: 10, fontWeight: '700', fontSize: 20}}>Sizai</Text>
+          </View>
           </Left>
-          <Body>
-            <Title>Messages</Title>
-          </Body>
-          <Right>
-          </Right>
-        </Header>
-        <Content>
-          <List
-            dataArray={datas}
-            renderRow={data =>
-              <ListItem avatar onPress ={() => alert(data.text)}>
-                <Left>
-                  <Thumbnail small source={data.img} />
-                </Left>
-                <Body>
-                  <Text>
-                    {data.text}
-                  </Text>
-                  <Text numberOfLines={1} note>
-                    {data.note}
-                  </Text>
-                </Body>
-                <Right>
-                  <Text note>
-                    {data.time}
-                  </Text>
-                </Right>
-              </ListItem>}
-          />
-        </Content>
-      </Container>
-   // </Screen>
+        <Right></Right>
+      </Header>
+      <GiftedChat
+      messages={messages}
+      onSend={messages => onSend(messages)}
+      user={{
+        _id: 1
+      }}
+      renderInputToolbar={props => customInputToolbar(props)}
+      renderSend={props => customSend(props)}
+      renderAvatar={props => customAvatar(props)}
+      renderBubble={props => customBubble(props)}
+
+      renderTime={props => customTime(props)}
+      alwaysShowSend
+      scrollToBottom
+    ></GiftedChat>
+    </>
   )
-})
+}

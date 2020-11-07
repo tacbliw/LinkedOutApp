@@ -8,8 +8,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Button, Icon } from "native-base";
 import React from "react";
 import { View } from "react-native";
+import { ChatNavigator } from ".";
 import { screens } from "../config/screens";
-import { ChatScreen, NewsfeedScreen, NotificationsScreen, SearchScreen } from "../screens";
+import { NewsfeedScreen, NotificationsScreen, SearchScreen } from "../screens";
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -90,7 +91,7 @@ export function HomeNavigator() {
       <Tabs.Screen name={screens.authenticated.user.newsfeed} component={NewsfeedScreen}/>
       <Tabs.Screen name={screens.authenticated.user.search} component={SearchScreen}/>
       <Tabs.Screen name={screens.authenticated.user.notification} component={NotificationsScreen}/>
-      <Tabs.Screen name={screens.authenticated.user.messages} component={ChatScreen}/>
+      <Tabs.Screen name={screens.authenticated.user.messages} component={ChatNavigator}/>
     </Tabs.Navigator>
     </>
   )
