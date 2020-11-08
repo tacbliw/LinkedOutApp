@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
 
 })
 
-export function ProfileScreen({navigation}) {
+export function ProfileCompanyScreen({navigation}) {
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
   // OR
@@ -161,7 +161,7 @@ export function ProfileScreen({navigation}) {
 			<View style={styles.profileHeader}>
 				<ImageBackground source={require("./cover.jpg")} resizeMode="cover" style={styles.imageBackground}>
 					<View style={styles.topBarIcon}>
-						<Button transparent onPress={() => navigation.goBack()}>
+						<Button transparent onPress={() => navigation.navigate(screens.authenticated.user.newsfeed)}>
 							<Icon style={styles.backIcon} name="arrow-back-circle" />
 						</Button>
 						<Button transparent>
