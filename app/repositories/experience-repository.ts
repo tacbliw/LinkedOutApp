@@ -1,9 +1,7 @@
-import { AxiosResponse } from "axios"
 import { API_EXPERIENCE_ROUTE } from "../config/api-const"
 import { API_BASE_URL } from "../config/consts"
 import { httpConfig } from "../config/http/config"
 import { Repository } from "./base-repository"
-
 
 interface ExperienceObject {
   experienceId: number;
@@ -15,13 +13,11 @@ interface ExperienceObject {
   description: string;
 }
 
-
 export interface ExperienceListRequest {
   id: number;
 }
 
 export interface ExperienceListResponse extends Array<ExperienceObject> {}
-
 
 export interface ExperienceCreateRequest {
   companyName: string;
@@ -32,7 +28,6 @@ export interface ExperienceCreateRequest {
 }
 
 export interface ExperienceCreateResponse extends Array<ExperienceObject> {}
-
 
 export interface ExperienceUpdateRequest {
   experienceId: number;
@@ -47,13 +42,11 @@ export interface ExperienceUpdateRequest {
 
 export interface ExperienceUpdateResponse extends Array<ExperienceObject> {}
 
-
 export interface ExperienceDeleteRequest {
   experienceId: number;
 }
 
 export interface ExperienceDeleteResponse extends Array<ExperienceObject> {}
-
 
 export class ExperienceRepository extends Repository {
   constructor() {

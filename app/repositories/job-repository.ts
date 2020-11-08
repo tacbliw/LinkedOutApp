@@ -1,9 +1,7 @@
-import { AxiosResponse } from "axios"
 import { API_JOB_ROUTE } from "../config/api-const"
 import { API_BASE_URL } from "../config/consts"
 import { httpConfig } from "../config/http/config"
 import { Repository } from "./base-repository"
-
 
 interface JobObject {
   jobId: number;
@@ -23,7 +21,6 @@ export interface JobListRequest {
 
 export interface JobListResponse extends Array<JobObject> {}
 
-
 export interface JobGetRequest {
   jobId: number;
 }
@@ -39,7 +36,6 @@ export interface JobGetResponse {
   skills: string[];
 }
 
-
 export interface JobCreateRequest {
   title: string;
   description: string;
@@ -52,7 +48,6 @@ export interface JobCreateRequest {
 }
 
 export interface JobCreateResponse extends Array<JobObject> {}
-
 
 export interface JobUpdateRequest {
   jobId: number;
@@ -67,13 +62,11 @@ export interface JobUpdateRequest {
 
 export interface JobUpdateResponse extends Array<JobObject> {}
 
-
 export interface JobDeleteRequest {
   jobId: number;
 }
 
-export interface JobUpdateResponse extends Array<JobObject> {}
-
+export interface JobDeleteResponse extends Array<JobObject> {}
 
 export class JobRepository extends Repository {
   constructor() {

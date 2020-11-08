@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios"
 import { API_EDUCATION_ROUTE } from "../config/api-const"
 import { API_BASE_URL } from "../config/consts"
 import { httpConfig } from "../config/http/config"
@@ -13,13 +12,11 @@ interface EducationObject {
   degree: string;
 }
 
-
 export interface EducationListRequest {
   id: number;
 }
 
 export interface EducationListRespond extends Array<EducationObject> {}
-
 
 export interface EducationCreateRequest {
   schoolName: string;
@@ -30,7 +27,6 @@ export interface EducationCreateRequest {
 }
 
 export interface EducationCreateRespond extends Array<EducationObject> {}
-
 
 export interface EducationUpdateRequest {
   educationId: number;
@@ -45,13 +41,11 @@ export interface EducationUpdateRequest {
 
 export interface EducationUpdateRespond extends Array<EducationObject> {}
 
-
 export interface EducationDeleteRequest {
   educationId: number;
 }
 
 export interface EducationDeleteRespond extends Array<EducationObject> {}
-
 
 export class EducationRepository extends Repository {
   constructor() {

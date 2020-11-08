@@ -16,7 +16,6 @@ const ROOT: ViewStyle = {
 
 const styles = StyleSheet.create({
   container: {},
-
   header: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -25,7 +24,6 @@ const styles = StyleSheet.create({
     // borderBottomWidth: 1,
     // borderBottomColor: color.headerBottomLine
   },
-
   headerContainer: {},
 })
 

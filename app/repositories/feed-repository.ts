@@ -1,9 +1,7 @@
-import { AxiosResponse } from "axios"
 import { API_FEED_ROUTE } from "../config/api-const"
 import { API_BASE_URL } from "../config/consts"
 import { httpConfig } from "../config/http/config"
 import { Repository } from "./base-repository"
-
 
 interface PostObject {
   type: string;
@@ -31,12 +29,9 @@ interface JobObject {
   skills: string[];
 }
 
-
 export interface FeedGetResponse extends Array<PostObject | JobObject> {}
 
-
 // We don't need suggest job and suggest follow here, right?
-
 
 export class FeedRepository extends Repository {
   constructor() {

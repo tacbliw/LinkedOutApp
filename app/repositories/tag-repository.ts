@@ -1,9 +1,7 @@
-import { AxiosResponse } from "axios"
 import { API_TAG_ROUTE } from "../config/api-const"
 import { API_BASE_URL } from "../config/consts"
 import { httpConfig } from "../config/http/config"
 import { Repository } from "./base-repository"
-
 
 export interface SkillTagRequest {
   query: string;
@@ -13,7 +11,6 @@ export interface SkillTagResponse {
   tag: string[];
 }
 
-
 export interface TitleTagRequest {
   query: string;
 }
@@ -21,7 +18,6 @@ export interface TitleTagRequest {
 export interface TitleTagResponse {
   tag: string[];
 }
-
 
 export interface SchoolTagRequest {
   query: string;
@@ -31,7 +27,6 @@ export interface SchoolTagResponse {
   name: string[];
 }
 
-
 export interface CompanyTagRequest {
   query: string;
 }
@@ -39,7 +34,6 @@ export interface CompanyTagRequest {
 export interface CompanyTagResponse {
   name: string[];
 }
-
 
 export interface SpecialtyTagRequest {
   query: string;
@@ -49,7 +43,6 @@ export interface SpecialtyTagResponse {
   tag: string[];
 }
 
-
 export interface LocationTagRequest {
   query: string;
 }
@@ -57,7 +50,6 @@ export interface LocationTagRequest {
 export interface LocationTagResponse {
   tag: string[];
 }
-
 
 export class TagRepository extends Repository {
   constructor() {

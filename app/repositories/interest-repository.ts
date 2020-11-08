@@ -1,9 +1,7 @@
-import { AxiosResponse } from "axios"
 import { API_INTEREST_ROUTE } from "../config/api-const"
 import { API_BASE_URL } from "../config/consts"
 import { httpConfig } from "../config/http/config"
 import { Repository } from "./base-repository"
-
 
 export interface InterestCheckRequest {
   postId: number;
@@ -13,7 +11,6 @@ export interface InterestCheckResponse {
   interested: boolean;
 }
 
-
 export interface InterestCreateRequest {
   postId: number;
 }
@@ -21,7 +18,6 @@ export interface InterestCreateRequest {
 export interface InterestCreateResponse {
   interested: boolean;
 }
-
 
 export interface InterestDeleteRequest {
   postId: number;
@@ -31,7 +27,6 @@ export interface InterestDeleteResponse {
   interested: boolean;
 }
 
-
 export interface InterestCountRequest {
   postId: number;
 }
@@ -39,7 +34,6 @@ export interface InterestCountRequest {
 export interface InterestCountResponse {
   count: number;
 }
-
 
 interface AccountInterestedObject {
   id: number;
@@ -53,7 +47,6 @@ export interface AccountInterestedRequest {
 
 export interface AccountInterestedResponse extends Array<AccountInterestedObject> {}
 
-
 interface PostInterestedObject {
   postId: number;
   title: string;
@@ -66,7 +59,6 @@ export interface PostInterestedRequest {
 }
 
 export interface PostInterestedResponse extends Array<PostInterestedObject> {}
-
 
 export class InterestRepository extends Repository {
   constructor() {

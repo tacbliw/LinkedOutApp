@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios"
 import { API_PHONE_ROUTE } from "../config/api-const"
 import { API_BASE_URL } from "../config/consts"
 import { httpConfig } from "../config/http/config"
@@ -12,7 +11,6 @@ export interface PhoneListResponse {
   phones: string[];
 }
 
-
 export interface PhoneCreateRequest {
   phone: string;
 }
@@ -20,7 +18,6 @@ export interface PhoneCreateRequest {
 export interface PhoneCreateResponse {
   phones: string[];
 }
-
 
 export interface PhoneUpdateRequest {
   oldPhone: string;
@@ -31,7 +28,6 @@ export interface PhoneUpdateResponse {
   phones: string[];
 }
 
-
 export interface PhoneDeleteRequest {
   phone: string;
 }
@@ -39,7 +35,6 @@ export interface PhoneDeleteRequest {
 export interface PhoneDeleteResponse {
   phones: string[];
 }
-
 
 export class PhoneRepository extends Repository {
   constructor() {

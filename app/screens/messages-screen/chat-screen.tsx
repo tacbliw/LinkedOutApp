@@ -1,146 +1,107 @@
-import { observer } from 'mobx-react-lite';
-import { Body, Button, Container, Content, Header, Icon, Left, Right, Title } from 'native-base';
-import React from "react";
-import { FlatList, ImageBackground, Text, TextInput, TouchableOpacity, View, ViewStyle } from 'react-native';
-import { useState } from 'reactn';
-import { BubbleChat } from '../../components';
-import { screens } from '../../config/screens';
+import { Badge, Header, Left, Right, Text, Thumbnail, View } from 'native-base'
+import React from 'react'
+import { Dimensions, FlatList, TouchableOpacity, ViewStyle } from 'react-native'
+import { Screen } from '../../components'
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
-import { color } from '../../theme';
+import { color } from '../../theme'
 
-
+const screenWidth = Dimensions.get('window').width
+const screenHeight = Dimensions.get('window').height
 
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.black,
   flex: 1,
 }
 
-const datas = [
+const data = [
   {
-    username: "admin",
-    chatContent: "one"
+    id: '1',
+    name: 'Belazo',
+    last_message: 'Imma get out',
+    last_time: '5:50',
+    avatarSource: './avatar.jpg',
   },
   {
-    username: "user",
-    chatContent: "two"
+    id: '2',
+    name: 'Belazo',
+    last_message: 'Imma get out',
+    last_time: '5:50',
+    avatarSource: './avatar.jpg',
   },
   {
-    username: "admin",
-    chatContent: "three"
+    id: '3',
+    name: 'Belazo',
+    last_message: 'Imma get out',
+    last_time: '5:50',
+    avatarSource: './avatar.jpg',
   },
-  {
-    username: "admin",
-    chatContent: "four"
-  },
-  {
-    username: "user",
-    chatContent: "five"
-  },
-  {
-    username: "admin",
-    chatContent: "six"
-  }
-];
+]
 
-export const ChatScreen = observer(function ChatScreen({ navigation }) {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-  // OR
-  // const rootStore = useStores()
-
-  // Pull in navigation via hook
-  // const navigation = useNavigation()
-  const [username, setUsername] = useState("admin");
-  const [chatInputContent, setChatInputContent] = useState('');
-
-  const renderChatLine = (item) => {
-    if (item.username === username) {
-      return (
-        <View style={{ alignItems: 'flex-end' }} >
-          <BubbleChat sender="YOU" chatContent={item.chatContent} />
+const Item = ({ item, onPress, style }) => (
+  <TouchableOpacity onPress={onPress} style={style}>
+    <View style={{ flexDirection: 'row' }}>
+      <Thumbnail source={require('./avatar.jpg')}></Thumbnail>
+      <View style={{ flex: 1, justifyContent: 'space-around' }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginLeft: 10,
+          }}
+        >
+          <Text style={{ fontWeight: '700', fontSize: 20 }}>{item.name}</Text>
+          <Text style={{ color: color.brandLight }}>{item.last_time}</Text>
         </View>
-      );
-    }
-    return (
-      <BubbleChat sender={item.userName} chatContent={item.chatContent} />
-    );
-  }
-
-  const sendMessage = () => {
-    return (
-      <View style={{ alignItems: 'flex-end' }} >
-        <BubbleChat sender="YOU" chatContent={chatInputContent} />
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginLeft: 10,
+          }}
+        >
+          <Text style={{ color: color.brandLight }}>{item.last_message}</Text>
+          <Badge
+            style={{
+              width: 22,
+              height: 22,
+              backgroundColor: color.brandPrimary,
+            }}
+          >
+            <Text style={{ fontSize: 10 }}>5</Text>
+          </Badge>
+        </View>
       </View>
-    );
-    setChatInputContent('');
+    </View>
+  </TouchableOpacity>
+)
+
+export const ChatScreen = function ChatScreen({ navigation }) {
+  const renderItem = ({ item }) => {
+    return (
+      <Item
+        item={item}
+        onPress={() => {
+          navigation.navigate('room', { id: item.id })
+        }} // pass id here
+        style={{ margin: 16 }}
+      ></Item>
+    )
   }
 
   return (
-    // <Screen style={ROOT} preset="scroll">
-    <Container>
-      <Header>
+    <Screen>
+      <Header transparent>
         <Left>
-          <Button transparent onPress={() => navigation.navigate(screens.authenticated.user.messages)}>
-            <Icon name='arrow-back' />
-          </Button>
+          <Text style={{ fontSize: 32, fontWeight: '700' }}>Chats</Text>
         </Left>
-        <Body>
-          <Title>Admin</Title>
-        </Body>
-        <Right>
-        </Right>
+        <Right></Right>
       </Header>
-      <Content>
-        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-end'}}>
-          <ImageBackground
-            imageStyle={{ opacity: 0.4 }}
-            source={require('./avatar.jpg')}
-            style={{
-              flex: 9 / 10,
-              backgroundColor: '#A5A5A5',
-              flexDirection: 'column',
-              justifyContent: 'flex-end',
-            }}
-          >
-            <FlatList
-              data={datas}
-              renderItem={({ item }, index) => renderChatLine(item)}
-            />
-          </ImageBackground>
-          <View style={{ flex: 1 / 10 }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                backgroundColor: '#FFF',
-                width: '100%',
-                height: '100%',
-                justifyContent: 'space-around',
-                alignItems: 'center',
-                marginLeft: 2,
-              }}
-            >
-              <View style={{ flex: 9 / 10}}>
-                <TextInput
-                  placeholder="Nhập nội dung chat"
-                  value={chatInputContent}
-                  multiline={true}
-                  onChangeText={(text) => setChatInputContent(text)}
-                  style={{ minHeight:50, fontSize: 18}}
-                />
-              </View>
-              <View style={{ flex: 1 / 10}}>
-                <TouchableOpacity onPress={() => sendMessage()}>
-                  <Text style={{ color: '#0099ff', fontSize: 14, marginRight: 15 }}>
-                    Gửi
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </View>
-        </Content>
-    </Container>
-    // </Screen>
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+      ></FlatList>
+    </Screen>
   )
-})
+}

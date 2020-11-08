@@ -1,8 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import { Header, Icon, Input, Text, Thumbnail, View } from 'native-base'
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color } from '../../theme'

@@ -1,3 +1,4 @@
+export * from "./chat-navigator"
 export * from "./navigation-utilities"
 export * from "./newsfeed-navigator"
 export * from "./primary-user-navigator"

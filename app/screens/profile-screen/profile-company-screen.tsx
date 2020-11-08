@@ -9,7 +9,6 @@ import {
 } from 'react-native'
 import { Screen } from '../../components'
 import { screens } from '../../config/screens'
-// import { useStores } from "../../models"
 import { color } from '../../theme'
 
 const ROOT: ViewStyle = {

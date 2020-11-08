@@ -1,9 +1,7 @@
-import { AxiosResponse } from "axios"
 import { API_SEARCH_ROUTE } from "../config/api-const"
 import { API_BASE_URL } from "../config/consts"
 import { httpConfig } from "../config/http/config"
 import { Repository } from "./base-repository"
-
 
 interface PostObject {
   type: string;
@@ -50,7 +48,6 @@ interface UserObject {
   skills: string[];
 }
 
-
 export interface SearchRequest {
   type: string;
   query: string;
@@ -59,7 +56,6 @@ export interface SearchRequest {
 }
 
 export interface SearchResponse extends Array<PostObject | JobObject | UserObject | CompanyObject> {}
-
 
 export class SearchRepository extends Repository {
   constructor() {

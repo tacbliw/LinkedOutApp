@@ -6,8 +6,7 @@
  */
 import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
-import { screens } from '../config/screens'
-import { NewsfeedScreen } from '../screens'
+import { ChatScreen } from '../screens'
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -23,18 +22,13 @@ import { NewsfeedScreen } from '../screens'
  */
 
 // Documentation: https://github.com/software-mansion/react-native-screens/tree/master/native-stack
-const Stack = createStackNavigator()
+const ChatStack = createStackNavigator()
 
-export function NewsfeedNavigator() {
+export function ChatNavigator() {
   return (
-    <Stack.Navigator
-      initialRouteName={screens.authenticated.user.newsfeed.main}
-      headerMode="none"
-    >
-      <Stack.Screen
-        name={screens.authenticated.user.newsfeed.main}
-        component={NewsfeedScreen}
-      />
-    </Stack.Navigator>
+    <ChatStack.Navigator screenOptions={{ headerShown: false }}>
+      <ChatStack.Screen name="home" component={ChatScreen}></ChatStack.Screen>
+      {/* <ChatStack.Screen name='room' component={MessagesScreen} options={{}}></ChatStack.Screen> */}
+    </ChatStack.Navigator>
   )
 }

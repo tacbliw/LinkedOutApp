@@ -9,7 +9,8 @@ import { Badge, Button, Icon, Text } from 'native-base'
 import React from 'react'
 import { View } from 'react-native'
 import { screens } from '../config/screens'
-import { MessagesScreen, NotificationsScreen, SearchScreen } from '../screens'
+import { NotificationsScreen, SearchScreen } from '../screens'
+import { ChatNavigator } from './chat-navigator'
 import { NewsfeedNavigator } from './newsfeed-navigator'
 
 /**
@@ -27,18 +28,6 @@ import { NewsfeedNavigator } from './newsfeed-navigator'
 
 // Documentation: https://github.com/software-mansion/react-native-screens/tree/master/native-stack
 const Tabs = createBottomTabNavigator()
-
-const getTabBarVisibility = (route) => {
-  const routeName = route.state
-    ? route.state.routes[route.state.index].name
-    : ''
-
-  if (routeName === screens.authenticated.user.newsfeed.write) {
-    return false
-  }
-
-  return true
-}
 
 function MyTabBar({ state, descriptors, navigation }) {
   const focusedOptions = descriptors[state.routes[state.index].key].options
@@ -144,7 +133,7 @@ export function HomeNavigator() {
         />
         <Tabs.Screen
           name={screens.authenticated.user.messages}
-          component={MessagesScreen}
+          component={ChatNavigator}
         />
       </Tabs.Navigator>
     </>

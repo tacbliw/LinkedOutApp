@@ -1,93 +1,85 @@
-import { Dimensions, StyleSheet } from "react-native";
-import { color } from "../../theme";
-// const ROOT: ViewStyle = {
-//   backgroundColor: color.palette.black,
-//   flex: 1,
-// }
-const {width,height}= Dimensions.get("screen");
+import { Dimensions, StyleSheet } from 'react-native'
+import { color } from '../../theme'
+const { width, height } = Dimensions.get('screen')
 export const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: color.brandPrimary,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    header: {
-      fontFamily: "roboto-700",
-      color: color.palette.white,
-      fontSize: 30,
-      textAlign: "center",
-      marginTop: height/15,
-      height: height/15,
-      alignSelf: "center",
-    },
-    footer: {
-      width: width,
-      height: height,
-      borderRadius: 44,
-      marginTop: height/15,
-      marginLeft: -3
-    },
-    rect: {
-      width: width,
-      height: height*0.8,
-      borderTopLeftRadius: 44,
-      borderTopRightRadius:44,
-      backgroundColor: color.palette.white,//"#E6E6E6",
-      marginTop: height/15,
-      elevation: 30,
-      shadowOpacity: 10,
-      shadowRadius: 10,
-    
-    },
-    group2: {
-      width: 297,
-      height: 421,
-      justifyContent: "space-around",
-      alignItems: "center",
-      marginTop: 28,
-      marginLeft: 33
-    },
-    group: {
-      width: 297,
-      height: 326,
-      justifyContent: "space-around",
-      alignItems: "stretch"
-    },
-    textInput: {
-      justifyContent: "center",
-      fontFamily: "roboto-regular",
-      color: color.brandDark,
-      backgroundColor: color.palette.white,
-      height: height*0.08,
-      width: width*0.8,
-      borderRadius: 22,
-      textAlign: "center",
-      lineHeight: 20,
-      fontSize: 20,
-      elevation: 10,
-      alignSelf: "center"
-    },
-    
-    submitButton: {
-      width: 213,
-      height: 47
-    },
-    button: {
-      backgroundColor: color.brandPrimary,
-      borderRadius: 33,
-      elevation: 15,
-      shadowOpacity: 1,
-      shadowRadius: 5,
-      justifyContent: "center",
-      flex: 1
-    },
-    submit: {
-      fontFamily: "roboto-700",
-      color:color.palette.white,
-      fontSize: 23,
-      alignSelf: "center"
-    },
-    
-    });
-    
+  button: {
+    backgroundColor: color.brandPrimary,
+    borderRadius: 33,
+    elevation: 15,
+    flex: 1,
+    justifyContent: 'center',
+    shadowOpacity: 1,
+    shadowRadius: 5,
+  },
+  container: {
+    alignItems: 'center',
+    backgroundColor: color.brandPrimary,
+    flex: 1,
+    justifyContent: 'center',
+  },
+  footer: {
+    borderRadius: 44,
+    height: height,
+    marginLeft: -3,
+    marginTop: height / 15,
+    width: width,
+  },
+  group: {
+    alignItems: 'stretch',
+    height: 326,
+    justifyContent: 'space-around',
+    width: 297,
+  },
+  group2: {
+    alignItems: 'center',
+    height: 421,
+    justifyContent: 'space-around',
+    marginLeft: 33,
+    marginTop: 28,
+    width: 297,
+  },
+  header: {
+    alignSelf: 'center',
+    color: color.palette.white,
+    fontFamily: 'roboto-700',
+    fontSize: 30,
+    height: height / 15,
+    marginTop: height / 15,
+    textAlign: 'center',
+  },
+  rect: {
+    backgroundColor: color.palette.white, // "#E6E6E6",
+    borderTopLeftRadius: 44,
+    borderTopRightRadius: 44,
+    elevation: 30,
+    height: height * 0.8,
+    marginTop: height / 15,
+    shadowOpacity: 10,
+    shadowRadius: 10,
+    width: width,
+  },
+  submit: {
+    alignSelf: 'center',
+    color: color.palette.white,
+    fontFamily: 'roboto-700',
+    fontSize: 23,
+  },
+  submitButton: {
+    height: 47,
+    width: 213,
+  },
+  textInput: {
+    alignSelf: 'center',
+    backgroundColor: color.palette.white,
+    borderRadius: 22,
+    color: color.brandDark,
+    elevation: 10,
+    fontFamily: 'roboto-regular',
+    fontSize: 20,
+    height: height * 0.08,
+    justifyContent: 'center',
+    lineHeight: 20,
+    textAlign: 'center',
+    width: width * 0.8,
+  },
+})

@@ -81,7 +81,7 @@ export const accountService = {
     return [loading]
   },
 
-  useSignUp():[
+  useSignUp(): [
       string,
       (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
       string,
@@ -91,7 +91,7 @@ export const accountService = {
       string,
       (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
 
-  ]{
+  ] {
     const [username, setUsername] = React.useState<string>()
     const [email, setEmail] = React.useState<string>()
     const [type, setType] = React.useState<string>()
@@ -122,10 +122,18 @@ export const accountService = {
       },
       [],
     )
-    return [username,handleChangeUsername,email,handleChangeEmail,type,handleChangeType,password,handleChangePassword]
+    return [
+      username,
+      handleChangeUsername,
+      email,
+      handleChangeEmail,
+      type,
+      handleChangeType,
+      password,
+      handleChangePassword]
   },
-  
-  useRegisterCompany():[
+
+  useRegisterCompany(): [
     string,
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
     string,
@@ -135,7 +143,7 @@ export const accountService = {
     string,
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
 
-]{
+] {
   const [companyName, setCompanyName] = React.useState<string>()
   const [website, setWebsite] = React.useState<string>()
   const [specialities, setSpecialities] = React.useState<string>()
@@ -166,7 +174,7 @@ export const accountService = {
     },
     [],
   )
-  return [  companyName,
+  return [companyName,
     handleCompanyNameChange,
     website,
     handleWebsiteChange,
