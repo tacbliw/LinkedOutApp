@@ -28,4 +28,6 @@ export const API_FEED_ROUTE = 'api/feed'
 
 export const API_SEARCH_ROUTE = 'api/search'
 
+export const API_STATISTIC_ROUTE = 'api/statistic'
+
 export const API_MESSAGE_ROUTE = 'api/message'
