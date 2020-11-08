@@ -31,9 +31,6 @@ import {
   Keyboard, KeyboardAvoidingView, Platform, TextInput, TouchableOpacity, View
 } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import FeatherIcon from "react-native-vector-icons/Feather";
-import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
-import MaterialIconsIcon from "react-native-vector-icons/MaterialIcons";
 import { Text } from "../../components";
 import { screens } from "../../config/screens";
 import { accountService } from "../../services/account-service";
@@ -65,8 +62,7 @@ export const RegisterCompanyScreen = observer(function RegisterCompanyScreen({na
     description,
     handleDescriptionChange,
     
-  //  loading,
-   // handleLogin,
+
 
   ] = accountService.useRegisterCompany()
   React.useEffect(() => {
@@ -77,7 +73,7 @@ export const RegisterCompanyScreen = observer(function RegisterCompanyScreen({na
       <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.container} >
         
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
-            <Text style={{color:"#000"}}>Tell us more about your company!</Text>
+            {/* <Text style={{color:"#000"}}>Tell us more about your company!</Text>
             <View style={styles.rect}>
               <View style={styles.group2}>
                 <View style={styles.group}>
@@ -155,7 +151,71 @@ export const RegisterCompanyScreen = observer(function RegisterCompanyScreen({na
                 </View>
               </View>
             </View>
-         
+          */}
+
+      <Text style={styles.header}>Tell us more about you!</Text>
+      <View style={styles.rect}>
+        <View style={styles.group2}>
+          <View style={styles.group}>
+
+                <TextInput
+                        placeholder="Company Name"
+                        autoFocus={true}
+                        style={styles.textInput}
+
+                        value={companyName}
+                        onChange={handleCompanyNameChange}
+                        placeholderTextColor={color.placeHolder}
+                        onSubmitEditing={()=>{this.website.focus();}}
+                        returnKeyType={"next"}
+                        
+                ></TextInput>
+
+                <TextInput
+                        placeholder="Website"
+                        placeholderTextColor={color.placeHolder}
+                        keyboardType="email-address"
+                        value={website}
+                        onChange={handleWebsiteChange}
+                        ref={(input)=>{this.website =input;}}
+                        onSubmitEditing={()=>this.specialities.focus()}
+                        style={styles.textInput}
+                        returnKeyType={"next"}
+                        //
+                      ></TextInput>
+                <TextInput
+                        placeholder="Specialities"
+                        placeholderTextColor={color.placeHolder}
+                        value={specialities}
+                        onChange={handleSpecialitiesChange}
+                        ref={(input)=>this.specialities =input}
+                        onSubmitEditing={()=>this.description.focus()}
+                        style={styles.textInput}
+                        returnKeyType={"next"} 
+                ></TextInput>
+                <TextInput
+                        placeholder="Description"
+                        value={description}
+                        onChange={handleDescriptionChange}
+                        placeholderTextColor={color.placeHolder}
+                        secureTextEntry={true}
+                        style={styles.textInputDescription}
+                        ref={(input)=>this.description =input}
+                        multiline={true}
+                ></TextInput>
+            
+          </View>
+          <View style={styles.submitButton}>
+                  <TouchableOpacity
+                    onPress={()=> navigation.navigate(screens.basic.register_user)}
+                    style={styles.button}
+                  >
+                    <Text style={styles.submit}>SUBMIT</Text>
+                  </TouchableOpacity>
+          </View>
+        
+        </View>
+      </View>
           </TouchableWithoutFeedback> 
     
       </KeyboardAvoidingView>

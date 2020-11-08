@@ -45,7 +45,7 @@ export const RegisterUserScreen = observer(function RegisterUserScreen({navigati
         <View style={styles.group2}>
           <View style={styles.group}>
           
-              <TextInput placeholder="First Name" placeholderTextColor={color.placeHolder} style={styles.textInput} ></TextInput>
+              <TextInput placeholder="First Name" placeholderTextColor={color.placeHolder} style={styles.textInput} autoFocus={true}></TextInput>
               <TextInput placeholder="Last Name"  placeholderTextColor={color.placeHolder} style={styles.textInput} ></TextInput>
               <TextInput placeholder="Date of birth" placeholderTextColor={color.placeHolder} style={styles.textInput} ></TextInput>
               {/* <View style={styles.textInput}>
