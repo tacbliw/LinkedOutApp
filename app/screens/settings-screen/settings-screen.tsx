@@ -72,15 +72,19 @@ const styles = StyleSheet.create({
     fontSize:50,
     width: width,
     height: height/6,
-
-    justifyContent:'space-around',
+    justifyContent:'center',
     textAlign:'center',
+    elevation: 20,
+    borderRadius: 2,
   }, 
   line: {
     flexDirection:'row',
   //  backgroundColor:'#000',
     marginVertical: height*0.05,
     justifyContent:'center',
+    backgroundColor:color.background,
+    elevation: 50,
+    borderRadius: 2,
     marginLeft:0
   },
   text:{
@@ -89,7 +93,7 @@ const styles = StyleSheet.create({
     alignSelf:'center',
     width: width*0.72,
   //  backgroundColor:color.brandPrimary
-  
+    
   }
   
 });

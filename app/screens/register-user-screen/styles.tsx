@@ -52,20 +52,19 @@ export const styles = StyleSheet.create({
       marginBottom:height*0.05,
     },
     textInput: {
-      //justifyContent: "center",
+     
       fontFamily: "roboto-regular",
       color: color.brandDark,
       backgroundColor: color.palette.white,
       height: height*0.08,
       width: width*0.8,
-      borderRadius: 22,
+     
       marginVertical: height*0.01,
-     // marginLeft: width*0.1,
-      // textAlign: "center",
       lineHeight: 20,
       fontSize: 20,
       elevation: 10,
-      //alignSelf: "center"
+      borderRadius: 22,
+     
     },
     
     submitButton: {
