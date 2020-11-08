@@ -22,13 +22,7 @@ export const styles = StyleSheet.create({
       height: height/15,
       alignSelf: "center",
     },
-    footer: {
-      width: width,
-      height: height,
-      borderRadius: 44,
-     // marginTop: height/15,
   
-    },
     rect: {
       width: width,
       height: height*0.8,

@@ -1,6 +1,7 @@
-import React from "react"
 import { observer } from "mobx-react-lite"
-import { ViewStyle } from "react-native"
+import { Picker, View } from "native-base"
+import React, { useState } from "react"
+import { Dimensions, StyleSheet, ViewStyle } from "react-native"
 import { Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
@@ -19,9 +20,76 @@ export const SettingsScreen = observer(function SettingsScreen() {
 
   // Pull in navigation via hook
   // const navigation = useNavigation()
+
+  const [selectedValue, setSelectedValue]=useState("Light");
+
   return (
     <Screen style={ROOT} preset="scroll">
-      <Text preset="header" text="settingsScreen" />
+      
+       <View style={styles.container}>
+      {/* // <Text preset="header" text="settingsScreen" />  */}
+         <Text style={styles.header}>Settings</Text>
+         <View>
+           <View style={styles.line}>
+            <Text style={styles.text}> Themes: </Text>
+           
+              <Picker 
+                      mode="dropdown"
+                      selectedValue={selectedValue}
+                      style={{
+                        color: color.brandDark,
+                        justifyContent: 'center',
+                        
+                       // width: width/2,
+                      }}
+                      placeholder="gender"
+                      onValueChange={(itemValue, )=> setSelectedValue(itemValue)}
+                      >
+                      <Picker.Item label="Dark" value="Dark"/>
+                      <Picker.Item label="Light" value="Light"/>
+                </Picker>
+          
+           </View>
+           
+
+         </View>
+       </View>
     </Screen>
   )
 })
+
+
+
+const {width,height}=Dimensions.get("screen");
+const styles = StyleSheet.create({
+  container:{
+    flex:1,
+    backgroundColor: color.background, 
+  },
+  header:{
+    backgroundColor:color.brandDanger,
+    color: color.palette.white,
+    fontSize:50,
+    width: width,
+    height: height/6,
+
+    justifyContent:'space-around',
+    textAlign:'center',
+  }, 
+  line: {
+    flexDirection:'row',
+  //  backgroundColor:'#000',
+    marginVertical: height*0.05,
+    justifyContent:'center',
+    marginLeft:0
+  },
+  text:{
+    color: color.brandDark,
+    fontSize:25,
+    alignSelf:'center',
+    width: width*0.72,
+  //  backgroundColor:color.brandPrimary
+  
+  }
+  
+});
