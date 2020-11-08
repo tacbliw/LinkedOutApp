@@ -67,7 +67,7 @@ export const color = {
   storybookTextColor: palette.black,
 
   // custom color from @native-base\src\theme\variables
-  brandPrimary: '#EB6759',// android
+  brandPrimary: '#EB6759', // android
   brandInfo: '#62B1F6',
   brandSuccess: '#5cb85c',
   brandDanger: '#d9534f',
@@ -75,7 +75,9 @@ export const color = {
   brandDark: '#230202',
   brandLight: '#a9a9a9',
 
-  //custom
+  // custom
   placeHolder: 'rgba(217,188,188,1)',
-  googleIcon:'rgba(233,13,28,0.85)',
+  googleIcon: 'rgba(233,13,28,0.85)',
+  headerBottomLine: "#dfe6e9",
+  backgroundColor: "#FFFFFF"
 }

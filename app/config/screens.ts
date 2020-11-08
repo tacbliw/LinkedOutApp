@@ -7,9 +7,11 @@ export const screens = {
     introCompany: 'intro2',
     navigator: 'basic-navigator',
     login: 'login',
-    register: 'register',
-    register_company:'register-company',
-    register_user:'register-user',
+    register: {
+      main: 'register-main',
+      company: 'register-company',
+      user: 'register-user',
+    }
   },
   authenticated: {
     company: {
@@ -24,7 +26,12 @@ export const screens = {
       navigator: 'user-navigator',
       home: 'user-home-navigator',
       profile: 'user-profile',
-      newsfeed: 'user-newsfeed',
+      newsfeed: {
+        navigator: 'user-newsfeed-navigator',
+        main: 'user-newsfeed-main',
+        write: 'user-newsfeed-write',
+        show: 'user-newsfeed-show',
+      },
       search: 'user-search',
       notification: 'user-notification',
       messages: 'user-messages',

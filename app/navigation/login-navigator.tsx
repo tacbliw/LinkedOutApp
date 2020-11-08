@@ -56,16 +56,16 @@ const RootStackStart = () => {
       />
       <StackStart.Screen name={screens.basic.login} component={LoginScreen} />
       <StackStart.Screen
-        name={screens.basic.register}
+        name={screens.basic.register.main}
         component={RegisterScreen}
       />
 
       <StackStart.Screen
-        name={screens.basic.register_company}
+        name={screens.basic.register.company}
         component={RegisterCompanyScreen}
       />
       <StackStart.Screen
-        name={screens.basic.register_user}
+        name={screens.basic.register.user}
         component={RegisterUserScreen}
       />
     </StackStart.Navigator>

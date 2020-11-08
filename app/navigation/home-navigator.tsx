@@ -4,12 +4,13 @@
  *
  * You'll likely spend most of your time in this file.
  */
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Button, Icon } from "native-base";
-import React from "react";
-import { View } from "react-native";
-import { screens } from "../config/screens";
-import { NewsfeedScreen, NotificationsScreen, PostInterestScreen, SearchScreen } from "../screens";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { Badge, Button, Icon, Text } from 'native-base'
+import React from 'react'
+import { View } from 'react-native'
+import { screens } from '../config/screens'
+import { MessagesScreen, NotificationsScreen, SearchScreen } from '../screens'
+import { NewsfeedNavigator } from './newsfeed-navigator'
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -27,71 +28,125 @@ import { NewsfeedScreen, NotificationsScreen, PostInterestScreen, SearchScreen }
 // Documentation: https://github.com/software-mansion/react-native-screens/tree/master/native-stack
 const Tabs = createBottomTabNavigator()
 
-function MyTabBar({ state, descriptors, navigation }) {
-  const focusedOptions = descriptors[state.routes[state.index].key].options;
+const getTabBarVisibility = (route) => {
+  const routeName = route.state
+    ? route.state.routes[route.state.index].name
+    : ''
 
-  var map_icon = {}
-  map_icon[screens.authenticated.user.newsfeed] = "home"
-  map_icon[screens.authenticated.user.search] = "search"
-  map_icon[screens.authenticated.user.notification] = "notifications"
-  map_icon[screens.authenticated.user.messages] = "mail"
+  if (routeName === screens.authenticated.user.newsfeed.write) {
+    return false
+  }
+
+  return true
+}
+
+function MyTabBar({ state, descriptors, navigation }) {
+  const focusedOptions = descriptors[state.routes[state.index].key].options
+
+  const mapIcon = {}
+  mapIcon[screens.authenticated.user.newsfeed.navigator] = 'home'
+  mapIcon[screens.authenticated.user.search] = 'search'
+  mapIcon[screens.authenticated.user.notification] = 'notifications'
+  mapIcon[screens.authenticated.user.messages] = 'mail'
 
   if (focusedOptions.tabBarVisible === false) {
-    return null;
+    return null
   }
 
   return (
     <View style={{ flexDirection: 'row' }}>
       {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
+        const { options } = descriptors[route.key]
         const label =
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
             : options.title !== undefined
             ? options.title
-            : route.name;
+            : route.name
 
-        const isFocused = state.index === index;
+        const isFocused = state.index === index
 
         const onPress = () => {
           const event = navigation.emit({
             type: 'tabPress',
             target: route.key,
             canPreventDefault: true,
-          });
+          })
 
           if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name);
+            navigation.navigate(route.name)
           }
-        };
+        }
 
         const onLongPress = () => {
           navigation.emit({
             type: 'tabLongPress',
             target: route.key,
-          });
-        };
+          })
+        }
 
-        return (
-            <Button full key={label} onPress={onPress} onLongPress={onLongPress} style={{flex: 1}}>
-              <Icon name = {isFocused ? map_icon[label]: map_icon[label] + "-outline" }>
+        if (
+          label === screens.authenticated.user.notification ||
+          label === screens.authenticated.user.messages
+        ) {
+          return (
+            <Button
+              full
+              key={label}
+              onPress={onPress}
+              onLongPress={onLongPress}
+              style={{ flex: 1 }}
+            >
+              <Icon
+                name={isFocused ? mapIcon[label] : mapIcon[label] + '-outline'}
+              >
+                <Badge>
+                  <Text>3</Text>
+                </Badge>
               </Icon>
             </Button>
-        );
+          )
+        } else {
+          return (
+            <Button
+              full
+              key={label}
+              onPress={onPress}
+              onLongPress={onLongPress}
+              style={{ flex: 1 }}
+            >
+              <Icon
+                name={isFocused ? mapIcon[label] : mapIcon[label] + '-outline'}
+              ></Icon>
+            </Button>
+          )
+        }
       })}
     </View>
-  );
+  )
 }
 
 export function HomeNavigator() {
   return (
     <>
-    <Tabs.Navigator tabBar={props => <MyTabBar {...props} />}>
-      <Tabs.Screen name={screens.authenticated.user.newsfeed} component={NewsfeedScreen}/>
-      <Tabs.Screen name={screens.authenticated.user.search} component={SearchScreen}/>
-      <Tabs.Screen name={screens.authenticated.user.notification} component={NotificationsScreen}/>
-      <Tabs.Screen name={screens.authenticated.user.messages} component={PostInterestScreen}/>
-    </Tabs.Navigator>
+      <Tabs.Navigator tabBar={(props) => <MyTabBar {...props} />}>
+        <Tabs.Screen
+          name={screens.authenticated.user.newsfeed.navigator}
+          component={NewsfeedNavigator}
+        />
+        <Tabs.Screen
+          name={screens.authenticated.user.search}
+          component={SearchScreen}
+        />
+        <Tabs.Screen
+          name={screens.authenticated.user.notification}
+          component={NotificationsScreen}
+        />
+        <Tabs.Screen
+          name={screens.authenticated.user.messages}
+          component={MessagesScreen}
+        />
+      </Tabs.Navigator>
     </>
   )
 }
@@ -105,5 +160,5 @@ export function HomeNavigator() {
  *
  * `canExit` is used in ./app/app.tsx in the `useBackButtonHandler` hook.
  */
-const exitRoutes = ["welcome"]
+const exitRoutes = ['welcome']
 export const canExit = (routeName: string) => exitRoutes.includes(routeName)
