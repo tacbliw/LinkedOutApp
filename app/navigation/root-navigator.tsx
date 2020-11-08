@@ -4,13 +4,16 @@
  * and a "main" flow (which is contained in your PrimaryNavigator) which the user
  * will use once logged in.
  */
-import { NavigationContainer, NavigationContainerRef } from "@react-navigation/native"
-import { createNativeStackNavigator } from "react-native-screens/native-stack"
-import React from "reactn"
-import { GlobalState } from "../config/global"
-import { screens } from "../config/screens"
-import RootStackStart from "./login-navigator"
-
+import {
+  NavigationContainer,
+  NavigationContainerRef,
+} from '@react-navigation/native'
+import { createNativeStackNavigator } from 'react-native-screens/native-stack'
+import React from 'reactn'
+import { GlobalState } from '../config/global'
+import { screens } from '../config/screens'
+import RootStackStart from './login-navigator'
+import { PrimaryUserNavigator } from './primary-user-navigator'
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -34,11 +37,14 @@ const RootStack = () => {
         screenOptions={{
           headerShown: false,
           gestureEnabled: true,
-          stackPresentation: "modal",
+          stackPresentation: 'modal',
         }}
       >
-        <Stack.Screen name={screens.basic.navigator} component={RootNavigator} options={{ headerShown: false, }} />
-        {/* <Stack.Screen name={screens.authenticated.user.navigator} component={PrimaryUserNavigator} options={{ headerShown: false, }} /> */}
+        <Stack.Screen
+          name={screens.authenticated.user.navigator}
+          component={PrimaryUserNavigator}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     )
   } else {
@@ -47,15 +53,17 @@ const RootStack = () => {
         screenOptions={{
           headerShown: false,
           gestureEnabled: true,
-          stackPresentation: "modal",
+          stackPresentation: 'modal',
         }}
       >
         {/* <Stack.Screen name={screens.authenticated.user.navigator} component={PrimaryUserNavigator} options={{ headerShown: false, }} /> */}
         {/* <Stack.Screen name={screens.basic.navigator} component={LoginNavigator} options={{ headerShown: false, }} /> */}
-        <Stack.Screen name={screens.basic.navigator} component={RootStackStart} options={{ headerShown: false, }} />
-  
+        <Stack.Screen
+          name={screens.basic.navigator}
+          component={RootStackStart}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
-
     )
   }
 }
@@ -71,4 +79,4 @@ export const RootNavigator = React.forwardRef<
   )
 })
 
-RootNavigator.displayName = "RootNavigator"
+RootNavigator.displayName = 'RootNavigator'

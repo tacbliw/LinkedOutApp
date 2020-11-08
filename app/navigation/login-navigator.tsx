@@ -4,10 +4,19 @@
  *
  * You'll likely spend most of your time in this file.
  */
-import { createStackNavigator } from '@react-navigation/stack';
-import React from "react";
-import { screens } from "../config/screens";
-import { IntroCompany, IntroJob, LoginScreen, RegisterCompanyScreen, RegisterScreen, RegisterUserScreen, SplashScreen } from "../screens";
+import { createStackNavigator } from '@react-navigation/stack'
+import React from 'react'
+import { screens } from '../config/screens'
+import {
+  IntroCompany,
+  IntroJob,
+  LoginScreen,
+  RegisterCompanyScreen,
+  RegisterScreen,
+  RegisterUserScreen,
+  SplashScreen,
+} from '../screens'
+
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
  * as well as what properties (if any) they might take when navigating to them.
@@ -35,24 +44,34 @@ import { IntroCompany, IntroJob, LoginScreen, RegisterCompanyScreen, RegisterScr
 //   )
 // }
 
-const StackStart= createStackNavigator();
-const RootStackStart = () =>{
+const StackStart = createStackNavigator()
+const RootStackStart = () => {
   return (
-  <StackStart.Navigator headerMode='none' >
+    <StackStart.Navigator headerMode="none">
+      <StackStart.Screen name={screens.basic.splash} component={SplashScreen} />
+      <StackStart.Screen name={screens.basic.introJobs} component={IntroJob} />
+      <StackStart.Screen
+        name={screens.basic.introCompany}
+        component={IntroCompany}
+      />
+      <StackStart.Screen name={screens.basic.login} component={LoginScreen} />
+      <StackStart.Screen
+        name={screens.basic.register}
+        component={RegisterScreen}
+      />
 
-    <StackStart.Screen name={screens.basic.splash} component={SplashScreen} />
-    <StackStart.Screen name={screens.basic.introJobs} component={IntroJob} />
-    <StackStart.Screen name={screens.basic.introCompany} component={IntroCompany} />
-    <StackStart.Screen name={screens.basic.login} component={LoginScreen} />
-    <StackStart.Screen name={screens.basic.register} component={RegisterScreen} />
-    
-    <StackStart.Screen name={screens.basic.register_company} component={RegisterCompanyScreen} />
-    <StackStart.Screen name={screens.basic.register_user} component={RegisterUserScreen} />
-    
-  </StackStart.Navigator>
-  );
+      <StackStart.Screen
+        name={screens.basic.register_company}
+        component={RegisterCompanyScreen}
+      />
+      <StackStart.Screen
+        name={screens.basic.register_user}
+        component={RegisterUserScreen}
+      />
+    </StackStart.Navigator>
+  )
 }
-export default RootStackStart;
+export default RootStackStart
 
 /**
  * A list of routes from which we're allowed to leave the app when
@@ -63,5 +82,5 @@ export default RootStackStart;
  *
  * `canExit` is used in ./app/app.tsx in the `useBackButtonHandler` hook.
  */
-const exitRoutes = ["welcome"]
+const exitRoutes = ['welcome']
 export const canExit = (routeName: string) => exitRoutes.includes(routeName)
