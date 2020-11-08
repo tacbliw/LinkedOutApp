@@ -53,23 +53,20 @@ export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
     //   <Text preset="header" text="newsfeedScreen" />
     // </Screen>
     <View style={{ flex: 1 }}>
+      <Header transparent noShadow style={styles.header}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.openDrawer()
+          }}
+        >
+          <Icon name="menu-outline" style={{ color: color.brandLight }}></Icon>
+        </TouchableOpacity>
+        <Icon
+          name="settings-outline"
+          style={{ color: color.brandLight }}
+        ></Icon>
+      </Header>
       <ScrollView>
-        <Header transparent noShadow style={styles.header}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.openDrawer()
-            }}
-          >
-            <Icon
-              name="menu-outline"
-              style={{ color: color.brandLight }}
-            ></Icon>
-          </TouchableOpacity>
-          <Icon
-            name="settings-outline"
-            style={{ color: color.brandLight }}
-          ></Icon>
-        </Header>
         <List>
           <ListItem noBorder>
             <Post

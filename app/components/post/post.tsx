@@ -1,33 +1,42 @@
-import { Card, CardItem, Icon, Text, Thumbnail, View } from "native-base";
-import * as React from "react";
-import { Dimensions, Image, StyleSheet, ViewStyle } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { color } from "../../theme";
+import { Card, CardItem, Icon, Text, Thumbnail, View } from 'native-base'
+import * as React from 'react'
+import {
+  Dimensions,
+  Image,
+  ImageSourcePropType,
+  StyleSheet,
+  ViewStyle,
+} from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { color } from '../../theme'
 
-const screenWidth = Math.round(Dimensions.get('window').width);
-const screenHeight = Math.round(Dimensions.get('window').height);
+const screenWidth = Math.round(Dimensions.get('window').width)
+const screenHeight = Math.round(Dimensions.get('window').height)
 
 const postActionSheetButton = [
-  { text: "Not interested in this post", icon: "sad-outline", iconColor: color.brandLight },
-  { text: "Unfollow", icon: "analytics", iconColor: color.brandLight },
-  { text: "Report", icon: "flag-outline", iconColor: color.brandLight },
-  { text: "Cancel", icon: "close", iconColor: color.brandLight }
+  {
+    text: 'Not interested in this post',
+    icon: 'sad-outline',
+    iconColor: color.brandLight,
+  },
+  { text: 'Unfollow', icon: 'analytics', iconColor: color.brandLight },
+  { text: 'Report', icon: 'flag-outline', iconColor: color.brandLight },
+  { text: 'Cancel', icon: 'close', iconColor: color.brandLight },
 ]
 
 export interface PostProps {
   /**
    * An optional style override useful for padding & margin.
    */
-  style?: ViewStyle,
+  style?: ViewStyle
 
-  avatarUri?,
+  avatarUri?: ImageSourcePropType
 
-  name?: string,
-  date?: string,
+  name?: string
+  date?: string
 
-  image?,
-  content?: string,
-
+  image?
+  content?: string
 }
 
 const ROOT: ViewStyle = {
@@ -36,7 +45,6 @@ const ROOT: ViewStyle = {
 }
 
 const styles = StyleSheet.create({
-
   post: {
     flexDirection: 'row',
   },
@@ -47,7 +55,7 @@ const styles = StyleSheet.create({
   },
 
   postContentContainer: {
-    marginLeft: 10
+    marginLeft: 10,
   },
 
   postUsername: {
@@ -61,22 +69,22 @@ const styles = StyleSheet.create({
   },
 
   postDate: {
-    color: color.brandLight
+    color: color.brandLight,
   },
 
   postContent: {
     width: 320,
     color: color.brandDark,
-    fontSize: 20
+    fontSize: 20,
   },
 
   postTag: {
-    color: color.brandPrimary
+    color: color.brandPrimary,
   },
 
   postInteractionContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
 
   postInteractionButton: {
@@ -85,35 +93,35 @@ const styles = StyleSheet.create({
   },
 
   reactionFontStyle: {
-    color: color.brandDark
+    color: color.brandDark,
   },
 
   postImage: {
-    width: screenWidth * 0.8, 
-    height: 200, 
-    borderRadius: 15, 
-    marginTop: 16
+    width: screenWidth * 0.8,
+    height: 200,
+    borderRadius: 15,
+    marginTop: 16,
   },
 
   bottomPost: {
-    justifyContent: 'space-between', 
-    borderBottomRightRadius: 15, 
-    borderBottomLeftRadius: 15
+    justifyContent: 'space-between',
+    borderBottomRightRadius: 15,
+    borderBottomLeftRadius: 15,
   },
 
   topPost: {
-    width: screenWidth * 0.9, 
-    justifyContent: 'space-between', 
-    alignItems: 'flex-start', 
-    borderTopRightRadius: 15, 
-    borderTopLeftRadius: 15 
-  }
+    width: screenWidth * 0.9,
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    borderTopRightRadius: 15,
+    borderTopLeftRadius: 15,
+  },
 })
 
 /**
  * Describe your component here
  */
-export function Post(props) {
+export function Post(props: PostProps) {
   return (
     <Card transparent style={{ borderWidth: 10 }}>
       <CardItem header style={styles.topPost}>
@@ -136,10 +144,10 @@ export function Post(props) {
       </CardItem>
       <CardItem style={styles.bottomPost}>
         <TouchableOpacity>
-          <Icon name='heart-outline'></Icon>
+          <Icon name="heart-outline"></Icon>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Icon name='chatbubble-outline'></Icon>
+          <Icon name="chatbubble-outline"></Icon>
         </TouchableOpacity>
       </CardItem>
     </Card>

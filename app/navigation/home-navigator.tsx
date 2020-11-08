@@ -28,6 +28,18 @@ import { NewsfeedNavigator } from './newsfeed-navigator'
 // Documentation: https://github.com/software-mansion/react-native-screens/tree/master/native-stack
 const Tabs = createBottomTabNavigator()
 
+const getTabBarVisibility = (route) => {
+  const routeName = route.state
+    ? route.state.routes[route.state.index].name
+    : ''
+
+  if (routeName === screens.authenticated.user.newsfeed.write) {
+    return false
+  }
+
+  return true
+}
+
 function MyTabBar({ state, descriptors, navigation }) {
   const focusedOptions = descriptors[state.routes[state.index].key].options
 
