@@ -9,7 +9,7 @@ import { Button, Icon } from "native-base";
 import React from "react";
 import { View } from "react-native";
 import { screens } from "../config/screens";
-import { ChatScreen, NewsfeedScreen, NotificationsScreen, SearchScreen } from "../screens";
+import { NewsfeedScreen, NotificationsScreen, PostInterestScreen, SearchScreen } from "../screens";
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -90,7 +90,7 @@ export function HomeNavigator() {
       <Tabs.Screen name={screens.authenticated.user.newsfeed} component={NewsfeedScreen}/>
       <Tabs.Screen name={screens.authenticated.user.search} component={SearchScreen}/>
       <Tabs.Screen name={screens.authenticated.user.notification} component={NotificationsScreen}/>
-      <Tabs.Screen name={screens.authenticated.user.messages} component={ChatScreen}/>
+      <Tabs.Screen name={screens.authenticated.user.messages} component={PostInterestScreen}/>
     </Tabs.Navigator>
     </>
   )
