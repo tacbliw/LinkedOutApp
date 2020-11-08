@@ -10,6 +10,7 @@ import React from "reactn"
 import { GlobalState } from "../config/global"
 import { screens } from "../config/screens"
 import RootStackStart from "./login-navigator"
+import { PrimaryUserNavigator } from "./primary-user-navigator"
 
 
 /**
@@ -37,8 +38,8 @@ const RootStack = () => {
           stackPresentation: "modal",
         }}
       >
-        <Stack.Screen name={screens.basic.navigator} component={RootNavigator} options={{ headerShown: false, }} />
-        {/* <Stack.Screen name={screens.authenticated.user.navigator} component={PrimaryUserNavigator} options={{ headerShown: false, }} /> */}
+        {/* <Stack.Screen name={screens.basic.navigator} component={RootNavigator} options={{ headerShown: false, }} /> */}
+        <Stack.Screen name={screens.authenticated.user.navigator} component={PrimaryUserNavigator} options={{ headerShown: false, }} />
       </Stack.Navigator>
     )
   } else {
@@ -53,7 +54,7 @@ const RootStack = () => {
         {/* <Stack.Screen name={screens.authenticated.user.navigator} component={PrimaryUserNavigator} options={{ headerShown: false, }} /> */}
         {/* <Stack.Screen name={screens.basic.navigator} component={LoginNavigator} options={{ headerShown: false, }} /> */}
         <Stack.Screen name={screens.basic.navigator} component={RootStackStart} options={{ headerShown: false, }} />
-  
+        
       </Stack.Navigator>
 
     )

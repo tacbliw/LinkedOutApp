@@ -105,6 +105,7 @@ export const styles = StyleSheet.create({
           height: height*0.07,
           backgroundColor: color.palette.white,
           textAlign:"center",
+          justifyContent:"center",
           borderRadius: 44,
         },
         skipText: {
@@ -113,6 +114,7 @@ export const styles = StyleSheet.create({
           fontSize: 23,
           alignSelf:"center",
           fontFamily: "roboto-700",
+
         },
   
   });

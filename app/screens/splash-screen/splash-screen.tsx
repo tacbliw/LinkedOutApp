@@ -83,8 +83,8 @@ export const IntroJob = ({navigation}) => {
 
         <View style={styles.rightFooter}>
           <TouchableOpacity style={styles.button} onPressOut={()=>navigation.navigate(screens.basic.introCompany)}>
+            <Text style={styles.skipText}>SKIP</Text>
           </TouchableOpacity>
-          <Text style={styles.skipText}>SKIP</Text>
         </View>
 
       </View>
@@ -125,8 +125,8 @@ export const IntroCompany = ({navigation}) => {
 
         <View style={styles.rightFooter}>
           <TouchableOpacity style={styles.button} onPressOut={()=>navigation.navigate(screens.basic.login)}>
+            <Text style={styles.skipText}>SKIP</Text>
           </TouchableOpacity>
-          <Text style={styles.skipText}>SKIP</Text>
         </View>
 
       </View>

@@ -7,7 +7,7 @@ import {
 } from "react-native"
 import EntypoIcon from "react-native-vector-icons/Entypo"
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome"
-import IoniconsIcon from "react-native-vector-icons/Ionicons"
+import { default as IoniconsIcon } from "react-native-vector-icons/Ionicons"
 import { Screen } from "../../components"
 import { screens } from "../../config/screens"
 import { accountService } from "../../services/account-service"
@@ -57,10 +57,7 @@ export const LoginScreen = observer(function LoginScreen({navigation}) {
   
         <View style={styles.rect}>
           <View style={styles.iconNameRow}>
-            <IoniconsIcon
-              name="md-person"
-              style={styles.iconName}
-            ></IoniconsIcon>
+            <IoniconsIcon name="md-person" style={styles.iconName} ></IoniconsIcon>
             <TextInput
               value={username}
               onChange={handleUsernameChange}
@@ -68,16 +65,16 @@ export const LoginScreen = observer(function LoginScreen({navigation}) {
               placeholderTextColor= {color.placeHolder} //"rgba(217,188,188,1)"
               style={styles.textInput}
               autoFocus
-
               returnKeyType={"next"}
               onSubmitEditing={()=>{this.password.focus();}}
               blurOnSubmit={false}
             ></TextInput>
           </View>
-
-
           <View style={styles.iconPasswdRow}>
-            <IoniconsIcon  name="md-key" style={styles.iconPasswd} ></IoniconsIcon>
+            <IoniconsIcon
+              name="md-key"
+              style={styles.iconPasswd}
+            ></IoniconsIcon>
             <View style={styles.passwordStack}>
               <TextInput
                 value={password}
@@ -161,6 +158,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignSelf: 'center',
     marginTop: width*0.15,
+    marginBottom: width*0.02,
 
   },
   iconPasswd: {

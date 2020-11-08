@@ -40,7 +40,7 @@ import { accountService } from "../../services/account-service";
 import { color } from "../../theme";
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
-import { styles } from '../register-screen/styles';
+import { styles } from './styles';
 // const ROOT: ViewStyle = {
 //   backgroundColor: color.palette.black,
 //   flex: 1,
@@ -77,7 +77,7 @@ export const RegisterCompanyScreen = observer(function RegisterCompanyScreen({na
       <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.container} >
         
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
-            {/* <Text style={{color:"#000"}}>Tell us more about your company!</Text> */}
+            <Text style={{color:"#000"}}>Tell us more about your company!</Text>
             <View style={styles.rect}>
               <View style={styles.group2}>
                 <View style={styles.group}>
@@ -139,7 +139,7 @@ export const RegisterCompanyScreen = observer(function RegisterCompanyScreen({na
                         placeholderTextColor={color.placeHolder}
                         secureTextEntry={true}
                         style={styles.password}
-                       ref={(input)=>this.description =input}
+                        ref={(input)=>this.description =input}
                       ></TextInput>
                       <MaterialCommunityIconsIcon name="key-plus" style={styles.icon3} ></MaterialCommunityIconsIcon>
                     </View>
@@ -162,4 +162,5 @@ export const RegisterCompanyScreen = observer(function RegisterCompanyScreen({na
    
   );
 });
+
 

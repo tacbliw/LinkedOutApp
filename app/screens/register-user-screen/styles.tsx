@@ -17,6 +17,7 @@ export const styles = StyleSheet.create({
       color: color.palette.white,
       fontSize: 30,
       textAlign: "center",
+      justifyContent:'center',
       marginTop: height/15,
       height: height/15,
       alignSelf: "center",
@@ -25,8 +26,8 @@ export const styles = StyleSheet.create({
       width: width,
       height: height,
       borderRadius: 44,
-      marginTop: height/15,
-      marginLeft: -3
+     // marginTop: height/15,
+  
     },
     rect: {
       width: width,
@@ -34,44 +35,48 @@ export const styles = StyleSheet.create({
       borderTopLeftRadius: 44,
       borderTopRightRadius:44,
       backgroundColor: color.palette.white,//"#E6E6E6",
-      marginTop: height/15,
+      justifyContent:'center',
+     // marginTop: height/15,
       elevation: 30,
       shadowOpacity: 10,
       shadowRadius: 10,
     
     },
     group2: {
-      width: 297,
-      height: 421,
-      justifyContent: "space-around",
+     
+     // justifyContent: "space-around",
       alignItems: "center",
-      marginTop: 28,
-      marginLeft: 33
+     //backgroundColor:color.brandPrimary,
+
+      
     },
     group: {
-      width: 297,
-      height: 326,
+     
       justifyContent: "space-around",
-      alignItems: "stretch"
+    //  backgroundColor:"#000",
+      alignItems: "stretch",
+      marginBottom:height*0.05,
     },
     textInput: {
-      justifyContent: "center",
+      //justifyContent: "center",
       fontFamily: "roboto-regular",
       color: color.brandDark,
       backgroundColor: color.palette.white,
       height: height*0.08,
       width: width*0.8,
       borderRadius: 22,
-      textAlign: "center",
+      marginVertical: height*0.01,
+     // marginLeft: width*0.1,
+      // textAlign: "center",
       lineHeight: 20,
       fontSize: 20,
       elevation: 10,
-      alignSelf: "center"
+      //alignSelf: "center"
     },
     
     submitButton: {
-      width: 213,
-      height: 47
+      width: width*0.6,
+      height: height*0.08,
     },
     button: {
       backgroundColor: color.brandPrimary,
