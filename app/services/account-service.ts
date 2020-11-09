@@ -60,6 +60,7 @@ export const accountService = {
     const handleLogout = React.useCallback(async () => {
       if (!loading) {
         setLoading(true)
+        console.log('Logging Out')
         await removeCredentials()
       }
     }, [loading])

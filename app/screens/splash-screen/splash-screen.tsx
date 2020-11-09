@@ -35,7 +35,7 @@ export const IntroJob = ({ navigation }) => {
       <View style={styles.middle}>
         <View style={styles.messageHeader}>
           <MaterialCommunityIconsIcon
-            name="message-text"
+            name='message-text'
             style={styles.iconMsg}
           ></MaterialCommunityIconsIcon>
           <Text style={styles.jobsText}>JOBS</Text>
@@ -55,8 +55,9 @@ export const IntroJob = ({ navigation }) => {
           <TouchableOpacity
             style={styles.button}
             onPressOut={() => navigation.navigate(screens.basic.introCompany)}
-          ></TouchableOpacity>
-          <Text style={styles.skipText}>SKIP</Text>
+          >
+            <Text style={styles.skipText}>SKIP</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -76,7 +77,7 @@ export const IntroCompany = ({ navigation }) => {
       <View style={styles.middle}>
         <View style={styles.messageHeader}>
           <MaterialCommunityIconsIcon
-            name="message-text"
+            name='message-text'
             style={styles.iconMsg}
           ></MaterialCommunityIconsIcon>
           <Text style={styles.jobsText}>CANDICATES</Text>
@@ -96,8 +97,9 @@ export const IntroCompany = ({ navigation }) => {
           <TouchableOpacity
             style={styles.button}
             onPressOut={() => navigation.navigate(screens.basic.login)}
-          ></TouchableOpacity>
-          <Text style={styles.skipText}>SKIP</Text>
+          >
+            <Text style={styles.skipText}>SKIP</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>

@@ -48,7 +48,7 @@ const RootStack = () => {
         />
         {/* deo co bottom tab de het duoi nay */}
         <Stack.Screen
-          name="room" // <- cai deo gi day ? :)
+          name='room' // <- cai deo gi day ? :)
           component={MessagesScreen}
           options={{ headerShown: false }}
         />
@@ -68,8 +68,6 @@ const RootStack = () => {
           stackPresentation: 'modal',
         }}
       >
-        {/* <Stack.Screen name={screens.authenticated.user.navigator} component={PrimaryUserNavigator} options={{ headerShown: false, }} /> */}
-        {/* <Stack.Screen name={screens.basic.navigator} component={LoginNavigator} options={{ headerShown: false, }} /> */}
         <Stack.Screen
           name={screens.basic.navigator}
           component={RootStackStart}

@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
     backgroundColor: color.palette.white,
     borderRadius: 44,
     height: height * 0.07,
+    justifyContent: 'center',
     textAlign: 'center',
     width: width * 0.25,
   },
@@ -18,8 +19,8 @@ export const styles = StyleSheet.create({
   footer: {
     flex: 1,
     flexDirection: 'row',
+    // marginTop: height / 8,
     width: width,
-    // marginTop: height/8,
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
