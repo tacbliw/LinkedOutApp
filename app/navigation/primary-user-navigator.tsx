@@ -40,6 +40,10 @@ export function PrimaryUserNavigator() {
         name={screens.authenticated.user.profile}
         component={ProfileUserScreen}
       />
+      {/* <Drawer.Screen
+        name={screens.authenticated.user.profile}
+        component={ProfileEditUserScreen}
+      /> */}
       <Drawer.Screen
         name={screens.authenticated.user.following}
         component={FollowingScreen}

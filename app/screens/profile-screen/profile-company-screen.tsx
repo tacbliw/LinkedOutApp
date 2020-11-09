@@ -1,14 +1,20 @@
-import { Button, Icon, Tab, Tabs, Text } from 'native-base'
-import React from 'react'
 import {
-  Image,
-  ImageBackground,
-  StyleSheet,
+  Body,
+  Button,
+  Card,
+  CardItem,
+  Header,
+  Icon,
+  Text,
+  Thumbnail,
   View,
-  ViewStyle,
-} from 'react-native'
-import { Screen } from '../../components'
+} from 'native-base'
+import React from 'react'
+import { ScrollView, StyleSheet, ViewStyle } from 'react-native'
+import { PieChart } from 'react-native-chart-kit'
+import { CardTopJob, Container, Screen } from '../../components'
 import { screens } from '../../config/screens'
+// import { useStores } from "../../models"
 import { color } from '../../theme'
 
 const ROOT: ViewStyle = {
@@ -16,134 +22,111 @@ const ROOT: ViewStyle = {
   flex: 1,
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#FFFFFF',
+const data = [
+  {
+    name: 'Seoul',
+    population: 21500000,
+    color: 'rgba(131, 167, 234, 1)',
+    legendFontColor: '#7F7F7F',
+    legendFontSize: 15,
   },
+  {
+    name: 'Toronto',
+    population: 2800000,
+    color: '#F00',
+    legendFontColor: '#7F7F7F',
+    legendFontSize: 15,
+  },
+  {
+    name: 'Beijing',
+    population: 527612,
+    color: 'red',
+    legendFontColor: '#7F7F7F',
+    legendFontSize: 15,
+  },
+  {
+    name: 'New York',
+    population: 8538000,
+    color: color.brandLight,
+    legendFontColor: '#7F7F7F',
+    legendFontSize: 15,
+  },
+  {
+    name: 'Moscow',
+    population: 11920000,
+    color: 'rgb(0, 0, 255)',
+    legendFontColor: '#7F7F7F',
+    legendFontSize: 15,
+  },
+]
 
-  topBarIcon: {
-    justifyContent: 'space-between',
+const chartConfig = {
+  backgroundGradientFrom: '#1E2923',
+  backgroundGradientFromOpacity: 0,
+  backgroundGradientTo: '#08130D',
+  backgroundGradientToOpacity: 0.5,
+  color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+  strokeWidth: 2, // optional, default 3
+  barPercentage: 0.5,
+  useShadowColorFromDataset: false, // optional
+}
+
+const styles = StyleSheet.create({
+  profileHeader: {
+    // height: 250,
     flexDirection: 'row',
-    flex: 1,
-    marginTop: 24,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#f6f5fb',
+    // backgroundColor: color.backgroundColor,
   },
 
   backIcon: {
-    color: color.brandInfo,
-    fontSize: 30,
+    color: color.brandDark,
+    fontSize: 24,
   },
 
   menuIcon: {
-    color: color.brandInfo,
-    fontSize: 30,
+    color: color.brandDark,
+    fontSize: 24,
   },
 
-  imageBackground: {
-    width: 'auto',
-    height: 200,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    flexDirection: 'row',
+  topInfo: {
+    // marginLeft: 16
+    padding: 16,
+    marginLeft: 16,
   },
 
-  profileHeader: {
-    height: 250,
-  },
-
-  avatarCompany: {
-    borderRadius: 100,
-    width: 100,
-    height: 100,
-    top: 150,
-    left: 16,
-  },
-
-  followButton: {
-    top: 205,
-    right: 10,
-    height: 40,
-  },
-
-  messageButton: {
-    top: 205,
-    right: 20,
-    height: 40,
+  about: {
+    fontSize: 15,
+    left: 5,
   },
 
   userName: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: '700',
-    // color: "#FFFFFF"
+    left: 5,
   },
 
-  atname: {
-    fontSize: 20,
-    color: color.brandLight,
+  avatarUser: {
+    width: 115,
+    height: 115,
+    borderRadius: 10,
   },
 
-  about: {},
-
-  followingContainter: {
-    flexDirection: 'row',
-  },
-
-  following: {
-    fontWeight: '700',
-  },
-
-  followerContainer: {
-    flexDirection: 'row',
-    marginLeft: 16,
+  socialStatisticContainter: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 70,
   },
 
   follower: {
     fontWeight: '700',
   },
 
-  basicInfo: {
-    marginTop: 16,
-  },
-
-  locationAndLink: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
-
-  location: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-
-  link: {
-    flexDirection: 'row',
+  cardSection: {
     marginLeft: 16,
-    alignItems: 'center',
-  },
-
-  joinTime: {
-    marginTop: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-
-  infoIcon: {
-    fontSize: 24,
-  },
-
-  socialStatistic: {
-    marginTop: 16,
-    flexDirection: 'row',
-  },
-
-  topInfo: {
-    marginLeft: 16,
-  },
-
-  checkmark: {
-    color: color.brandPrimary,
-    fontSize: 24,
+    marginRight: 16,
   },
 })
 
@@ -156,126 +139,123 @@ export function ProfileCompanyScreen({ navigation }) {
   // Pull in navigation via hook
   //   const navigation = useNavigation()
   return (
-    <Screen style={ROOT} preset="scroll">
-      <View style={styles.container}>
-        <View style={styles.profileHeader}>
-          <ImageBackground
-            source={require('./cover.jpg')}
-            resizeMode="cover"
-            style={styles.imageBackground}
+    <Screen style={ROOT} preset='scroll'>
+      <ScrollView>
+        <Header noShadow transparent={true} style={styles.profileHeader}>
+          <Button
+            transparent
+            onPress={() => navigation.navigate(screens.authenticated.user.home)}
           >
-            <View style={styles.topBarIcon}>
-              <Button
-                transparent
-                onPress={() =>
-                  navigation.navigate(screens.authenticated.user.home, {
-                    screen: screens.authenticated.user.newsfeed.navigator, // TODO: change this to feed of company
-                  })
-                }
-              >
-                <Icon style={styles.backIcon} name="arrow-back-circle" />
-              </Button>
-              <Button transparent>
-                <Icon
-                  style={styles.menuIcon}
-                  name="ellipsis-vertical-outline"
-                />
-              </Button>
-            </View>
-          </ImageBackground>
+            <Icon style={styles.backIcon} name='arrow-back-outline' />
+          </Button>
+          <Button transparent>
+            <Icon style={styles.menuIcon} name='create-outline' />
+          </Button>
+        </Header>
 
-          <View
-            style={{
-              justifyContent: 'space-between',
-              flexDirection: 'row',
-              flex: 1,
-            }}
-          >
-            <Image
-              source={require('./company.jpg')}
-              style={styles.avatarCompany}
-            ></Image>
+        <Container>
+          <View style={styles.topInfo}>
             <View style={{ flexDirection: 'row' }}>
-              <Button bordered rounded style={styles.messageButton}>
-                <Icon name="mail-outline"></Icon>
-              </Button>
-              <Button bordered rounded style={styles.followButton}>
-                <Text>Follow</Text>
-              </Button>
-            </View>
-          </View>
-        </View>
-        <View style={styles.topInfo}>
-          <Text style={styles.userName}>
-            Facebook
-            <Icon name="checkmark-circle" style={styles.checkmark}></Icon>
-          </Text>
-          <Text style={styles.atname}>@Fakebook</Text>
-          <Text style={styles.about}>
-            Facebook, Inc. is an American social media conglomerate corporation
-            based in Menlo Park, California.
-          </Text>
-          <View style={styles.basicInfo}>
-            <View style={styles.locationAndLink}>
-              <View style={styles.location}>
-                <Icon name="location-outline" style={styles.infoIcon}></Icon>
-                <Text> Menlo Park, California</Text>
-              </View>
-              <View style={styles.link}>
-                <Icon name="link-outline" style={styles.infoIcon}></Icon>
-                <Text style={{ color: color.brandPrimary }}> facebook.com</Text>
-              </View>
-            </View>
-            <View style={styles.joinTime}>
-              <Icon name="calendar-outline" style={styles.infoIcon}></Icon>
-              <Text> Join in February 2004</Text>
-            </View>
-
-            <View style={styles.socialStatistic}>
-              <View style={styles.followingContainter}>
-                <Text style={styles.following}>1 </Text>
-                <Text style={{ color: color.brandLight }}>Following</Text>
-              </View>
-              <View style={styles.followerContainer}>
-                <Text style={styles.follower}>215 </Text>
-                <Text style={{ color: color.brandLight }}>Followers</Text>
+              <Thumbnail
+                square={true}
+                large
+                style={styles.avatarUser}
+                source={require('./company.jpg')}
+              ></Thumbnail>
+              <View style={{ marginLeft: 25, justifyContent: 'center' }}>
+                <Text style={styles.userName}>Facebook</Text>
+                <Text style={styles.about}>
+                  <Icon name='location-outline' style={{ fontSize: 16 }}></Icon>
+                  Viet Nam
+                </Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <View style={styles.socialStatisticContainter}>
+                    <Text style={styles.follower}>1.5 M</Text>
+                    <Text style={{ color: color.brandLight }}>Follower</Text>
+                  </View>
+                  <View style={styles.socialStatisticContainter}>
+                    <Text style={styles.follower}>215 </Text>
+                    <Text style={{ color: color.brandLight }}>Post</Text>
+                  </View>
+                </View>
               </View>
             </View>
           </View>
-        </View>
 
-        <View>
-          <Tabs
-            page={0}
-            tabBarUnderlineStyle={{
-              borderBottomWidth: 4,
-              borderColor: color.brandPrimary,
-            }}
-          >
-            <Tab
-              heading="Bài viết"
-              activeTabStyle={{ backgroundColor: '#FFFFFF' }}
-              activeTextStyle={{ color: color.brandPrimary, fontWeight: '700' }}
-              tabStyle={{ backgroundColor: '#FFFFFF' }}
-              textStyle={{ color: color.brandLight, fontWeight: '700' }}
-            ></Tab>
-            <Tab
-              heading="Tuyển dụng"
-              activeTabStyle={{ backgroundColor: '#FFFFFF' }}
-              activeTextStyle={{ color: color.brandPrimary, fontWeight: '700' }}
-              tabStyle={{ backgroundColor: '#FFFFFF' }}
-              textStyle={{ color: color.brandLight, fontWeight: '700' }}
-            ></Tab>
-            <Tab
-              heading="Thông tin"
-              activeTabStyle={{ backgroundColor: '#FFFFFF' }}
-              activeTextStyle={{ color: color.brandPrimary, fontWeight: '700' }}
-              tabStyle={{ backgroundColor: '#FFFFFF' }}
-              textStyle={{ color: color.brandLight, fontWeight: '700' }}
-            ></Tab>
-          </Tabs>
-        </View>
-      </View>
+          <Card transparent style={styles.cardSection}>
+            <CardItem header>
+              <Text style={{ fontWeight: '700', fontSize: 20 }}>About us</Text>
+            </CardItem>
+            <CardItem>
+              <Body>
+                <Text>
+                  about.me is a personal web hosting service co-founded by Ryan
+                  Freitas, Tony Conrad and Tim Young in October 2009. Wikipedia
+                </Text>
+              </Body>
+            </CardItem>
+          </Card>
+
+          <Card transparent style={styles.cardSection}>
+            <CardItem header>
+              <Text style={{ fontWeight: '700', fontSize: 20 }}>Statistic</Text>
+            </CardItem>
+            <CardItem
+              style={{ justifyContent: 'center', alignContent: 'center' }}
+            >
+              <Body
+                style={{ justifyContent: 'center', alignContent: 'center' }}
+              >
+                <PieChart
+                  data={data}
+                  width={350}
+                  height={200}
+                  chartConfig={chartConfig}
+                  accessor='population'
+                  backgroundColor='transparent'
+                  paddingLeft='15'
+                />
+              </Body>
+            </CardItem>
+          </Card>
+
+          <Card transparent style={styles.cardSection}>
+            <CardItem header>
+              <Text style={{ fontWeight: '700', fontSize: 20 }}>Top job</Text>
+            </CardItem>
+            <CardItem>
+              <Body>
+                <CardTopJob
+                  width={300}
+                  height={150}
+                  backgroundImage={require('./company.jpg')}
+                  label={'Hiring!!'}
+                  description='HUhu'
+                />
+                <CardTopJob
+                  width={300}
+                  height={150}
+                  backgroundImage={require('./company.jpg')}
+                  label={'Hiring!!'}
+                  description='HUhu'
+                />
+                <CardTopJob
+                  width={300}
+                  height={150}
+                  backgroundImage={require('./company.jpg')}
+                  label={'Hiring!!'}
+                  description='HUhu'
+                />
+              </Body>
+            </CardItem>
+          </Card>
+        </Container>
+      </ScrollView>
     </Screen>
   )
 }

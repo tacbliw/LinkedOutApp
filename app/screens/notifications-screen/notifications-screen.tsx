@@ -11,8 +11,6 @@ import {
 import React from 'react'
 import { FlatList, TouchableOpacity } from 'react-native'
 import { Screen } from '../../components'
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "../../models"
 import { color } from '../../theme'
 
 const pratik = require('./avatar.jpg')
