@@ -6,9 +6,9 @@ import {
   Platform,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import FeatherIcon from 'react-native-vector-icons/Feather'
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 import MaterialIconsIcon from 'react-native-vector-icons/MaterialIcons'
@@ -63,7 +63,7 @@ export const RegisterScreen = observer(function RegisterScreen({ navigation }) {
               <View style={styles.userName}>
                 <View style={styles.iconStack}>
                   <TextInput
-                    placeholder="User Name"
+                    placeholder='User Name'
                     autoFocus={true}
                     style={styles.username}
                     value={username}
@@ -75,7 +75,7 @@ export const RegisterScreen = observer(function RegisterScreen({ navigation }) {
                     returnKeyType={'next'}
                   ></TextInput>
                   <MaterialIconsIcon
-                    name="person-add"
+                    name='person-add'
                     style={styles.icon}
                   ></MaterialIconsIcon>
                 </View>
@@ -83,9 +83,9 @@ export const RegisterScreen = observer(function RegisterScreen({ navigation }) {
               <View style={styles.email}>
                 <View style={styles.icon2Stack}>
                   <TextInput
-                    placeholder="Email"
+                    placeholder='Email'
                     placeholderTextColor={color.placeHolder}
-                    keyboardType="email-address"
+                    keyboardType='email-address'
                     value={email}
                     onChange={handleEmailChange}
                     ref={(input) => {
@@ -96,12 +96,12 @@ export const RegisterScreen = observer(function RegisterScreen({ navigation }) {
                     returnKeyType={'next'}
                     //
                   ></TextInput>
-                  <FeatherIcon name="mail" style={styles.icon2}></FeatherIcon>
+                  <FeatherIcon name='mail' style={styles.icon2}></FeatherIcon>
                 </View>
               </View>
               <View style={styles.type}>
                 <TextInput
-                  placeholder="User or Company"
+                  placeholder='User or Company'
                   placeholderTextColor={color.placeHolder}
                   value={type}
                   onChange={handleTypeChange}
@@ -115,7 +115,7 @@ export const RegisterScreen = observer(function RegisterScreen({ navigation }) {
               <View style={styles.gender}>
                 <View style={styles.icon3Stack}>
                   <TextInput
-                    placeholder="Password"
+                    placeholder='Password'
                     value={password}
                     onChange={handlePasswordChange}
                     placeholderTextColor={color.placeHolder}
@@ -124,7 +124,7 @@ export const RegisterScreen = observer(function RegisterScreen({ navigation }) {
                     ref={(input) => (this.password = input)}
                   ></TextInput>
                   <MaterialCommunityIconsIcon
-                    name="key-plus"
+                    name='key-plus'
                     style={styles.icon3}
                   ></MaterialCommunityIconsIcon>
                 </View>
@@ -134,7 +134,7 @@ export const RegisterScreen = observer(function RegisterScreen({ navigation }) {
               <TouchableOpacity
                 onPress={() =>
                   navigation.navigate(screens.basic.register.company)
-                } //submit form}
+                }
                 style={styles.button}
               >
                 <Text style={styles.register}>REGISTER</Text>

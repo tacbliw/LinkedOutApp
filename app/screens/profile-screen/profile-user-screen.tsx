@@ -11,8 +11,7 @@ import {
   Thumbnail,
 } from 'native-base'
 import React from 'react'
-import { StyleSheet, View, ViewStyle } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
 import Timeline from 'react-native-timeline-flatlist'
 import {
   CardJob,

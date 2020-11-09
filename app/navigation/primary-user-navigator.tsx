@@ -8,7 +8,11 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 import React from 'react'
 import { Sidebar } from '../components'
 import { screens } from '../config/screens'
-import { FollowingScreen, ProfileUserScreen, SettingsScreen } from '../screens'
+import {
+  FollowingScreen,
+  ProfileEditUserScreen,
+  SettingsScreen,
+} from '../screens'
 import { HomeNavigator } from './home-navigator'
 
 /**
@@ -36,14 +40,14 @@ export function PrimaryUserNavigator() {
         gestureEnabled: true,
       }}
     >
-      <Drawer.Screen
-        name={screens.authenticated.user.profile}
-        component={ProfileUserScreen}
-      />
       {/* <Drawer.Screen
         name={screens.authenticated.user.profile}
-        component={ProfileEditUserScreen}
+        component={ProfileUserScreen}
       /> */}
+      <Drawer.Screen
+        name={screens.authenticated.user.profile}
+        component={ProfileEditUserScreen}
+      />
       <Drawer.Screen
         name={screens.authenticated.user.following}
         component={FollowingScreen}

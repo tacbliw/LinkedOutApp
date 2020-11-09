@@ -11,15 +11,19 @@ import {
   Thumbnail,
 } from 'native-base'
 import React from 'react'
-import { StyleSheet, View, ViewStyle } from 'react-native'
+import {
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native'
 import DocumentPicker from 'react-native-document-picker'
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { useState } from 'reactn'
 import { Container, Screen } from '../../components'
 import { screens } from '../../config/screens'
-// import { useStores } from "../../models"
 import { color } from '../../theme'
 const items = [
   // this is the parent or 'item'
@@ -127,13 +131,6 @@ async function chooseFile() {
 }
 
 export function ProfileEditUserScreen({ navigation }) {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-  // OR
-  // const rootStore = useStores()
-
-  // Pull in navigation via hook
-  //   const navigation = useNavigation()
   const [selectedItems, setSelectedItems] = useState([])
 
   const onSelectedItemsChange = (selectedItems) => {
@@ -158,7 +155,6 @@ export function ProfileEditUserScreen({ navigation }) {
         </Header>
         <Container>
           {/* <Button onPress={chooseFile}><Text>LOL</Text></Button> */}
-
           <View style={styles.topInfo}>
             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
               <TouchableOpacity onPress={chooseFile}>
@@ -170,7 +166,6 @@ export function ProfileEditUserScreen({ navigation }) {
                 ></Thumbnail>
               </TouchableOpacity>
             </View>
-
             <Form>
               <Item stackedLabel>
                 <Label>Name</Label>
@@ -201,7 +196,6 @@ export function ProfileEditUserScreen({ navigation }) {
                   defaultValue='about.me is a personal web hosting service co-founded by Ryan Freitas, Tony Conrad and Tim Young in October 2009. Wikipedia'
                 />
               </Item>
-
               <Item stackedLabel style={{ alignItems: 'stretch' }}>
                 <Label>Skill</Label>
                 <SectionedMultiSelect

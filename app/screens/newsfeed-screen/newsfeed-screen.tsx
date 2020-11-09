@@ -1,7 +1,12 @@
 import { Fab, Header, Icon, List, ListItem } from 'native-base'
 import React from 'react'
-import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import {
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native'
 import { Post } from '../../components'
 import { JobPost } from '../../components/job-post/job-post'
 import { screens } from '../../config/screens'
@@ -57,10 +62,10 @@ export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
             navigation.openDrawer()
           }}
         >
-          <Icon name="menu-outline" style={{ color: color.brandLight }}></Icon>
+          <Icon name='menu-outline' style={{ color: color.brandLight }}></Icon>
         </TouchableOpacity>
         <Icon
-          name="settings-outline"
+          name='settings-outline'
           style={{ color: color.brandLight }}
         ></Icon>
       </Header>
@@ -69,19 +74,19 @@ export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
           <ListItem noBorder>
             <Post
               avatarUri={require('./avatar1.jpg')}
-              name="Siasa"
-              date="30 Jul"
-              content="Need 1 for ACM 😭😭😭😭😭😭😭😭😭😭"
+              name='Siasa'
+              date='30 Jul'
+              content='Need 1 for ACM 😭😭😭😭😭😭😭😭😭😭'
               image={require('./avatar2.jpg')}
             ></Post>
           </ListItem>
           <ListItem noBorder>
             <JobPost
               avatarUri={require('./compass.png')}
-              name="UI/UX Designer Fresher"
-              date="Yesterday"
-              place="Ha Noi"
-              seniority_level="Fresher"
+              name='UI/UX Designer Fresher'
+              date='Yesterday'
+              place='Ha Noi'
+              seniority_level='Fresher'
             ></JobPost>
           </ListItem>
         </List>
@@ -92,7 +97,7 @@ export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
           navigation.navigate(screens.authenticated.user.newsfeed.write)
         }}
       >
-        <Icon name="brush-outline"></Icon>
+        <Icon name='brush-outline'></Icon>
       </Fab>
     </View>
   )

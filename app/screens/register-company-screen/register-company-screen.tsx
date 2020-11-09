@@ -6,9 +6,9 @@ import {
   Platform,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import FeatherIcon from 'react-native-vector-icons/Feather'
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 import MaterialIconsIcon from 'react-native-vector-icons/MaterialIcons'
@@ -57,7 +57,7 @@ export const RegisterCompanyScreen = observer(function RegisterCompanyScreen({
               <View style={styles.userName}>
                 <View style={styles.iconStack}>
                   <TextInput
-                    placeholder="Company Name"
+                    placeholder='Company Name'
                     autoFocus={true}
                     style={styles.username}
                     value={companyName}
@@ -69,7 +69,7 @@ export const RegisterCompanyScreen = observer(function RegisterCompanyScreen({
                     returnKeyType={'next'}
                   ></TextInput>
                   <MaterialIconsIcon
-                    name="person-add"
+                    name='person-add'
                     style={styles.icon}
                   ></MaterialIconsIcon>
                 </View>
@@ -77,9 +77,9 @@ export const RegisterCompanyScreen = observer(function RegisterCompanyScreen({
               <View style={styles.email}>
                 <View style={styles.icon2Stack}>
                   <TextInput
-                    placeholder="Website"
+                    placeholder='Website'
                     placeholderTextColor={color.placeHolder}
-                    keyboardType="email-address"
+                    keyboardType='email-address'
                     value={website}
                     onChange={handleWebsiteChange}
                     ref={(input) => {
@@ -90,12 +90,12 @@ export const RegisterCompanyScreen = observer(function RegisterCompanyScreen({
                     returnKeyType={'next'}
                     //
                   ></TextInput>
-                  <FeatherIcon name="mail" style={styles.icon2}></FeatherIcon>
+                  <FeatherIcon name='mail' style={styles.icon2}></FeatherIcon>
                 </View>
               </View>
               <View style={styles.type}>
                 <TextInput
-                  placeholder="Specialities"
+                  placeholder='Specialities'
                   placeholderTextColor={color.placeHolder}
                   value={specialities}
                   onChange={handleSpecialitiesChange}
@@ -109,7 +109,7 @@ export const RegisterCompanyScreen = observer(function RegisterCompanyScreen({
               <View style={styles.gender}>
                 <View style={styles.icon3Stack}>
                   <TextInput
-                    placeholder="Description"
+                    placeholder='Description'
                     value={description}
                     onChange={handleDescriptionChange}
                     placeholderTextColor={color.placeHolder}
@@ -118,7 +118,7 @@ export const RegisterCompanyScreen = observer(function RegisterCompanyScreen({
                     ref={(input) => (this.description = input)}
                   ></TextInput>
                   <MaterialCommunityIconsIcon
-                    name="key-plus"
+                    name='key-plus'
                     style={styles.icon3}
                   ></MaterialCommunityIconsIcon>
                 </View>

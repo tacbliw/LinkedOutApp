@@ -5,9 +5,9 @@ import {
   Image,
   ImageSourcePropType,
   StyleSheet,
+  TouchableOpacity,
   ViewStyle,
 } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import { color } from '../../theme'
 
 const screenWidth = Math.round(Dimensions.get('window').width)
@@ -133,7 +133,7 @@ export function Post(props: PostProps) {
           </View>
         </View>
         <View>
-          <Icon name="ellipsis-horizontal-outline"></Icon>
+          <Icon name='ellipsis-horizontal-outline'></Icon>
         </View>
       </CardItem>
       <CardItem>
@@ -144,10 +144,10 @@ export function Post(props: PostProps) {
       </CardItem>
       <CardItem style={styles.bottomPost}>
         <TouchableOpacity>
-          <Icon name="heart-outline"></Icon>
+          <Icon name='heart-outline'></Icon>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Icon name="chatbubble-outline"></Icon>
+          <Icon name='chatbubble-outline'></Icon>
         </TouchableOpacity>
       </CardItem>
     </Card>
