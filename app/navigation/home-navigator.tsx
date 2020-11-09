@@ -10,6 +10,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { screens } from '../config/screens'
 import { NotificationsScreen, SearchScreen } from '../screens'
+import { color } from '../theme'
 import { ChatNavigator } from './chat-navigator'
 import { NewsfeedNavigator } from './newsfeed-navigator'
 
@@ -84,7 +85,7 @@ function MyTabBar({ state, descriptors, navigation }) {
               key={label}
               onPress={onPress}
               onLongPress={onLongPress}
-              style={{ flex: 1 }}
+              style={{ flex: 1, backgroundColor: color.brandPrimary }}
             >
               <Icon
                 name={isFocused ? mapIcon[label] : mapIcon[label] + '-outline'}
@@ -102,7 +103,7 @@ function MyTabBar({ state, descriptors, navigation }) {
               key={label}
               onPress={onPress}
               onLongPress={onLongPress}
-              style={{ flex: 1 }}
+              style={{ flex: 1, backgroundColor: color.brandPrimary }}
             >
               <Icon
                 name={isFocused ? mapIcon[label] : mapIcon[label] + '-outline'}
