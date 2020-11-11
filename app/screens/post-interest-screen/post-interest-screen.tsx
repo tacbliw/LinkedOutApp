@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite"
-import { Body, Card, CardItem, Container, Content, Icon, Left, List, ListItem, Text, Thumbnail, View } from "native-base"
+import { Body, Card, CardItem, Container, Content, Fab, Icon, Left, List, ListItem, Text, Thumbnail, View } from "native-base"
 import React from "react"
 import { Dimensions, Image, ViewStyle } from "react-native"
 import { Comment } from "../../components"
@@ -89,20 +89,20 @@ export const PostInterestScreen = observer(function PostInterestScreen() {
                     </CardItem>
                     <CardItem>
                         <View style={{ flex: 4 / 10 }}><Text>People Interest </Text></View>
-                        <View style={{ alignItems: 'flex-start', flex: 6 / 10, flexDirection:'row' }}>
+                        <View style={{ alignItems: 'flex-start', flex: 6 / 10, flexDirection: 'row' }}>
                             <List
                                 horizontal={true}
-                                dataArray={datas.slice(0,4)}
+                                dataArray={datas.slice(0, 4)}
                                 scrollEnabled={false}
                                 renderRow={data =>
                                     <ListItem thumbnail>
                                         <Image style={{ borderWidth: 1, borderColor: color.brandLight, marginLeft: -15, width: 40, height: 40, borderRadius: 20 }} source={data.img} />
                                     </ListItem>}
                             />
-                            <Icon name ='ellipsis-horizontal-circle-outline' style ={{fontSize:40}} />                
+                            <Icon name='ellipsis-horizontal-circle-outline' style={{ fontSize: 40 }} />
                         </View>
                     </CardItem>
-                    <CardItem style = {{flexDirection:'column'}}>
+                    <CardItem style={{ flexDirection: 'column' }}>
                         <List
                             dataArray={datas}
                             renderRow={data =>
@@ -111,10 +111,18 @@ export const PostInterestScreen = observer(function PostInterestScreen() {
                                 </ListItem>
                             }
                         />
-                        <CommentInput avatar = {siraj}/>
+                        <CommentInput avatar={siraj} />
                     </CardItem>
                 </Card>
             </Content>
+            <Fab
+                style={{ backgroundColor: color.brandPrimary }}
+                onPress={() => {
+                  //  navigation.navigate(screens.authenticated.user.newsfeed.write)
+                }}
+            >
+                <Icon name="brush-outline"></Icon>
+            </Fab>
         </Container>
     )
 })
