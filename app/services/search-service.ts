@@ -50,14 +50,14 @@ export const searchService = {
   ] {
     const navigation = useNavigation()
     const handleItemClick = useCallback((item: {type: string, id: number}) => {
+      console.log('Viewing item type="' + item.type + '", id="' + item.id + '"')
       if (item.type === 'user') {
-
       } else if (item.type === 'company') {
 
       } else if (item.type === 'job') {
 
       } else {
-        console.log('Cannot view details of item type "' + item.type + '"')
+
       }
     }, [])
     return [handleItemClick]
