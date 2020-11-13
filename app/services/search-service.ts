@@ -14,7 +14,7 @@ export const searchService = {
   ] {
     const [searchType, setSearchType] = useState<string>('student')
     const [searchData, setSearchData] = useState<string>('')
-    const [searchResult, setSearchResult] = useState<[any]>()
+    const [searchResult, setSearchResult] = useState<any>()
     const [loading, setLoading] = useState<boolean>(false)
     const navigation = useNavigation()
 
@@ -22,14 +22,12 @@ export const searchService = {
       event: NativeSyntheticEvent<TextInputChangeEventData>
     ) => {
       setSearchData(event.nativeEvent.text)
-      console.log("query changed")
     }, [])
 
     const handleSearchTypeChange = useCallback((
       value: string
     ) => {
       setSearchType(value)
-      console.log("type changed")
     }, [])
 
     const handleSearch = useCallback(async () => {
@@ -38,8 +36,7 @@ export const searchService = {
        */
       console.log('Searching with "' + searchType + '" "' + searchData + '"')
       const response = await searchRepository.search(searchType, searchData, '', '')
-      console.log(response)
-      console.log(typeof response)
+      setSearchResult(response)
     }, [searchType, searchData])
 
     return [
@@ -58,12 +55,13 @@ export const searchService = {
     const handleItemClick = useCallback((item: {type: string, id: number}) => {
       console.log('Viewing item type="' + item.type + '", id="' + item.id + '"')
       if (item.type === 'user') {
+        // navigate sang trang user, truyền item.id vào
       } else if (item.type === 'company') {
-
+        // navigate sang trang company, truyền item.id vào
       } else if (item.type === 'job') {
-
+        // ???
       } else {
-
+        // type deo gi vay ? :D ?
       }
     }, [])
     return [handleItemClick]
