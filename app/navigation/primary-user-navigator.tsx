@@ -8,8 +8,9 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 import React from "react"
 import { Sidebar } from "../components"
 import { screens } from '../config/screens'
-import { FollowingScreen, ProfileEditUserScreen, SettingsScreen } from "../screens"
+import { FollowingScreen, SettingsScreen } from "../screens"
 import { HomeNavigator } from "./home-navigator"
+import { ProfileNavigator } from './profile-navigator'
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -37,7 +38,7 @@ export function PrimaryUserNavigator() {
 			}}
 		>
 			{/* <Drawer.Screen name={screens.authenticated.user.profile} component={ProfileUserScreen} /> */}
-			<Drawer.Screen name={screens.authenticated.user.profile} component={ProfileEditUserScreen} />
+			<Drawer.Screen name={screens.authenticated.user.profile} component={ProfileNavigator} />
 			<Drawer.Screen name={screens.authenticated.user.following} component={FollowingScreen} />
 			<Drawer.Screen name={screens.authenticated.user.settings} component={SettingsScreen} />
 			<Drawer.Screen name={screens.authenticated.user.home} component={HomeNavigator} />

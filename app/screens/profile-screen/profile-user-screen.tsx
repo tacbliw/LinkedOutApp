@@ -19,6 +19,11 @@ const data = [
 	{ time: '2016', title: 'American Cooperative School La Paz', description: 'Trash' },
 	{ time: '2020', title: 'University of Engineering and Technology', description: 'Trash (1)' }
 ]
+const skillData = [
+]
+const experienceData = [
+	
+]
 
 const styles = StyleSheet.create({
 
@@ -177,7 +182,11 @@ export function ProfileUserScreen({ navigation }) {
 					<Button transparent onPress={() => navigation.navigate(screens.authenticated.user.newsfeed)}>
 						<Icon style={styles.backIcon} name="arrow-back-outline" />
 					</Button>
-					<Button transparent>
+					<Button transparent onPress={() => navigation.navigate(screens.authenticated.user.editprofile, {
+						skillData: skillData,
+						educationData: data,
+						experienceData: experienceData
+					})}>
 						<Icon style={styles.menuIcon} name="create-outline" />
 					</Button>
 				</Header>
@@ -248,8 +257,11 @@ export function ProfileUserScreen({ navigation }) {
 								companyName="Fpt"
 								position="Software Engineering"
 								thumnailSource={require('./company.jpg')}
-								describe="I'm CEO">
+								describe="I'm CEO"
+								deleteAble={false}
+							>
 							</CardJob>
+
 						</CardItem>
 					</Card>
 
