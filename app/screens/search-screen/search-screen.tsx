@@ -21,6 +21,7 @@ import {
   ViewStyle,
 } from 'react-native'
 import { Screen } from '../../components'
+import { searchService } from '../../services/search-service'
 import { color } from '../../theme'
 
 const screenWidth = Dimensions.get('screen').width
@@ -152,13 +153,13 @@ const renderItem = ({ item }) => {
 }
 
 export const SearchScreen = function SearchScreen() {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-  // OR
-  // const rootStore = useStores()
-
-  // Pull in navigation via hook
-  // const navigation = useNavigation()
+  const [
+    searchData,
+    handleChangeSearchData,
+    searchType,
+    handleSearchTypeChange,
+    handleSearchAction,
+  ] = searchService.useSearch()
   return (
     <Screen>
       <Header transparent>
@@ -182,7 +183,12 @@ export const SearchScreen = function SearchScreen() {
           }}
         >
           <Icon active name='search-outline' />
-          <Input placeholder='Search something useful' />
+          <Input
+            placeholder='Search something useful'
+            onChange={handleChangeSearchData}
+            onSubmitEditing={handleSearchAction}
+            value={searchData}
+          />
         </Item>
 
         <Item
@@ -201,10 +207,12 @@ export const SearchScreen = function SearchScreen() {
             placeholder='Select your SIM'
             placeholderStyle={{ color: '#bfc6ea' }}
             placeholderIconColor='#007aff'
+            onValueChange={handleSearchTypeChange}
+            selectedValue={searchType}
           >
             <Picker.Item label='Student' value='student' />
             <Picker.Item label='Company' value='company' />
-            <Picker.Item label='Job' value='key2' />
+            <Picker.Item label='Job' value='job' />
           </Picker>
         </Item>
       </View>
