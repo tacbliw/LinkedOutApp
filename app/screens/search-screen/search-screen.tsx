@@ -158,7 +158,8 @@ export const SearchScreen = function SearchScreen() {
     handleChangeSearchData,
     searchType,
     handleSearchTypeChange,
-    handleSearchAction,
+    searchResult,
+    handleSearch,
   ] = searchService.useSearch()
   return (
     <Screen>
@@ -186,7 +187,7 @@ export const SearchScreen = function SearchScreen() {
           <Input
             placeholder='Search something useful'
             onChange={handleChangeSearchData}
-            onSubmitEditing={handleSearchAction}
+            onSubmitEditing={handleSearch}
             value={searchData}
           />
         </Item>

@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native"
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native"
 import { useCallback, useState } from "reactn"
+import { searchRepository } from "../repositories/search-repository"
 
 export const searchService = {
   useSearch(): [
@@ -11,7 +12,7 @@ export const searchService = {
     [any],
     () => void
   ] {
-    const [searchType, setSearchType] = useState<string>('')
+    const [searchType, setSearchType] = useState<string>('student')
     const [searchData, setSearchData] = useState<string>('')
     const [searchResult, setSearchResult] = useState<[any]>()
     const [loading, setLoading] = useState<boolean>(false)
@@ -21,20 +22,25 @@ export const searchService = {
       event: NativeSyntheticEvent<TextInputChangeEventData>
     ) => {
       setSearchData(event.nativeEvent.text)
+      console.log("query changed")
     }, [])
 
     const handleSearchTypeChange = useCallback((
       value: string
     ) => {
       setSearchType(value)
+      console.log("type changed")
     }, [])
 
     const handleSearch = useCallback(async () => {
       /**
        * Search and changes of searchResult are done here.
        */
-      console.log('Searching with ' + searchType + ' ' + searchData)
-    }, [])
+      console.log('Searching with "' + searchType + '" "' + searchData + '"')
+      const response = await searchRepository.search(searchType, searchData, '', '')
+      console.log(response)
+      console.log(typeof response)
+    }, [searchType, searchData])
 
     return [
       searchData,

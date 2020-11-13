@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios"
 import { API_SEARCH_ROUTE } from "../config/api-const"
 import { API_BASE_URL } from "../config/consts"
 import { httpConfig } from "../config/http/config"
@@ -61,6 +62,18 @@ export class SearchRepository extends Repository {
   constructor() {
     super(httpConfig)
     this.baseURL = API_BASE_URL + API_SEARCH_ROUTE
+  }
+
+  public async search(type: string, query: string, skills: string, specialties: string): Promise<SearchResponse> {
+    console.log(`${type}, ${query}`)
+    return this.http.get('', {
+      params: {
+        type,
+        query,
+        skills,
+        specialties
+      }
+    }).then((response: AxiosResponse) => response.data)
   }
 }
 
