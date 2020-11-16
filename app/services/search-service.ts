@@ -34,9 +34,11 @@ export const searchService = {
       /**
        * Search and changes of searchResult are done here.
        */
+      setLoading(true)
       console.log('Searching with "' + searchType + '" "' + searchData + '"')
       const response = await searchRepository.search(searchType, searchData, '', '')
       setSearchResult(response)
+      setLoading(false)
     }, [searchType, searchData])
 
     return [

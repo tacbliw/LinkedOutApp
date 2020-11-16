@@ -95,7 +95,7 @@ export const LoginScreen = observer(function LoginScreen({ navigation }) {
               <Text style={styles.login4}>LOGIN</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate(screens.basic.register)}
+              onPress={() => navigation.navigate(screens.basic.register.user)}
               style={styles.button}
             >
               <Text style={styles.login4}>REGISTER</Text>

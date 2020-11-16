@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "607822451859",
+    "firebase_url": "https://linkedout-69c50.firebaseio.com",
+    "project_id": "linkedout-69c50",
+    "storage_bucket": "linkedout-69c50.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:607822451859:android:213493a01bdadfd280e966",
+        "android_client_info": {
+          "package_name": "com.linkedoutapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "607822451859-ute9j4kpr8ov2s4g38dk3te4vt32dht8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPpMZtPvIArp7dniri4U5Gl5nA472ziPY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "607822451859-ute9j4kpr8ov2s4g38dk3te4vt32dht8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -44,8 +44,8 @@ export const RegisterScreen = observer(function RegisterScreen({ navigation }) {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
+      <View style={styles.header}></View>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.header}></View>
         <View style={styles.rect}>
           <View style={styles.input}>
             <View style={styles.lineIcon}>
@@ -118,9 +118,7 @@ export const RegisterScreen = observer(function RegisterScreen({ navigation }) {
           </View>
           <View style={styles.registerButton}>
             <TouchableOpacity
-              onPress={() =>
-                navigation.navigate(screens.basic.register.company)
-              } // submit form}
+              onPress={() => navigation.navigate(screens.basic.register.main)} // submit form}
               style={styles.button}
             >
               <Text style={styles.register}>REGISTER</Text>
