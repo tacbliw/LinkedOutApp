@@ -1,10 +1,14 @@
 
 export interface GlobalState {
   /**
-   * User access token.
+   * Account access token.
    */
   accessToken?: string;
-  accountId?: string;
+
+  /**
+   * Account Metadata
+   */
+  accountId?: string; // PLEASE MAKE SURE TO CONVERT THIS TO NUMBER :'(
   accountType?: string;
   accountName?: string;
 }
