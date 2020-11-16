@@ -46,8 +46,8 @@ const RootStackStart = () =>{
     <StackStart.Screen name={screens.basic.login} component={LoginScreen} />
     <StackStart.Screen name={screens.basic.register} component={RegisterScreen} />
     
-    <StackStart.Screen name={screens.basic.register_company} component={RegisterCompanyScreen} />
-    <StackStart.Screen name={screens.basic.register_user} component={RegisterUserScreen} />
+    <StackStart.Screen name={screens.basic.registerCompany} component={RegisterCompanyScreen} />
+    <StackStart.Screen name={screens.basic.registerUser} component={RegisterUserScreen} />
     
   </StackStart.Navigator>
   );

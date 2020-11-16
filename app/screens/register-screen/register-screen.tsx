@@ -112,7 +112,7 @@ export const RegisterScreen = observer(function RegisterScreen({navigation}) {
             </View>
             <View style={styles.registerButton}>
               <TouchableOpacity
-                onPress={()=> navigation.navigate(screens.basic.register_company)}//submit form}
+                onPress={()=> navigation.navigate(screens.basic.registerCompany)}//submit form}
                 style={styles.button}
               >
                 <Text style={styles.register}>REGISTER</Text>

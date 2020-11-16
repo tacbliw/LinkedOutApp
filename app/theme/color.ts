@@ -78,4 +78,6 @@ export const color = {
   //custom
   placeHolder: 'rgba(217,188,188,1)',
   googleIcon:'rgba(233,13,28,0.85)',
+  backgroundSetting: '#f3e5f5',
+  pickerOption:'#ffab91'
 }
