@@ -37,6 +37,9 @@ const App = React.lazy(async () => {
   const globalState = {
     ...defaultGlobalState,
     accessToken: await AsyncStorage.getItem('accessToken'),
+    accountId: await AsyncStorage.getItem('accountId'),
+    accountType: await AsyncStorage.getItem('accountType'),
+    accountName: await AsyncStorage.getItem('accountName'),
   }
   /**
    * Initialize global state

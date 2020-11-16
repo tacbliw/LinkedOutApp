@@ -1,6 +1,5 @@
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native"
 import React from "reactn"
-import { GlobalState } from "../config/global"
 import { removeCredentials, saveCredentials } from "../helpers/account-helper"
 import { showError } from "../helpers/toast"
 import { accountRepository } from "../repositories/account-repository"
@@ -36,7 +35,12 @@ export const accountService = {
       setLoading(true)
       try {
         const response = await accountRepository.login(username, password)
-        await saveCredentials(response.accessToken)
+        await saveCredentials(
+          response.accessToken,
+          response.account.id.toString(),
+          response.account.accountType,
+          response.account.username
+        )
       } catch (error) {
         if (error?.response?.data) {
           showError('login.cannotLogin')
@@ -66,20 +70,6 @@ export const accountService = {
     }, [loading])
 
     return [loading, handleLogout]
-  },
-
-  // do not use this yet
-  useAutoLogin(): [boolean] {
-    const [accessToken] = React.useGlobal<GlobalState, 'accessToken'>('accessToken')
-    const [loading, setLoading] = React.useState<boolean>(false)
-
-    React.useEffect(() => {
-      if (typeof accessToken === 'string' && accessToken !== '') {
-        setLoading(true)
-      }
-    }, [accessToken])
-
-    return [loading]
   },
 
   useSignUp(): [

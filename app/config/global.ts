@@ -4,10 +4,14 @@ export interface GlobalState {
    * User access token.
    */
   accessToken?: string;
-  userId?: number;
+  accountId?: string;
+  accountType?: string;
+  accountName?: string;
 }
 
 export const defaultGlobalState: GlobalState = {
   accessToken: null,
-  userId: null
+  accountId: null,
+  accountType: null,
+  accountName: null,
 }

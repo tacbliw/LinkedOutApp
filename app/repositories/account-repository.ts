@@ -14,6 +14,7 @@ export interface LoginResponse {
   account: {
     accountType: string;
     id: number;
+    username: string;
   }
 }
 

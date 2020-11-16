@@ -9,13 +9,24 @@ export async function removeCredentials() {
 
   await Promise.all([
     React.setGlobal<GlobalState>(newGlobalState),
-    AsyncStorage.removeItem('accessToken')
+    AsyncStorage.removeItem('accessToken'),
+    AsyncStorage.removeItem('accountId'),
+    AsyncStorage.removeItem('accountType'),
+    AsyncStorage.removeItem('accountName'),
   ])
 }
 
-export async function saveCredentials(accessToken: string) {
+export async function saveCredentials(
+    accessToken: string,
+    accountId: string,
+    accountType: string,
+    accountName: string
+  ) {
   await Promise.all([
     AsyncStorage.setItem('accessToken', accessToken),
+    AsyncStorage.setItem('accountId', accountId),
+    AsyncStorage.setItem('accountType', accountType),
+    AsyncStorage.setItem('accountName', accountName),
     React.setGlobal<GlobalState>({
       accessToken: accessToken
     })
