@@ -53,7 +53,7 @@ export function getAccountMetadata(): {
   AsyncStorage.getItem('accountType').then((value) => {
     accountType = value
   }, (reason) => console.log("Cannot get accountType: " + reason))
-  AsyncStorage.getItem('accountId').then((value) => {
+  AsyncStorage.getItem('accountName').then((value) => {
     accountName = value
   }, (reason) => console.log("Cannot get accountName: " + reason))
 
