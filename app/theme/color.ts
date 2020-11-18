@@ -79,5 +79,7 @@ export const color = {
   placeHolder: 'rgba(217,188,188,1)',
   googleIcon: 'rgba(233,13,28,0.85)',
   headerBottomLine: "#dfe6e9",
-  backgroundColor: "#FFFFFF"
+  backgroundColor: "#FFFFFF",
+  backgroundSetting: '#f3e5f5',
+  pickerOption: '#ffab91'
 }

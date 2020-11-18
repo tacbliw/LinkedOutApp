@@ -157,7 +157,7 @@ export const SearchScreen = function SearchScreen() {
     searchData,
     handleChangeSearchData,
     searchType,
-    handleSearchTypeChange,
+    handleChangeSearchType,
     searchResult,
     handleSearch,
   ] = searchService.useSearch()
@@ -208,7 +208,7 @@ export const SearchScreen = function SearchScreen() {
             placeholder='Select your SIM'
             placeholderStyle={{ color: '#bfc6ea' }}
             placeholderIconColor='#007aff'
-            onValueChange={handleSearchTypeChange}
+            onValueChange={handleChangeSearchType}
             selectedValue={searchType}
           >
             <Picker.Item label='Student' value='student' />

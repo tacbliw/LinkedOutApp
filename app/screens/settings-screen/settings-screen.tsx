@@ -1,7 +1,9 @@
 import { observer } from 'mobx-react-lite'
 import { Picker, View } from 'native-base'
 import React, { useState } from 'react'
-import { Dimensions, StyleSheet, ViewStyle } from 'react-native'
+import { Dimensions, StyleSheet, Switch, ViewStyle } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import IoniconsIcon from 'react-native-vector-icons/Ionicons'
 import { Screen, Text } from '../../components'
 import { color } from '../../theme'
 
@@ -10,32 +12,92 @@ const ROOT: ViewStyle = {
   flex: 1,
 }
 
-export const SettingsScreen = observer(function SettingsScreen() {
+export const SettingsScreen = observer(function SettingsScreen(navigation) {
   const [selectedValue, setSelectedValue] = useState('Light')
-
+  const [selectedLanguage, setSelectedLanguage] = useState('English')
+  const [isEnabled, setIsEnabled] = useState(false)
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState)
   return (
     <Screen style={ROOT} preset='scroll'>
       <View style={styles.container}>
         {/* // <Text preset="header" text="settingsScreen" />  */}
-        <Text style={styles.header}>Settings</Text>
+        <Text style={styles.header}>SETTINGS</Text>
         <View>
-          <View style={styles.line}>
-            <Text style={styles.text}> Themes: </Text>
-
-            <Picker
-              mode='dropdown'
-              selectedValue={selectedValue}
-              style={{
-                color: color.brandDark,
-                justifyContent: 'center',
-                // width: width/2,
-              }}
-              placeholder='gender'
-              onValueChange={(itemValue) => setSelectedValue(itemValue)}
-            >
-              <Picker.Item label='Dark' value='Dark' />
-              <Picker.Item label='Light' value='Light' />
-            </Picker>
+          <View style={styles.section}>
+            <View style={styles.line}>
+              <IoniconsIcon
+                name='md-person'
+                style={styles.iconName}
+              ></IoniconsIcon>
+              <Text style={styles.text}> Themes: </Text>
+              <Picker
+                mode='dropdown'
+                selectedValue={selectedValue}
+                style={styles.picker}
+                placeholder='gender'
+                onValueChange={(itemValue) => setSelectedValue(itemValue)}
+              >
+                <Picker.Item label='Dark' value='Dark' />
+                <Picker.Item label='Light' value='Light' />
+              </Picker>
+            </View>
+            <View style={styles.line}>
+              <IoniconsIcon
+                name='md-person'
+                style={styles.iconName}
+              ></IoniconsIcon>
+              <Text style={styles.text}> Languages: </Text>
+              <Picker
+                mode='dropdown'
+                selectedValue={selectedLanguage}
+                style={styles.picker}
+                placeholder='Country'
+                onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
+              >
+                <Picker.Item label='Vietnam' value='Vietnam' />
+                <Picker.Item label='English' value='English' />
+                <Picker.Item label='Français' value='Français' />
+              </Picker>
+            </View>
+          </View>
+          <View style={styles.section}>
+            <View style={styles.line}>
+              <IoniconsIcon
+                name='md-person'
+                style={styles.iconName}
+              ></IoniconsIcon>
+              <Text style={styles.text}> Notification </Text>
+              <Switch
+                trackColor={{
+                  true: color.pickerOption,
+                  false: color.brandLight,
+                }}
+                thumbColor={isEnabled ? color.brandPrimary : color.background}
+                onValueChange={toggleSwitch}
+                value={isEnabled}
+              />
+            </View>
+            <TouchableOpacity style={styles.line} onPress={null}>
+              <IoniconsIcon
+                name='md-person'
+                style={styles.iconName}
+              ></IoniconsIcon>
+              <Text style={styles.text}> Edit profile </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.line} onPress={null}>
+              <IoniconsIcon
+                name='md-person'
+                style={styles.iconName}
+              ></IoniconsIcon>
+              <Text style={styles.text}> Update app</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.line} onPress={null}>
+              <IoniconsIcon
+                name='md-person'
+                style={styles.iconName}
+              ></IoniconsIcon>
+              <Text style={styles.text}> Introduction</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -46,35 +108,54 @@ export const SettingsScreen = observer(function SettingsScreen() {
 const { width, height } = Dimensions.get('screen')
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: color.background,
     flex: 1,
+    backgroundColor: color.backgroundSetting,
   },
   header: {
-    backgroundColor: color.brandDanger,
-    borderRadius: 2,
+    backgroundColor: color.brandPrimary,
     color: color.palette.white,
-    elevation: 20,
-    fontSize: 50,
-    height: height / 6,
+    fontSize: 40,
+    width: width,
+    height: height / 8,
     justifyContent: 'center',
     textAlign: 'center',
-    width: width,
+    fontWeight: '700',
+    elevation: 20,
+    borderRadius: 2,
+  },
+  section: {
+    // elevation: 10,
+    // borderRadius: 2,
+    marginVertical: height * 0.03,
+    backgroundColor: color.background,
   },
   line: {
-    backgroundColor: color.background,
-    //  backgroundColor:'#000',
-    borderRadius: 2,
-    elevation: 50,
     flexDirection: 'row',
-    justifyContent: 'center',
+    backgroundColor: '#f9fbe7', //color.background,
+    borderBottomWidth: 2,
+    borderColor: color.backgroundSetting,
     marginLeft: 0,
-    marginVertical: height * 0.05,
+    height: height * 0.08,
+    width: width,
   },
   text: {
-    alignSelf: 'center',
     color: color.brandDark,
-    fontSize: 25,
-    width: width * 0.72,
-    //  backgroundColor:color.brandPrimary
+    fontSize: 20,
+    alignSelf: 'center',
+    width: width * 0.55,
+    fontFamily: 'roboto-regular',
+    //  backgroundColor:color.brandPrimary,
+    marginLeft: 10,
+  },
+
+  iconName: {
+    alignSelf: 'center',
+    color: color.brandPrimary,
+    fontSize: 23,
+  },
+
+  picker: {
+    color: color.pickerOption,
+    justifyContent: 'center',
   },
 })
