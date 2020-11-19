@@ -25,6 +25,15 @@ export interface RegisterRequest {
   accountType: string;
 }
 
+export interface RegisterResponse {
+  accessToken: string;
+  account: {
+    accountType: string;
+    id: number;
+    username: string;
+  }
+}
+
 export interface ChangePasswordRequest {
   currentPassword: string;
   newPassword: string;
@@ -40,6 +49,15 @@ export class AccountRepository extends Repository {
     return this.http.post('login', {
       username,
       password,
+    }).then((response: AxiosResponse) => response.data)
+  }
+
+  public async register(username: string, password: string, email: string, accountType: string): Promise<RegisterResponse> {
+    return this.http.post('register', {
+      username,
+      password,
+      email,
+      accountType
     }).then((response: AxiosResponse) => response.data)
   }
 }

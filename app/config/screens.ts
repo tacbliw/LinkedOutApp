@@ -16,6 +16,7 @@ export const screens = {
   authenticated: {
     company: {
       navigator: 'company-navigator',
+      drawer: 'company-drawer',
       home: 'company-home-navigator',
       profile: 'company-profile',
       jobs: 'company-jobs',
@@ -24,6 +25,7 @@ export const screens = {
     },
     user: {
       navigator: 'user-navigator',
+      drawer: 'user-drawer',
       home: 'user-home-navigator',
       profile: 'user-profile',
       newsfeed: {

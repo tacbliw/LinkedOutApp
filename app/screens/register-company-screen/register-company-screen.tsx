@@ -1,4 +1,3 @@
-import { observer } from 'mobx-react-lite'
 import React from 'react'
 import {
   Keyboard,
@@ -9,153 +8,35 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native'
+import { useRef } from 'reactn'
 import { Text } from '../../components'
-import { screens } from '../../config/screens'
 import { accountService } from '../../services/account-service'
 import { color } from '../../theme'
 import { styles } from './styles'
 
-export const RegisterCompanyScreen = observer(function RegisterCompanyScreen({
-  navigation,
-}) {
+export function RegisterCompanyScreen({ route, navigation }) {
+  const nameRef = useRef()
+  const websiteRef = useRef()
+  const specialtiesRef = useRef()
+  const descriptionRef = useRef()
   const [
     companyName,
     handleCompanyNameChange,
     website,
     handleWebsiteChange,
-    specialities,
-    handleSpecialitiesChange,
+    specialties,
+    handleSpecialtiesChange,
     description,
     handleDescriptionChange,
-  ] = accountService.useRegisterCompany()
-  React.useEffect(() => {
-    console.log('RegisterCompanyScreen')
-  }, [])
+    handleCompanyRegister,
+  ] = accountService.useRegisterCompany(route.params)
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
+      <Text style={styles.header}>Tell us more about you!</Text>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        {/* <Text style={{color:"#000"}}>Tell us more about your company!</Text>
-            <View style={styles.rect}>
-              <View style={styles.group2}>
-                <View style={styles.group}>
-                  <View style={styles.userName}>
-                    <View style={styles.iconStack}>
-                      <TextInput
-                        placeholder="Company Name"
-                        autoFocus={true}
-                        style={styles.username}
-
-                        value={companyName}
-                        onChange={handleCompanyNameChange}
-                        placeholderTextColor={color.placeHolder}
-                        onSubmitEditing={()=>{this.website.focus();}}
-                        returnKeyType={"next"}
-                      ></TextInput>
-                      <MaterialIconsIcon name="person-add" style={styles.icon}></MaterialIconsIcon>
-                    </View>
-                  </View>
-                  <View style={styles.email}>
-                    <View style={styles.icon2Stack}>
-                    <TextInput
-                        placeholder="Website"
-                        placeholderTextColor={color.placeHolder}
-                        keyboardType="email-address"
-                        value={website}
-                        onChange={handleWebsiteChange}
-                        ref={(input)=>{this.website =input;}}
-                        onSubmitEditing={()=>this.specialities.focus()}
-                        style={styles.mail}
-                        returnKeyType={"next"}
-                        //
-                      ></TextInput>
-                      <FeatherIcon name="mail" style={styles.icon2}></FeatherIcon>
-                    </View>
-                  </View>
-                  <View style={styles.type}>
-                    <TextInput
-                      placeholder="Specialities"
-                      placeholderTextColor={color.placeHolder}
-                      value={specialities}
-                      onChange={handleSpecialitiesChange}
-                    // dataDetector="calendarEvent"
-                     ref={(input)=>this.specialities =input}
-                     onSubmitEditing={()=>this.description.focus()}
-                      style={styles.user}
-                      returnKeyType={"next"}
-                    ></TextInput>
-                  </View>
-                  <View style={styles.gender}>
-                    <View style={styles.icon3Stack}>
-                      <TextInput
-                        placeholder="Description"
-                        value={description}
-                        onChange={handleDescriptionChange}
-                        placeholderTextColor={color.placeHolder}
-                        secureTextEntry={true}
-                        style={styles.password}
-                        ref={(input)=>this.description =input}
-                      ></TextInput>
-                      <MaterialCommunityIconsIcon name="key-plus" style={styles.icon3} ></MaterialCommunityIconsIcon>
-                    </View>
-                  </View>
-                </View>
-              </View>
-              <View style={styles.email}>
-                <View style={styles.icon2Stack}>
-                  <TextInput
-                    placeholder='Website'
-                    placeholderTextColor={color.placeHolder}
-                    keyboardType='email-address'
-                    value={website}
-                    onChange={handleWebsiteChange}
-                    ref={(input) => {
-                      this.website = input
-                    }}
-                    onSubmitEditing={() => this.specialities.focus()}
-                    style={styles.mail}
-                    returnKeyType={'next'}
-                    //
-                  ></TextInput>
-                  <FeatherIcon name='mail' style={styles.icon2}></FeatherIcon>
-                </View>
-              </View>
-              <View style={styles.type}>
-                <TextInput
-                  placeholder='Specialities'
-                  placeholderTextColor={color.placeHolder}
-                  value={specialities}
-                  onChange={handleSpecialitiesChange}
-                  // dataDetector="calendarEvent"
-                  ref={(input) => (this.specialities = input)}
-                  onSubmitEditing={() => this.description.focus()}
-                  style={styles.user}
-                  returnKeyType={'next'}
-                ></TextInput>
-              </View>
-              <View style={styles.gender}>
-                <View style={styles.icon3Stack}>
-                  <TextInput
-                    placeholder='Description'
-                    value={description}
-                    onChange={handleDescriptionChange}
-                    placeholderTextColor={color.placeHolder}
-                    secureTextEntry={true}
-                    style={styles.password}
-                    ref={(input) => (this.description = input)}
-                  ></TextInput>
-                  <MaterialCommunityIconsIcon
-                    name='key-plus'
-                    style={styles.icon3}
-                  ></MaterialCommunityIconsIcon>
-                </View>
-              </View>
-            </View>
-          */}
-
-        <Text style={styles.header}>Tell us more about you!</Text>
         <View style={styles.rect}>
           <View style={styles.group2}>
             <View style={styles.group}>
@@ -166,33 +47,29 @@ export const RegisterCompanyScreen = observer(function RegisterCompanyScreen({
                 value={companyName}
                 onChange={handleCompanyNameChange}
                 placeholderTextColor={color.placeHolder}
-                onSubmitEditing={() => {
-                  this.website.focus()
-                }}
+                onSubmitEditing={() => websiteRef.current?.focus()}
                 returnKeyType={'next'}
+                ref={nameRef}
               ></TextInput>
 
               <TextInput
-                placeholder='Website'
+                placeholder='Website (optional)'
                 placeholderTextColor={color.placeHolder}
-                keyboardType='email-address'
+                keyboardType='url'
                 value={website}
                 onChange={handleWebsiteChange}
-                ref={(input) => {
-                  this.website = input
-                }}
-                onSubmitEditing={() => this.specialities.focus()}
+                ref={websiteRef}
+                onSubmitEditing={() => specialtiesRef.current?.focus()}
                 style={styles.textInput}
                 returnKeyType={'next'}
-                //
               ></TextInput>
               <TextInput
-                placeholder='Specialities'
+                placeholder='Specialties'
                 placeholderTextColor={color.placeHolder}
-                value={specialities}
-                onChange={handleSpecialitiesChange}
-                ref={(input) => (this.specialities = input)}
-                onSubmitEditing={() => this.description.focus()}
+                value={specialties}
+                onChange={handleSpecialtiesChange}
+                ref={specialtiesRef}
+                onSubmitEditing={() => descriptionRef.current?.focus()}
                 style={styles.textInput}
                 returnKeyType={'next'}
               ></TextInput>
@@ -203,13 +80,14 @@ export const RegisterCompanyScreen = observer(function RegisterCompanyScreen({
                 placeholderTextColor={color.placeHolder}
                 secureTextEntry={true}
                 style={styles.textInputDescription}
-                ref={(input) => (this.description = input)}
+                ref={descriptionRef}
                 multiline={true}
+                onSubmitEditing={handleCompanyRegister}
               ></TextInput>
             </View>
             <View style={styles.submitButton}>
               <TouchableOpacity
-                onPress={() => navigation.navigate(screens.basic.register.user)}
+                onPress={handleCompanyRegister}
                 style={styles.button}
               >
                 <Text style={styles.submit}>SUBMIT</Text>
@@ -220,4 +98,4 @@ export const RegisterCompanyScreen = observer(function RegisterCompanyScreen({
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   )
-})
+}

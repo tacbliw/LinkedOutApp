@@ -131,13 +131,6 @@ const styles = StyleSheet.create({
 })
 
 export function ProfileCompanyScreen({ navigation }) {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-  // OR
-  // const rootStore = useStores()
-
-  // Pull in navigation via hook
-  //   const navigation = useNavigation()
   return (
     <Screen style={ROOT} preset='scroll'>
       <ScrollView>

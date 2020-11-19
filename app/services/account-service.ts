@@ -1,8 +1,12 @@
+import { useNavigation } from "@react-navigation/native"
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native"
 import React from "reactn"
-import { removeCredentials, saveCredentials } from "../helpers/account-helper"
+import { screens } from "../config/screens"
+import { isEmail, removeCredentials, saveCredentials } from "../helpers/account-helper"
 import { showError } from "../helpers/toast"
-import { accountRepository } from "../repositories/account-repository"
+import { accountRepository, LoginResponse } from "../repositories/account-repository"
+import { companyRepository } from "../repositories/company-repository"
+import { userRepository } from "../repositories/user-repository"
 
 export const accountService = {
   useLogin(): [
@@ -33,8 +37,15 @@ export const accountService = {
 
     const handleLogin = React.useCallback(async () => {
       setLoading(true)
+      if (!username) {
+        showError('Username field is blank')
+        return
+      } else if (!password) {
+        showError('Password field is blank')
+        return
+      }
       try {
-        const response = await accountRepository.login(username, password)
+        const response: LoginResponse = await accountRepository.login(username, password)
         await saveCredentials(
           response.accessToken,
           response.account.id.toString(),
@@ -78,14 +89,15 @@ export const accountService = {
       string,
       (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
       string,
-      (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
+      (value: string) => void,
       string,
       (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
-
+      () => void,
   ] {
+    const navigation = useNavigation()
     const [username, setUsername] = React.useState<string>()
     const [email, setEmail] = React.useState<string>()
-    const [type, setType] = React.useState<string>()
+    const [accountType, setType] = React.useState<string>('user')
     const [password, setPassword] = React.useState<string>()
     const handleChangeUsername = React.useCallback(
       (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
@@ -93,7 +105,6 @@ export const accountService = {
       },
       [],
     )
-
     const handleChangePassword = React.useCallback(
       (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
         setPassword(event.nativeEvent.text)
@@ -106,25 +117,57 @@ export const accountService = {
       },
       [],
     )
-
     const handleChangeType = React.useCallback(
-      (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
-        setType(event.nativeEvent.text)
+      (value: string) => {
+        setType(value)
       },
       [],
     )
+
+    const handleSignUp = React.useCallback(async () => {
+      if (!username) {
+        showError("Username field is blank.")
+        return
+      } else if (!password) {
+        showError("Password field is blank.")
+        return
+      } else if (!isEmail(email)) {
+        showError("Incorrect email format.")
+        return
+      }
+      try {
+        // Try to pass register response as props to next screen
+        // as changing GlobalState at the moment is not useful and force a global reload.
+        const response = await accountRepository.register(username, password, email, accountType)
+        const navigationProps = {
+          accessToken: response.accessToken,
+          accountId: response.account.id,
+          accountType: response.account.accountType,
+          accountName: response.account.username
+        }
+        if (accountType === 'user') navigation.navigate(screens.basic.register.user, navigationProps)
+        else if (accountType === 'company') navigation.navigate(screens.basic.register.company, navigationProps)
+      } catch (error) {
+        if (error?.response?.data?.details) {
+          showError(error.response.data.details)
+        }
+      }
+    }, [username, email, password, accountType, navigation])
+
     return [
       username,
       handleChangeUsername,
       email,
       handleChangeEmail,
-      type,
+      accountType,
       handleChangeType,
       password,
-      handleChangePassword]
+      handleChangePassword,
+      handleSignUp
+    ]
   },
 
-  useRegisterCompany(): [
+  useRegisterCompany(props): [
     string,
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
     string,
@@ -133,46 +176,160 @@ export const accountService = {
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
     string,
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
-
+    () => void
 ] {
-  const [companyName, setCompanyName] = React.useState<string>()
+  // Props || Do not do this to any screen :|
+  const [accessToken, setAccessToken] = React.useState(props.accessToken)
+  const [accountId, setAccountId] = React.useState(props.accountId)
+  const [accountType, setAccountType] = React.useState(props.accountType)
+  const [accountName, setAccountName] = React.useState(props.accountName)
+
+  // Locals
+  const [name, setName] = React.useState<string>()
   const [website, setWebsite] = React.useState<string>()
-  const [specialities, setSpecialities] = React.useState<string>()
+  const [specialties, setSpecialties] = React.useState<string>()
   const [description, setDescription] = React.useState<string>()
-  const handleCompanyNameChange = React.useCallback(
+  const handleChangeCompanyName = React.useCallback(
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
-      setCompanyName(event.nativeEvent.text)
+      setName(event.nativeEvent.text)
     },
     [],
   )
-
-  const handleWebsiteChange = React.useCallback(
+  const handleChangeWebsite = React.useCallback(
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
       setWebsite(event.nativeEvent.text)
     },
     [],
   )
-  const handleSpecialitiesChange = React.useCallback(
+  const handleChangeSpecialities = React.useCallback(
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
-      setSpecialities(event.nativeEvent.text)
+      setSpecialties(event.nativeEvent.text)
     },
     [],
   )
-
-  const handleDescriptionChange = React.useCallback(
+  const handleChangeDescription = React.useCallback(
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
       setDescription(event.nativeEvent.text)
     },
     [],
   )
-  return [companyName,
-    handleCompanyNameChange,
+  const handleCompanyRegister = React.useCallback(async () => {
+    try {
+      await companyRepository.create(name, website, [specialties], description, accessToken)
+      saveCredentials(
+        accessToken,
+        accountId.toString(),
+        accountType,
+        accountName,
+      )
+    } catch (error) {
+      if (error?.response?.data?.details) {
+        showError(error.response.data.details)
+      }
+    }
+  }, [name, description, website, specialties, accessToken, accountId, accountType, accountName])
+  return [
+    name,
+    handleChangeCompanyName,
     website,
-    handleWebsiteChange,
-    specialities,
-    handleSpecialitiesChange,
+    handleChangeWebsite,
+    specialties,
+    handleChangeSpecialities,
     description,
-    handleDescriptionChange,
+    handleChangeDescription,
+    handleCompanyRegister
     ]
-},
+  },
+
+  useRegisterUser(props): [
+    string,
+    (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
+    string,
+    (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
+    string,
+    (value: string) => void,
+    string,
+    (value: string) => void,
+    string,
+    (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
+    () => void
+  ] {
+    // Props || Do not do this to any screen :|
+    const [accessToken, setAccessToken] = React.useState(props.accessToken)
+    const [accountId, setAccountId] = React.useState(props.accountId)
+    const [accountType, setAccountType] = React.useState(props.accountType)
+    const [accountName, setAccountName] = React.useState(props.accountName)
+
+    // Locals
+    const [firstName, setFirstName] = React.useState<string>('')
+    const [lastname, setLastName] = React.useState<string>('')
+    const [dateOfBirth, setDateOfBirth] = React.useState<string>('')
+    const [gender, setGender] = React.useState<string>('male')
+    const [description, setDescription] = React.useState<string>('')
+
+    const handleFirstNameChange = React.useCallback(
+      (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+        setFirstName(event.nativeEvent.text)
+      },
+      [],
+    )
+
+    const handleLastNameChange = React.useCallback(
+      (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+        setLastName(event.nativeEvent.text)
+      },
+      [],
+    )
+
+    const handleDateOfBirthChange = React.useCallback(
+      (value: string) => {
+        setDateOfBirth(value)
+      },
+      [],
+    )
+
+    const handleGenderChange = React.useCallback(
+      (value: string) => {
+        setGender(value)
+      },
+      [],
+    )
+
+    const handleDescriptionChange = React.useCallback(
+      (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+        setDescription(event.nativeEvent.text)
+      },
+      [],
+    )
+
+    const handleUserRegister = React.useCallback(async () => {
+      try {
+        await userRepository.create(firstName, lastname, dateOfBirth, gender, description, accessToken)
+        saveCredentials(
+          accessToken,
+          accountId.toString(),
+          accountType,
+          accountName,
+        )
+      } catch (error) {
+        if (error?.response?.data?.details) {
+          showError(error.response.data.details)
+        }
+      }
+    }, [firstName, lastname, dateOfBirth, gender, description, accessToken, accountId, accountName, accountType])
+
+    return [
+      firstName,
+      handleFirstNameChange,
+      lastname,
+      handleLastNameChange,
+      dateOfBirth,
+      handleDateOfBirthChange,
+      gender,
+      handleGenderChange,
+      description,
+      handleDescriptionChange,
+      handleUserRegister
+    ]
+  }
 }

@@ -1,16 +1,16 @@
-import React from 'reactn'
-import { GlobalState } from '../config/global'
+import React from "reactn"
+import { GlobalState } from "../config/global"
 import { showInfo } from "../helpers/toast"
-import { userRepository } from "../repositories/user-repository"
+import { companyRepository } from "../repositories/company-repository"
 
-export const userProfileService = {
-  useUserExist(): boolean {
+export const companyProfileService = {
+  useCompanyExist(): boolean {
     const [existed, setExisted] = React.useState(false)
     const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>('accountId')
 
     const checkExist = React.useCallback(async () => {
       try {
-        await userRepository.get(Number(accountId))
+        await companyRepository.get(Number(accountId))
         setExisted(true)
       } catch (error) {
         if (error?.response?.data) {

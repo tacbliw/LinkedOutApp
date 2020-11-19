@@ -9,7 +9,7 @@ import React from 'react'
 import { Sidebar } from '../components'
 import { screens } from '../config/screens'
 import { FollowingScreen, ProfileUserScreen, SettingsScreen } from '../screens'
-import { HomeNavigator } from './home-navigator'
+import { UserHomeNavigator } from './user-home-navigator'
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -54,7 +54,7 @@ export function PrimaryUserNavigator() {
       />
       <Drawer.Screen
         name={screens.authenticated.user.home}
-        component={HomeNavigator}
+        component={UserHomeNavigator}
       />
     </Drawer.Navigator>
   )

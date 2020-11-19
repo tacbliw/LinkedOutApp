@@ -30,24 +30,10 @@ import {
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
 
-// Documentation: https://github.com/software-mansion/react-native-screens/tree/master/native-stack
-// const Tabs = createMaterialTopTabNavigator()
-
-// export function LoginNavigator() {
-//   return (
-//     <>
-//       <Tabs.Navigator>
-//         <Tabs.Screen name={screens.basic.login} component={LoginScreen} />
-//         <Tabs.Screen name={screens.basic.register} component={RegisterScreen} />
-//       </Tabs.Navigator>
-//     </>
-//   )
-// }
-
 const StackStart = createStackNavigator()
 const RootStackStart = () => {
   return (
-    <StackStart.Navigator headerMode="none">
+    <StackStart.Navigator headerMode='none'>
       <StackStart.Screen name={screens.basic.splash} component={SplashScreen} />
       <StackStart.Screen name={screens.basic.introJobs} component={IntroJob} />
       <StackStart.Screen
@@ -59,7 +45,6 @@ const RootStackStart = () => {
         name={screens.basic.register.main}
         component={RegisterScreen}
       />
-
       <StackStart.Screen
         name={screens.basic.register.company}
         component={RegisterCompanyScreen}

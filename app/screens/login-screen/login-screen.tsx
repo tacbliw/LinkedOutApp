@@ -13,7 +13,8 @@ import {
 } from 'react-native'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
-import { default as IoniconsIcon } from 'react-native-vector-icons/Ionicons'
+import IoniconsIcon from 'react-native-vector-icons/Ionicons'
+import { useRef } from 'reactn'
 import { Screen } from '../../components'
 import { screens } from '../../config/screens'
 import { accountService } from '../../services/account-service'
@@ -26,6 +27,9 @@ const ROOT: ViewStyle = {
 }
 
 export const LoginScreen = observer(function LoginScreen({ navigation }) {
+  const usernameRef = useRef()
+  const passwordRef = useRef()
+
   const [
     username,
     handleUsernameChange,
@@ -56,12 +60,10 @@ export const LoginScreen = observer(function LoginScreen({ navigation }) {
               placeholder='Username'
               placeholderTextColor={color.placeHolder} // "rgba(217,188,188,1)"
               style={styles.textInput}
-              autoFocus
               returnKeyType={'next'}
-              onSubmitEditing={() => {
-                this.password.focus()
-              }}
+              onSubmitEditing={() => passwordRef.current?.focus()}
               blurOnSubmit={false}
+              ref={usernameRef}
             ></TextInput>
           </View>
           <View style={styles.iconPasswdRow}>
@@ -78,9 +80,7 @@ export const LoginScreen = observer(function LoginScreen({ navigation }) {
                 placeholder='Password'
                 placeholderTextColor={color.placeHolder}
                 style={styles.textInput}
-                ref={(input) => {
-                  this.password = input
-                }}
+                ref={passwordRef}
               ></TextInput>
               <TouchableOpacity style={styles.forgotPassword} onPress={null}>
                 <Text style={{ color: color.brandWarning }}>
@@ -95,7 +95,7 @@ export const LoginScreen = observer(function LoginScreen({ navigation }) {
               <Text style={styles.login4}>LOGIN</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate(screens.basic.register.user)}
+              onPress={() => navigation.navigate(screens.basic.register.main)}
               style={styles.button}
             >
               <Text style={styles.login4}>REGISTER</Text>

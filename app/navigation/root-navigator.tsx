@@ -14,6 +14,7 @@ import { GlobalState } from '../config/global'
 import { screens } from '../config/screens'
 import { MessagesScreen, WriteFeedScreen } from '../screens'
 import RootStackStart from './login-navigator'
+import { PrimaryCompanyNavigator } from './primary-company-navigator'
 import { PrimaryUserNavigator } from './primary-user-navigator'
 
 /**
@@ -30,35 +31,70 @@ import { PrimaryUserNavigator } from './primary-user-navigator'
 const Stack = createNativeStackNavigator()
 
 const RootStack = () => {
-  const loggedIn = React.useGlobal<GlobalState, 'accessToken'>('accessToken')[0]
+  const [loggedIn, setLoggedIn] = React.useGlobal<GlobalState, 'accessToken'>(
+    'accessToken',
+  )
+  const [accountType, setAccountType] = React.useGlobal<
+    GlobalState,
+    'accountType'
+  >('accountType')
 
   if (typeof loggedIn === 'string' && loggedIn !== '') {
-    return (
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-          gestureEnabled: true,
-          stackPresentation: 'modal',
-        }}
-      >
-        <Stack.Screen
-          name={screens.authenticated.user.navigator}
-          component={PrimaryUserNavigator}
-          options={{ headerShown: false }}
-        />
-        {/* deo co bottom tab de het duoi nay */}
-        <Stack.Screen
-          name='room' // <- cai deo gi day ? :)
-          component={MessagesScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name={screens.authenticated.user.newsfeed.write}
-          component={WriteFeedScreen}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    )
+    if (accountType === 'user') {
+      return (
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+            gestureEnabled: true,
+            stackPresentation: 'modal',
+          }}
+        >
+          <Stack.Screen
+            name={screens.authenticated.user.navigator}
+            component={PrimaryUserNavigator}
+            options={{ headerShown: false }}
+          />
+          {/* deo co bottom tab de het duoi nay */}
+          <Stack.Screen
+            name='room' // <- cai deo gi day ? :)
+            component={MessagesScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name={screens.authenticated.user.newsfeed.write}
+            component={WriteFeedScreen}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      )
+    } else if (accountType === 'company') {
+      return (
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+            gestureEnabled: true,
+            stackPresentation: 'modal',
+          }}
+        >
+          <Stack.Screen
+            name={screens.authenticated.company.navigator}
+            component={PrimaryCompanyNavigator}
+            options={{ headerShown: false }}
+          />
+          {/* deo co bottom tab de het duoi nay */}
+          <Stack.Screen
+            name='room' // <- cai deo gi day ? :)
+            component={MessagesScreen}
+            options={{ headerShown: false }}
+          />
+          {/* <Stack.Screen
+            name={screens.authenticated.user.newsfeed.write}
+            component={WriteFeedScreen}
+            options={{ headerShown: false }}
+          /> */}
+        </Stack.Navigator>
+      )
+    }
   } else {
     return (
       <Stack.Navigator

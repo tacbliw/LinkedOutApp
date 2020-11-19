@@ -17,6 +17,10 @@ export async function errorInterceptor(error: AxiosError) {
         showError('errors.403')
         break
 
+      case 409:
+        showError('errors.409')
+        break
+
       case 420:
         if (__DEV__) {
           if (error?.response?.data?.Message) {
