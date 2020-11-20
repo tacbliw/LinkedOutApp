@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
   },
   inputArea: {
     fontSize: 16,
+    minHeight: 60,
     textAlignVertical: 'top',
   },
   inputView: {
@@ -61,6 +62,7 @@ const styles = StyleSheet.create({
   },
   selectPictureButton: {
     alignContent: 'center',
+    borderColor: color.brandPrimary,
     borderRadius: 10,
     borderStyle: 'dashed',
     borderWidth: 3,
@@ -69,13 +71,16 @@ const styles = StyleSheet.create({
     margin: 25,
     width: width - 40,
   },
+  selectPictureIcon: {
+    color: color.brandPrimary,
+  },
   selectedPicture: {
+    aspectRatio: 1.5,
     borderRadius: 20,
     justifyContent: 'flex-start',
-    marginTop: -70,
-    minHeight: 400,
+    marginTop: 0,
     // paddingHorizontal: 20,
-    resizeMode: 'contain',
+    resizeMode: 'stretch',
     width: width - 40,
   },
   selectedPictureView: {
@@ -138,7 +143,7 @@ export const WriteFeedScreen = function WriteFeedScreen() {
             onPress={handleSelectPhoto}
             transparent
           >
-            <Icon name='image' />
+            <Icon name='image' style={styles.selectPictureIcon} />
           </Button>
         )}
       </View>
