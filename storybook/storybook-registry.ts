@@ -1,3 +1,6 @@
+require("../app/components/search-item-job/search-item-job.story")
+require("../app/components/search-item-company/search-item-company.story")
+require("../app/components/search-item-user/search-item-user.story")
 require("../app/components/avatar/avatar.story")
 require("../app/components/job-post/job-post.story")
 require("../app/components/post/post.story")
