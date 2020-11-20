@@ -52,7 +52,12 @@ export class AccountRepository extends Repository {
     }).then((response: AxiosResponse) => response.data)
   }
 
-  public async register(username: string, password: string, email: string, accountType: string): Promise<RegisterResponse> {
+  public async register(
+      username: string,
+      password: string,
+      email: string,
+      accountType: string
+    ): Promise<RegisterResponse> {
     return this.http.post('register', {
       username,
       password,

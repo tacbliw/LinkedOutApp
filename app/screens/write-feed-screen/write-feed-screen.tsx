@@ -1,20 +1,32 @@
-import { useNavigation } from '@react-navigation/native'
-import { Header, Icon, Input, Text, Thumbnail, View } from 'native-base'
+import { Button, Header, Icon, Text, Thumbnail, View } from 'native-base'
 import React from 'react'
-import { StyleSheet, TouchableOpacity } from 'react-native'
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "../../models"
+import {
+  Dimensions,
+  Image,
+  KeyboardAvoidingView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native'
+import { feedService } from '../../services/feed-service'
 import { color } from '../../theme'
+
+const { width, height } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   ROOT: {
     flex: 1,
   },
-  body: {
+  accountView: {
+    alignItems: 'center',
     flexDirection: 'row',
-    paddingLeft: 20,
-    paddingRight: 100,
+    justifyContent: 'flex-start',
+    marginTop: 20,
+  },
+  body: {
     // borderWidth: 1,
+    flexDirection: 'column',
+    paddingHorizontal: 20,
   },
   header: {
     alignItems: 'center',
@@ -28,14 +40,16 @@ const styles = StyleSheet.create({
   },
   inputArea: {
     fontSize: 16,
-    minHeight: 200,
     textAlignVertical: 'top',
   },
   inputView: {
     // borderWidth: 1,
     // borderColor: 'green',
-    marginLeft: 16,
-    paddingTop: 6,
+    paddingTop: 10,
+  },
+  name: {
+    fontWeight: 'bold',
+    margin: 20,
   },
   postButtonActive: {
     color: color.brandPrimary,
@@ -45,24 +59,51 @@ const styles = StyleSheet.create({
     color: color.brandLight,
     fontWeight: 'bold',
   },
+  selectPictureButton: {
+    alignContent: 'center',
+    borderRadius: 10,
+    borderStyle: 'dashed',
+    borderWidth: 3,
+    height: 60,
+    justifyContent: 'center',
+    margin: 25,
+    width: width - 40,
+  },
+  selectedPicture: {
+    borderRadius: 20,
+    justifyContent: 'flex-start',
+    marginTop: -70,
+    minHeight: 400,
+    // paddingHorizontal: 20,
+    resizeMode: 'contain',
+    width: width - 40,
+  },
+  selectedPictureView: {
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
 })
 
 export const WriteFeedScreen = function WriteFeedScreen() {
-  const navigation = useNavigation()
+  const [
+    content,
+    handleChangeContent,
+    postDisabled,
+    image,
+    handleSelectPhoto,
+    handleDeletePhoto,
+    handleCancel,
+    handleSubmitFeed,
+  ] = feedService.useWriteFeed()
 
-  const postDisabled = false
   return (
     <View style={styles.ROOT}>
       <Header transparent style={styles.header}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.goBack()
-          }}
-        >
-          <Icon name="close-outline" style={{ color: color.brandLight }}></Icon>
+        <TouchableOpacity onPress={handleCancel}>
+          <Icon name='close-outline' style={{ color: color.brandLight }}></Icon>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Create Post</Text>
-        <TouchableOpacity onPress={() => {}} disabled={postDisabled}>
+        <TouchableOpacity onPress={handleSubmitFeed} disabled={postDisabled}>
           <Text
             style={
               postDisabled ? styles.postButtonDeactive : styles.postButtonActive
@@ -73,14 +114,33 @@ export const WriteFeedScreen = function WriteFeedScreen() {
         </TouchableOpacity>
       </Header>
       <View style={styles.body}>
-        <Thumbnail source={require('../newsfeed-screen/avatar1.jpg')} />
-        <View style={styles.inputView}>
-          <Input
+        <View style={styles.accountView}>
+          <Thumbnail source={require('../newsfeed-screen/avatar1.jpg')} />
+          <Text style={styles.name}>Hai Tung</Text>
+        </View>
+        <KeyboardAvoidingView style={styles.inputView}>
+          <TextInput
             style={styles.inputArea}
             placeholder="What's on your mind?"
+            value={content}
+            onChange={handleChangeContent}
             multiline
           />
-        </View>
+        </KeyboardAvoidingView>
+      </View>
+      {/* <Text>Should be after this</Text> */}
+      <View style={styles.selectedPictureView}>
+        {image ? (
+          <Image source={{ uri: image.path }} style={styles.selectedPicture} />
+        ) : (
+          <Button
+            style={styles.selectPictureButton}
+            onPress={handleSelectPhoto}
+            transparent
+          >
+            <Icon name='image' />
+          </Button>
+        )}
       </View>
     </View>
   )
