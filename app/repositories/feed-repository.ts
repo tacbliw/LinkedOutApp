@@ -8,6 +8,7 @@ interface PostObject {
   postId: number;
   userFirstname: string;
   userLastname: string;
+  userProfilePicture: string;
   title: string;
   content: string;
   publishedDate: Date;
@@ -19,6 +20,7 @@ interface JobObject {
   jobId: number;
   companyName: string;
   accountId: number;
+  companyProfilePicture: string;
   title: string;
   description: string;
   seniorityLevel: string;

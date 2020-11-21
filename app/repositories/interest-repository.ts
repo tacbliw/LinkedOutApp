@@ -39,6 +39,7 @@ interface AccountInterestedObject {
   id: number;
   firstname: string;
   lastname: string;
+  profilePicture: string;
 }
 
 export interface AccountInterestedRequest {

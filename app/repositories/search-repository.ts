@@ -35,6 +35,7 @@ interface CompanyObject {
   name: string;
   website: string;
   description: string;
+  profilePicture: string;
   specialties: string[];
 }
 
@@ -45,6 +46,7 @@ interface UserObject {
   lastname: string;
   dateofbirth: Date;
   gender: string;
+  profilePicture: string;
   description: string;
   skills: string[];
 }

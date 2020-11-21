@@ -11,6 +11,7 @@ export interface CompanyGetRequest {
 export interface CompanyGetResponse {
   name: string;
   website: string;
+  profilePicture: string;
   specialties: string[];
   description: string;
 }
@@ -25,6 +26,7 @@ export interface CompanyCreateRequest {
 export interface CompanyCreateResponse {
   name: string;
   website: string;
+  profilePicture: string;
   specialties: string[];
   description: string;
 }
@@ -39,6 +41,7 @@ export interface CompanyUpdateRequest {
 export interface CompanyUpdateResponse {
   name: string;
   website: string;
+  profilePicture: string;
   specialties: string[];
   description: string;
 }

@@ -13,6 +13,7 @@ export interface UserGetResponse {
   lastname: string;
   dateofbirth: Date;
   gender: string;
+  profilePicture: string;
   description: string;
 }
 
@@ -29,6 +30,7 @@ export interface UserCreateResponse {
   lastname: string;
   dateofbirth: Date;
   gender: string;
+  profilePicture: string;
   description: string;
 }
 
@@ -37,6 +39,7 @@ export interface UserUpdateRequest {
   lastname: string;
   dateofbirth: Date;
   gender: string;
+  profilePicture: string;
   description: string;
 }
 

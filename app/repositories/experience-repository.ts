@@ -7,6 +7,7 @@ interface ExperienceObject {
   experienceId: number;
   accountId: number;
   companyName: string;
+  profilePicture: string;
   startDate: Date;
   endDate: Date;
   title: string;
