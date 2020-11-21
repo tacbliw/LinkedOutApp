@@ -84,6 +84,9 @@ export class FollowRepository extends Repository {
     this.baseURL = API_BASE_URL + API_FOLLOW_ROUTE
   }
 
+  /**
+   * Lấy danh sách followers của account có id này.
+   */
   public async list(id: number): Promise<FollowListResponse[]> {
     return this.http.get('list', {
       params: {
@@ -108,6 +111,9 @@ export class FollowRepository extends Repository {
     }).then((response: AxiosResponse) => response.data)
   }
 
+  /**
+   * Lấy danh sách User mà account có id này follow.
+   */
   public async userFollowed(id: number): Promise<UserFollowedResponse> {
     return this.http.get('user-followed', {
       params: {
@@ -116,6 +122,9 @@ export class FollowRepository extends Repository {
     }).then((response: AxiosResponse) => response.data)
   }
 
+  /**
+   * Lấy danh sách Company mà account có id này follow.
+   */
   public async companyFollowed(id: number): Promise<CompanyFollowedResponse> {
     return this.http.get('company-followed', {
       params: {
