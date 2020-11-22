@@ -8,7 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View,
+  View
 } from 'react-native'
 import FeatherIcon from 'react-native-vector-icons/Feather'
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons'

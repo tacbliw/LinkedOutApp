@@ -1,4 +1,3 @@
-import { observer } from 'mobx-react-lite'
 import React from 'react'
 import {
   Dimensions,
@@ -9,7 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  ViewStyle,
+  ViewStyle
 } from 'react-native'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
@@ -25,7 +24,7 @@ const ROOT: ViewStyle = {
   flex: 1,
 }
 
-export const LoginScreen = observer(function LoginScreen({ navigation }) {
+export const LoginScreen = function LoginScreen({ navigation }) {
   const [
     username,
     handleUsernameChange,
@@ -58,9 +57,6 @@ export const LoginScreen = observer(function LoginScreen({ navigation }) {
               style={styles.textInput}
               autoFocus
               returnKeyType={'next'}
-              onSubmitEditing={() => {
-                this.password.focus()
-              }}
               blurOnSubmit={false}
             ></TextInput>
           </View>
@@ -78,9 +74,6 @@ export const LoginScreen = observer(function LoginScreen({ navigation }) {
                 placeholder='Password'
                 placeholderTextColor={color.placeHolder}
                 style={styles.textInput}
-                ref={(input) => {
-                  this.password = input
-                }}
               ></TextInput>
               <TouchableOpacity style={styles.forgotPassword} onPress={null}>
                 <Text style={{ color: color.brandWarning }}>
@@ -116,7 +109,7 @@ export const LoginScreen = observer(function LoginScreen({ navigation }) {
       </KeyboardAvoidingView>
     </Screen>
   )
-})
+}
 
 const styles = StyleSheet.create({
   button: {
