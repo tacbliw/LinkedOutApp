@@ -33,15 +33,33 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
     flexDirection: 'row',
-    // justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
   },
 
-  heartInterested: {
+  commentContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  },
+
+  commentContent: {
+    margin: 2,
+  },
+
+  interestContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  },
+
+  interestContent: {
     color: color.brandDanger,
+    margin: 2,
   },
 
-  heartNotInterested: {
+  intrContentLiked: {
     color: color.brandDark,
+    margin: 2,
   },
 
   postContent: {
@@ -64,8 +82,10 @@ const styles = StyleSheet.create({
   },
 
   postUserAvatar: {
-    // marginLeft: 10,
-    // marginTop: 10,
+    aspectRatio: 1,
+    borderRadius: 100,
+    resizeMode: 'contain',
+    width: 50,
   },
 
   postUsername: {
@@ -89,7 +109,7 @@ export function Post(props: PostProps) {
   }, [])
 
   const [
-    interestCount,
+    interestedCount,
     interested,
     handleInterest,
     handleComment,
@@ -134,15 +154,25 @@ export function Post(props: PostProps) {
         </View>
       </CardItem>
       <CardItem style={styles.bottomPost}>
-        <TouchableOpacity onPress={handleInterest} style={{}}>
+        <TouchableOpacity onPress={handleInterest}>
           {interested ? (
-            <Icon name='heart' style={styles.heartInterested} />
+            <View style={styles.interestContainer}>
+              <Icon name='heart' style={styles.interestContent} />
+              <Text style={styles.interestContent}>{interestedCount}</Text>
+            </View>
           ) : (
-            <Icon name='heart-outline' style={styles.heartNotInterested} />
+            <View style={styles.interestContainer}>
+              <Icon name='heart-outline' style={styles.intrContentLiked} />
+              <Text style={styles.intrContentLiked}>{interestedCount}</Text>
+            </View>
           )}
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleComment}>
-          <Icon name='chatbubble-outline' />
+        <TouchableOpacity
+          onPress={handleComment}
+          style={styles.commentContainer}
+        >
+          <Icon name='chatbubble-outline' style={styles.commentContent} />
+          <Text style={styles.commentContent}>{100}</Text>
         </TouchableOpacity>
       </CardItem>
     </Card>

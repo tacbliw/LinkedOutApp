@@ -18,6 +18,9 @@ const styles = StyleSheet.create({
     resizeMode: 'center',
     width: 100,
   },
+  postCompanyname: {
+    color: color.brandLight,
+  },
   postDate: {
     color: color.brandLight,
   },
@@ -25,9 +28,6 @@ const styles = StyleSheet.create({
     color: color.brandDark,
     fontSize: 20,
     fontWeight: '700',
-  },
-  postCompanyname: {
-    color: color.brandLight,
   },
 })
 
@@ -79,7 +79,7 @@ export function JobPost(props: JobPostProps) {
               </Text>
             </View>
             <View
-              style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+              style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}
             >
               <Text style={{ color: color.brandDark }}>
                 <Icon style={{ fontSize: 16 }} name='location-outline' />{' '}

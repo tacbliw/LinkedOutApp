@@ -1,12 +1,4 @@
-import {
-  ActionSheet,
-  Button,
-  Header,
-  Icon,
-  Text,
-  Thumbnail,
-  View,
-} from 'native-base'
+import { ActionSheet, Button, Header, Icon, Text, View } from 'native-base'
 import React from 'react'
 import {
   Dimensions,
@@ -16,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native'
+import FastImage from 'react-native-fast-image'
 import { feedService } from '../../services/feed-service'
 import { color } from '../../theme'
 
@@ -30,6 +23,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     marginTop: 20,
+  },
+  avatar: {
+    aspectRatio: 1,
+    borderRadius: 60,
+    resizeMode: 'contain',
+    width: 50,
   },
   body: {
     // borderWidth: 1,
@@ -136,7 +135,10 @@ export const WriteFeedScreen = function WriteFeedScreen() {
       </Header>
       <View style={styles.body}>
         <View style={styles.accountView}>
-          <Thumbnail source={require('../newsfeed-screen/avatar1.jpg')} />
+          <FastImage
+            style={styles.avatar}
+            source={{ uri: 'https://www.w3schools.com/w3images/avatar2.png' }}
+          />
           <Text style={styles.name}>Hai Tung</Text>
         </View>
         <KeyboardAvoidingView style={styles.inputView}>
