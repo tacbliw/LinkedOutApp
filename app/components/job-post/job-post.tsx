@@ -18,12 +18,15 @@ const styles = StyleSheet.create({
     resizeMode: 'center',
     width: 100,
   },
-  postCompanyName: {
+  postDate: {
+    color: color.brandLight,
+  },
+  postTitle: {
     color: color.brandDark,
     fontSize: 20,
     fontWeight: '700',
   },
-  postDate: {
+  postCompanyname: {
     color: color.brandLight,
   },
 })
@@ -67,7 +70,8 @@ export function JobPost(props: JobPostProps) {
             }}
           >
             <View>
-              <Text style={styles.postCompanyName}>
+              <Text style={styles.postTitle}>{props.job.title}</Text>
+              <Text style={styles.postCompanyname}>
                 {props.job.companyName}
               </Text>
               <Text style={styles.postDate}>

@@ -4,7 +4,7 @@ import { httpConfig } from "../config/http/config"
 import { Repository } from "./base-repository"
 
 interface JobObject {
-  jobId: number;
+  id: number;
   title: string;
   description: string;
   seniorityLevel: string;

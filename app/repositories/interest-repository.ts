@@ -5,7 +5,7 @@ import { httpConfig } from "../config/http/config"
 import { Repository } from "./base-repository"
 
 export interface InterestCheckRequest {
-  postId: number;
+  id: number;
 }
 
 export interface InterestCheckResponse {
@@ -13,7 +13,7 @@ export interface InterestCheckResponse {
 }
 
 export interface InterestCreateRequest {
-  postId: number;
+  id: number;
 }
 
 export interface InterestCreateResponse {
@@ -21,7 +21,7 @@ export interface InterestCreateResponse {
 }
 
 export interface InterestDeleteRequest {
-  postId: number;
+  id: number;
 }
 
 export interface InterestDeleteResponse {
@@ -29,7 +29,7 @@ export interface InterestDeleteResponse {
 }
 
 export interface InterestCountRequest {
-  postId: number;
+  id: number;
 }
 
 export interface InterestCountResponse {
@@ -44,13 +44,13 @@ interface AccountInterestedObject {
 }
 
 export interface AccountInterestedRequest {
-  postId: number;
+  id: number;
 }
 
 export interface AccountInterestedResponse extends Array<AccountInterestedObject> {}
 
 interface PostInterestedObject {
-  postId: number;
+  id: number;
   title: string;
   content: string;
   interestedCount: number;
@@ -78,6 +78,26 @@ export class InterestRepository extends Repository {
 
   public async check(id: number): Promise<InterestCheckResponse> {
     return this.http.get('check', {
+      params: {
+        id: id
+      }
+    }).then((response: AxiosResponse) => response.data)
+  }
+
+  public async create(id: number): Promise<InterestCreateResponse> {
+    return this.http.post('create', {
+      id: id
+    }).then((response: AxiosResponse) => response.data)
+  }
+
+  public async delete(id: number): Promise<InterestDeleteResponse> {
+    return this.http.post('delete', {
+      id: id
+    }).then((response: AxiosResponse) => response.data)
+  }
+
+  public async accountInterested(id: number): Promise<AccountInterestedResponse> {
+    return this.http.get('account-interested', {
       params: {
         id: id
       }

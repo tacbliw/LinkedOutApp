@@ -6,7 +6,7 @@ import { Repository } from "./base-repository"
 
 interface PostObject {
   type: string;
-  postId: number;
+  id: number;
   userFirstname: string;
   userLastname: string;
   title: string;
@@ -18,7 +18,7 @@ interface PostObject {
 
 interface JobObject {
   type: string;
-  jobId: number;
+  id: number;
   accountId: number;
   title: string;
   description: string;

@@ -5,7 +5,6 @@ import React from 'reactn'
 import { screens } from "../config/screens"
 import { showError, showInfo } from "../helpers/toast"
 import { FeedGetResponse, feedRepository } from "../repositories/feed-repository"
-import { interestRepository } from "../repositories/interest-repository"
 import { postRepository } from "../repositories/post-repository"
 
 export const feedService = {
@@ -69,10 +68,11 @@ export const feedService = {
             console.log(error)
           })
         }
+        showInfo("Posted!")
       }).catch(error => {
         console.log(error?.response)
+        showError("Some error occured.")
       })
-      showInfo("Posted!")
       setContent('')
       setImage(null)
       navigation.goBack()
@@ -92,7 +92,6 @@ export const feedService = {
 
   useViewFeed(): [
     FeedGetResponse,
-    () => void,
     () => void,
     () => void,
     () => void,
@@ -122,8 +121,6 @@ export const feedService = {
     //   console.log(feed)
     // }, [feed])
 
-    const handleCommentButton = React.useCallback(() => {}, [])
-
     const handleWriteFeed = React.useCallback(() => {
       navigation.navigate(screens.authenticated.user.newsfeed.write)
     }, [navigation])
@@ -152,7 +149,6 @@ export const feedService = {
 
     return [
       feed,
-      handleCommentButton,
       handleWriteFeed,
       handleViewPost,
       handleViewJob,
@@ -160,37 +156,4 @@ export const feedService = {
       handleLoadNew,
     ]
   },
-
-  useInterest(): [
-    (id: number) => Promise<boolean>,
-    (id: number) => Promise<number>,
-    () => void,
-  ] {
-    const checkInterest = React.useCallback(async (id: number): Promise<boolean> => {
-      try {
-        const response = await interestRepository.check(id)
-        return response.interested
-      } catch (error) {
-        console.log(error)
-        return false
-      }
-    }, [])
-
-    const loadInterestCount = React.useCallback(async (id: number): Promise<number> => {
-      try {
-        const response = await interestRepository.count(id)
-        return response.count
-      } catch (error) {
-        console.log(error)
-        return 0
-      }
-    }, [])
-
-    const handleInterest = React.useCallback(() => {}, [])
-    return [
-      checkInterest,
-      loadInterestCount,
-      handleInterest,
-    ]
-  }
 }

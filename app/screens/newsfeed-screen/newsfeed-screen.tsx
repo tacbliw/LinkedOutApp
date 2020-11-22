@@ -21,7 +21,11 @@ const styles = StyleSheet.create({
     // borderBottomWidth: 1,
     // borderBottomColor: color.headerBottomLine
   },
-  headerContainer: {},
+  noData: {
+    color: color.brandLight,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
 })
 
 const tweetActionSheetButton = [
@@ -36,8 +40,14 @@ const tweetActionSheetButton = [
 ]
 
 const renderListFeed = (feed: FeedGetResponse) => {
-  if (!feed) {
-    return <Text>No data</Text>
+  if (feed.length === 0) {
+    console.log(feed)
+    return (
+      <ListItem key={0} style={styles.noData}>
+        <Icon name='file-tray-outline'></Icon>
+        <Text>No data</Text>
+      </ListItem>
+    )
   }
   return feed.map((item, index) => {
     if (item.type === 'post') {
@@ -59,7 +69,6 @@ const renderListFeed = (feed: FeedGetResponse) => {
 export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
   const [
     feed,
-    handleCommentButton,
     handleWriteFeed,
     handleViewPost,
     handleViewJob,

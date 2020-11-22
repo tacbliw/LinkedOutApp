@@ -1,8 +1,10 @@
 import { Card, CardItem, Icon, Text, Thumbnail, View } from 'native-base'
 import React from 'react'
-import { Dimensions, Image, StyleSheet, TouchableOpacity } from 'react-native'
+import { Dimensions, StyleSheet, TouchableOpacity } from 'react-native'
+import FastImage from 'react-native-fast-image'
 import { toString } from '../../helpers/date-helper'
 import { PostObject } from '../../repositories/feed-repository'
+import { postService } from '../../services/post-service'
 import { color } from '../../theme'
 
 const screenWidth = Math.round(Dimensions.get('window').width)
@@ -30,7 +32,16 @@ const styles = StyleSheet.create({
   bottomPost: {
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
-    justifyContent: 'space-between',
+    flexDirection: 'row',
+    // justifyContent: 'space-between',
+  },
+
+  heartInterested: {
+    color: color.brandDanger,
+  },
+
+  heartNotInterested: {
+    color: color.brandDark,
   },
 
   postContent: {
@@ -76,6 +87,13 @@ export function Post(props: PostProps) {
   React.useEffect(() => {
     console.log(props)
   }, [])
+
+  const [
+    interestCount,
+    interested,
+    handleInterest,
+    handleComment,
+  ] = postService.usePost(props.post.id)
   return (
     <Card transparent style={{ borderWidth: 10 }}>
       <CardItem header style={styles.topPost}>
@@ -106,21 +124,25 @@ export function Post(props: PostProps) {
           )}
 
           {props.post.postPicture ? (
-            <Image
+            <FastImage
               source={{ uri: props.post.postPicture }}
               style={styles.postImage}
-            ></Image>
+            ></FastImage>
           ) : (
             <></>
           )}
         </View>
       </CardItem>
       <CardItem style={styles.bottomPost}>
-        <TouchableOpacity>
-          <Icon name='heart-outline'></Icon>
+        <TouchableOpacity onPress={handleInterest} style={{}}>
+          {interested ? (
+            <Icon name='heart' style={styles.heartInterested} />
+          ) : (
+            <Icon name='heart-outline' style={styles.heartNotInterested} />
+          )}
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Icon name='chatbubble-outline'></Icon>
+        <TouchableOpacity onPress={handleComment}>
+          <Icon name='chatbubble-outline' />
         </TouchableOpacity>
       </CardItem>
     </Card>
