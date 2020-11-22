@@ -10,7 +10,8 @@ interface JobObject {
   seniorityLevel: string;
   employmentType: string;
   recruimentUrl: string;
-  publishedDate: Date;
+  publishedDate: number;
+  jobPicture: string;
   cities: string[];
   skills: string[];
 }
@@ -31,7 +32,7 @@ export interface JobGetResponse {
   seniorityLevel: string;
   employmentType: string;
   recruimentUrl: string;
-  publishedDate: Date;
+  publishedDate: number;
   cities: string[];
   skills: string[];
 }
@@ -42,7 +43,7 @@ export interface JobCreateRequest {
   seniorityLevel: string;
   employmentType: string;
   recruimentUrl: string;
-  publishedDate: Date;
+  publishedDate: number;
   cities: string[];
   skills: string[];
 }

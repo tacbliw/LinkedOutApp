@@ -8,8 +8,8 @@ import { Repository } from "./base-repository"
 
 interface PostObject {
   id: number;
-  title: string;
   content: string;
+  postPicture?: string;
 }
 
 export interface PostListRequest {

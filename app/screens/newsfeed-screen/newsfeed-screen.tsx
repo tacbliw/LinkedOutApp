@@ -1,23 +1,11 @@
 import { Fab, Header, Icon, List, ListItem } from 'native-base'
 import React from 'react'
-import {
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native'
+import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Post } from '../../components'
 import { JobPost } from '../../components/job-post/job-post'
-import { screens } from '../../config/screens'
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "../../models"
+import { JobObject, PostObject } from '../../repositories/feed-repository'
+import { feedService } from '../../services/feed-service'
 import { color } from '../../theme'
-
-const ROOT: ViewStyle = {
-  backgroundColor: color.palette.black,
-  flex: 1,
-}
 
 const styles = StyleSheet.create({
   container: {},
@@ -43,18 +31,35 @@ const tweetActionSheetButton = [
   { text: 'Cancel', icon: 'close', iconColor: color.brandLight },
 ]
 
-export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-  // OR
-  // const rootStore = useStores()
+const renderListFeed = (feed: FeedGetResponse) => {
+  return feed.map((item, index) => {
+    if (item.type === 'post') {
+      return (
+        <ListItem key={index}>
+          <Post post={item as PostObject} />
+        </ListItem>
+      )
+    } else if (item.type === 'job') {
+      return (
+        <ListItem key={index}>
+          <JobPost job={item as JobObject} />
+        </ListItem>
+      )
+    }
+  })
+}
 
-  // Pull in navigation via hook
-  // const navigation = useNavigation()
+export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
+  const [
+    feed,
+    handleCommentButton,
+    handleWriteFeed,
+    handleViewPost,
+    handleViewJob,
+    handleLoadOld,
+    handleLoadNew,
+  ] = feedService.useViewFeed()
   return (
-    // <Screen style={ROOT} preset="scroll">
-    //   <Text preset="header" text="newsfeedScreen" />
-    // </Screen>
     <View style={{ flex: 1 }}>
       <Header transparent noShadow style={styles.header}>
         <TouchableOpacity
@@ -70,32 +75,11 @@ export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
         ></Icon>
       </Header>
       <ScrollView>
-        <List>
-          <ListItem noBorder>
-            <Post
-              avatarUri={require('./avatar1.jpg')}
-              name='Siasa'
-              date='30 Jul'
-              content='Need 1 for ACM 😭😭😭😭😭😭😭😭😭😭'
-              image={require('./avatar2.jpg')}
-            ></Post>
-          </ListItem>
-          <ListItem noBorder>
-            <JobPost
-              avatarUri={require('./compass.png')}
-              name='UI/UX Designer Fresher'
-              date='Yesterday'
-              place='Ha Noi'
-              seniority_level='Fresher'
-            ></JobPost>
-          </ListItem>
-        </List>
+        <List>{renderListFeed(feed)}</List>
       </ScrollView>
       <Fab
         style={{ backgroundColor: color.brandPrimary }}
-        onPress={() => {
-          navigation.navigate(screens.authenticated.user.newsfeed.write)
-        }}
+        onPress={handleWriteFeed}
       >
         <Icon name='brush-outline'></Icon>
       </Fab>

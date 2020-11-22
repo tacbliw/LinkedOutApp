@@ -11,7 +11,8 @@ interface PostObject {
   userLastname: string;
   title: string;
   content: string;
-  publishedDate: Date;
+  publishedDate: number;
+  postPicture?: string;
   skills: string[];
 }
 
@@ -24,7 +25,8 @@ interface JobObject {
   seniorityLevel: string;
   employmentType: string;
   recruimentUrl: string;
-  publishedDate: Date;
+  publishedDate: number;
+  jobPicture: string;
   cities: string[];
   skills: string[];
 }

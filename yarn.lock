@@ -4705,6 +4705,11 @@ date-fns@^1.27.2:
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
   integrity sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==
 
+dateformat@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-4.0.0.tgz#e2eaf8eaf384f0dcf834870c1b8c1b1bccca4539"
+  integrity sha512-zpKyDYpeePyYGJp2HhRxLHlA+jZQNjt+MwmcVmLxCIECeC4Ks3TI3yk/CSMKylbnCJ5htonfOugYtRRTpyoHow==
+
 dayjs@^1.8.15:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.9.1.tgz#201a755f7db5103ed6de63ba93a984141c754541"

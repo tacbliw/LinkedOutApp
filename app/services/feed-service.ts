@@ -2,7 +2,10 @@ import { useNavigation } from "@react-navigation/native"
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native"
 import ImagePicker, { Image, ImageOrVideo } from 'react-native-image-crop-picker'
 import React from 'reactn'
-import { showInfo } from "../helpers/toast"
+import { screens } from "../config/screens"
+import { showError, showInfo } from "../helpers/toast"
+import { FeedGetResponse, feedRepository } from "../repositories/feed-repository"
+import { interestRepository } from "../repositories/interest-repository"
 import { postRepository } from "../repositories/post-repository"
 
 export const feedService = {
@@ -84,6 +87,110 @@ export const feedService = {
       handleDeletePhoto,
       handleCancel,
       handleSubmit,
+    ]
+  },
+
+  useViewFeed(): [
+    FeedGetResponse,
+    () => void,
+    () => void,
+    () => void,
+    () => void,
+    () => void,
+    () => void,
+  ] {
+    const navigation = useNavigation()
+    const [feed, setFeed] = React.useState<FeedGetResponse>([])
+
+    const loadFeed = React.useCallback(async (t: number) => {
+      try {
+        const r = await feedRepository.get(t)
+        if (r) {
+          setFeed([
+            ...feed,
+            ...r
+          ])
+        } else {
+          showError("Feed response empty")
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }, []) // do not put `feed` in there
+
+    React.useEffect(() => {
+      loadFeed(0)
+    }, [loadFeed])
+
+    // React.useEffect(() => {
+    //   console.log(feed)
+    // }, [feed])
+
+    const handleCommentButton = React.useCallback(() => {}, [])
+
+    const handleWriteFeed = React.useCallback(() => {
+      navigation.navigate(screens.authenticated.user.newsfeed.write)
+    }, [navigation])
+
+    const handleViewPost = React.useCallback(() => {}, [])
+
+    const handleViewJob = React.useCallback(() => {}, [])
+
+    const handleLoadOld = React.useCallback(() => {
+      loadFeed(feed[feed.length - 1].publishedDate)
+    }, [feed, loadFeed])
+
+    const handleLoadNew = React.useCallback(async () => {
+      try {
+        const response = await feedRepository.get(0).then()
+        setFeed(response)
+      } catch (error) {
+        showError("Error when loading feed")
+        console.log(error)
+      }
+    }, [])
+
+    return [
+      feed,
+      handleCommentButton,
+      handleWriteFeed,
+      handleViewPost,
+      handleViewJob,
+      handleLoadOld,
+      handleLoadNew,
+    ]
+  },
+
+  useInterest(): [
+    (id: number) => Promise<boolean>,
+    (id: number) => Promise<number>,
+    () => void,
+  ] {
+    const checkInterest = React.useCallback(async (id: number): Promise<boolean> => {
+      try {
+        const response = await interestRepository.check(id)
+        return response.interested
+      } catch (error) {
+        console.log(error)
+        return false
+      }
+    }, [])
+
+    const loadInterestCount = React.useCallback(async (id: number): Promise<number> => {
+      try {
+        const response = await interestRepository.count(id)
+        return response.count
+      } catch (error) {
+        console.log(error)
+        return 0
+      }
+    }, [])
+
+    const handleInterest = React.useCallback(() => {}, [])
+    return [
+      checkInterest,
+      loadInterestCount,
+      handleInterest,
     ]
   }
 }

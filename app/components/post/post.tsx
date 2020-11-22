@@ -3,11 +3,12 @@ import * as React from 'react'
 import {
   Dimensions,
   Image,
-  ImageSourcePropType,
   StyleSheet,
   TouchableOpacity,
   ViewStyle,
 } from 'react-native'
+import { toString } from '../../helpers/date-helper'
+import { PostObject } from '../../repositories/feed-repository'
 import { color } from '../../theme'
 
 const screenWidth = Math.round(Dimensions.get('window').width)
@@ -28,15 +29,7 @@ export interface PostProps {
   /**
    * An optional style override useful for padding & margin.
    */
-  style?: ViewStyle
-
-  avatarUri?: ImageSourcePropType
-
-  name?: string
-  date?: string
-
-  image?
-  content?: string
+  post: PostObject
 }
 
 const ROOT: ViewStyle = {
@@ -45,8 +38,27 @@ const ROOT: ViewStyle = {
 }
 
 const styles = StyleSheet.create({
-  post: {
-    flexDirection: 'row',
+  bottomPost: {
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+    justifyContent: 'space-between',
+  },
+
+  postContent: {
+    color: color.brandDark,
+    fontSize: 20,
+    width: 320,
+  },
+
+  postDate: {
+    color: color.brandLight,
+  },
+
+  postImage: {
+    borderRadius: 15,
+    height: 200,
+    marginTop: 16,
+    width: screenWidth * 0.8,
   },
 
   postUserAvatar: {
@@ -54,82 +66,37 @@ const styles = StyleSheet.create({
     // marginTop: 10,
   },
 
-  postContentContainer: {
-    marginLeft: 10,
-  },
-
   postUsername: {
     color: color.brandDark,
+    fontSize: 20,
     fontWeight: '700',
-    fontSize: 20,
-  },
-
-  postAtName: {
-    color: color.brandLight,
-  },
-
-  postDate: {
-    color: color.brandLight,
-  },
-
-  postContent: {
-    width: 320,
-    color: color.brandDark,
-    fontSize: 20,
-  },
-
-  postTag: {
-    color: color.brandPrimary,
-  },
-
-  postInteractionContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-
-  postInteractionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-
-  reactionFontStyle: {
-    color: color.brandDark,
-  },
-
-  postImage: {
-    width: screenWidth * 0.8,
-    height: 200,
-    borderRadius: 15,
-    marginTop: 16,
-  },
-
-  bottomPost: {
-    justifyContent: 'space-between',
-    borderBottomRightRadius: 15,
-    borderBottomLeftRadius: 15,
   },
 
   topPost: {
-    width: screenWidth * 0.9,
-    justifyContent: 'space-between',
     alignItems: 'flex-start',
-    borderTopRightRadius: 15,
     borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    justifyContent: 'space-between',
+    width: screenWidth * 0.9,
   },
 })
 
-/**
- * Describe your component here
- */
 export function Post(props: PostProps) {
   return (
     <Card transparent style={{ borderWidth: 10 }}>
       <CardItem header style={styles.topPost}>
         <View style={{ flexDirection: 'row' }}>
-          <Thumbnail style={styles.postUserAvatar} source={props.avatarUri} />
+          <Thumbnail
+            style={styles.postUserAvatar}
+            source={{ uri: props.post.userProfilePicture }}
+          />
           <View style={{ marginLeft: 16 }}>
-            <Text style={styles.postUsername}>{props.name}</Text>
-            <Text style={styles.postDate}>{props.date}</Text>
+            <Text
+              style={styles.postUsername}
+            >{`${props.post.userFirstname} ${props.post.userLastname}`}</Text>
+            <Text style={styles.postDate}>
+              {toString(props.post.publishedDate)}
+            </Text>
           </View>
         </View>
         <View>
@@ -138,8 +105,19 @@ export function Post(props: PostProps) {
       </CardItem>
       <CardItem>
         <View>
-          <Text style={styles.postContent}>{props.content}</Text>
-          <Image source={props.image} style={styles.postImage}></Image>
+          {props.post.content ? (
+            <Text style={styles.postContent}>{props.post.content}</Text>
+          ) : (
+            <></>
+          )}
+          {props.post.postPicture ? (
+            <Image
+              source={{ uri: props.post.postPicture }}
+              style={styles.postImage}
+            ></Image>
+          ) : (
+            <></>
+          )}
         </View>
       </CardItem>
       <CardItem style={styles.bottomPost}>

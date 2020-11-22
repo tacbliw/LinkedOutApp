@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios"
 import { API_INTEREST_ROUTE } from "../config/api-const"
 import { API_BASE_URL } from "../config/consts"
 import { httpConfig } from "../config/http/config"
@@ -65,6 +66,22 @@ export class InterestRepository extends Repository {
   constructor() {
     super(httpConfig)
     this.baseURL = API_BASE_URL + API_INTEREST_ROUTE
+  }
+
+  public async count(id: number): Promise<InterestCountResponse> {
+    return this.http.get('count', {
+      params: {
+        id: id
+      }
+    }).then((response: AxiosResponse) => response.data)
+  }
+
+  public async check(id: number): Promise<InterestCheckResponse> {
+    return this.http.get('check', {
+      params: {
+        id: id
+      }
+    }).then((response: AxiosResponse) => response.data)
   }
 }
 
