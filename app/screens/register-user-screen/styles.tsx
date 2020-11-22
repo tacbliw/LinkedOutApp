@@ -5,11 +5,9 @@ export const styles = StyleSheet.create({
   button: {
     backgroundColor: color.brandPrimary,
     borderRadius: 33,
-    elevation: 15,
+    // elevation: 15,
     flex: 1,
     justifyContent: 'center',
-    shadowOpacity: 1,
-    shadowRadius: 5,
   },
   container: {
     alignItems: 'center',
@@ -39,12 +37,13 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
   rect: {
+    alignItems: 'center',
     backgroundColor: color.palette.white, // "#E6E6E6",
     borderTopLeftRadius: 44,
     borderTopRightRadius: 44,
     elevation: 30,
     height: height * 0.8,
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     // marginTop: height/15,
     shadowOpacity: 10,
     shadowRadius: 10,
@@ -57,19 +56,14 @@ export const styles = StyleSheet.create({
     fontSize: 23,
   },
   submitButton: {
-    height: height * 0.08,
-    width: width * 0.6,
+    height: height * 0.07,
+    width: width * 0.4,
   },
   textInput: {
-    backgroundColor: color.palette.white,
-    borderRadius: 22,
-    color: color.brandDark,
-    elevation: 10,
-    fontFamily: 'roboto-regular',
-    fontSize: 20,
-    height: height * 0.08,
-    lineHeight: 20,
-    marginVertical: height * 0.01,
-    width: width * 0.8,
+    marginTop: 24,
+  },
+
+  textInputIcon: {
+    color: color.brandPrimary,
   },
 })

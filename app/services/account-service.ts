@@ -3,6 +3,7 @@ import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native"
 import React from "reactn"
 import { screens } from "../config/screens"
 import { isEmail, removeCredentials, saveCredentials } from "../helpers/account-helper"
+import { toPythonString } from "../helpers/date-helper"
 import { showError } from "../helpers/toast"
 import { accountRepository, LoginResponse } from "../repositories/account-repository"
 import { companyRepository } from "../repositories/company-repository"
@@ -246,8 +247,10 @@ export const accountService = {
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
     string,
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
-    string,
-    (value: string) => void,
+    Date,
+    (value: Date) => void,
+    boolean,
+    () => void,
     string,
     (value: string) => void,
     string,
@@ -263,9 +266,10 @@ export const accountService = {
     // Locals
     const [firstName, setFirstName] = React.useState<string>('')
     const [lastname, setLastName] = React.useState<string>('')
-    const [dateOfBirth, setDateOfBirth] = React.useState<string>('')
+    const [dateOfBirth, setDateOfBirth] = React.useState<Date>(new Date(1598051730000))
     const [gender, setGender] = React.useState<string>('male')
     const [description, setDescription] = React.useState<string>('')
+    const [showDatePicker, setShowDatePicker] = React.useState<boolean>(false)
 
     const handleFirstNameChange = React.useCallback(
       (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
@@ -282,11 +286,16 @@ export const accountService = {
     )
 
     const handleDateOfBirthChange = React.useCallback(
-      (value: string) => {
+      (value: Date) => {
+        setShowDatePicker(false)
         setDateOfBirth(value)
       },
       [],
     )
+
+    const handleDatePickerPress = React.useCallback(() => {
+      setShowDatePicker(true)
+    }, [])
 
     const handleGenderChange = React.useCallback(
       (value: string) => {
@@ -304,7 +313,7 @@ export const accountService = {
 
     const handleUserRegister = React.useCallback(async () => {
       try {
-        await userRepository.create(firstName, lastname, dateOfBirth, gender, description, accessToken)
+        await userRepository.create(firstName, lastname, toPythonString(dateOfBirth), gender, description, accessToken)
         saveCredentials(
           accessToken,
           accountId.toString(),
@@ -325,6 +334,8 @@ export const accountService = {
       handleLastNameChange,
       dateOfBirth,
       handleDateOfBirthChange,
+      showDatePicker,
+      handleDatePickerPress,
       gender,
       handleGenderChange,
       description,

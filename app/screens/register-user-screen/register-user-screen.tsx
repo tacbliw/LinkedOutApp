@@ -1,6 +1,7 @@
-import { Picker, View } from 'native-base'
+import DateTimePicker from '@react-native-community/datetimepicker'
+import { Form, Icon, Input, Item, Picker, Textarea, View } from 'native-base'
 import React from 'react'
-import { StatusBar, TextInput, TouchableOpacity } from 'react-native'
+import { TouchableOpacity, useWindowDimensions } from 'react-native'
 import { Screen, Text } from '../../components'
 import { accountService } from '../../services/account-service'
 import { color } from '../../theme'
@@ -14,6 +15,8 @@ export function RegisterUserScreen({ route, navigation }) {
     handleLastNameChange,
     dateOfBirth,
     handleDateOfBirthChange,
+    showDatePicker,
+    handleDatePickerPress,
     gender,
     handleGenderChange,
     description,
@@ -22,67 +25,78 @@ export function RegisterUserScreen({ route, navigation }) {
   ] = accountService.useRegisterUser(route.params)
   return (
     <Screen style={styles.container} preset='scroll'>
-      <StatusBar barStyle='light-content' />
       <Text style={styles.header}>Tell us more about you!</Text>
       <View style={styles.rect}>
-        <View style={styles.group2}>
-          <View style={styles.group}>
-            <TextInput
-              value={firstName}
+        <Form style={{ width: useWindowDimensions().width * 0.8 }}>
+          <Item style={styles.textInput}>
+            <Icon style={styles.textInputIcon} name='person-outline' />
+            <Input
               placeholder='First Name'
-              placeholderTextColor={color.placeHolder}
-              style={styles.textInput}
-              autoFocus={true}
+              value={firstName}
               onChange={handleFirstNameChange}
             />
-            <TextInput
-              value={lastname}
+          </Item>
+          <Item style={styles.textInput}>
+            <Icon style={styles.textInputIcon} name='person-add-outline' />
+            <Input
               placeholder='Last Name'
-              placeholderTextColor={color.placeHolder}
-              style={styles.textInput}
+              value={lastname}
               onChange={handleLastNameChange}
             />
-            {/* <DatePicker placeHolderText='Date of Birth' /> */}
-            <TextInput
-              value={dateOfBirth}
-              placeholder='Date of Birth'
-              placeholderTextColor={color.placeHolder}
-              style={styles.textInput}
-              onChangeText={handleDateOfBirthChange}
+          </Item>
+          <Item style={styles.textInput}>
+            <Icon
+              style={styles.textInputIcon}
+              name='calendar-outline'
+              onPress={handleDatePickerPress}
             />
-            <View style={styles.textInput}>
-              <Picker
-                mode='dropdown'
-                selectedValue={gender}
-                style={{
-                  color: color.brandDark,
-                  justifyContent: 'center',
-                }}
-                placeholder='gender'
-                onValueChange={handleGenderChange}
-              >
-                <Picker.Item label='Male' value='male' />
-                <Picker.Item label='Female' value='female' />
-              </Picker>
-            </View>
-            <TextInput
-              value={description}
-              placeholder='Description'
-              placeholderTextColor={color.placeHolder}
-              style={styles.textInput}
-              multiline={true}
-              onChange={handleDescriptionChange}
-              onSubmitEditing={handleUserRegister}
-            />
-          </View>
-          <View style={styles.submitButton}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={handleUserRegister}
+            {showDatePicker && (
+              <DateTimePicker
+                testID='dateTimePicker'
+                value={dateOfBirth}
+                display='default'
+                onChange={(event, date) => handleDateOfBirthChange(date)}
+              />
+            )}
+            <Input>{dateOfBirth.toDateString()}</Input>
+          </Item>
+          <Item picker style={[styles.textInput, { marginLeft: 14 }]}>
+            <Picker
+              mode='dropdown'
+              selectedValue={gender}
+              style={{
+                color: color.brandDark,
+              }}
+              placeholder='gender'
+              onValueChange={handleGenderChange}
             >
-              <Text style={styles.submit}>SUBMIT</Text>
-            </TouchableOpacity>
-          </View>
+              <Picker.Item label='Male' value='male' />
+              <Picker.Item label='Female' value='female' />
+            </Picker>
+          </Item>
+          <Item style={{ borderBottomColor: '#FFFFFF' }}>
+            <Textarea
+              style={[
+                styles.textInput,
+                {
+                  borderRadius: 10,
+                  backgroundColor: '#ffffff',
+                  flexGrow: 1,
+                },
+              ]}
+              value={description}
+              onChange={handleDescriptionChange}
+              rowSpan={5}
+              underline={false}
+              bordered={true}
+              placeholder='Description'
+            />
+          </Item>
+        </Form>
+        <View style={styles.submitButton}>
+          <TouchableOpacity style={styles.button} onPress={handleUserRegister}>
+            <Text style={styles.submit}>Register</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </Screen>

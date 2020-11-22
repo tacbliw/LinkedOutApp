@@ -5,3 +5,7 @@ export function toString(timestamp: number): string {
   console.log(t)
   return dateFormat(t, 'mmm d')
 }
+
+export function toPythonString(date: Date): string {
+  return dateFormat(date, 'yyyy-mm-dd')
+}
