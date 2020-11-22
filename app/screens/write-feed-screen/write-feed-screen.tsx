@@ -1,4 +1,12 @@
-import { Button, Header, Icon, Text, Thumbnail, View } from 'native-base'
+import {
+  ActionSheet,
+  Button,
+  Header,
+  Icon,
+  Text,
+  Thumbnail,
+  View,
+} from 'native-base'
 import React from 'react'
 import {
   Dimensions,
@@ -101,6 +109,17 @@ export const WriteFeedScreen = function WriteFeedScreen() {
     handleSubmitFeed,
   ] = feedService.useWriteFeed()
 
+  const handleActionSheet = (buttonIndex: number) => {
+    switch (buttonIndex) {
+      case 0:
+        handleDeletePhoto()
+        break
+
+      default:
+        break
+    }
+  }
+
   return (
     <View style={styles.ROOT}>
       <Header transparent style={styles.header}>
@@ -133,10 +152,37 @@ export const WriteFeedScreen = function WriteFeedScreen() {
           />
         </KeyboardAvoidingView>
       </View>
-      {/* <Text>Should be after this</Text> */}
       <View style={styles.selectedPictureView}>
         {image ? (
-          <Image source={{ uri: image.path }} style={styles.selectedPicture} />
+          <TouchableOpacity
+            onPress={() => {
+              ActionSheet.show(
+                {
+                  options: [
+                    {
+                      text: 'Delete',
+                      icon: 'trash',
+                      iconColor: color.brandDanger,
+                    },
+                    {
+                      text: 'Cancel',
+                      icon: 'close',
+                      iconColor: color.palette.black,
+                    },
+                  ],
+                  cancelButtonIndex: 1,
+                  destructiveButtonIndex: 0,
+                  title: 'Post image',
+                },
+                handleActionSheet,
+              )
+            }}
+          >
+            <Image
+              source={{ uri: image.path }}
+              style={styles.selectedPicture}
+            />
+          </TouchableOpacity>
         ) : (
           <Button
             style={styles.selectPictureButton}

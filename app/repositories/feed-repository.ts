@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios"
 import { API_FEED_ROUTE } from "../config/api-const"
 import { API_BASE_URL } from "../config/consts"
 import { httpConfig } from "../config/http/config"
@@ -39,6 +40,14 @@ export class FeedRepository extends Repository {
   constructor() {
     super(httpConfig)
     this.baseURL = API_BASE_URL + API_FEED_ROUTE
+  }
+
+  public async get(timestamp: number): Promise<FeedGetResponse> {
+    return this.http.get('get', {
+      params: {
+        t: timestamp
+      }
+    }).then((response: AxiosResponse) => response.data)
   }
 }
 
