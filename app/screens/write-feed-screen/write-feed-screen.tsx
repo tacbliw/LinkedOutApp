@@ -52,8 +52,6 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
   },
   inputView: {
-    // borderWidth: 1,
-    // borderColor: 'green',
     paddingTop: 10,
   },
   name: {
@@ -87,7 +85,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'flex-start',
     marginTop: 0,
-    // paddingHorizontal: 20,
     resizeMode: 'stretch',
     width: width - 40,
   },

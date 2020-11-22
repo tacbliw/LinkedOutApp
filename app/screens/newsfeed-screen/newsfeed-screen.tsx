@@ -1,14 +1,18 @@
-import { Fab, Header, Icon, List, ListItem } from 'native-base'
+import { Fab, Header, Icon, List, ListItem, Text } from 'native-base'
 import React from 'react'
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Post } from '../../components'
 import { JobPost } from '../../components/job-post/job-post'
-import { JobObject, PostObject } from '../../repositories/feed-repository'
+import {
+  FeedGetResponse,
+  JobObject,
+  PostObject,
+} from '../../repositories/feed-repository'
 import { feedService } from '../../services/feed-service'
 import { color } from '../../theme'
 
 const styles = StyleSheet.create({
-  container: {},
+  container: { flex: 1 },
   header: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -32,6 +36,9 @@ const tweetActionSheetButton = [
 ]
 
 const renderListFeed = (feed: FeedGetResponse) => {
+  if (!feed) {
+    return <Text>No data</Text>
+  }
   return feed.map((item, index) => {
     if (item.type === 'post') {
       return (
@@ -60,7 +67,7 @@ export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
     handleLoadNew,
   ] = feedService.useViewFeed()
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       <Header transparent noShadow style={styles.header}>
         <TouchableOpacity
           onPress={() => {

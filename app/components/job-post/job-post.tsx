@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     // marginTop: 10,
     borderRadius: 15,
     height: 100,
+    resizeMode: 'center',
     width: 100,
   },
   postCompanyName: {
@@ -80,7 +81,7 @@ export function JobPost(props: JobPostProps) {
                 <Icon style={{ fontSize: 16 }} name='location-outline' />{' '}
                 {props.job.cities[0]}
               </Text>
-              <Text style={{ color: color.brandDark }}>
+              <Text style={{ color: color.brandDark, marginLeft: 10 }}>
                 <Icon style={{ fontSize: 16 }} name='person-outline' />{' '}
                 {props.job.seniorityLevel}
               </Text>

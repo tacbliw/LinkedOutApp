@@ -1,12 +1,6 @@
 import { Card, CardItem, Icon, Text, Thumbnail, View } from 'native-base'
-import * as React from 'react'
-import {
-  Dimensions,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  ViewStyle,
-} from 'react-native'
+import React from 'react'
+import { Dimensions, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { toString } from '../../helpers/date-helper'
 import { PostObject } from '../../repositories/feed-repository'
 import { color } from '../../theme'
@@ -32,11 +26,6 @@ export interface PostProps {
   post: PostObject
 }
 
-const ROOT: ViewStyle = {
-  backgroundColor: color.palette.black,
-  flex: 1,
-}
-
 const styles = StyleSheet.create({
   bottomPost: {
     borderBottomLeftRadius: 15,
@@ -55,10 +44,12 @@ const styles = StyleSheet.create({
   },
 
   postImage: {
-    borderRadius: 15,
-    height: 200,
-    marginTop: 16,
-    width: screenWidth * 0.8,
+    aspectRatio: 1.5,
+    borderRadius: 20,
+    justifyContent: 'flex-start',
+    marginTop: 10,
+    resizeMode: 'cover',
+    width: screenWidth - 80,
   },
 
   postUserAvatar: {
@@ -82,6 +73,9 @@ const styles = StyleSheet.create({
 })
 
 export function Post(props: PostProps) {
+  React.useEffect(() => {
+    console.log(props)
+  }, [])
   return (
     <Card transparent style={{ borderWidth: 10 }}>
       <CardItem header style={styles.topPost}>
@@ -110,6 +104,7 @@ export function Post(props: PostProps) {
           ) : (
             <></>
           )}
+
           {props.post.postPicture ? (
             <Image
               source={{ uri: props.post.postPicture }}

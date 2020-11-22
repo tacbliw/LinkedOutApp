@@ -116,11 +116,7 @@ export const feedService = {
       } catch (error) {
         console.log(error)
       }
-    }, []) // do not put `feed` in there
-
-    React.useEffect(() => {
-      loadFeed(0)
-    }, [loadFeed])
+    }, []) // do not put `feed` in there, ignore that linting
 
     // React.useEffect(() => {
     //   console.log(feed)
@@ -149,6 +145,10 @@ export const feedService = {
         console.log(error)
       }
     }, [])
+
+    React.useEffect(() => {
+      handleLoadNew()
+    }, [handleLoadNew])
 
     return [
       feed,
