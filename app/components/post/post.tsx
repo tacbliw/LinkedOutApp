@@ -158,12 +158,16 @@ export function Post(props: PostProps) {
           {interested ? (
             <View style={styles.interestContainer}>
               <Icon name='heart' style={styles.interestContent} />
-              <Text style={styles.interestContent}>{interestedCount}</Text>
+              {interestedCount > 0 ? (
+                <Text style={styles.interestContent}>{interestedCount}</Text>
+              ) : null}
             </View>
           ) : (
             <View style={styles.interestContainer}>
               <Icon name='heart-outline' style={styles.intrContentLiked} />
-              <Text style={styles.intrContentLiked}>{interestedCount}</Text>
+              {interestedCount > 0 ? (
+                <Text style={styles.intrContentLiked}>{interestedCount}</Text>
+              ) : null}
             </View>
           )}
         </TouchableOpacity>

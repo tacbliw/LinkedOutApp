@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import FastImage from 'react-native-fast-image'
+import { toBackendUrl } from '../../helpers/string-helper'
 import { feedService } from '../../services/feed-service'
 import { color } from '../../theme'
 
@@ -137,7 +138,11 @@ export const WriteFeedScreen = function WriteFeedScreen() {
         <View style={styles.accountView}>
           <FastImage
             style={styles.avatar}
-            source={{ uri: 'https://www.w3schools.com/w3images/avatar2.png' }}
+            source={{
+              uri: toBackendUrl(
+                'https://www.w3schools.com/w3images/avatar2.png',
+              ),
+            }}
           />
           <Text style={styles.name}>Hai Tung</Text>
         </View>
