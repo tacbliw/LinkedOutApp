@@ -130,7 +130,7 @@ export const accountService = {
     string,
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
     string,
-    (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
+    (value: any[]) => void,
     string,
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
 
@@ -153,8 +153,8 @@ export const accountService = {
     [],
   )
   const handleSpecialitiesChange = React.useCallback(
-    (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
-      setSpecialities(event.nativeEvent.text)
+    (value: [])  => {
+      setSpecialities(value.toString())
     },
     [],
   )

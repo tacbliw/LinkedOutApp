@@ -1,3 +1,4 @@
+import { Form, Icon, Input, Item } from 'native-base'
 import React from 'react'
 import {
   Dimensions,
@@ -5,14 +6,12 @@ import {
   Platform,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
-  View,
+  useWindowDimensions, View,
   ViewStyle
 } from 'react-native'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
-import { default as IoniconsIcon } from 'react-native-vector-icons/Ionicons'
 import { Screen } from '../../components'
 import { screens } from '../../config/screens'
 import { accountService } from '../../services/account-service'
@@ -20,7 +19,7 @@ import { color } from '../../theme'
 
 const { width, height } = Dimensions.get('screen')
 const ROOT: ViewStyle = {
-  backgroundColor: color.brandPrimary,
+  backgroundColor: color['color-primary-500'],
   flex: 1,
 }
 
@@ -44,56 +43,36 @@ export const LoginScreen = function LoginScreen({ navigation }) {
         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
       >
         <View style={styles.rect}>
-          <View style={styles.iconNameRow}>
-            <IoniconsIcon
-              name='md-person'
-              style={styles.iconName}
-            ></IoniconsIcon>
-            <TextInput
-              value={username}
-              onChange={handleUsernameChange}
-              placeholder='Username'
-              placeholderTextColor={color.placeHolder} // "rgba(217,188,188,1)"
-              style={styles.textInput}
-              autoFocus
-              returnKeyType={'next'}
-              blurOnSubmit={false}
-            ></TextInput>
-          </View>
-          <View style={styles.iconPasswdRow}>
-            <IoniconsIcon
-              name='md-key'
-              style={styles.iconPasswd}
-            ></IoniconsIcon>
-            <View style={styles.passwordStack}>
-              <TextInput
-                value={password}
-                onChange={handlePasswordChange}
-                textContentType='password'
-                secureTextEntry
-                placeholder='Password'
-                placeholderTextColor={color.placeHolder}
-                style={styles.textInput}
-              ></TextInput>
-              <TouchableOpacity style={styles.forgotPassword} onPress={null}>
-                <Text style={{ color: color.brandWarning }}>
-                  {' '}
+          <Form style={{width: useWindowDimensions().width * 0.8, marginTop: 52}}>
+            <Item style={styles.textInput}>
+              <Icon style={styles.textInputIcon} name='person' />
+              <Input placeholder="Username" onChange={handleUsernameChange}/>
+            </Item>
+
+            <Item style={styles.textInput}>
+              <Icon style={styles.textInputIcon} name='key' />
+              <Input placeholder="Password" onChange={handlePasswordChange}/>
+            </Item>
+
+            <Item style={{borderBottomColor: "#FFFFFF", marginTop: 16, alignSelf: 'flex-end'}}>
+              <TouchableOpacity>
+                <Text style={{ color: color['color-primary-300'] }}>
                   Forgot password?
                 </Text>
               </TouchableOpacity>
-            </View>
-          </View>
-          <View style={{ marginTop: width * 0.15 }}>
-            <TouchableOpacity onPress={handleLogin} style={styles.button}>
-              <Text style={styles.login4}>LOGIN</Text>
+            </Item>
+          <View style={{marginTop: 24}}>
+            <TouchableOpacity onPress={handleLogin} style={styles.buttonLogin}>
+              <Text style={styles.loginTextButton}>Login</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate(screens.basic.register.user)}
-              style={styles.button}
+              onPress={() => navigation.navigate(screens.basic.register.company)}
+              style={styles.buttonRegister}
             >
-              <Text style={styles.login4}>REGISTER</Text>
+              <Text style={styles.registerTextButton}>Register</Text>
             </TouchableOpacity>
           </View>
+          </Form>
           <Text style={styles.orSignInWith}>or Sign In with</Text>
           <View style={styles.icon2Row}>
             <EntypoIcon
@@ -112,20 +91,34 @@ export const LoginScreen = function LoginScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  button: {
+  buttonLogin: {
     alignSelf: 'center',
-    backgroundColor: color.brandPrimary,
+    backgroundColor: color['color-primary-500'],
     borderRadius: 33,
-    elevation: 15,
+    // elevation: 15,
     height: height * 0.06,
     justifyContent: 'center',
     marginTop: width * 0.05,
     shadowOpacity: 1,
     shadowRadius: 5,
-    width: width * 0.6,
+    width: width * 0.7,
+  },
+
+  buttonRegister: {
+    alignSelf: 'center',
+    borderColor: color["color-primary-500"],
+    color: color["color-primary-500"],
+    borderWidth: 1,
+    borderRadius: 33,
+    // elevation: 15,
+    height: height * 0.06,
+    justifyContent: 'center',
+    marginTop: width * 0.05,
+    shadowOpacity: 1,
+    shadowRadius: 5,
+    width: width * 0.7,
   },
   forgotPassword: {
-    fontFamily: 'roboto-regular',
     height: height * 0.08,
     justifyContent: 'space-between',
     marginTop: width * 0.2,
@@ -153,7 +146,7 @@ const styles = StyleSheet.create({
   },
   iconName: {
     alignSelf: 'center',
-    color: color.brandDark,
+    color: color['color-primary-500'],
     fontSize: 23,
   },
   iconNameRow: {
@@ -164,23 +157,26 @@ const styles = StyleSheet.create({
   },
   iconPasswd: {
     alignSelf: 'center',
-    color: color.brandDark,
+    color: color['color-primary-500'],
     fontSize: 25,
   },
   iconPasswdRow: {
     alignSelf: 'center',
     flexDirection: 'row',
   },
-  login4: {
+  loginTextButton: {
     alignSelf: 'center',
-    color: color.palette.white,
-    fontFamily: 'roboto-700',
+    color: "#FFFFFF",
+    fontSize: 23,
+  },
+  registerTextButton: {
+    alignSelf: 'center',
+    color: color["color-primary-500"],
     fontSize: 23,
   },
   orSignInWith: {
     alignSelf: 'center',
-    color: color.brandDanger,
-    fontFamily: 'roboto-regular',
+    color: color['color-primary-500'],
     marginTop: width * 0.15,
   },
   passwordStack: {
@@ -192,25 +188,19 @@ const styles = StyleSheet.create({
     backgroundColor: color.palette.white,
     borderTopLeftRadius: 44,
     borderTopRightRadius: 44,
-    elevation: 30,
     height: height * 0.75,
     marginTop: height * 0.2,
     shadowOpacity: 10,
     shadowRadius: 10,
     width: width,
+    alignItems: 'center',
   },
   textInput: {
-    backgroundColor: color.palette.white,
-    borderBottomColor: color.brandPrimary,
-    borderBottomWidth: 2,
-    color: color.brandDark,
-    // elevation: 10,
-    fontFamily: 'roboto-regular',
-    fontSize: 20,
-    height: height * 0.08,
-    justifyContent: 'center',
-    lineHeight: 20,
-    textAlign: 'left',
-    width: width * 0.8,
+    marginTop: 24,
+    marginLeft: 0
   },
+
+  textInputIcon: {
+    color: color["color-primary-500"]
+  }
 })
