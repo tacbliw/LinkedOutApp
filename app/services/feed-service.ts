@@ -135,7 +135,7 @@ export const feedService = {
 
     const handleLoadNew = React.useCallback(async () => {
       try {
-        const response = await feedRepository.get(0).then()
+        const response = await feedRepository.get(0)
         setFeed(response)
       } catch (error) {
         showError("Error when loading feed")

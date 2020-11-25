@@ -6,7 +6,10 @@ export function extensionFromUrl(s: string): string {
 }
 
 export function toBackendUrl(path: string): string {
-  if (path.startsWith('http')) {
+  if (path.startsWith('http') || path.startsWith('file')) { // dealing with full URL
+    return path
+  }
+  if (path.startsWith('.')) {
     return path
   }
   return API_BASE_URL + path.replace(/$\/+/, '')
