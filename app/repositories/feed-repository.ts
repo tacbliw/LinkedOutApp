@@ -3,6 +3,7 @@ import { API_BASE_URL } from "../config/consts"
 import { httpConfig } from "../config/http/config"
 import { Repository } from "./base-repository"
 
+
 interface PostObject {
   type: string;
   postId: number;
@@ -10,7 +11,7 @@ interface PostObject {
   userLastname: string;
   title: string;
   content: string;
-  publishedDate: Date;
+  publishedDate: number;
   skills: string[];
 }
 
@@ -24,14 +25,36 @@ interface JobObject {
   seniorityLevel: string;
   employmentType: string;
   recruimentUrl: string;
-  publishedDate: Date;
+  publishedDate: number;
   cities: string[];
   skills: string[];
 }
 
+interface CompanyObject {
+  type: string;
+  accountId: number;
+  name: string;
+  description: string;
+}
+
+interface UserObject {
+  type: string;
+  accountId: number;
+  firstname: string;
+  lastname: string;
+  description: string;
+}
+
+
+export interface FeedGetRequest {
+  t: number;
+}
+
 export interface FeedGetResponse extends Array<PostObject | JobObject> {}
 
-// We don't need suggest job and suggest follow here, right?
+
+export interface FeedSuggestFollowResponse extends Array<CompanyObject | UserObject> {}
+
 
 export class FeedRepository extends Repository {
   constructor() {

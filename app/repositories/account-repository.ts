@@ -13,6 +13,7 @@ export interface LoginResponse {
   accessToken: string;
   account: {
     accountType: string;
+    username: string;
     id: number;
   }
 }
@@ -22,6 +23,15 @@ export interface RegisterRequest {
   password: string;
   email: string;
   accountType: string;
+}
+
+export interface RegisterResponse {
+    accessToken: string;
+    account: {
+      accountType: string;
+      username: string;
+      id: number;
+    }
 }
 
 export interface ChangePasswordRequest {

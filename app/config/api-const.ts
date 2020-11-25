@@ -31,3 +31,7 @@ export const API_SEARCH_ROUTE = 'api/search'
 export const API_STATISTIC_ROUTE = 'api/statistic'
 
 export const API_MESSAGE_ROUTE = 'api/message'
+
+export const API_COMMENT_ROUTE = 'api/comment'
+
+export const API_NOTIFICATION_ROUTE = 'api/notification'

@@ -8,10 +8,8 @@ interface PostObject {
   postId: number;
   userFirstname: string;
   userLastname: string;
-  title: string;
   content: string;
-  publishedDate: Date;
-  skills: string[];
+  publishedDate: number;
 }
 
 interface JobObject {
@@ -23,7 +21,7 @@ interface JobObject {
   seniorityLevel: string;
   employmentType: string;
   recruimentUrl: string;
-  publishedDate: Date;
+  publishedDate: number;
   cities: string[];
   skills: string[];
 }

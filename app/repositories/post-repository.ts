@@ -5,10 +5,8 @@ import { Repository } from "./base-repository"
 
 interface PostObject {
   postId: number;
-  title: string;
   content: string;
-  publishedDate: Date;
-  skills: string[];
+  publishedDate: number;
 }
 
 export interface PostListRequest {
@@ -24,18 +22,14 @@ export interface PostGetRequest {
 export interface PostGetResponse extends PostObject {}
 
 export interface PostCreateRequest {
-  title: string;
   content: string;
-  skills: string[];
 }
 
 export interface PostCreateResponse extends Array<PostObject> {}
 
 export interface PostUpdateRequest {
   postId: number;
-  title: string;
   content: string;
-  skills: string[];
 }
 
 export interface PostUpdateResponse extends Array<PostObject> {}

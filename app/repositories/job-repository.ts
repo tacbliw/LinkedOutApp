@@ -10,7 +10,7 @@ interface JobObject {
   seniorityLevel: string;
   employmentType: string;
   recruimentUrl: string;
-  publishedDate: Date;
+  publishedDate: number;
   cities: string[];
   skills: string[];
 }
