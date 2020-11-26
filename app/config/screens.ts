@@ -26,6 +26,7 @@ export const screens = {
       navigator: 'user-navigator',
       home: 'user-home-navigator',
       profile: 'user-profile',
+      editprofile: 'user-edit-profile',
       newsfeed: {
         navigator: 'user-newsfeed-navigator',
         main: 'user-newsfeed-main',

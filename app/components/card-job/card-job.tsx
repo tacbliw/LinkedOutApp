@@ -1,6 +1,7 @@
-import { Card, CardItem, Thumbnail } from 'native-base'
+import { Card, CardItem, Icon, Right, Thumbnail } from 'native-base'
 import * as React from "react"
 import { TextStyle, View, ViewStyle } from "react-native"
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Text } from "../"
 import { color, typography } from "../../theme"
 
@@ -25,6 +26,10 @@ export interface CardJobProps {
   describe: string,
   thumnailSource,
   children,
+  deleteAble?:boolean,
+  id: number,
+  onChangeId,
+  onDelete
 }
 
 /**
@@ -32,6 +37,16 @@ export interface CardJobProps {
  */
 export function CardJob(props: CardJobProps) {
   const { style } = props
+
+
+   const trash = props.deleteAble ?
+        <TouchableOpacity style = {{marginLeft:16}} >
+          <Icon name="trash-outline" style={{color: 'red'}} onPress={()=>{
+            props.onChangeId(props.id);
+            props.onDelete();
+          }}></Icon>
+        </TouchableOpacity>
+        : <></>
 
   return (
     <Card noShadow={true} transparent style={{ minWidth: props.minWidth }}>
@@ -44,6 +59,7 @@ export function CardJob(props: CardJobProps) {
           </View>
           <Text style={{ color: '#8d91ae' }}>{props.describe}</Text>
         </View>
+        <Right>{trash}</Right>
       </CardItem>
     </Card>
   )

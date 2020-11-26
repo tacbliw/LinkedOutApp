@@ -6,7 +6,7 @@ export function getAuthorization(headers: Record<string, string>): Record<string
   if (typeof accessToken === 'string' && accessToken !== '') {
     return {
       ...headers,
-      Authorizarion: `Bearer ${accessToken}`
+      Authorization: `Bearer ${accessToken}`
     }
   }
   return headers

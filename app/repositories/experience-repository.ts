@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios"
 import { API_EXPERIENCE_ROUTE } from "../config/api-const"
 import { API_BASE_URL } from "../config/consts"
 import { httpConfig } from "../config/http/config"
@@ -52,6 +53,36 @@ export class ExperienceRepository extends Repository {
   constructor() {
     super(httpConfig)
     this.baseURL = API_BASE_URL + API_EXPERIENCE_ROUTE
+  }
+
+  public async get(id: number): Promise<ExperienceListResponse> {
+    return this.http.get('list', {
+      params: {
+        id
+      }
+    }).then((response: AxiosResponse) => response.data)
+  }
+
+  public async create(
+    companyName: string,
+    startDate: string,
+    endDate: string,
+    title: string,
+    description: string,
+  ): Promise<ExperienceCreateResponse> {
+    return this.http.post('create', {
+      companyName,
+      startDate,
+      endDate,
+      title,
+      description
+    }).then((response: AxiosResponse) => response.data)
+  }
+
+  public async delete(id: number): Promise<ExperienceDeleteResponse> {
+    return this.http.post('delete', {
+      id: id
+    }).then((response: AxiosResponse) => response.data)
   }
 }
 
