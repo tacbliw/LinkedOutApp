@@ -10,10 +10,12 @@ export const searchService = {
     string,
     (value: string) => void,
     [any],
-    () => void
+    () => void,
+    (value: any[]) => void,
   ] {
-    const [searchType, setSearchType] = useState<string>('student')
+    const [searchType, setSearchType] = useState<string>('user')
     const [searchData, setSearchData] = useState<string>('')
+    const [searchSkillsAndSpecialty, setSearchSkillsAndSpecialty] = useState<string>('')
     const [searchResult, setSearchResult] = useState<any>()
     const [loading, setLoading] = useState<boolean>(false)
     const navigation = useNavigation()
@@ -25,9 +27,9 @@ export const searchService = {
     }, [])
 
     const handleSearchTypeChange = useCallback((
-      value: string
+      value
     ) => {
-      setSearchType(value)
+      setSearchType(value);
     }, [])
 
     const handleSearch = useCallback(async () => {
@@ -35,11 +37,16 @@ export const searchService = {
        * Search and changes of searchResult are done here.
        */
       setLoading(true)
-      console.log('Searching with "' + searchType + '" "' + searchData + '"')
-      const response = await searchRepository.search(searchType, searchData, '', '')
+      const response = await searchRepository.search(searchType, searchData, searchSkillsAndSpecialty, searchSkillsAndSpecialty)
       setSearchResult(response)
       setLoading(false)
-    }, [searchType, searchData])
+    }, [searchType, searchData, searchSkillsAndSpecialty])
+
+    const handleSkillsAndSpecialtyChange = useCallback((
+      value: []
+    ) => {
+      setSearchSkillsAndSpecialty(value.toString())
+    }, [])
 
     return [
       searchData,
@@ -48,6 +55,7 @@ export const searchService = {
       handleSearchTypeChange,
       searchResult,
       handleSearch,
+      handleSkillsAndSpecialtyChange
     ]
   },
   useViewDetail(): [

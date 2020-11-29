@@ -1,6 +1,4 @@
 import {
-  Card,
-  CardItem,
   Header,
   Icon,
   Input,
@@ -9,18 +7,23 @@ import {
   Picker,
   Right,
   Text,
-  Thumbnail,
-  View,
+
+  View
 } from 'native-base'
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Dimensions,
   FlatList,
+
+
+
   StyleSheet,
-  TouchableOpacity,
-  ViewStyle,
+
+  ViewStyle
 } from 'react-native'
-import { Screen } from '../../components'
+import SectionedMultiSelect from 'react-native-sectioned-multi-select'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import { Screen, SearchItemCompany, SearchItemJob, SearchItemUser } from '../../components'
 import { searchService } from '../../services/search-service'
 import { color } from '../../theme'
 
@@ -49,98 +52,44 @@ const styles = StyleSheet.create({
   },
 })
 
-const megha = require('./avatar.jpg')
+// const megha = require('./avatar.jpg')
 
-const datas = [
-  {
-    img: megha,
-    name: 'LeCun',
-    text:
-      'Yann André LeCun is a French computer scientist working primarily in the fields of machine learning, computer vision, mobile robotics, and computational neuroscience',
-    organization: 'VNU UET, Viet Nam',
-    skills: ['C#', 'Python', 'LOL'],
-  },
-  {
-    img: megha,
-    name: 'Ian Goodfellow',
-    text:
-      'Ian J. Goodfellow is a researcher working in machine learning, currently employed at Apple Inc. as its director of machine learning in the Special Projects Group',
-    organization: 'VNU UET, Viet Nam',
-    skills: ['C#', 'Python', 'LOL'],
-  },
-  {
-    img: megha,
-    name: 'Yoshua Bengio',
-    text:
-      'Yoshua Bengio FRS OC FRSC is a Canadian computer scientist, most noted for his work on artificial neural networks and deep learning.',
-    organization: 'VNU UET, Viet Nam',
-    skills: ['C#', 'Python', 'LOL'],
-  },
-]
-
-const FlatItem = ({ item, onPress, style }) => (
-  <TouchableOpacity onPress={onPress} style={style}>
-    <Card transparent>
-      <CardItem
-        style={{
-          backgroundColor: '#f6f5fb',
-          borderTopLeftRadius: 15,
-          borderTopRightRadius: 15,
-        }}
-      >
-        <View style={{ flexDirection: 'row' }}>
-          <Thumbnail
-            square
-            style={{ borderRadius: 15, width: 55, height: 55 }}
-            source={item.img}
-          ></Thumbnail>
-          <View style={{ marginLeft: 16, justifyContent: 'space-between' }}>
-            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
-              {item.name}
-            </Text>
-            <Text style={{ color: color.brandLight }}>{item.organization}</Text>
-          </View>
-        </View>
-      </CardItem>
-      <CardItem
-        style={{
-          backgroundColor: '#f6f5fb',
-          marginBottom: -20,
-          borderBottomLeftRadius: 15,
-          borderBottomRightRadius: 15,
-        }}
-      >
-        <View style={{ flexDirection: 'column' }}>
-          <Text style={{ color: color.brandLight }}>{item.text}</Text>
-          <FlatList
-            style={{ marginTop: 16 }}
-            horizontal={true}
-            data={item.skills}
-            renderItem={({ item }) => {
-              return (
-                <Text
-                  style={{
-                    backgroundColor: '#ffffff',
-                    marginRight: 10,
-                    color: color.brandLight,
-                    borderRadius: 10,
-                    paddingTop: 3,
-                    paddingBottom: 3,
-                    paddingLeft: 10,
-                    paddingRight: 10,
-                  }}
-                >
-                  {item}
-                </Text>
-              )
-            }}
-            keyExtractor={(item) => item}
-          ></FlatList>
-        </View>
-      </CardItem>
-    </Card>
-  </TouchableOpacity>
+const FlatItem = ({ item, onPress, style }) => {
+  if (item.type === "user") return (
+    <SearchItemUser 
+    style={style} 
+    onPress={onPress} 
+    profilePicture={item.profilePicture}
+    firstname={item.firstname}
+    lastname={item.lastname}
+    gender={item.gender}
+    description={item.description}
+    skills={item.skills}></SearchItemUser>
 )
+  else if (item.type === "company")
+    return (
+      <SearchItemCompany
+      style={style} 
+      onPress={onPress} 
+      profilePicture={item.profilePicture}
+      name={item.name}
+      website={item.website}
+      description={item.description}
+      specialties={item.specialties}></SearchItemCompany>
+      )
+  else
+    return (
+      <SearchItemJob
+      style={style} 
+      onPress={onPress}
+      title={item.title}
+      jobPicture={item.jobPicture}
+      city={item.cities[0]}
+      employmentType={item.employmentType}
+      publishedDate={item.publishedDate}
+      ></SearchItemJob>
+    )
+          }
 
 const renderItem = ({ item }) => {
   return (
@@ -152,6 +101,49 @@ const renderItem = ({ item }) => {
   )
 }
 
+const specialty_picker_items = [
+  {
+    name: 'Specialty',
+    id: 1,
+    // these are the children or 'sub items'
+    children: [
+      {
+        name: 'Django',
+        id: 'Django',
+      },
+      {
+        name: 'React',
+        id: 'React',
+      },
+      {
+        name: 'Pikachu',
+        id: 'Pikachu',
+      },
+    ],
+  },
+]
+
+const skill_picker_items = [
+  {
+    name: 'Skills',
+    id: 0,
+    children: [
+      {
+        name: 'C++',
+        id: 'C++',
+      },
+      {
+        name: 'C#',
+        id: 'C#',
+      },
+      {
+        name: 'Python',
+        id: 'Python',
+      },
+    ],
+  }
+]
+
 export const SearchScreen = function SearchScreen() {
   const [
     searchData,
@@ -160,7 +152,18 @@ export const SearchScreen = function SearchScreen() {
     handleChangeSearchType,
     searchResult,
     handleSearch,
+    handleSkillsAndSpecialtyChange
   ] = searchService.useSearch()
+
+  const [selectedItems, setSelectedItems] = useState([])
+
+  const [currentPickerType, setCurrentPickerType] = useState(skill_picker_items)
+
+  const onSelectedItemsChange = (selectedItems) => {
+    setSelectedItems(selectedItems)
+    // handleSkillsAndSpecialtyChange(selectedItems)
+  }
+
   return (
     <Screen>
       <Header transparent>
@@ -202,26 +205,66 @@ export const SearchScreen = function SearchScreen() {
           }}
         >
           <Picker
-            mode='dialog'
+            mode="dropdown"
             style={{ flexGrow: 1, width: 'auto', borderBottomWidth: 0 }}
             iosIcon={<Icon name='arrow-down' />}
-            placeholder='Select your SIM'
             placeholderStyle={{ color: '#bfc6ea' }}
             placeholderIconColor='#007aff'
-            onValueChange={handleChangeSearchType}
+            onValueChange={(value) => {setSelectedItems([]); handleChangeSearchType(value); handleSkillsAndSpecialtyChange([]); setCurrentPickerType(value == "user" || value == "job" ? skill_picker_items:specialty_picker_items)}}
             selectedValue={searchType}
           >
-            <Picker.Item label='Student' value='student' />
-            <Picker.Item label='Company' value='company' />
-            <Picker.Item label='Job' value='job' />
+            <Picker.Item label='👤' value='user' key="1"/>
+            <Picker.Item label='🏢' value='company' key="2" />
+            <Picker.Item label='💼' value='job' key="3"/>
           </Picker>
         </Item>
       </View>
-
+      <View style={{marginLeft: 16, marginRight: 16}}>
+      <SectionedMultiSelect
+                  items={currentPickerType} 
+                  IconRenderer={MaterialIcons}
+                  uniqueKey='id'
+                  subKey='children'
+                  selectText="Skill & Specialty"
+                  showDropDowns={false}
+                  readOnlyHeadings={true}
+                  onSelectedItemsChange={onSelectedItemsChange}
+                  selectedItems={selectedItems}
+                  colors={{primary: color.brandPrimary}}
+                  onConfirm={() => {handleSkillsAndSpecialtyChange(selectedItems)}}
+                  customChipsRenderer={(chipProperties) => {
+                    return (
+                              <FlatList
+                              horizontal={true}
+                              data={chipProperties.selectedItems}
+                              renderItem={({ item }) => {
+                                return (
+                                  <Text
+                                    style={{
+                                      backgroundColor: color.brandPrimary,
+                                      marginRight: 10,
+                                      color: '#FFFFFF',
+                                      borderRadius: 100,
+                                      paddingTop: 3,
+                                      paddingBottom: 3,
+                                      paddingLeft: 10,
+                                      paddingRight: 10,
+                                    }}
+                                  >
+                                    {item}
+                                  </Text>
+                                )
+                              }}
+                              keyExtractor={(item) => item.toString()}
+                            ></FlatList>
+                      )
+                  }}
+                />
+                </View>
       <FlatList
-        data={datas}
+        data={searchResult}
         renderItem={renderItem}
-        keyExtractor={(item) => item.title}
+        keyExtractor={(item) => item.id.toString()}
       ></FlatList>
     </Screen>
   )
