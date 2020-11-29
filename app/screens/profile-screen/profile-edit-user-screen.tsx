@@ -1,22 +1,22 @@
 import {
-  Button,
-  Form,
-  Header,
-  Icon,
-  Input,
-  Item,
-  Label,
-  Text,
-  Textarea,
-  Thumbnail,
+	Button,
+	Form,
+	Header,
+	Icon,
+	Input,
+	Item,
+	Label,
+	Text,
+	Textarea,
+	Thumbnail
 } from 'native-base'
 import React from 'react'
 import {
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  ViewStyle,
+	ScrollView,
+	StyleSheet,
+	TouchableOpacity,
+	View,
+	ViewStyle
 } from 'react-native'
 import DocumentPicker from 'react-native-document-picker'
 import SectionedMultiSelect from 'react-native-sectioned-multi-select'
@@ -218,3 +218,4 @@ export function ProfileEditUserScreen({ navigation }) {
     </Screen>
   )
 }
+	

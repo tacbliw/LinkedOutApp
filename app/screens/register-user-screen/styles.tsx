@@ -60,10 +60,10 @@ export const styles = StyleSheet.create({
     width: width * 0.4,
   },
   textInput: {
-    marginTop: 24,
+    marginTop: 24
   },
 
   textInputIcon: {
-    color: color.brandPrimary,
-  },
+    color: color.brandPrimary
+  }
 })
