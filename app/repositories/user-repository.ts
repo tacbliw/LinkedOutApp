@@ -87,6 +87,18 @@ export class UserRepository extends Repository {
       description
     }).then((response: AxiosResponse) => response.data)
   }
+
+  public async update(firstname: string, lastname:string, dateofbirth: string, gender:string, description: string): Promise<UserUpdateResponse> {
+    return this.http.post('update', {
+      params: {
+        firstname,
+        lastname,
+        dateofbirth,
+        gender,
+        description
+      }
+    }).then((response: AxiosResponse) => response.data)
+  }
 }
 
 export const userRepository: UserRepository = new UserRepository()

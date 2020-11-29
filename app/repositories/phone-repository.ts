@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios"
 import { API_PHONE_ROUTE } from "../config/api-const"
 import { API_BASE_URL } from "../config/consts"
 import { httpConfig } from "../config/http/config"
@@ -41,6 +42,24 @@ export class PhoneRepository extends Repository {
     super(httpConfig)
     this.baseURL = API_BASE_URL + API_PHONE_ROUTE
   }
+
+  public async get(id: number): Promise<PhoneListResponse> {
+    return this.http.get('list', {
+      params: {
+        id
+      }
+    }).then((response: AxiosResponse) => response.data)
+  }
+
+  public async update(oldPhone: string, newPhone: string): Promise<PhoneUpdateResponse> {
+    return this.http.post('update', {
+      params: {
+        oldPhone,
+        newPhone
+      }
+    }).then((response: AxiosResponse) => response.data)
+  }
+  
 }
 
 export const phoneRepository: PhoneRepository = new PhoneRepository()

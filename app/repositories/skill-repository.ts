@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios"
 import { API_SKILL_ROUTE } from "../config/api-const"
 import { API_BASE_URL } from "../config/consts"
 import { httpConfig } from "../config/http/config"
@@ -31,6 +32,26 @@ export class SkillRepository extends Repository {
   constructor() {
     super(httpConfig)
     this.baseURL = API_BASE_URL + API_SKILL_ROUTE
+  }
+
+  public async get(id: number): Promise<SkillListResponse> {
+    return this.http.get('list', {
+      params: {
+        id
+      }
+    }).then((response: AxiosResponse) => response.data)
+  }
+
+  public async create(skill: string): Promise<SkillCreateResponse> {
+    return this.http.post('create', {
+      skill: skill
+    }).then((response: AxiosResponse) => response.data)
+  }
+
+  public async delete(skill: string): Promise<SkillDeleteResponse> {
+    return this.http.post('delete', {
+      skill: skill
+    }).then((response: AxiosResponse) => response.data)
   }
 }
 

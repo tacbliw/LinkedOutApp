@@ -28,6 +28,7 @@ export const screens = {
       drawer: 'user-drawer',
       home: 'user-home-navigator',
       profile: 'user-profile',
+      editprofile: 'user-edit-profile',
       newsfeed: {
         navigator: 'user-newsfeed-navigator',
         main: 'user-newsfeed-main',

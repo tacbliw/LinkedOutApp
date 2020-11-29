@@ -1,3 +1,4 @@
+import moment from 'moment'
 import {
   Body,
   Button,
@@ -7,22 +8,24 @@ import {
   Grid,
   Header,
   Icon,
+
+
   Text,
-  Thumbnail,
+  Thumbnail
 } from 'native-base'
-import React from 'react'
-import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
-import Timeline from 'react-native-timeline-flatlist'
+import React, { useEffect, useState } from 'react'
+import { FlatList, ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
+import Timeline from "react-native-timeline-flatlist"
 import {
   CardJob,
   Container,
   FollowingUser,
   Screen,
-  Tag,
+  Tag
 } from '../../components'
 import { screens } from '../../config/screens'
+import { userProfileService } from '../../services/user-profile-service'
 import { color } from '../../theme'
-
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.black,
   flex: 1,
@@ -119,9 +122,43 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     marginRight: 16,
   },
+
+  textDescription: {
+    color: 'gray'
+  }
 })
 
 export function ProfileUserScreen({ navigation }) {
+  const [
+    firstName,
+    lastName,
+    gender,
+    profilePicture,
+    description,
+  ] = userProfileService.useGetUser();
+
+  const [
+    phoneList,
+  ] = userProfileService.useGetPhone();
+
+  const [
+    emailList,
+  ] = userProfileService.useGetMail();
+
+  const [
+    educationList
+  ] = userProfileService.useGetEducation();
+
+  const [
+    experienceList
+  ] = userProfileService.useGetExperience();
+
+  const [
+    skillList
+  ] = userProfileService.useGetSkill();
+
+  const [educationListRender, setEducationListRender] = useState([])
+
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
   // OR
@@ -129,6 +166,41 @@ export function ProfileUserScreen({ navigation }) {
 
   // Pull in navigation via hook
   //   const navigation = useNavigation()
+
+  const renderExperienceItem = ({ item }) => {
+    return (
+      <CardJob
+        minWidth={350}
+        companyName={item.companyName}
+        position={item.title}
+        thumnailSource={require('./company.jpg')}
+        describe={item.description}
+      ></CardJob>
+    )
+  }
+
+  const renderSkillItem = ({ item }) => {
+    return (
+      <Tag tagText={item}></Tag>
+    )
+  }
+
+  useEffect(() => {
+		educationList?setEducationListRender(educationList.map(item => {
+			return {
+			  id: item.educationId,
+			  time: moment(item.startDate, 'YYYY-MM-DD').fromNow(),
+			  title: item.schoolName,
+			  description: (
+				<View>
+					<Text style={styles.textDescription}>{item.major}</Text>
+				</View>
+				),
+			}
+		  })):''
+	}, [educationList])
+	
+
   return (
     <Screen style={ROOT} preset='scroll'>
       <ScrollView>
@@ -139,9 +211,15 @@ export function ProfileUserScreen({ navigation }) {
           >
             <Icon style={styles.backIcon} name='arrow-back-outline' />
           </Button>
-          <Button transparent>
-            <Icon style={styles.menuIcon} name='create-outline' />
-          </Button>
+          <Button transparent onPress={() => {
+            navigation.navigate(screens.authenticated.user.editprofile, {
+            userData: {"firstName": firstName, "lastName": lastName, "gender": gender, "profilePicture": gender, "description": description, "phoneList": phoneList, "emailList": emailList},
+						skillData: skillList,
+						educationData: educationList,
+						experienceData: experienceList
+					})}}>
+						<Icon style={styles.menuIcon} name="create-outline" />
+					</Button>
         </Header>
         <Container>
           <View style={styles.topInfo}>
@@ -153,10 +231,10 @@ export function ProfileUserScreen({ navigation }) {
                 source={require('./avatar.jpg')}
               ></Thumbnail>
               <View style={{ marginLeft: 25, justifyContent: 'center' }}>
-                <Text style={styles.userName}>Siraj</Text>
+                <Text style={styles.userName}>{firstName + ' ' + lastName}</Text>
                 <Text style={styles.about}>
                   <Icon name='location-outline' style={{ fontSize: 16 }}></Icon>
-                  Student at UET
+                  something
                 </Text>
               </View>
             </View>
@@ -184,14 +262,15 @@ export function ProfileUserScreen({ navigation }) {
             <CardItem>
               <Body>
                 <Text>
-                  about.me is a personal web hosting service co-founded by Ryan
-                  Freitas, Tony Conrad and Tim Young in October 2009. Wikipedia
+                  {description}
                 </Text>
-                <View style={{ flexDirection: 'row', marginTop: 16 }}>
-                  <Tag tagText='C++'></Tag>
-                  <Tag tagText='C++'></Tag>
-                  <Tag tagText='C++'></Tag>
-                </View>
+                  <FlatList
+                    data={skillList}
+                    renderItem={renderSkillItem}
+                    horizontal
+                    style ={{marginTop:16}}
+                    keyExtractor={(item) => item}
+                  ></FlatList>
               </Body>
             </CardItem>
           </Card>
@@ -202,7 +281,8 @@ export function ProfileUserScreen({ navigation }) {
             </CardItem>
             <CardItem>
               <Timeline
-                data={data}
+                data={educationListRender}
+                renderCircle={(rowData, sectionID, rowID)=> {}}
                 timeStyle={{
                   textAlign: 'center',
                   backgroundColor: color.brandInfo,
@@ -221,13 +301,12 @@ export function ProfileUserScreen({ navigation }) {
               </Text>
             </CardItem>
             <CardItem style={{ flexDirection: 'column' }}>
-              <CardJob
-                minWidth={350}
-                companyName='Fpt'
-                position='Software Engineering'
-                thumnailSource={require('./company.jpg')}
-                describe="I'm CEO"
-              ></CardJob>
+              <FlatList
+                data={experienceList}
+                renderItem={renderExperienceItem}
+                keyExtractor={(item) => item.id}
+              ></FlatList>
+
             </CardItem>
           </Card>
 
