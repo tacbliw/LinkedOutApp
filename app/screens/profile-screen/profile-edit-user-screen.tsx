@@ -1,18 +1,23 @@
 import DateTimePicker from '@react-native-community/datetimepicker'
+import moment from 'moment'
 import { Button, Card, CardItem, Form, Header, Icon, Input, Item, Label, Text, Textarea, Thumbnail } from "native-base"
-import React from "react"
-import { Dimensions, FlatList, KeyboardAvoidingView, Modal, StyleSheet, View, ViewStyle } from "react-native"
+import React, { useEffect } from "react"
+import { Dimensions, FlatList, KeyboardAvoidingView, Modal, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native"
 import DocumentPicker from 'react-native-document-picker'
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler"
+import { ScrollView } from "react-native-gesture-handler"
 import SectionedMultiSelect from 'react-native-sectioned-multi-select'
-import Timeline from "react-native-timeline-flatlist"
+import Timeline from 'react-native-timeline-flatlist'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { useState } from "reactn"
 import { CardJob, Container, Screen } from "../../components"
+import { tagService } from '../../services/tag-service'
 import { userProfileService } from "../../services/user-profile-service"
 // import { useStores } from "../../models"
 import { color } from "../../theme"
+
 const screenHeight = Dimensions.get('window').height
+const screenWidth = Dimensions.get('window').width
+
 const items = [
 	// this is the parent or 'item'
 	{
@@ -169,7 +174,6 @@ const styles = StyleSheet.create({
 		paddingRight: 50
 	},
 	textDescription: {
-		marginLeft: 10,
 		color: 'gray'
 	},
 	textInputIcon: {
@@ -238,7 +242,9 @@ export function ProfileEditUserScreen({ route, navigation }) {
 		degree,
 		handleDegreeChange,
 		handleCreatEducation,
-		educationList
+		educationList,
+		handleEducationChange,
+		handleDeleteEducation
 	] = userProfileService.useCreatEducation();
 
 	const [
@@ -260,12 +266,20 @@ export function ProfileEditUserScreen({ route, navigation }) {
 		handleDeleteExperience,
 		itemId,
 		handleItemIdChange,
-		experienceList
+		experienceList,
+		handleExperienceChange
 	] = userProfileService.useCreatExperience();
 
 	const [
 		skillList
 	  ] = userProfileService.useGetSkill();
+
+	const [
+		skillTag,
+		getAllSkillTag,
+		getSkillTagByQuery,
+	] = tagService.useTag()
+
 	// Pull in one of our MST stores
 	// const { someStore, anotherStore } = useStores()
 	// OR
@@ -273,32 +287,24 @@ export function ProfileEditUserScreen({ route, navigation }) {
 
 	// Pull in navigation via hook
 	//   const navigation = useNavigation()
-	const { skillData, educationData, experienceData } = route.params;
+	const { userData, skillData, educationData, experienceData } = route.params;
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [educationModalVisible, setEducationModalVisible] = useState(false);
 	const [experienceModalVisible, setExperienceModalVisible] = useState(false);
+	const [dataMultiSelected, setDataMultiSelected] = useState([])
+	const [educationListRender, setEducationListRender] = useState([])
 
 	const onSelectedItemsChange = (selectedItems) => {
 		setSelectedItems(selectedItems);
 	};
 
-	const [ref, useMyRef] = useState(null);
-
 	const renderDetail = (rowData, sectionID, rowID) => {
 		let title = <Text style={styles.title}>{rowData.title}</Text>
-		var desc = null
-		if (rowData.description)
-			desc = (
-				<View style={styles.descriptionContainer}>
-					<Text style={styles.textDescription}>{rowData.description}</Text>
-					<Icon name='trash-outline' style={{ color: 'red' }} />
-				</View>
-			)
 
 		return (
 			<View style={{ flex: 1 }}>
 				{title}
-				{desc}
+				{rowData.description}
 			</View>
 		)
 	};
@@ -307,17 +313,64 @@ export function ProfileEditUserScreen({ route, navigation }) {
 		return (
 			<CardJob
 				id={item.id}
-				minWidth={350}
+				minWidth={screenWidth*0.8}
 				companyName={item.companyName}
 				position={item.title}
 				thumnailSource={require('./company.jpg')}
 				describe={item.description}
 				deleteAble={true}
-				onChangeId={handleItemIdChange}
 				onDelete={handleDeleteExperience}
 			></CardJob>
 		)
 	}
+
+	useEffect(() => {
+		getAllSkillTag();
+		handleEducationChange(educationData.map(item => {
+			return {
+			//   id: item.educationId,
+			  time: moment(item.startDate, 'YYYY-MM-DD').fromNow(),
+			  title: item.schoolName,
+			  description: (
+				<View>
+					<Text style={styles.textDescription}>{item.major}</Text>
+					<TouchableOpacity onPress={() => handleDeleteEducation(item.id)}><Icon name='remove-circle' style={{ color: color.brandDanger }} /></TouchableOpacity>
+				</View>
+				),
+			}
+		  }));
+		handleExperienceChange(experienceData)
+	}, [null])
+
+	useEffect(() => {
+		educationList?setEducationListRender(educationList.map(item => {
+			return {
+			  id: item.educationId,
+			  time: moment(item.startDate, 'YYYY-MM-DD').fromNow(),
+			  title: item.schoolName,
+			  description: (
+				<View>
+					<Text style={styles.textDescription}>{item.major}</Text>
+					<TouchableOpacity onPress={() => handleDeleteEducation(item.id)}><Icon name='remove-circle' style={{ color: color.brandDanger }} /></TouchableOpacity>
+				</View>
+				),
+			}
+		  })):''
+	}, [educationList])
+	
+	useEffect(() => {
+		setDataMultiSelected([
+			{
+				name: 'Skill', 
+				id: 1,
+				children: skillTag?skillTag.map((item, index) =>( {name: item, id: index} )):[]
+			}
+		
+		])
+
+		skillTag?setSelectedItems(skillData.map(item => skillTag.indexOf(item))):''
+		
+	}, [skillTag])
 
 	return (
 		<Screen style={ROOT} preset="scroll">
@@ -347,17 +400,17 @@ export function ProfileEditUserScreen({ route, navigation }) {
 						<Form>
 							<Item stackedLabel>
 								<Label>First name</Label>
-								<Input value={firstName} onChange={handleFirstNameChange} />
+								<Input value={userData.firstName} onChange={handleFirstNameChange} />
 							</Item>
 
 							<Item stackedLabel>
 								<Label>Last name</Label>
-								<Input value={lastName} onChange={handleLastNameChange} />
+								<Input value={userData.lastName} onChange={handleLastNameChange} />
 							</Item>
 
 							<Item stackedLabel>
 								<Label>Gender</Label>
-								<Input value={gender} onChange={handleGenderChange} />
+								<Input value={userData.gender} onChange={handleGenderChange} />
 							</Item>
 							{/* <Item stackedLabel>
 								<Label>DoB</Label>
@@ -383,26 +436,26 @@ export function ProfileEditUserScreen({ route, navigation }) {
 
 							<Item stackedLabel>
 								<Label>Phone</Label>
-								<Input value={newPhone} onChange={handlePhoneChange} />
+								<Input value={userData.phoneList[0]} onChange={handlePhoneChange} />
 							</Item>
 
 							<Item stackedLabel>
 								<Label>Email</Label>
-								<Input value={newEmail} onChange={handleEmailChange} />
+								<Input value={userData.emailList[0]} onChange={handleEmailChange} />
 							</Item>
 
 							<Item stackedLabel style={{ alignItems: 'stretch' }}>
 								<Label>About me</Label>
 								<Textarea
 									style={{ borderRadius: 10, marginTop: 16, backgroundColor: "#ffffff" }} rowSpan={5} underline={false} bordered={false}
-									value={userDescription} onChange={handleUserDescriptionChange}
+									value={userData.description} onChange={handleUserDescriptionChange}
 								/>
 							</Item>
 
 							<Item stackedLabel style={{ alignItems: 'stretch' }}>
 								<Label>Skill</Label>
 								<SectionedMultiSelect
-									items={items}
+									items={dataMultiSelected}
 									IconRenderer={MaterialIcons}
 									uniqueKey="id"
 									subKey="children"
@@ -427,10 +480,16 @@ export function ProfileEditUserScreen({ route, navigation }) {
 						</CardItem>
 						<CardItem>
 							<Timeline
-								data={educationList}
+								// circleSize={35}
+								// timeContainerStyle={{minWidth:52, marginTop: -5}}
+								renderCircle={(rowData, sectionID, rowID) => {
+								}}
+								data={educationListRender}
 								renderDetail={renderDetail}
+								// columnFormat='single-column-right'
 								timeStyle={{ textAlign: 'center', backgroundColor: color.brandInfo, color: 'white', padding: 5, borderRadius: 13 }}
 							></Timeline>
+							{/* <Mytimeline></Mytimeline> */}
 						</CardItem>
 
 						<Modal

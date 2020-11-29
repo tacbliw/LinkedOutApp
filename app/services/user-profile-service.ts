@@ -38,9 +38,11 @@ export const userProfileService = {
     string,
     string,
     string,
+    string
   ] {
     const [firstName, setFirstName] = useState<string>('');
     const [lastName, setLastName] = useState<string>('');
+    const [gender , setGender] = useState<string>('');
     const [profilePicture, setProfilePicture] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>('accountId')
@@ -49,6 +51,7 @@ export const userProfileService = {
         const response = await userRepository.get(Number(accountId));
         setFirstName(response.firstname);
         setLastName(response.lastname);
+        setGender(response.gender);
         setProfilePicture(response.profilePicture);
         setDescription(response.description);
         //showInfo(accountId)
@@ -64,6 +67,7 @@ export const userProfileService = {
     return [
       firstName,
       lastName,
+      gender,
       profilePicture,
       description
     ]
@@ -78,15 +82,7 @@ export const userProfileService = {
     const getEducation = React.useCallback(async () => {
       try {
         const response = await educationRepository.get(Number(accountId));
-        const realResponse = response.map(item => {
-          return {
-            id: item.educationId,
-            time: item.startDate,
-            title: item.schoolName,
-            description: item.major,
-          }
-        })
-        setEducationList(realResponse)
+        setEducationList(response)
         //showInfo("got education list");
       } catch (error) {
         if (error?.response?.data) {
@@ -181,6 +177,32 @@ export const userProfileService = {
     ]
   },
 
+  useGetMail(): [
+    [any]
+  ] {
+    const [emailList, setPhoneList] = useState<any>()
+    const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>('accountId')
+
+    const getMail = React.useCallback(async () => {
+      try {
+        const response = await emailRepository.get(Number(accountId));
+        setPhoneList(response.emails)
+        //showInfo("got phone list");
+      } catch (error) {
+        if (error?.response?.data) {
+          showError("mail error")
+        }
+      }
+    }, [accountId])
+
+    React.useEffect(() => {
+      getMail()
+    }, [getMail])
+    return [
+      emailList
+    ]
+  },
+
   useUpdateUser(): [
     string,
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
@@ -228,9 +250,9 @@ export const userProfileService = {
         }
       }
     }, [accountId])
-    React.useEffect(() => {
-      getInfo()
-    }, [getInfo])
+    // React.useEffect(() => {
+    //   getInfo()
+    // }, [getInfo])
 
     const getPhone = React.useCallback(async () => {
       try {
@@ -243,9 +265,10 @@ export const userProfileService = {
         }
       }
     }, [accountId])
-    React.useEffect(() => {
-      getPhone()
-    }, [getPhone])
+    
+    // React.useEffect(() => {
+    //   getPhone()
+    // }, [getPhone])
 
     const getEmail = React.useCallback(async () => {
       try {
@@ -258,9 +281,9 @@ export const userProfileService = {
         }
       }
     }, [accountId])
-    React.useEffect(() => {
-      getEmail()
-    }, [getEmail])
+    // React.useEffect(() => {
+    //   getEmail()
+    // }, [getEmail])
 
     const handleFirstNameChange = useCallback(
       (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
@@ -367,8 +390,10 @@ export const userProfileService = {
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
     string,
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
-    () => void,
-    [any]
+    () => any,
+    [any],
+    ([]) => void,
+    (id: number) => void
   ] {
     const [schoolName, setSchoolName] = useState<string>('')
     const [startDateEducation, setStartDateEducation] = useState<Date>(new Date())
@@ -425,19 +450,11 @@ export const userProfileService = {
       },
       [],
     )
-
     const handleCreatEducation = React.useCallback(async () => {
       try {
         const response = await educationRepository.create(schoolName, toPythonString(startDateEducation), toPythonString(endDateEducation), major, degree)
-        const realResponse = response.map(item => {
-          return {
-            id: item.educationId,
-            time: item.startDate,
-            title: item.schoolName,
-            description: item.major,
-          }
-        })
-        setEducationList(realResponse)
+
+        setEducationList(response)
         showInfo("education created")
       } catch (error) {
         if (error?.response?.data?.details) {
@@ -446,18 +463,11 @@ export const userProfileService = {
       }
     }, [schoolName, startDateEducation, endDateEducation, major, degree])
 
+
     const getEducation = React.useCallback(async () => {
       try {
         const response = await educationRepository.get(Number(accountId));
-        const realResponse = response.map(item => {
-          return {
-            id: item.educationId,
-            time: item.startDate,
-            title: item.schoolName,
-            description: item.major,
-          }
-        })
-        setEducationList(realResponse)
+        setEducationList(response)
         //showInfo("got education list");
       } catch (error) {
         if (error?.response?.data) {
@@ -466,9 +476,26 @@ export const userProfileService = {
       }
     }, [accountId])
 
+    const handleEducationChange = React.useCallback(async (t_educationList) => {
+      setEducationList(t_educationList)
+    }, [])
+
+    const handleDeleteEducation = useCallback(async (id: number) => {
+      try {
+        const response = await educationRepository.delete(id)
+        setEducationList(response)
+        showInfo("Education deleted")
+      } catch (error) {
+        if (error?.response?.data?.details) {
+          showError(error.response.data.details)
+        }
+      }
+    }, [])
+
     React.useEffect(() => {
       getEducation()
     }, [getEducation])
+    
     return [
       schoolName,
       handleSchooleNameChange,
@@ -485,7 +512,9 @@ export const userProfileService = {
       degree,
       handleDegreeChange,
       handleCreatEducation,
-      educationList
+      educationList,
+      handleEducationChange,
+      handleDeleteEducation
     ]
   },
 
@@ -508,7 +537,8 @@ export const userProfileService = {
     (id: number) => void,
     number,
     (id: number) => void,
-    [any]
+    [any],
+    ([]) => void
   ] {
     const [companyName, setCompanyName] = useState<string>('')
     const [startDateExperience, setStartDateExperience] = useState<Date>(new Date())
@@ -584,9 +614,9 @@ export const userProfileService = {
       }
     }, [companyName, startDateExperience, endDateExperience, title, description])
 
-    const handleDeleteExperience = useCallback(async () => {
+    const handleDeleteExperience = useCallback(async (id: number) => {
       try {
-        const response = await experienceRepository.delete(itemId)
+        const response = await experienceRepository.delete(id)
         setExperienceList(response)
         showInfo("Experience deleted")
       } catch (error) {
@@ -608,9 +638,13 @@ export const userProfileService = {
       }
     }, [accountId])
 
-    React.useEffect(() => {
-      getExperience()
-    }, [getExperience])
+    const handleExperienceChange = React.useCallback(async (t_experienceList) => {
+      setExperienceList(t_experienceList)
+    }, [])
+
+    // React.useEffect(() => {
+    //   getExperience()
+    // }, [getExperience])
     return [
       companyName,
       handleCompanyNameChange,
@@ -630,7 +664,8 @@ export const userProfileService = {
       handleDeleteExperience,
       itemId,
       handleItemIdChange,
-      experienceList
+      experienceList,
+      handleExperienceChange
     ]
   }
 }

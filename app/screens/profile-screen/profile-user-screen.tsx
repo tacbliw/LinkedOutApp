@@ -1,3 +1,4 @@
+import moment from 'moment'
 import {
   Body,
   Button,
@@ -12,7 +13,7 @@ import {
   Text,
   Thumbnail
 } from 'native-base'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FlatList, ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
 import Timeline from "react-native-timeline-flatlist"
 import {
@@ -25,7 +26,6 @@ import {
 import { screens } from '../../config/screens'
 import { userProfileService } from '../../services/user-profile-service'
 import { color } from '../../theme'
-
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.black,
   flex: 1,
@@ -122,15 +122,28 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     marginRight: 16,
   },
+
+  textDescription: {
+    color: 'gray'
+  }
 })
 
 export function ProfileUserScreen({ navigation }) {
   const [
     firstName,
     lastName,
+    gender,
     profilePicture,
     description,
   ] = userProfileService.useGetUser();
+
+  const [
+    phoneList,
+  ] = userProfileService.useGetPhone();
+
+  const [
+    emailList,
+  ] = userProfileService.useGetMail();
 
   const [
     educationList
@@ -143,6 +156,9 @@ export function ProfileUserScreen({ navigation }) {
   const [
     skillList
   ] = userProfileService.useGetSkill();
+
+  const [educationListRender, setEducationListRender] = useState([])
+
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
   // OR
@@ -169,6 +185,22 @@ export function ProfileUserScreen({ navigation }) {
     )
   }
 
+  useEffect(() => {
+		educationList?setEducationListRender(educationList.map(item => {
+			return {
+			  id: item.educationId,
+			  time: moment(item.startDate, 'YYYY-MM-DD').fromNow(),
+			  title: item.schoolName,
+			  description: (
+				<View>
+					<Text style={styles.textDescription}>{item.major}</Text>
+				</View>
+				),
+			}
+		  })):''
+	}, [educationList])
+	
+
   return (
     <Screen style={ROOT} preset='scroll'>
       <ScrollView>
@@ -179,11 +211,13 @@ export function ProfileUserScreen({ navigation }) {
           >
             <Icon style={styles.backIcon} name='arrow-back-outline' />
           </Button>
-          <Button transparent onPress={() => navigation.navigate(screens.authenticated.user.editprofile, {
+          <Button transparent onPress={() => {
+            navigation.navigate(screens.authenticated.user.editprofile, {
+            userData: {"firstName": firstName, "lastName": lastName, "gender": gender, "profilePicture": gender, "description": description, "phoneList": phoneList, "emailList": emailList},
 						skillData: skillList,
 						educationData: educationList,
 						experienceData: experienceList
-					})}>
+					})}}>
 						<Icon style={styles.menuIcon} name="create-outline" />
 					</Button>
         </Header>
@@ -247,7 +281,8 @@ export function ProfileUserScreen({ navigation }) {
             </CardItem>
             <CardItem>
               <Timeline
-                data={educationList}
+                data={educationListRender}
+                renderCircle={(rowData, sectionID, rowID)=> {}}
                 timeStyle={{
                   textAlign: 'center',
                   backgroundColor: color.brandInfo,

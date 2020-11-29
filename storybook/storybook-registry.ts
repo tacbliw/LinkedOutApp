@@ -1,3 +1,5 @@
+require("../app/components/mytimeline/mytimeline.story")
+require("../app/components/timeline/timeline.story")
 require("../app/components/search-item-job/search-item-job.story")
 require("../app/components/search-item-company/search-item-company.story")
 require("../app/components/search-item-user/search-item-user.story")

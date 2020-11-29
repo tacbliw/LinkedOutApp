@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios"
 import { API_TAG_ROUTE } from "../config/api-const"
 import { API_BASE_URL } from "../config/consts"
 import { httpConfig } from "../config/http/config"
@@ -55,6 +56,14 @@ export class TagRepository extends Repository {
   constructor() {
     super(httpConfig)
     this.baseURL = API_BASE_URL + API_TAG_ROUTE
+  }
+
+  public async getSkill(query: string): Promise<SkillTagResponse> {
+    return this.http.get('skill', {
+      params: {
+        query
+      }
+    }).then((response: AxiosResponse) => response.data)
   }
 }
 
