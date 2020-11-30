@@ -3,6 +3,7 @@ import React from 'react'
 import { Dimensions, StyleSheet, TouchableOpacity } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { toString } from '../../helpers/date-helper'
+import { toBackendUrl } from '../../helpers/string-helper'
 import { PostObject } from '../../repositories/feed-repository'
 import { postService } from '../../services/post-service'
 import { color } from '../../theme'
@@ -120,7 +121,7 @@ export function Post(props: PostProps) {
         <View style={{ flexDirection: 'row' }}>
           <Thumbnail
             style={styles.postUserAvatar}
-            source={{ uri: props.post.userProfilePicture }}
+            source={{ uri: toBackendUrl(props.post.userProfilePicture) }}
           />
           <View style={{ marginLeft: 16 }}>
             <Text
@@ -145,7 +146,7 @@ export function Post(props: PostProps) {
 
           {props.post.postPicture ? (
             <FastImage
-              source={{ uri: props.post.postPicture }}
+              source={{ uri: toBackendUrl(props.post.postPicture) }}
               style={styles.postImage}
             ></FastImage>
           ) : (

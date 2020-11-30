@@ -1,15 +1,19 @@
-import { Fab, Header, Icon, List, ListItem, Text } from 'native-base'
+import { Fab, Header, Icon, ListItem, Text } from 'native-base'
 import React from 'react'
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import {
+  Dimensions,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { Post } from '../../components'
 import { JobPost } from '../../components/job-post/job-post'
-import {
-  FeedGetResponse,
-  JobObject,
-  PostObject,
-} from '../../repositories/feed-repository'
+import { JobObject, PostObject } from '../../repositories/feed-repository'
 import { feedService } from '../../services/feed-service'
 import { color } from '../../theme'
+
+const { width, height } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
@@ -39,42 +43,37 @@ const tweetActionSheetButton = [
   { text: 'Cancel', icon: 'close', iconColor: color.brandLight },
 ]
 
-const renderListFeed = (feed: FeedGetResponse) => {
-  if (feed.length === 0) {
-    console.log(feed)
+const renderFeedItem = ({ item }: { item: PostObject | JobObject }) => {
+  if (item.type === 'post') {
     return (
-      <ListItem key={0} style={styles.noData}>
-        <Icon name='file-tray-outline'></Icon>
-        <Text>No data</Text>
+      <ListItem>
+        <Post post={item as PostObject} />
+      </ListItem>
+    )
+  } else if (item.type === 'job') {
+    return (
+      <ListItem>
+        <JobPost job={item as JobObject} />
       </ListItem>
     )
   }
-  return feed.map((item, index) => {
-    if (item.type === 'post') {
-      return (
-        <ListItem key={index}>
-          <Post post={item as PostObject} />
-        </ListItem>
-      )
-    } else if (item.type === 'job') {
-      return (
-        <ListItem key={index}>
-          <JobPost job={item as JobObject} />
-        </ListItem>
-      )
-    }
-  })
+  return <></>
 }
 
 export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
   const [
+    onEndReachedCalledDuringMomentum,
+    setOnEndReachedCalledDuringMomentum,
+  ] = React.useState<boolean>(true)
+  const [
     feed,
+    refreshing,
     handleWriteFeed,
     handleViewPost,
     handleViewJob,
     handleLoadOld,
     handleLoadNew,
-  ] = feedService.useViewFeed()
+  ] = feedService.useFeed()
   return (
     <View style={styles.container}>
       <Header transparent noShadow style={styles.header}>
@@ -90,9 +89,27 @@ export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
           style={{ color: color.brandLight }}
         ></Icon>
       </Header>
-      <ScrollView>
+      {/* <ScrollView>
         <List>{renderListFeed(feed)}</List>
-      </ScrollView>
+      </ScrollView> */}
+      <FlatList
+        data={feed}
+        renderItem={renderFeedItem}
+        refreshing={refreshing}
+        onRefresh={handleLoadNew}
+        onEndReached={handleLoadOld}
+        onEndReachedThreshold={0.01}
+        keyExtractor={(item, index) => String(index)}
+        ListEmptyComponent={
+          <ListItem style={styles.noData}>
+            <Icon name='file-tray-outline'></Icon>
+            <Text>No data</Text>
+          </ListItem>
+        }
+        onMomentumScrollBegin={() => {
+          setOnEndReachedCalledDuringMomentum(false)
+        }}
+      />
       <Fab
         style={{ backgroundColor: color.brandPrimary }}
         onPress={handleWriteFeed}

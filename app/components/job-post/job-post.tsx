@@ -3,6 +3,7 @@ import * as React from 'react'
 import { Dimensions, StyleSheet, View, ViewStyle } from 'react-native'
 import { Text } from '../'
 import { toString } from '../../helpers/date-helper'
+import { toBackendUrl } from '../../helpers/string-helper'
 import { JobObject } from '../../repositories/feed-repository'
 import { color } from '../../theme'
 
@@ -60,7 +61,7 @@ export function JobPost(props: JobPostProps) {
         <View style={{ flexDirection: 'row' }}>
           <Thumbnail
             style={styles.postCompanyAvatar}
-            source={{ uri: props.job.companyProfilePicture }}
+            source={{ uri: toBackendUrl(props.job.companyProfilePicture) }}
           />
           <View
             style={{

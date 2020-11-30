@@ -90,8 +90,9 @@ export const feedService = {
     ]
   },
 
-  useViewFeed(): [
+  useFeed(): [
     FeedGetResponse,
+    boolean,
     () => void,
     () => void,
     () => void,
@@ -100,22 +101,7 @@ export const feedService = {
   ] {
     const navigation = useNavigation()
     const [feed, setFeed] = React.useState<FeedGetResponse>([])
-
-    const loadFeed = React.useCallback(async (t: number) => {
-      try {
-        const r = await feedRepository.get(t)
-        if (r) {
-          setFeed([
-            ...feed,
-            ...r
-          ])
-        } else {
-          showError("Feed response empty")
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }, []) // do not put `feed` in there, ignore that linting
+    const [refreshing, setRefreshing] = React.useState<boolean>(false)
 
     // React.useEffect(() => {
     //   console.log(feed)
@@ -129,11 +115,32 @@ export const feedService = {
 
     const handleViewJob = React.useCallback(() => {}, [])
 
-    const handleLoadOld = React.useCallback(() => {
-      loadFeed(feed[feed.length - 1].publishedDate)
-    }, [feed, loadFeed])
+    const handleLoadOld = React.useCallback(async () => {
+      console.log("handleLoadOld")
+      if (feed.length > 0) {
+        console.log("Loading more....")
+        try {
+          const r = await feedRepository.get(feed[feed.length - 1].publishedDate)
+          if (r) {
+            setFeed([
+              ...feed,
+              ...r
+            ])
+          } else {
+            showError("Feed response empty")
+          }
+        } catch (error) {
+          console.log(error)
+          if (error.response?.data?.details) {
+            console.log(error.response.data.details)
+          }
+        }
+      }
+    }, [feed])
 
     const handleLoadNew = React.useCallback(async () => {
+      console.log("handleLoadNew")
+      setRefreshing(true)
       try {
         const response = await feedRepository.get(0)
         setFeed(response)
@@ -141,6 +148,7 @@ export const feedService = {
         showError("Error when loading feed")
         console.log(error)
       }
+      setRefreshing(false)
     }, [])
 
     React.useEffect(() => {
@@ -149,6 +157,7 @@ export const feedService = {
 
     return [
       feed,
+      refreshing,
       handleWriteFeed,
       handleViewPost,
       handleViewJob,
