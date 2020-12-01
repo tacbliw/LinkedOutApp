@@ -205,11 +205,11 @@ export const userProfileService = {
 
   useUpdateUser(): [
     string,
-    (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
+    (text: string) => void,
     string,
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
-    Date,
-    (value: Date) => void,
+    string,
+    (date: string) => void,
     boolean,
     () => void,
     string,
@@ -226,7 +226,7 @@ export const userProfileService = {
   ] {
     const [firstName, setFirstName] = useState<string>('');
     const [lastName, setLastName] = useState<string>('');
-    const [dateOfBirth, setDateOfBirth] = useState<Date>(new Date());
+    const [dateOfBirth, setDateOfBirth] = useState<string>('');
     const [showDateOfBirthPicker, setShowDateOfBirthPicker] = useState<boolean>(false);
     const [gender, setGender] = useState<string>('');
     const [userDescription, setUserDescription] = useState<string>('');
@@ -252,7 +252,7 @@ export const userProfileService = {
     }, [accountId])
     // React.useEffect(() => {
     //   getInfo()
-    // }, [getInfo])
+    // }, [null])
 
     const getPhone = React.useCallback(async () => {
       try {
@@ -286,8 +286,8 @@ export const userProfileService = {
     // }, [getEmail])
 
     const handleFirstNameChange = useCallback(
-      (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
-        setFirstName(event.nativeEvent.text)
+      (text: string) => {
+        setFirstName(text)
       },
       [],
     )
@@ -300,9 +300,9 @@ export const userProfileService = {
     )
 
     const handleDateOfBirthChange = useCallback(
-      (value: Date) => {
+      (date: string) => {
         setShowDateOfBirthPicker(false)
-        setDateOfBirth(value)
+        setDateOfBirth(date)
       },
       [],
     )
@@ -341,7 +341,7 @@ export const userProfileService = {
 
     const handleEditProfileSubmit = React.useCallback(async () => {
       try {
-        await userRepository.update(firstName, lastName, toPythonString(dateOfBirth), gender, userDescription)
+        await userRepository.update(firstName, lastName, dateOfBirth, gender, userDescription)
         await phoneRepository.update(oldPhone, newPhone)
         await emailRepository.update(oldPhone, newEmail)
         showInfo("edit profile submit")

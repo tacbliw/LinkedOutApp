@@ -80,6 +80,17 @@ export class CompanyRepository extends Repository {
       description
     }).then((response: AxiosResponse) => response.data)
   }
+
+  public async update(name: string, website: string, specialties: string[], description: string): Promise<CompanyUpdateResponse> {
+    return this.http.post('update', {
+      name,
+      website,
+      specialties,
+      description
+    }).then((response: AxiosResponse) => response.data)
+  }
 }
+
+
 
 export const companyRepository: CompanyRepository = new CompanyRepository()

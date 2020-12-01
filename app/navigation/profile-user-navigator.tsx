@@ -25,7 +25,7 @@ import { ProfileUserScreen } from '../screens'
 // Documentation: https://github.com/software-mansion/react-native-screens/tree/master/native-stack
 const ProfileStack = createStackNavigator()
 
-export function ProfileNavigator() {
+export function ProfileUserNavigator() {
   return (
     <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
       <ProfileStack.Screen name= {screens.authenticated.user.profile} component={ProfileUserScreen}></ProfileStack.Screen>

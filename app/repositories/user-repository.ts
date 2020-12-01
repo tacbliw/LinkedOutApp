@@ -11,7 +11,7 @@ export interface UserGetRequest {
 export interface UserGetResponse {
   firstname: string;
   lastname: string;
-  dateofbirth: Date;
+  dateofbirth: string;
   gender: string;
   profilePicture: string;
   description: string;
@@ -88,15 +88,13 @@ export class UserRepository extends Repository {
     }).then((response: AxiosResponse) => response.data)
   }
 
-  public async update(firstname: string, lastname:string, dateofbirth: string, gender:string, description: string): Promise<UserUpdateResponse> {
+  public async update(firstname: string, lastname: string, dateofbirth: string, gender: string, description: string): Promise<UserUpdateResponse> {
     return this.http.post('update', {
-      params: {
-        firstname,
-        lastname,
-        dateofbirth,
-        gender,
-        description
-      }
+      firstname,
+      lastname,
+      dateofbirth,
+      gender,
+      description
     }).then((response: AxiosResponse) => response.data)
   }
 }

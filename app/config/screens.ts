@@ -19,6 +19,7 @@ export const screens = {
       drawer: 'company-drawer',
       home: 'company-home-navigator',
       profile: 'company-profile',
+      editprofile: 'company-edit-profile',
       jobs: 'company-jobs',
       messages: 'company-messages',
       settings: 'company-settings',

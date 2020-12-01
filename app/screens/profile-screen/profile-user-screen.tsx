@@ -186,20 +186,20 @@ export function ProfileUserScreen({ navigation }) {
   }
 
   useEffect(() => {
-		educationList?setEducationListRender(educationList.map(item => {
-			return {
-			  id: item.educationId,
-			  time: moment(item.startDate, 'YYYY-MM-DD').fromNow(),
-			  title: item.schoolName,
-			  description: (
-				<View>
-					<Text style={styles.textDescription}>{item.major}</Text>
-				</View>
-				),
-			}
-		  })):''
-	}, [educationList])
-	
+    educationList ? setEducationListRender(educationList.map(item => {
+      return {
+        id: item.educationId,
+        time: moment(item.startDate, 'YYYY-MM-DD').fromNow(),
+        title: item.schoolName,
+        description: (
+          <View>
+            <Text style={styles.textDescription}>{item.major}</Text>
+          </View>
+        ),
+      }
+    })) : ''
+  }, [educationList])
+
 
   return (
     <Screen style={ROOT} preset='scroll'>
@@ -213,13 +213,14 @@ export function ProfileUserScreen({ navigation }) {
           </Button>
           <Button transparent onPress={() => {
             navigation.navigate(screens.authenticated.user.editprofile, {
-            userData: {"firstName": firstName, "lastName": lastName, "gender": gender, "profilePicture": gender, "description": description, "phoneList": phoneList, "emailList": emailList},
-						skillData: skillList,
-						educationData: educationList,
-						experienceData: experienceList
-					})}}>
-						<Icon style={styles.menuIcon} name="create-outline" />
-					</Button>
+              userData: { "firstName": firstName, "lastName": lastName, "gender": gender, "profilePicture": gender, "description": description, "phoneList": phoneList, "emailList": emailList },
+              skillData: skillList,
+              educationData: educationList,
+              experienceData: experienceList
+            })
+          }}>
+            <Icon style={styles.menuIcon} name="create-outline" />
+          </Button>
         </Header>
         <Container>
           <View style={styles.topInfo}>
@@ -264,13 +265,13 @@ export function ProfileUserScreen({ navigation }) {
                 <Text>
                   {description}
                 </Text>
-                  <FlatList
-                    data={skillList}
-                    renderItem={renderSkillItem}
-                    horizontal
-                    style ={{marginTop:16}}
-                    keyExtractor={(item) => item}
-                  ></FlatList>
+                <FlatList
+                  data={skillList}
+                  renderItem={renderSkillItem}
+                  horizontal
+                  style={{ marginTop: 16 }}
+                  keyExtractor={(item) => item}
+                ></FlatList>
               </Body>
             </CardItem>
           </Card>
@@ -282,7 +283,7 @@ export function ProfileUserScreen({ navigation }) {
             <CardItem>
               <Timeline
                 data={educationListRender}
-                renderCircle={(rowData, sectionID, rowID)=> {}}
+                renderCircle={(rowData, sectionID, rowID) => { }}
                 timeStyle={{
                   textAlign: 'center',
                   backgroundColor: color.brandInfo,

@@ -9,7 +9,7 @@ import React from 'react'
 import { Sidebar } from '../components'
 import { screens } from '../config/screens'
 import { FollowingScreen, SettingsScreen } from '../screens'
-import { ProfileNavigator } from './profile-navigator'
+import { ProfileUserNavigator } from './profile-user-navigator'
 import { UserHomeNavigator } from './user-home-navigator'
 
 /**
@@ -39,7 +39,7 @@ export function PrimaryUserNavigator() {
     >
       <Drawer.Screen
         name={screens.authenticated.user.profile}
-        component={ProfileNavigator}
+        component={ProfileUserNavigator}
       />
       {/* <Drawer.Screen
         name={screens.authenticated.user.profile}

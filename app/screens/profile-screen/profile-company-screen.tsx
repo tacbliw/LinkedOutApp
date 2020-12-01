@@ -7,13 +7,14 @@ import {
   Icon,
   Text,
   Thumbnail,
-  View,
+  View
 } from 'native-base'
-import React from 'react'
-import { ScrollView, StyleSheet, ViewStyle } from 'react-native'
+import React, { useEffect } from 'react'
+import { FlatList, ScrollView, StyleSheet, ViewStyle } from 'react-native'
 import { PieChart } from 'react-native-chart-kit'
-import { CardTopJob, Container, Screen } from '../../components'
+import { CardTopJob, Container, Screen, Tag } from '../../components'
 import { screens } from '../../config/screens'
+import { companyProfileService } from '../../services/company-profile-service'
 // import { useStores } from "../../models"
 import { color } from '../../theme'
 
@@ -131,6 +132,33 @@ const styles = StyleSheet.create({
 })
 
 export function ProfileCompanyScreen({ navigation }) {
+  const [
+    name,
+    website,
+    profilePicture,
+    specialties,
+    description,
+    getInfo
+  ] = companyProfileService.useGetCompany();
+
+  useEffect(() => {
+
+    // Subscribe for the focus Listener
+    const unsubscribe = navigation.addListener('focus', () => {
+      getInfo()
+    });
+
+    return () => {
+      unsubscribe;
+    };
+  }, [navigation]);
+
+  const renderSpecialtyItem = ({ item }) => {
+    return (
+      <Tag tagText={item}></Tag>
+    )
+  }
+
   return (
     <Screen style={ROOT} preset='scroll'>
       <ScrollView>
@@ -141,7 +169,12 @@ export function ProfileCompanyScreen({ navigation }) {
           >
             <Icon style={styles.backIcon} name='arrow-back-outline' />
           </Button>
-          <Button transparent>
+          <Button
+            transparent
+            onPress={() => navigation.navigate(screens.authenticated.company.editprofile, {
+              companyData: { "name": name, "website": website, "profilePicture": profilePicture, "specialties": specialties, "description": description }
+            })}
+          >
             <Icon style={styles.menuIcon} name='create-outline' />
           </Button>
         </Header>
@@ -156,10 +189,10 @@ export function ProfileCompanyScreen({ navigation }) {
                 source={require('./company.jpg')}
               ></Thumbnail>
               <View style={{ marginLeft: 25, justifyContent: 'center' }}>
-                <Text style={styles.userName}>Facebook</Text>
+                <Text style={styles.userName}>{name}</Text>
                 <Text style={styles.about}>
                   <Icon name='location-outline' style={{ fontSize: 16 }}></Icon>
-                  Viet Nam
+                  {website}
                 </Text>
                 <View
                   style={{
@@ -187,9 +220,16 @@ export function ProfileCompanyScreen({ navigation }) {
             <CardItem>
               <Body>
                 <Text>
-                  about.me is a personal web hosting service co-founded by Ryan
-                  Freitas, Tony Conrad and Tim Young in October 2009. Wikipedia
+                  {description}
                 </Text>
+                <FlatList
+                  data={specialties}
+                  renderItem={renderSpecialtyItem}
+                  horizontal
+                  style={{ marginTop: 16 }}
+                  keyExtractor={(item) => item}
+                  scrollEnabled={false}
+                ></FlatList>
               </Body>
             </CardItem>
           </Card>

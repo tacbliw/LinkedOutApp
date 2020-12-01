@@ -278,7 +278,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
 		skillTag,
 		getAllSkillTag,
 		getSkillTagByQuery,
-	] = tagService.useTag()
+	] = tagService.useSkillTag()
 
 	// Pull in one of our MST stores
 	// const { someStore, anotherStore } = useStores()
@@ -340,6 +340,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
 			}
 		  }));
 		handleExperienceChange(experienceData)
+		handleFirstNameChange(userData.firstName)
 	}, [null])
 
 	useEffect(() => {
@@ -400,7 +401,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
 						<Form>
 							<Item stackedLabel>
 								<Label>First name</Label>
-								<Input value={userData.firstName} onChange={handleFirstNameChange} />
+								<Input value={firstName} onChangeText={(text) => handleFirstNameChange(text)} />
 							</Item>
 
 							<Item stackedLabel>
@@ -412,7 +413,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
 								<Label>Gender</Label>
 								<Input value={userData.gender} onChange={handleGenderChange} />
 							</Item>
-							{/* <Item stackedLabel>
+							<Item stackedLabel>
 								<Label>DoB</Label>
 								<Item>
 
@@ -425,14 +426,14 @@ export function ProfileEditUserScreen({ route, navigation }) {
 									{showDateOfBirthPicker && (
 										<DateTimePicker
 											testID='dobPicker'
-											value={dateOfBirth}
+											value={moment(dateOfBirth, "YYYY-MM-DD").toDate()}
 											display='default'
-											onChange={(event, date) => handleDateOfBirthChange(date)}
+											onChange={(event, date) => handleDateOfBirthChange(moment(date).format('YYYY-MM-DD').toString())}
 										/>
 									)}
-									<Input>{dateOfBirth.toDateString()}</Input>
+									<Input>{dateOfBirth}</Input>
 								</Item>
-							</Item> */}
+							</Item>
 
 							<Item stackedLabel>
 								<Label>Phone</Label>

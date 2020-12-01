@@ -8,19 +8,22 @@ import {
   Label,
   Text,
   Textarea,
-  Thumbnail,
+  Thumbnail
 } from 'native-base'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
   View,
-  ViewStyle,
+  ViewStyle
 } from 'react-native'
 import DocumentPicker from 'react-native-document-picker'
+import SectionedMultiSelect from 'react-native-sectioned-multi-select'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { Container, Screen } from '../../components'
-import { screens } from '../../config/screens'
+import { companyProfileService } from '../../services/company-profile-service'
+import { tagService } from '../../services/tag-service'
 // import { useStores } from "../../models"
 import { color } from '../../theme'
 
@@ -87,7 +90,24 @@ async function chooseFile() {
   }
 }
 
-export function ProfileEditCompanyScreen({ navigation }) {
+export function ProfileEditCompanyScreen({ route, navigation }) {
+  const [
+    name,
+    handleCompanyNameChange,
+    website,
+    handleWebsiteChange,
+    specialties,
+    handleSpecialtiesChange,
+    description,
+    handleDescriptionChange,
+    handleEditProfileSubmit
+  ] = companyProfileService.useUpdateCompany();
+
+  const [
+		specialtyTag,
+		getAllSpecialtyTag,
+		getSpecialtyTagByQuery,
+	] = tagService.useSpecialtyTag()
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
   // OR
@@ -95,6 +115,37 @@ export function ProfileEditCompanyScreen({ navigation }) {
 
   // Pull in navigation via hook
   //   const navigation = useNavigation()
+  const { companyData } = route.params;
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [dataMultiSelected, setDataMultiSelected] = useState([])
+
+  const onSelectedItemsChange = (selectedItems) => {
+    setSelectedItems(selectedItems);
+    // selectedItems?handleSpecialtiesChange(selectedItems.map(item => specialtyTag.indexOf(item))):'';
+	};
+  
+  useEffect(() => {
+    getAllSpecialtyTag()
+    handleCompanyNameChange(companyData.name)
+    handleWebsiteChange(companyData.website)
+    handleSpecialtiesChange(companyData.specialties)
+    handleDescriptionChange(companyData.description)
+  }, [null])
+
+  useEffect(() => {
+		setDataMultiSelected([
+			{
+				name: 'Specialty', 
+				id: 1,
+				children: specialtyTag?specialtyTag.map((item, index) =>( {name: item, id: index} )):[]
+			}
+		
+		])
+
+		specialtyTag?setSelectedItems(specialties.map(item => specialtyTag.indexOf(item))):''
+		
+	}, [specialtyTag])
+
   return (
     <Screen style={ROOT} preset='scroll'>
       <ScrollView>
@@ -102,12 +153,15 @@ export function ProfileEditCompanyScreen({ navigation }) {
           <Button
             transparent
             onPress={() =>
-              navigation.navigate(screens.authenticated.user.newsfeed)
+              navigation.goBack()
             }
           >
             <Icon style={styles.backIcon} name='close-outline' />
           </Button>
-          <Button transparent>
+          <Button transparent onPress={() => {
+            handleEditProfileSubmit()
+           // navigation.goBack()
+          }}>
             <Text style={{ color: color.brandPrimary }}>Save</Text>
           </Button>
         </Header>
@@ -129,17 +183,12 @@ export function ProfileEditCompanyScreen({ navigation }) {
             <Form>
               <Item stackedLabel>
                 <Label>Company name</Label>
-                <Input defaultValue='Lycee' />
+                <Input value={name} onChangeText={handleCompanyNameChange} />
               </Item>
 
               <Item stackedLabel>
-                <Label>Phone</Label>
-                <Input defaultValue='(+84) 967-546-457' />
-              </Item>
-
-              <Item stackedLabel>
-                <Label>Mail</Label>
-                <Input defaultValue='dsjfoshdfuishdfis@gmail.com' />
+                <Label>Website</Label>
+                <Input value={website} onChangeText={handleWebsiteChange} />
               </Item>
 
               <Item stackedLabel style={{ alignItems: 'stretch' }}>
@@ -153,9 +202,28 @@ export function ProfileEditCompanyScreen({ navigation }) {
                   rowSpan={5}
                   underline={false}
                   bordered={false}
-                  defaultValue='about.me is a personal web hosting service co-founded by Ryan Freitas, Tony Conrad and Tim Young in October 2009. Wikipedia'
+                  value={description}
+                  onChangeText={handleDescriptionChange}
                 />
               </Item>
+
+              <Item stackedLabel style={{ alignItems: 'stretch' }}>
+								<Label>Specialties</Label>
+								<SectionedMultiSelect
+									items={dataMultiSelected}
+									IconRenderer={MaterialIcons}
+									uniqueKey="id"
+									subKey="children"
+									selectedText="skill"
+									showDropDowns={false}
+									readOnlyHeadings={true}
+									onSelectedItemsChange={onSelectedItemsChange}
+									selectedItems={selectedItems}
+                  showCancelButton={true}
+                  onConfirm={() => { 
+                    handleSpecialtiesChange(selectedItems.map(item => specialtyTag[item].toString()))}}
+								/>
+							</Item>
             </Form>
           </View>
         </Container>
