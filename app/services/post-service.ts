@@ -57,7 +57,7 @@ export const postService = {
     React.useEffect(() => {
       checkInterest()
       loadInterestCount()
-    }, [])
+    }, [id])
 
     return [
       interestCount,

@@ -59,7 +59,6 @@ export class EmailRepository extends Repository {
       }
     }).then((response: AxiosResponse) => response.data)
   }
-
 }
 
 export const emailRepository: EmailRepository = new EmailRepository()

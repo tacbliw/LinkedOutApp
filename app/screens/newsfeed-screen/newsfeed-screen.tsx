@@ -1,19 +1,11 @@
 import { Fab, Header, Icon, ListItem, Text } from 'native-base'
 import React from 'react'
-import {
-  Dimensions,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Post } from '../../components'
 import { JobPost } from '../../components/job-post/job-post'
 import { JobObject, PostObject } from '../../repositories/feed-repository'
 import { feedService } from '../../services/feed-service'
 import { color } from '../../theme'
-
-const { width, height } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
@@ -21,9 +13,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // backgroundColor: color.backgroundColor,
-    // borderBottomWidth: 1,
-    // borderBottomColor: color.headerBottomLine
   },
   noData: {
     color: color.brandLight,
@@ -31,17 +20,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 })
-
-const tweetActionSheetButton = [
-  {
-    text: 'Not interested in this post',
-    icon: 'sad-outline',
-    iconColor: color.brandLight,
-  },
-  { text: 'Unfollow', icon: 'analytics', iconColor: color.brandLight },
-  { text: 'Report', icon: 'flag-outline', iconColor: color.brandLight },
-  { text: 'Cancel', icon: 'close', iconColor: color.brandLight },
-]
 
 const renderFeedItem = ({ item }: { item: PostObject | JobObject }) => {
   if (item.type === 'post') {
@@ -89,9 +67,6 @@ export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
           style={{ color: color.brandLight }}
         ></Icon>
       </Header>
-      {/* <ScrollView>
-        <List>{renderListFeed(feed)}</List>
-      </ScrollView> */}
       <FlatList
         data={feed}
         renderItem={renderFeedItem}

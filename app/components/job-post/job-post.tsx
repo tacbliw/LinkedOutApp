@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     color: color.brandDark,
     fontSize: 20,
     fontWeight: '700',
+    width: screenWidth * 0.9 - 100 - 50,
   },
 })
 
@@ -71,7 +72,13 @@ export function JobPost(props: JobPostProps) {
             }}
           >
             <View>
-              <Text style={styles.postTitle}>{props.job.title}</Text>
+              <Text
+                style={styles.postTitle}
+                ellipsizeMode='tail'
+                numberOfLines={2}
+              >
+                {props.job.title}
+              </Text>
               <Text style={styles.postCompanyname}>
                 {props.job.companyName}
               </Text>
@@ -90,7 +97,6 @@ export function JobPost(props: JobPostProps) {
                 <Icon style={{ fontSize: 16 }} name='person-outline' />{' '}
                 {props.job.seniorityLevel}
               </Text>
-              {/* <Text style={styles.postDate}>{toString(props.job.publishedDate)}</Text> */}
             </View>
           </View>
         </View>

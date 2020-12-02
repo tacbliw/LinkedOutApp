@@ -13,6 +13,7 @@ export interface PostObject {
   content: string;
   publishedDate: number;
   postPicture: string;
+  commentCount: number;
 }
 
 export interface JobObject {
@@ -50,7 +51,7 @@ export class FeedRepository extends Repository {
         }
       }).then((response: AxiosResponse) => response.data)
     }
-    return this.http.get('get',).then((response: AxiosResponse) => response.data)
+    return this.http.get('get').then((response: AxiosResponse) => response.data)
   }
 }
 

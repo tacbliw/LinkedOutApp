@@ -144,7 +144,8 @@ export function Post(props: PostProps) {
             <></>
           )}
 
-          {props.post.postPicture ? (
+          {props.post.postPicture &&
+          !props.post.postPicture.includes('default') ? (
             <FastImage
               source={{ uri: toBackendUrl(props.post.postPicture) }}
               style={styles.postImage}
@@ -177,7 +178,7 @@ export function Post(props: PostProps) {
           style={styles.commentContainer}
         >
           <Icon name='chatbubble-outline' style={styles.commentContent} />
-          <Text style={styles.commentContent}>{100}</Text>
+          <Text style={styles.commentContent}>{props.post.commentCount}</Text>
         </TouchableOpacity>
       </CardItem>
     </Card>

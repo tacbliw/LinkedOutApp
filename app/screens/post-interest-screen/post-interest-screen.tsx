@@ -17,8 +17,6 @@ import React from 'react'
 import { Dimensions, Image, ViewStyle } from 'react-native'
 import { Comment } from '../../components'
 import { CommentInput } from '../../components/comment/comment-input'
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "../../models"
 import { color } from '../../theme'
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.black,
@@ -56,13 +54,6 @@ const datas = [
   },
 ]
 export const PostInterestScreen = observer(function PostInterestScreen() {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-  // OR
-  // const rootStore = useStores()
-
-  // Pull in navigation via hook
-  // const navigation = useNavigation()
   return (
     <Container style={{ backgroundColor: '#f6f5fb' }}>
       {/* <Header transparent>
@@ -143,7 +134,7 @@ export const PostInterestScreen = observer(function PostInterestScreen() {
                 )}
               />
               <Icon
-                name="ellipsis-horizontal-circle-outline"
+                name='ellipsis-horizontal-circle-outline'
                 style={{ fontSize: 40 }}
               />
             </View>

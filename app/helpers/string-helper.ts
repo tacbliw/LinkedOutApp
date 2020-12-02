@@ -12,5 +12,5 @@ export function toBackendUrl(path: string): string {
   if (path.startsWith('.')) {
     return path
   }
-  return API_BASE_URL + path.replace(/$\/+/, '')
+  return API_BASE_URL + path.replace(/^\/+/, '')
 }
