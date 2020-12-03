@@ -37,10 +37,13 @@ const Item = ({
   style,
 }: {
   item: ConversationListResponse
-  onPress: (id: number) => void
+  onPress: (id: number, name: string, profilePicture: string) => void
   style: any
 }) => (
-  <TouchableOpacity onPress={() => onPress(item.id)} style={style}>
+  <TouchableOpacity
+    onPress={() => onPress(item.id, item.name, item.profilePicture)}
+    style={style}
+  >
     <View style={{ flexDirection: 'row' }}>
       <FastImage
         source={{ uri: toBackendUrl(item.profilePicture) }}

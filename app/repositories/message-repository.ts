@@ -33,6 +33,7 @@ export interface ConversationGetRequest {
 }
 
 export interface ConversationGetResponse {
+  id: number
   senderId: number
   receiverId: number
   type: string
@@ -65,7 +66,7 @@ export class MessageRepository extends Repository {
   public async get(
     id: number,
     timestamp: number,
-  ): Promise<ConversationListResponse[]> {
+  ): Promise<ConversationGetResponse[]> {
     if (timestamp) {
       // only send with timestamp when it's not null
       return this.http
@@ -78,7 +79,11 @@ export class MessageRepository extends Repository {
         .then((response: AxiosResponse) => response.data)
     }
     return this.http
-      .get('get-conversation')
+      .get('get-conversation', {
+        params: {
+          id: id,
+        },
+      })
       .then((response: AxiosResponse) => response.data)
   }
 

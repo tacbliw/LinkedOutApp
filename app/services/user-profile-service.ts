@@ -44,7 +44,6 @@ export const userProfileService = {
     const [user, setUser] = React.useState<UserGetResponse>()
 
     React.useEffect(() => {
-      console.log('Calling lol')
       try {
         userRepository.get(parseInt(accountId)).then((r) => {
           setUser(r)
