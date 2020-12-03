@@ -33,9 +33,7 @@ export const LoginScreen = function LoginScreen({ navigation }) {
     loading,
     handleLogin,
   ] = accountService.useLogin()
-  React.useEffect(() => {
-    console.log('Login')
-  }, [])
+  React.useEffect(() => {}, [])
 
   return (
     <Screen style={ROOT} preset='scroll'>

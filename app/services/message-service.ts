@@ -116,7 +116,6 @@ export const messageService = {
     const [loading, setLoading] = React.useState<boolean>(false)
 
     const handleLoadOld = React.useCallback(async () => {
-      console.log('handleLoadOldMessages')
       if (messages.length <= 0) return
       try {
         const r = await messageRepository.get(
@@ -153,7 +152,6 @@ export const messageService = {
     }, [messages, accountId, otherId, otherName, otherProfilePicture, user])
 
     const handleLoadNew = React.useCallback(async () => {
-      console.log(otherId)
       try {
         const r = await messageRepository.get(otherId, 0)
         if (r.length > 0) {

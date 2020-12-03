@@ -5,9 +5,6 @@ import { screens } from '../../config/screens'
 import { styles } from './styles'
 
 export const SplashScreen = ({ navigation }) => {
-  React.useEffect(() => {
-    console.log('Splash')
-  }, [])
   useEffect(() => {
     const timer = setTimeout(() => {
       navigation.navigate(screens.basic.introJobs)
@@ -23,9 +20,6 @@ export const SplashScreen = ({ navigation }) => {
 }
 
 export const IntroJob = ({ navigation }) => {
-  React.useEffect(() => {
-    console.log('IntroJob')
-  }, [])
   return (
     <View style={styles.container}>
       <View style={styles.header}>

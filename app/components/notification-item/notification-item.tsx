@@ -56,9 +56,6 @@ export interface NotificationItemProps {
 }
 
 export function NotificationItem(props: NotificationItemProps) {
-  React.useEffect(() => {
-    console.log(props.item.authorName)
-  }, [])
   return (
     <TouchableOpacity onPress={props.onPress} style={styles.container}>
       <View style={styles.containerView}>

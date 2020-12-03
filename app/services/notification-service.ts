@@ -21,6 +21,7 @@ export const notificationService = {
     const [refreshing, setRefreshing] = React.useState<boolean>(false)
 
     const handleLoadOld = React.useCallback(async () => {
+      setRefreshing(true)
       if (notificationList.length <= 0) return
       try {
         const r = await notificationRepository.list(
@@ -37,6 +38,7 @@ export const notificationService = {
           console.log(error.response.data.details)
         }
       }
+      setRefreshing(false)
     }, [notificationList])
 
     const handleLoadNew = React.useCallback(async () => {
