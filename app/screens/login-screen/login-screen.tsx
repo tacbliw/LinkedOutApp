@@ -63,6 +63,7 @@ export const LoginScreen = function LoginScreen({ navigation }) {
                 onChange={handlePasswordChange}
                 value={password}
                 secureTextEntry
+                onSubmitEditing={handleLogin}
               />
             </Item>
 

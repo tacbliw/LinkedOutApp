@@ -1,47 +1,51 @@
-import { Badge, Header, Left, Right, Text, Thumbnail, View } from 'native-base'
+import { Header, Icon, Left, ListItem, Right, Text, View } from 'native-base'
 import React from 'react'
-import { Dimensions, FlatList, TouchableOpacity, ViewStyle } from 'react-native'
+import {
+  Dimensions,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native'
+import FastImage from 'react-native-fast-image'
 import { Screen } from '../../components'
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "../../models"
+import { toTimeSince } from '../../helpers/date-helper'
+import { toBackendUrl } from '../../helpers/string-helper'
+import { ConversationListResponse } from '../../repositories/message-repository'
+import { messageService } from '../../services/message-service'
 import { color } from '../../theme'
 
 const screenWidth = Dimensions.get('window').width
 const screenHeight = Dimensions.get('window').height
 
-const ROOT: ViewStyle = {
-  backgroundColor: color.palette.black,
-  flex: 1,
-}
+const styles = StyleSheet.create({
+  avatar: {
+    aspectRatio: 1,
+    borderRadius: 60,
+    resizeMode: 'contain',
+    width: 50,
+  },
+  noData: {
+    color: color.brandLight,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+})
 
-const data = [
-  {
-    id: '1',
-    name: 'Belazo',
-    last_message: 'Imma get out',
-    last_time: '5:50',
-    avatarSource: './avatar.jpg',
-  },
-  {
-    id: '2',
-    name: 'Belazo',
-    last_message: 'Imma get out',
-    last_time: '5:50',
-    avatarSource: './avatar.jpg',
-  },
-  {
-    id: '3',
-    name: 'Belazo',
-    last_message: 'Imma get out',
-    last_time: '5:50',
-    avatarSource: './avatar.jpg',
-  },
-]
-
-const Item = ({ item, onPress, style }) => (
-  <TouchableOpacity onPress={onPress} style={style}>
+const Item = ({
+  item,
+  onPress,
+  style,
+}: {
+  item: ConversationListResponse
+  onPress: (id: number) => void
+  style: any
+}) => (
+  <TouchableOpacity onPress={() => onPress(item.id)} style={style}>
     <View style={{ flexDirection: 'row' }}>
-      <Thumbnail source={require('./avatar.jpg')}></Thumbnail>
+      <FastImage
+        source={{ uri: toBackendUrl(item.profilePicture) }}
+        style={styles.avatar}
+      />
       <View style={{ flex: 1, justifyContent: 'space-around' }}>
         <View
           style={{
@@ -51,7 +55,9 @@ const Item = ({ item, onPress, style }) => (
           }}
         >
           <Text style={{ fontWeight: '700', fontSize: 20 }}>{item.name}</Text>
-          <Text style={{ color: color.brandLight }}>{item.last_time}</Text>
+          <Text style={{ color: color.brandLight }}>
+            {toTimeSince(item.lastMessageTimestamp)}
+          </Text>
         </View>
         <View
           style={{
@@ -60,8 +66,10 @@ const Item = ({ item, onPress, style }) => (
             marginLeft: 10,
           }}
         >
-          <Text style={{ color: color.brandLight }}>{item.last_message}</Text>
-          <Badge
+          <Text style={{ color: color.brandLight }}>
+            {(item.outgoing ? 'You: ' : '') + item.lastMessageContent}
+          </Text>
+          {/* <Badge
             style={{
               width: 22,
               height: 22,
@@ -69,7 +77,7 @@ const Item = ({ item, onPress, style }) => (
             }}
           >
             <Text style={{ fontSize: 10 }}>5</Text>
-          </Badge>
+          </Badge> */}
         </View>
       </View>
     </View>
@@ -77,16 +85,21 @@ const Item = ({ item, onPress, style }) => (
 )
 
 export const ChatScreen = function ChatScreen({ navigation }) {
-  const renderItem = ({ item }) => {
-    return (
-      <Item
-        item={item}
-        onPress={() => {
-          navigation.navigate('room', { id: item.id })
-        }} // pass id here
-        style={{ margin: 16 }}
-      ></Item>
-    )
+  const [
+    onEndReachedCalledDuringMomentum,
+    setOnEndReachedCalledDuringMomentum,
+  ] = React.useState<boolean>(true)
+
+  const [
+    conversationList,
+    refreshing,
+    handleLoadOld,
+    handleLoadNew,
+    handleItemPress,
+  ] = messageService.useConversationList()
+
+  const renderItem = ({ item }: { item: ConversationListResponse }) => {
+    return <Item item={item} onPress={handleItemPress} style={{ margin: 16 }} />
   }
 
   return (
@@ -98,9 +111,22 @@ export const ChatScreen = function ChatScreen({ navigation }) {
         <Right></Right>
       </Header>
       <FlatList
-        data={data}
+        data={conversationList}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        refreshing={refreshing}
+        onRefresh={handleLoadNew}
+        onEndReached={handleLoadOld}
+        onEndReachedThreshold={0.01}
+        keyExtractor={(item, index) => String(index)}
+        ListEmptyComponent={
+          <ListItem style={styles.noData}>
+            <Icon name='file-tray-outline'></Icon>
+            <Text>No conversation</Text>
+          </ListItem>
+        }
+        onMomentumScrollBegin={() => {
+          setOnEndReachedCalledDuringMomentum(false)
+        }}
       ></FlatList>
     </Screen>
   )

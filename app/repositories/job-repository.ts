@@ -1,70 +1,70 @@
-import { API_JOB_ROUTE } from "../config/api-const"
-import { API_BASE_URL } from "../config/consts"
-import { httpConfig } from "../config/http/config"
-import { Repository } from "./base-repository"
+import { API_JOB_ROUTE } from '../config/api-const'
+import { API_BASE_URL } from '../config/consts'
+import { httpConfig } from '../config/http/config'
+import { Repository } from './base-repository'
 
 interface JobObject {
-  id: number;
-  title: string;
-  description: string;
-  seniorityLevel: string;
-  employmentType: string;
-  recruimentUrl: string;
-  publishedDate: number;
-  jobPicture: string;
-  cities: string[];
-  skills: string[];
+  id: number
+  title: string
+  description: string
+  seniorityLevel: string
+  employmentType: string
+  recruimentUrl: string
+  publishedDate: number
+  jobPicture: string
+  cities: string[]
+  skills: string[]
 }
 
 export interface JobListRequest {
-  id: number;
+  id: number
 }
 
 export interface JobListResponse extends Array<JobObject> {}
 
 export interface JobGetRequest {
-  jobId: number;
+  jobId: number
 }
 
 export interface JobGetResponse {
-  title: string;
-  description: string;
-  seniorityLevel: string;
-  employmentType: string;
-  recruimentUrl: string;
-  publishedDate: number;
-  cities: string[];
-  skills: string[];
+  title: string
+  description: string
+  seniorityLevel: string
+  employmentType: string
+  recruimentUrl: string
+  publishedDate: number
+  cities: string[]
+  skills: string[]
 }
 
 export interface JobCreateRequest {
-  title: string;
-  description: string;
-  seniorityLevel: string;
-  employmentType: string;
-  recruimentUrl: string;
-  publishedDate: number;
-  cities: string[];
-  skills: string[];
+  title: string
+  description: string
+  seniorityLevel: string
+  employmentType: string
+  recruimentUrl: string
+  publishedDate: number
+  cities: string[]
+  skills: string[]
 }
 
 export interface JobCreateResponse extends Array<JobObject> {}
 
 export interface JobUpdateRequest {
-  jobId: number;
-  title: string;
-  description: string;
-  seniorityLevel: string;
-  employmentType: string;
-  recruimentUrl: string;
-  cities: string[];
-  skills: string[];
+  jobId: number
+  title: string
+  description: string
+  seniorityLevel: string
+  employmentType: string
+  recruimentUrl: string
+  cities: string[]
+  skills: string[]
 }
 
 export interface JobUpdateResponse extends Array<JobObject> {}
 
 export interface JobDeleteRequest {
-  jobId: number;
+  jobId: number
 }
 
 export interface JobDeleteResponse extends Array<JobObject> {}
