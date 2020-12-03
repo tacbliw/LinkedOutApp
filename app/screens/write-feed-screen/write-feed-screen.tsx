@@ -11,6 +11,7 @@ import {
 import FastImage from 'react-native-fast-image'
 import { toBackendUrl } from '../../helpers/string-helper'
 import { feedService } from '../../services/feed-service'
+import { userProfileService } from '../../services/user-profile-service'
 import { color } from '../../theme'
 
 const { width, height } = Dimensions.get('window')
@@ -106,6 +107,8 @@ export const WriteFeedScreen = function WriteFeedScreen() {
     handleSubmitFeed,
   ] = feedService.useWriteFeed()
 
+  const [user] = userProfileService.useBasicInfo()
+
   const handleActionSheet = (buttonIndex: number) => {
     switch (buttonIndex) {
       case 0:
@@ -140,11 +143,15 @@ export const WriteFeedScreen = function WriteFeedScreen() {
             style={styles.avatar}
             source={{
               uri: toBackendUrl(
-                'https://www.w3schools.com/w3images/avatar2.png',
+                user
+                  ? user.profilePicture
+                  : 'https://www.w3schools.com/w3images/avatar2.png',
               ),
             }}
           />
-          <Text style={styles.name}>Hai Tung</Text>
+          <Text style={styles.name}>
+            {user ? user.firstname + ' ' + user.lastname : ''}
+          </Text>
         </View>
         <KeyboardAvoidingView style={styles.inputView}>
           <TextInput

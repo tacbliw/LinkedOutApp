@@ -7,8 +7,9 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  useWindowDimensions, View,
-  ViewStyle
+  useWindowDimensions,
+  View,
+  ViewStyle,
 } from 'react-native'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
@@ -43,35 +44,55 @@ export const LoginScreen = function LoginScreen({ navigation }) {
         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
       >
         <View style={styles.rect}>
-          <Form style={{width: useWindowDimensions().width * 0.8, marginTop: 52}}>
+          <Form
+            style={{ width: useWindowDimensions().width * 0.8, marginTop: 52 }}
+          >
             <Item style={styles.textInput}>
               <Icon style={styles.textInputIcon} name='person' />
-              <Input placeholder="Username" onChange={handleUsernameChange}/>
+              <Input
+                placeholder='Username'
+                onChange={handleUsernameChange}
+                value={username}
+              />
             </Item>
 
             <Item style={styles.textInput}>
               <Icon style={styles.textInputIcon} name='key' />
-              <Input placeholder="Password" onChange={handlePasswordChange}/>
+              <Input
+                placeholder='Password'
+                onChange={handlePasswordChange}
+                value={password}
+                secureTextEntry
+              />
             </Item>
 
-            <Item style={{borderBottomColor: "#FFFFFF", marginTop: 16, alignSelf: 'flex-end'}}>
+            <Item
+              style={{
+                borderBottomColor: '#FFFFFF',
+                marginTop: 16,
+                alignSelf: 'flex-end',
+              }}
+            >
               <TouchableOpacity>
                 <Text style={{ color: color['color-primary-300'] }}>
                   Forgot password?
                 </Text>
               </TouchableOpacity>
             </Item>
-          <View style={{marginTop: 24}}>
-            <TouchableOpacity onPress={handleLogin} style={styles.buttonLogin}>
-              <Text style={styles.loginTextButton}>Login</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate(screens.basic.register.main)}
-              style={styles.buttonRegister}
-            >
-              <Text style={styles.registerTextButton}>Register</Text>
-            </TouchableOpacity>
-          </View>
+            <View style={{ marginTop: 24 }}>
+              <TouchableOpacity
+                onPress={handleLogin}
+                style={styles.buttonLogin}
+              >
+                <Text style={styles.loginTextButton}>Login</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate(screens.basic.register.main)}
+                style={styles.buttonRegister}
+              >
+                <Text style={styles.registerTextButton}>Register</Text>
+              </TouchableOpacity>
+            </View>
           </Form>
           <Text style={styles.orSignInWith}>or Sign In with</Text>
           <View style={styles.icon2Row}>
@@ -106,10 +127,10 @@ const styles = StyleSheet.create({
 
   buttonRegister: {
     alignSelf: 'center',
-    borderColor: color["color-primary-500"],
-    color: color["color-primary-500"],
-    borderWidth: 1,
+    borderColor: color['color-primary-500'],
     borderRadius: 33,
+    borderWidth: 1,
+    color: color['color-primary-500'],
     // elevation: 15,
     height: height * 0.06,
     justifyContent: 'center',
@@ -117,13 +138,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 5,
     width: width * 0.7,
-  },
-  forgotPassword: {
-    height: height * 0.08,
-    justifyContent: 'space-between',
-    marginTop: width * 0.2,
-    position: 'absolute',
-    width: width * 0.8,
   },
   icon2Row: {
     alignSelf: 'center',
@@ -144,34 +158,9 @@ const styles = StyleSheet.create({
     height: 35,
     width: 32,
   },
-  iconName: {
-    alignSelf: 'center',
-    color: color['color-primary-500'],
-    fontSize: 23,
-  },
-  iconNameRow: {
-    alignSelf: 'center',
-    flexDirection: 'row',
-    marginBottom: width * 0.02,
-    marginTop: width * 0.15,
-  },
-  iconPasswd: {
-    alignSelf: 'center',
-    color: color['color-primary-500'],
-    fontSize: 25,
-  },
-  iconPasswdRow: {
-    alignSelf: 'center',
-    flexDirection: 'row',
-  },
   loginTextButton: {
     alignSelf: 'center',
-    color: "#FFFFFF",
-    fontSize: 23,
-  },
-  registerTextButton: {
-    alignSelf: 'center',
-    color: color["color-primary-500"],
+    color: '#FFFFFF',
     fontSize: 23,
   },
   orSignInWith: {
@@ -179,12 +168,8 @@ const styles = StyleSheet.create({
     color: color['color-primary-500'],
     marginTop: width * 0.15,
   },
-  passwordStack: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    width: width * 0.8,
-  },
   rect: {
+    alignItems: 'center',
     backgroundColor: color.palette.white,
     borderTopLeftRadius: 44,
     borderTopRightRadius: 44,
@@ -193,14 +178,18 @@ const styles = StyleSheet.create({
     shadowOpacity: 10,
     shadowRadius: 10,
     width: width,
-    alignItems: 'center',
+  },
+  registerTextButton: {
+    alignSelf: 'center',
+    color: color['color-primary-500'],
+    fontSize: 23,
   },
   textInput: {
+    marginLeft: 0,
     marginTop: 24,
-    marginLeft: 0
   },
 
   textInputIcon: {
-    color: color["color-primary-500"]
-  }
+    color: color['color-primary-500'],
+  },
 })

@@ -3,7 +3,6 @@ import { API_NOTIFICATION_ROUTE } from "../config/api-const"
 import { API_BASE_URL } from "../config/consts"
 import { httpConfig } from "../config/http/config"
 import { Repository } from "./base-repository"
-import { FeedRepository } from "./feed-repository"
 
 export interface NotificationListRequest {
   t: number;
@@ -11,10 +10,11 @@ export interface NotificationListRequest {
 
 export interface NotificationListResponse {
   id: number;
-  receiverId: number;
   type: string;
+  authorName: string;
+  profilePicture: string;
+  action: string;
   content: string;
-  accountId: number;
   postJobId: number;
   commentId: number;
   publishedDate: number;
@@ -38,4 +38,4 @@ export class NotificationRepository extends Repository {
   }
 }
 
-export const notificationRepository: FeedRepository = new FeedRepository()
+export const notificationRepository: NotificationRepository = new NotificationRepository()

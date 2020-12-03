@@ -178,7 +178,9 @@ export function Post(props: PostProps) {
           style={styles.commentContainer}
         >
           <Icon name='chatbubble-outline' style={styles.commentContent} />
-          <Text style={styles.commentContent}>{props.post.commentCount}</Text>
+          {props.post.commentCount > 0 ? (
+            <Text style={styles.commentContent}>{props.post.commentCount}</Text>
+          ) : null}
         </TouchableOpacity>
       </CardItem>
     </Card>

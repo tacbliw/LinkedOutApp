@@ -60,7 +60,6 @@ export const feedService = {
     }, [navigation])
 
     const handleSubmit = React.useCallback(async () => {
-      console.log("Writing feed: " + content)
       postRepository.create(content).then(r => {
         console.log(`Created post ID: ${r}`)
         if (image) {
@@ -103,10 +102,6 @@ export const feedService = {
     const [feed, setFeed] = React.useState<FeedGetResponse>([])
     const [refreshing, setRefreshing] = React.useState<boolean>(false)
 
-    // React.useEffect(() => {
-    //   console.log(feed)
-    // }, [feed])
-
     const handleWriteFeed = React.useCallback(() => {
       navigation.navigate(screens.authenticated.user.newsfeed.write)
     }, [navigation])
@@ -116,9 +111,7 @@ export const feedService = {
     const handleViewJob = React.useCallback(() => {}, [])
 
     const handleLoadOld = React.useCallback(async () => {
-      console.log("handleLoadOld")
       if (feed.length > 0) {
-        console.log("Loading more....")
         try {
           const r = await feedRepository.get(feed[feed.length - 1].publishedDate)
           if (r) {
@@ -139,13 +132,12 @@ export const feedService = {
     }, [feed])
 
     const handleLoadNew = React.useCallback(async () => {
-      console.log("handleLoadNew")
       setRefreshing(true)
       try {
         const response = await feedRepository.get(0)
         setFeed(response)
       } catch (error) {
-        showError("Error when loading feed")
+        showError("Error while loading feed")
         console.log(error)
       }
       setRefreshing(false)

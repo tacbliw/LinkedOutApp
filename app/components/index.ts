@@ -25,3 +25,4 @@ export * from "./text-field/text-field"
 export * from "./text/text"
 export * from "./wallpaper/wallpaper"
 
+export * from "./notification-item/notification-item"
