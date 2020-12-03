@@ -56,9 +56,9 @@ export const MessagesScreen = function MessagesScreen({ route, navigation }) {
         {...props}
         imageStyle={{
           left: {
-            width: 29,
-            height: 29,
-            borderRadius: 100,
+            width: 28,
+            height: 28,
+            borderRadius: 1000,
             resizeMode: 'contain',
           },
         }}
@@ -94,43 +94,6 @@ export const MessagesScreen = function MessagesScreen({ route, navigation }) {
     )
   }
 
-  // const [messages, setMessages] = useState([])
-
-  // useEffect(() => {
-  //   setMessages([
-  //     {
-  //       _id: 1,
-  //       text:
-  //         'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-  //       createdAt: new Date(123 * 1000),
-  //       user: {
-  //         _id: 2,
-  //         name: 'React Native',
-  //         avatar: 'https://placeimg.com/140/140/any',
-  //       },
-  //     },
-  //     {
-  //       _id: 0,
-  //       text: 'Lam ho bai tạp mobile voi',
-  //       createdAt: new Date(12 * 1000),
-  //       user: {
-  //         _id: 2,
-  //         name: 'React Native',
-  //         avatar: 'https://placeimg.com/140/140/any',
-  //       },
-  //     },
-  //     {
-  //       _id: 2,
-  //       text: 'bbbbb',
-  //       createdAt: new Date(456 * 1000),
-  //       user: {
-  //         _id: 2,
-  //         name: 'React Native',
-  //         avatar: 'https://placeimg.com/140/140/any',
-  //       },
-  //     },
-  //   ])
-  // }, [])
   const [
     accountId,
     user,

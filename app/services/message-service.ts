@@ -17,6 +17,7 @@ export const messageService = {
     boolean,
     () => void,
     () => void,
+    () => void,
     (id: number, name: string, profilePicture: string) => void,
   ] {
     const navigation = useNavigation()
@@ -26,6 +27,7 @@ export const messageService = {
     const [refreshing, setRefreshing] = React.useState<boolean>(false)
 
     const handleLoadOld = React.useCallback(async () => {
+      setRefreshing(true)
       if (conversationList.length > 0) {
         try {
           const r = await messageRepository.list(
@@ -43,6 +45,7 @@ export const messageService = {
           }
         }
       }
+      setRefreshing(false)
     }, [conversationList])
 
     /**
@@ -58,6 +61,16 @@ export const messageService = {
         console.log(error)
       }
       setRefreshing(false)
+    }, [])
+
+    const handleLoadNewWithoutEffect = React.useCallback(async () => {
+      try {
+        const response = await messageRepository.list(0)
+        setConversationList(response)
+      } catch (error) {
+        showError('Error when loading messages')
+        console.log(error)
+      }
     }, [])
 
     const handleItemPress = React.useCallback(
@@ -80,6 +93,7 @@ export const messageService = {
       refreshing,
       handleLoadOld,
       handleLoadNew,
+      handleLoadNewWithoutEffect,
       handleItemPress,
     ]
   },

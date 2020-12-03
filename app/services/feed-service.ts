@@ -1,11 +1,17 @@
-import { useNavigation } from "@react-navigation/native"
-import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native"
-import ImagePicker, { Image, ImageOrVideo } from 'react-native-image-crop-picker'
+import { useNavigation } from '@react-navigation/native'
+import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native'
+import ImagePicker, {
+  Image,
+  ImageOrVideo,
+} from 'react-native-image-crop-picker'
 import React from 'reactn'
-import { screens } from "../config/screens"
-import { showError, showInfo } from "../helpers/toast"
-import { FeedGetResponse, feedRepository } from "../repositories/feed-repository"
-import { postRepository } from "../repositories/post-repository"
+import { screens } from '../config/screens'
+import { showError, showInfo } from '../helpers/toast'
+import {
+  FeedGetResponse,
+  feedRepository,
+} from '../repositories/feed-repository'
+import { postRepository } from '../repositories/post-repository'
 
 export const feedService = {
   useWriteFeed(): [
@@ -16,7 +22,7 @@ export const feedService = {
     () => void,
     () => void,
     () => void,
-    () => void
+    () => void,
   ] {
     const navigation = useNavigation()
     const [content, setContent] = React.useState<string>('')
@@ -33,20 +39,25 @@ export const feedService = {
 
     const handleChangeContent = React.useCallback(
       (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
-      setContent(event.nativeEvent.text)
-    }, [])
+        setContent(event.nativeEvent.text)
+      },
+      [],
+    )
 
     const handleSelectPhoto = React.useCallback(() => {
       ImagePicker.openPicker({
         mediaType: 'photo',
         height: 400,
         width: 600,
-        cropping: true
-      }).then((image: Image) => {
-        setImage(image)
-      }, (error) => {
-        console.log(error)
-      })
+        cropping: true,
+      }).then(
+        (image: Image) => {
+          setImage(image)
+        },
+        (error) => {
+          console.log(error)
+        },
+      )
     }, [])
 
     const handleDeletePhoto = React.useCallback(() => {
@@ -60,18 +71,21 @@ export const feedService = {
     }, [navigation])
 
     const handleSubmit = React.useCallback(async () => {
-      postRepository.create(content).then(r => {
-        console.log(`Created post ID: ${r}`)
-        if (image) {
-          postRepository.upload(r.id, image).catch(error => {
-            console.log(error)
-          })
-        }
-        showInfo("Posted!")
-      }).catch(error => {
-        console.log(error?.response)
-        showError("Some error occured.")
-      })
+      postRepository
+        .create(content)
+        .then((r) => {
+          console.log(`Created post ID: ${r}`)
+          if (image) {
+            postRepository.upload(r.id, image).catch((error) => {
+              console.log(error)
+            })
+          }
+          showInfo('Posted!')
+        })
+        .catch((error) => {
+          console.log(error?.response)
+          showError('Some error occured.')
+        })
       setContent('')
       setImage(null)
       navigation.goBack()
@@ -111,16 +125,16 @@ export const feedService = {
     const handleViewJob = React.useCallback(() => {}, [])
 
     const handleLoadOld = React.useCallback(async () => {
+      setRefreshing(true)
       if (feed.length > 0) {
         try {
-          const r = await feedRepository.get(feed[feed.length - 1].publishedDate)
+          const r = await feedRepository.get(
+            feed[feed.length - 1].publishedDate,
+          )
           if (r) {
-            setFeed([
-              ...feed,
-              ...r
-            ])
+            setFeed([...feed, ...r])
           } else {
-            showError("Feed response empty")
+            showError('Feed response empty')
           }
         } catch (error) {
           console.log(error)
@@ -129,6 +143,7 @@ export const feedService = {
           }
         }
       }
+      setRefreshing(false)
     }, [feed])
 
     const handleLoadNew = React.useCallback(async () => {
@@ -137,7 +152,7 @@ export const feedService = {
         const response = await feedRepository.get(0)
         setFeed(response)
       } catch (error) {
-        showError("Error while loading feed")
+        showError('Error while loading feed')
         console.log(error)
       }
       setRefreshing(false)

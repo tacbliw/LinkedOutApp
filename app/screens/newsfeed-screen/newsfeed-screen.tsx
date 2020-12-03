@@ -75,6 +75,7 @@ export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
         onEndReached={handleLoadOld}
         onEndReachedThreshold={0.01}
         keyExtractor={(item, index) => String(index)}
+        ItemSeparatorComponent={() => <></>}
         ListEmptyComponent={
           <ListItem style={styles.noData}>
             <Icon name='file-tray-outline'></Icon>

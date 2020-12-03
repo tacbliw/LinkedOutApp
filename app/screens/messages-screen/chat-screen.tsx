@@ -98,8 +98,16 @@ export const ChatScreen = function ChatScreen({ navigation }) {
     refreshing,
     handleLoadOld,
     handleLoadNew,
+    handleLoadNewWithoutEffect,
     handleItemPress,
   ] = messageService.useConversationList()
+
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      handleLoadNewWithoutEffect()
+    })
+    return unsubscribe
+  }, [navigation])
 
   const renderItem = ({ item }: { item: ConversationListResponse }) => {
     return <Item item={item} onPress={handleItemPress} style={{ margin: 16 }} />
