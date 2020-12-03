@@ -65,6 +65,14 @@ export class TagRepository extends Repository {
       }
     }).then((response: AxiosResponse) => response.data)
   }
+
+  public async getSpecialty(query: string): Promise<SpecialtyTagResponse> {
+    return this.http.get('specialty', {
+      params: {
+        query
+      }
+    }).then((response: AxiosResponse) => response.data)
+  }
 }
 
 export const tagRepository: TagRepository = new TagRepository()

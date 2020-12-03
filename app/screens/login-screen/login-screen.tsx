@@ -46,7 +46,7 @@ export const LoginScreen = function LoginScreen({ navigation }) {
           <Form style={{width: useWindowDimensions().width * 0.8, marginTop: 52}}>
             <Item style={styles.textInput}>
               <Icon style={styles.textInputIcon} name='person' />
-              <Input placeholder="Username" onChange={handleUsernameChange}/>
+              <Input placeholder="Username" onChange={handleUsernameChange} returnKeyType="next"/>
             </Item>
 
             <Item style={styles.textInput}>

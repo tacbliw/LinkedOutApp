@@ -58,7 +58,6 @@ export const RegisterScreen = observer(function RegisterScreen({ navigation }) {
                 value={username}
                 onChange={handleUsernameChange}
                 placeholderTextColor={color.placeHolder}
-                onSubmitEditing={() => emailRef.current?.focus()}
                 returnKeyType={'next'}
               ></TextInput>
             </View>
@@ -71,7 +70,6 @@ export const RegisterScreen = observer(function RegisterScreen({ navigation }) {
                 value={email}
                 onChange={handleEmailChange}
                 ref={emailRef}
-                onSubmitEditing={() => passwordRef.current?.focus()}
                 style={styles.inputText}
                 returnKeyType={'next'}
               ></TextInput>
@@ -83,7 +81,7 @@ export const RegisterScreen = observer(function RegisterScreen({ navigation }) {
               ></MaterialCommunityIconsIcon>
               <View style={{}}>
                 <Picker
-                  mode='dropdown'
+                  mode='dialog'
                   selectedValue={accountType}
                   style={styles.inputText}
                   onValueChange={handleTypeChange}
@@ -109,11 +107,9 @@ export const RegisterScreen = observer(function RegisterScreen({ navigation }) {
               ></TextInput>
             </View>
           </View>
-          <View style={styles.registerButton}>
-            <TouchableOpacity onPress={handleSignUp} style={styles.button}>
-              <Text style={styles.register}>REGISTER</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity onPress={handleSignUp} style={styles.button}>
+            <Text style={styles.register}>REGISTER</Text>
+          </TouchableOpacity>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

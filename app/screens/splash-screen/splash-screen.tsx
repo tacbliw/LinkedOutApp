@@ -1,23 +1,19 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { screens } from '../../config/screens'
 import { styles } from './styles'
 
-export const SplashScreen = ({ navigation }) => {
-  React.useEffect(() => {
-    console.log('Splash')
-  }, [])
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      navigation.navigate(screens.basic.introJobs)
-    }, 3000)
-    return () => clearTimeout(timer)
-  }, [])
+export const SplashScreen = ({navigation}) => {
+
+  // useEffect(() => {
+  //   console.log('Splash')
+  //   navigation.navigate(screens.basic.introJobs)
+  // }, [navigation])
 
   return (
     <View>
-      <Text style={styles.imageLogoSplash}>Logo Image</Text>
+      <Text style={styles.imageLogoSplash}>AAAAAAAAAAAAAAAAAAAAAAA</Text>
     </View>
   )
 }

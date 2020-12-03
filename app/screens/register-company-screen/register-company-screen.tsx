@@ -1,5 +1,5 @@
 import { Form, Icon, Input, Item, Textarea } from 'native-base'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   FlatList,
   TouchableOpacity,
@@ -12,6 +12,7 @@ import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { Screen, Text } from '../../components'
 import { accountService } from '../../services/account-service'
+import { tagService } from '../../services/tag-service'
 import { color } from '../../theme/color'
 import { styles } from './styles'
 
@@ -48,20 +49,44 @@ export const RegisterCompanyScreen = function RegisterCompanyScreen({
     website,
     handleWebsiteChange,
     specialties,
-    handleSpecialtiesChange,
+    handleChangeSpecialities,
     description,
     handleDescriptionChange,
+    handleCompanyRegister,
   ] = accountService.useRegisterCompany(route.params)
 
   const [selectedItems, setSelectedItems] = useState([])
+  const [dataMultiSelected, setDataMultiSelected] = useState([])
 
   const onSelectedItemsChange = (selectedItems) => {
     setSelectedItems(selectedItems)
   }
 
+  const [
+    specialtyTag,
+    getAllSpecialtyTag,
+    getSpecialtyTagByQuery,
+	] = tagService.useSpecialtyTag()
+
   React.useEffect(() => {
     console.log('RegisterCompanyScreen')
-  }, [])
+    getAllSpecialtyTag();
+  }, [null])
+
+  useEffect(() => {
+		setDataMultiSelected([
+			{
+				name: 'Specialty', 
+				id: 1,
+				children: specialtyTag?specialtyTag.map((item, index) =>( {name: item, id: index} )):[]
+			}
+		
+		])
+
+		// specialtyTag?setSelectedItems(specialtyTag.map(item => specialtyTag.indexOf(item))):''
+		
+  }, [specialtyTag])
+  
   return (
     <Screen style={styles.container} preset='scroll'>
     <Text style={styles.header}>Tell us more about you!</Text>
@@ -93,7 +118,7 @@ export const RegisterCompanyScreen = function RegisterCompanyScreen({
           <Item style={{borderBottomWidth: 0}}>
           <SectionedMultiSelect
                   styles={{}}
-                  items={specialty_picker_items} 
+                  items={dataMultiSelected} 
                   IconRenderer={MaterialIcons}
                   uniqueKey='id'
                   subKey='children'
@@ -103,7 +128,7 @@ export const RegisterCompanyScreen = function RegisterCompanyScreen({
                   onSelectedItemsChange={onSelectedItemsChange}
                   selectedItems={selectedItems}
                   colors={{primary: color['color-primary-500']}}
-                  onConfirm={() => {handleSpecialtiesChange(selectedItems)}}
+                  onConfirm={() => {handleChangeSpecialities(selectedItems.map(item => specialtyTag[item]))}}
                   renderSelectText = {() => {
                 
                     return <Text style={{color: color["color-gray-900"]}}>Your company specialty</Text>
@@ -111,7 +136,7 @@ export const RegisterCompanyScreen = function RegisterCompanyScreen({
                   customChipsRenderer={(chipProperties) => {
                     return (
                               <FlatList
-                              horizontal={true}
+                              horizontal={false}
                               data={chipProperties.selectedItems}
                               renderItem={({ item }) => {
                                 return (
@@ -127,7 +152,7 @@ export const RegisterCompanyScreen = function RegisterCompanyScreen({
                                       paddingRight: 10,
                                     }}
                                   >
-                                    {item}
+                                    {specialtyTag[item]}
                                   </Text>
                                 )
                               }}
@@ -139,7 +164,7 @@ export const RegisterCompanyScreen = function RegisterCompanyScreen({
           </Item>
         </Form>
         <View style={styles.submitButton}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={handleCompanyRegister}>
             <Text style={styles.submit}>Register</Text>
           </TouchableOpacity>
         </View>

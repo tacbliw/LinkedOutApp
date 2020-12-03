@@ -46,6 +46,7 @@ export const userProfileService = {
     const [profilePicture, setProfilePicture] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>('accountId')
+
     const getInfo = React.useCallback(async () => {
       try {
         const response = await userRepository.get(Number(accountId));
@@ -61,9 +62,11 @@ export const userProfileService = {
         }
       }
     }, [accountId])
+
     React.useEffect(() => {
       getInfo()
-    }, [getInfo])
+    }, [])
+
     return [
       firstName,
       lastName,

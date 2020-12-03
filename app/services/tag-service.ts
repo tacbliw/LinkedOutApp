@@ -3,7 +3,7 @@ import { useCallback, useState } from "reactn"
 import { tagRepository } from "../repositories/tag-repository"
 
 export const tagService = {
-  useTag(): [
+  useSkillTag(): [
     string[],
     () => void,
     (value: string) => void
@@ -31,4 +31,35 @@ export const tagService = {
       getSkillTagByQuery,
     ]
   },
+
+  useSpecialtyTag(): [
+    string[],
+    () => void,
+    (value: string) => void
+  ] {
+    const [specialtyTag, setSpecialtyTag] = useState<string[]>()
+
+    const [loading, setLoading] = useState<boolean>(false)
+    const navigation = useNavigation()
+
+    const getAllSpecialtyTag = useCallback(async () => {
+      setLoading(true)
+      // const response = await searchRepository.search(searchType, searchData, searchSkillsAndSpecialty, searchSkillsAndSpecialty)
+      const response = await tagRepository.getSpecialty('');
+      setSpecialtyTag(response.tag);
+      setLoading(false)
+    }, [specialtyTag])
+
+    const getSpecialtyTagByQuery = useCallback(async (value: string) => {
+      
+    }, [specialtyTag])
+
+    return [
+      specialtyTag,
+      getAllSpecialtyTag,
+      getSpecialtyTagByQuery,
+    ]
+  },
+
+  
 }

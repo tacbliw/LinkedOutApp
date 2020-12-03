@@ -12,7 +12,7 @@ import { createNativeStackNavigator } from 'react-native-screens/native-stack'
 import React from 'reactn'
 import { GlobalState } from '../config/global'
 import { screens } from '../config/screens'
-import { MessagesScreen, ProfileEditUserScreen, WriteFeedScreen } from '../screens'
+import { CreateJobScreen, MessagesScreen, ProfileEditUserScreen, WriteFeedScreen } from '../screens'
 import RootStackStart from './login-navigator'
 import { PrimaryCompanyNavigator } from './primary-company-navigator'
 import { PrimaryUserNavigator } from './primary-user-navigator'
@@ -92,6 +92,12 @@ const RootStack = () => {
           <Stack.Screen
             name='room' // <- cai deo gi day ? :)
             component={MessagesScreen}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name={screens.authenticated.company.jobcreate} // <- cai deo gi day ? :)
+            component={CreateJobScreen}
             options={{ headerShown: false }}
           />
           {/* <Stack.Screen

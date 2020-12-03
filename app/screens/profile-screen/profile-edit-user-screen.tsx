@@ -278,7 +278,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
 		skillTag,
 		getAllSkillTag,
 		getSkillTagByQuery,
-	] = tagService.useTag()
+	] = tagService.useSkillTag()
 
 	// Pull in one of our MST stores
 	// const { someStore, anotherStore } = useStores()

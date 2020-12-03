@@ -13,8 +13,7 @@ import {
   LoginScreen,
   RegisterCompanyScreen,
   RegisterScreen,
-  RegisterUserScreen,
-  SplashScreen,
+  RegisterUserScreen
 } from '../screens'
 
 /**
@@ -34,7 +33,7 @@ const StackStart = createStackNavigator()
 const RootStackStart = () => {
   return (
     <StackStart.Navigator headerMode='none'>
-      <StackStart.Screen name={screens.basic.splash} component={SplashScreen} />
+      {/* <StackStart.Screen name={screens.basic.splash} component={SplashScreen} /> */}
       <StackStart.Screen name={screens.basic.introJobs} component={IntroJob} />
       <StackStart.Screen
         name={screens.basic.introCompany}

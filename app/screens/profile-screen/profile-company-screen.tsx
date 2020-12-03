@@ -7,11 +7,12 @@ import {
   Icon,
   Text,
   Thumbnail,
-  View,
+  View
 } from 'native-base'
 import React from 'react'
 import { ScrollView, StyleSheet, ViewStyle } from 'react-native'
 import { PieChart } from 'react-native-chart-kit'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import { CardTopJob, Container, Screen } from '../../components'
 import { screens } from '../../config/screens'
 // import { useStores } from "../../models"
@@ -216,10 +217,12 @@ export function ProfileCompanyScreen({ navigation }) {
               </Body>
             </CardItem>
           </Card>
-
           <Card transparent style={styles.cardSection}>
             <CardItem header>
               <Text style={{ fontWeight: '700', fontSize: 20 }}>Top job</Text>
+              <TouchableOpacity onPress={() => navigation.navigate(screens.authenticated.company.jobcreate)}>
+                <Text>Cuoc doi</Text>
+              </TouchableOpacity>
             </CardItem>
             <CardItem>
               <Body>

@@ -22,6 +22,7 @@ export const screens = {
       jobs: 'company-jobs',
       messages: 'company-messages',
       settings: 'company-settings',
+      jobcreate: 'create-job'
     },
     user: {
       navigator: 'user-navigator',
