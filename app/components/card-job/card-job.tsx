@@ -43,8 +43,8 @@ export function CardJob(props: CardJobProps) {
         : <></>
 
   return (
-    <Card noShadow={true} transparent>
-      <CardItem style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: "#f6f5fb", minWidth: props.minWidth, borderRadius: 10,}}>
+    <Card noShadow={true} transparent >
+      <CardItem style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: "#f6f5fb", minWidth: props.minWidth, borderRadius: 10}}>
         <Thumbnail style={{ borderRadius: 10 }} square source={props.thumnailSource}></Thumbnail>
         <View style={{ marginLeft: 16, flex: 1 }}>
           <View>
