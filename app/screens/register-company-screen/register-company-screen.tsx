@@ -139,20 +139,21 @@ export const RegisterCompanyScreen = function RegisterCompanyScreen({
                   customChipsRenderer={(chipProperties) => {
                     return (
                               <FlatList
-                              horizontal={false}
+                              contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap'}}
                               data={chipProperties.selectedItems}
                               renderItem={({ item }) => {
                                 return (
                                   <Text
                                     style={{
                                       backgroundColor: color["color-primary-400"],
-                                      marginRight: 10,
                                       color: color["color-gray-100"],
                                       borderRadius: 100,
                                       paddingTop: 3,
                                       paddingBottom: 3,
                                       paddingLeft: 10,
                                       paddingRight: 10,
+                                      marginRight: 5,
+                                      marginBottom: 5
                                     }}
                                   >
                                     {specialtyTag[item]}

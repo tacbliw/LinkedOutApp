@@ -50,8 +50,8 @@ export const companyProfileService = {
         setSpecialties(response.specialties);
         setDescription(response.description);
       } catch (error) {
-        if (error?.response?.data) {
-          showInfo("error")
+        if (error?.response?.data?.detail) {
+          showError(error.response.data.detail)
         }
       }
     }, [accountId])

@@ -217,7 +217,6 @@ export const accountService = {
   )
   const handleCompanyRegister = React.useCallback(async () => {
     try {
-      console.log({name, website, specialties, description, accessToken})
       await companyRepository.create(name, website, specialties, description, accessToken)
       saveCredentials(
         accessToken,
@@ -227,7 +226,7 @@ export const accountService = {
       )
     } catch (error) {
       if (error?.response?.data?.details) {
-        showError(error.response)
+        showError(error.response.data.details)
       }
     }
   }, [name, description, website, specialties, accessToken, accountId, accountType, accountName])

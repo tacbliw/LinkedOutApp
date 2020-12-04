@@ -2,6 +2,7 @@ import { Container, Icon, Left, List, ListItem, Text } from 'native-base'
 import * as React from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 import { screens } from '../../config/screens'
+import { toBackendUrl } from '../../helpers/string-helper'
 import { accountService } from '../../services/account-service'
 import { userProfileService } from '../../services/user-profile-service'
 import { color } from '../../theme/color'
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
 })
 
 export function Sidebar({ state, descriptors, navigation }) {
-
+  
   const [
     firstName,
     lastName,
@@ -106,7 +107,7 @@ export function Sidebar({ state, descriptors, navigation }) {
         <Image
           style={styles.avatar}
           resizeMode='cover'
-          source={{uri: "http://10.0.2.2:8000" + profilePicture}}
+          source={{uri: toBackendUrl(profilePicture)}}
         ></Image>
         <Text style={styles.userName}>{firstName + " " + lastName}</Text>
         {/* <View style={styles.followInfoContainer}>

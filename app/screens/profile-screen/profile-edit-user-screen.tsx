@@ -10,6 +10,7 @@ import Timeline from 'react-native-timeline-flatlist'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { useState } from "reactn"
 import { CardJob, Container, Screen } from "../../components"
+import { toBackendUrl } from '../../helpers/string-helper'
 import { tagService } from '../../services/tag-service'
 import { userProfileService } from "../../services/user-profile-service"
 // import { useStores } from "../../models"
@@ -337,7 +338,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
 		handleEducationChange(educationData.map(item => {
 			return {
 				//   id: item.educationId,
-				time: moment(item.startDate, 'YYYY-MM-DD').fromNow(),
+				time: moment(item.startDate, 'YYYY-MM-DD').format('MMM DD').toString(),
 				title: item.schoolName,
 				description: (
 					<View>
@@ -364,7 +365,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
 		educationList ? setEducationListRender(educationList.map(item => {
 			return {
 				id: item.educationId,
-				time: moment(item.startDate, 'YYYY-MM-DD').fromNow(),
+				time: moment(item.startDate, 'YYYY-MM-DD').format('MMM DD').toString(),
 				title: item.schoolName,
 				description: (
 					<View>
@@ -390,6 +391,10 @@ export function ProfileEditUserScreen({ route, navigation }) {
 
 	}, [skillTag])
 
+	useEffect(() => {
+		skillTag ? setSelectedItems(skillList.map(item => skillTag.indexOf(item))) : ''
+	}, [skillList])
+
 	return (
 		<Screen style={ROOT} preset="scroll">
 			<ScrollView >
@@ -411,7 +416,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
 
 						<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
 							<TouchableOpacity onPress={chooseFile}>
-								<Thumbnail circular large style={styles.avatarUser} source={require("./avatar.jpg")}></Thumbnail>
+								<Thumbnail circular large style={styles.avatarUser} source={{uri: toBackendUrl(userData.profilePicture)}}></Thumbnail>
 							</TouchableOpacity>
 						</View>
 
@@ -431,12 +436,12 @@ export function ProfileEditUserScreen({ route, navigation }) {
 								<Input value={gender} onChangeText={(text) => handleGenderChange(text)} />
 							</Item>
 							<Item stackedLabel>
-								<Label>DoB</Label>
+								<Label>Date of birth</Label>
 								<Item>
 
 									<Icon
 										style={styles.textInputIcon}
-										name='calendar-outline'
+										name='calendar'
 										onPress={handleDateOfBirthPickerPress}
 									/>
 
@@ -470,7 +475,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
 								/>
 							</Item>
 
-							<Item stackedLabel style={{ alignItems: 'stretch' }}>
+							<Item stackedLabel style={{ alignItems: 'stretch', borderBottomWidth: 0 }}>
 								<Label>Skill</Label>
 								<SectionedMultiSelect
 									items={dataMultiSelected}
@@ -482,40 +487,44 @@ export function ProfileEditUserScreen({ route, navigation }) {
 									readOnlyHeadings={true}
 									onSelectedItemsChange={onSelectedItemsChange}
 									selectedItems={selectedItems}
+									colors={{primary: color['color-primary-500']}}
 									showCancelButton={true}
+									renderSelectText = {() => {
+                
+										return <Text>Your skill here</Text>
+									  }}
 									customChipsRenderer={(chipProperties) => {
 										return (
 											<FlatList
-												horizontal={true}
+												// horizontal={true}
+												contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap'}}
 												data={chipProperties.selectedItems}
 												scrollEnabled={false}
 												keyExtractor={(item) => item.toString()}
 												renderItem={({ item }) => {
 													return (
-														<View style={{ flexWrap: 'wrap', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row' }}>
+														<View style={{ flexWrap: 'wrap', alignItems: 'center', flexDirection: 'row' }}>
 															<View
 																style={{
-																	overflow: 'hidden',
+																	// overflow: 'hidden',
 																	justifyContent: 'center',
-																	height: 34,
-																	borderColor: '#848787',
+																	// height: 34,
 																	flexDirection: 'row',
-																	alignItems: 'center',
-																	paddingLeft: 10,
+																	padding: 5,
 																	margin: 3,
-																	paddingTop: 0,
-																	paddingRight: 0,
-																	paddingBottom: 0,
+																	// paddingTop: 0,
+																	// paddingBottom: 0,
 																	borderRadius: 20,
-																	borderWidth: 1,
+																	backgroundColor: color['color-primary-500'],
 																}}>
 
 																<View style={{
-																	marginRight: 5,
+																	// marginRight: 5,
 																	flexDirection:'row',
+																	alignItems: 'center',
 																}}>
-																	<Text>{skillTag[item]}</Text>
-																	<Item><Icon onPress={()=>handleDeleteSkill(skillTag[item])} style={{color:color.brandLight, marginLeft:5}} name="close-circle-outline" /></Item>
+																	<Item style={{borderBottomWidth: 0}}><Text style={{color: "white"}}>{skillTag[item]}</Text></Item>
+																	<Item style={{borderBottomWidth: 0}}><Icon onPress={()=>handleDeleteSkill(skillTag[item])} style={{color:color['color-danger-700'], marginLeft: 2}} name="close-circle" /></Item>
 																</View>
 																
 
@@ -534,9 +543,10 @@ export function ProfileEditUserScreen({ route, navigation }) {
 						<CardItem header>
 							<Text style={{ fontWeight: "700", fontSize: 20 }}>Education</Text>
 							<View style={{ flexGrow: 1, flexDirection: 'row-reverse' }}>
-								<Button rounded info onPress={() => { setEducationModalVisible(true) }}>
+								{/* <Button rounded info onPress={() => { setEducationModalVisible(true) }}>
 									<Icon name='add-outline' />
-								</Button>
+								</Button> */}
+								<TouchableOpacity onPress={() => { setEducationModalVisible(true) }}><Text style={{color: color['color-info-500'], fontWeight: 'bold'}}>Add</Text></TouchableOpacity>
 							</View>
 						</CardItem>
 						<CardItem>
@@ -548,7 +558,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
 								data={educationListRender}
 								renderDetail={renderDetail}
 								// columnFormat='single-column-right'
-								timeStyle={{ textAlign: 'center', backgroundColor: color.brandInfo, color: 'white', padding: 5, borderRadius: 13 }}
+								timeStyle={{ backgroundColor: color['color-info-500'], color: 'white', padding: 5, borderRadius: 13, marginTop: 16, marginLeft: 16}}
 							></Timeline>
 							{/* <Mytimeline></Mytimeline> */}
 						</CardItem>
@@ -645,9 +655,10 @@ export function ProfileEditUserScreen({ route, navigation }) {
 						<CardItem header>
 							<Text style={{ fontWeight: '700', fontSize: 20 }}>Experience</Text>
 							<View style={{ flexGrow: 1, flexDirection: 'row-reverse' }}>
-								<Button rounded info onPress={() => { setExperienceModalVisible(true) }}>
+								{/* <Button rounded info onPress={() => { setExperienceModalVisible(true) }}>
 									<Icon name='add-outline' />
-								</Button>
+								</Button> */}
+								<TouchableOpacity onPress={() => { setExperienceModalVisible(true) }}><Text style={{color: color['color-info-500'], fontWeight: 'bold'}}>Add</Text></TouchableOpacity>
 							</View>
 						</CardItem>
 						<CardItem style={{ flexDirection: 'column' }}>

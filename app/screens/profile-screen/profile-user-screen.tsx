@@ -24,6 +24,7 @@ import {
   Tag
 } from '../../components'
 import { screens } from '../../config/screens'
+import { toBackendUrl } from '../../helpers/string-helper'
 import { userProfileService } from '../../services/user-profile-service'
 import { color } from '../../theme'
 const ROOT: ViewStyle = {
@@ -208,7 +209,7 @@ export function ProfileUserScreen({ navigation }) {
     educationList ? setEducationListRender(educationList.map(item => {
       return {
         id: item.educationId,
-        time: moment(item.startDate, 'YYYY-MM-DD').fromNow(),
+        time: moment(item.startDate, 'YYYY-MM-DD').format('MMM DD').toString(),
         title: item.schoolName,
         description: (
           <View>
@@ -248,7 +249,7 @@ export function ProfileUserScreen({ navigation }) {
                 square={true}
                 large
                 style={styles.avatarUser}
-                source={{uri: "http://10.0.2.2:8000" + profilePicture}}
+                source={{uri: toBackendUrl(profilePicture)}}
               ></Thumbnail>
               <View style={{ marginLeft: 25, justifyContent: 'center', flex:1 }}>
                 <Text style={styles.userName}>{firstName + ' ' + lastName}</Text>
@@ -285,9 +286,10 @@ export function ProfileUserScreen({ navigation }) {
                   {description}
                 </Text>
                 <FlatList
+                  contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap'}}
                   data={skillList}
                   renderItem={renderSkillItem}
-                  horizontal
+                  // horizontal
                   style={{ marginTop: 16 }}
                   keyExtractor={(item) => item}
                 ></FlatList>
@@ -305,10 +307,12 @@ export function ProfileUserScreen({ navigation }) {
                 renderCircle={(rowData, sectionID, rowID) => { }}
                 timeStyle={{
                   textAlign: 'center',
-                  backgroundColor: color.brandInfo,
+                  backgroundColor: color['color-info-500'],
                   color: 'white',
                   padding: 5,
                   borderRadius: 13,
+                  marginTop: 16, 
+                  marginLeft: 16
                 }}
               ></Timeline>
             </CardItem>
