@@ -53,13 +53,11 @@ export class PhoneRepository extends Repository {
 
   public async update(oldPhone: string, newPhone: string): Promise<PhoneUpdateResponse> {
     return this.http.post('update', {
-      params: {
-        oldPhone,
-        newPhone
-      }
+      oldPhone,
+      newPhone
     }).then((response: AxiosResponse) => response.data)
   }
-  
+
 }
 
 export const phoneRepository: PhoneRepository = new PhoneRepository()

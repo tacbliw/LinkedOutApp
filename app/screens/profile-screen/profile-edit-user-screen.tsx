@@ -218,9 +218,11 @@ export function ProfileEditUserScreen({ route, navigation }) {
 		userDescription,
 		handleUserDescriptionChange,
 		oldPhone,
+		handleOldPhoneChange,
 		newPhone,
 		handlePhoneChange,
 		oldEmail,
+		handleOldEmailChange,
 		newEmail,
 		handleEmailChange,
 		handleEditProfileSubmit
@@ -271,14 +273,19 @@ export function ProfileEditUserScreen({ route, navigation }) {
 	] = userProfileService.useCreatExperience();
 
 	const [
-		skillList
-	  ] = userProfileService.useGetSkill();
+		skillText,
+		skillList,
+		handleSkillTextChange,
+		handleCreatSkill,
+		handleDeleteSkill,
+		handleSkillListChange
+	] = userProfileService.useCreateSkill();
 
 	const [
 		skillTag,
 		getAllSkillTag,
 		getSkillTagByQuery,
-	] = tagService.useTag()
+	] = tagService.useSkillTag()
 
 	// Pull in one of our MST stores
 	// const { someStore, anotherStore } = useStores()
@@ -313,7 +320,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
 		return (
 			<CardJob
 				id={item.id}
-				minWidth={screenWidth*0.8}
+				minWidth={screenWidth * 0.8}
 				companyName={item.companyName}
 				position={item.title}
 				thumnailSource={require('./company.jpg')}
@@ -324,52 +331,63 @@ export function ProfileEditUserScreen({ route, navigation }) {
 		)
 	}
 
+
 	useEffect(() => {
 		getAllSkillTag();
 		handleEducationChange(educationData.map(item => {
 			return {
-			//   id: item.educationId,
-			  time: moment(item.startDate, 'YYYY-MM-DD').fromNow(),
-			  title: item.schoolName,
-			  description: (
-				<View>
-					<Text style={styles.textDescription}>{item.major}</Text>
-					<TouchableOpacity onPress={() => handleDeleteEducation(item.id)}><Icon name='remove-circle' style={{ color: color.brandDanger }} /></TouchableOpacity>
-				</View>
+				//   id: item.educationId,
+				time: moment(item.startDate, 'YYYY-MM-DD').fromNow(),
+				title: item.schoolName,
+				description: (
+					<View>
+						<Text style={styles.textDescription}>{item.major}</Text>
+						<TouchableOpacity onPress={() => handleDeleteEducation(item.id)}><Icon name='remove-circle' style={{ color: color.brandDanger }} /></TouchableOpacity>
+					</View>
 				),
 			}
-		  }));
+		}));
 		handleExperienceChange(experienceData)
+		handleSkillListChange(skillData)
+		handleFirstNameChange(userData.firstName)
+		handleLastNameChange(userData.lastName)
+		handleGenderChange(userData.gender)
+		handleDateOfBirthChange(userData.dateOfBirth)
+		handleUserDescriptionChange(userData.description)
+		handlePhoneChange(userData.phoneList[0])
+		handleOldPhoneChange(userData.phoneList[0])
+		handleEmailChange(userData.emailList[0])
+		handleOldEmailChange(userData.emailList[0])
 	}, [null])
 
 	useEffect(() => {
-		educationList?setEducationListRender(educationList.map(item => {
+		educationList ? setEducationListRender(educationList.map(item => {
 			return {
-			  id: item.educationId,
-			  time: moment(item.startDate, 'YYYY-MM-DD').fromNow(),
-			  title: item.schoolName,
-			  description: (
-				<View>
-					<Text style={styles.textDescription}>{item.major}</Text>
-					<TouchableOpacity onPress={() => handleDeleteEducation(item.id)}><Icon name='remove-circle' style={{ color: color.brandDanger }} /></TouchableOpacity>
-				</View>
+				id: item.educationId,
+				time: moment(item.startDate, 'YYYY-MM-DD').fromNow(),
+				title: item.schoolName,
+				description: (
+					<View>
+						<Text style={styles.textDescription}>{item.major}</Text>
+						<TouchableOpacity onPress={() => handleDeleteEducation(item.id)}><Icon name='remove-circle' style={{ color: color.brandDanger }} /></TouchableOpacity>
+					</View>
 				),
 			}
-		  })):''
+		})) : ''
 	}, [educationList])
-	
+
 	useEffect(() => {
 		setDataMultiSelected([
 			{
-				name: 'Skill', 
+				name: 'Skill',
 				id: 1,
-				children: skillTag?skillTag.map((item, index) =>( {name: item, id: index} )):[]
+				children: skillTag ? skillTag.map((item, index) => ({ name: item, id: index })) : []
 			}
-		
+
 		])
 
-		skillTag?setSelectedItems(skillData.map(item => skillTag.indexOf(item))):''
-		
+		skillTag ? setSelectedItems(skillData.map(item => skillTag.indexOf(item))) : ''
+
 	}, [skillTag])
 
 	return (
@@ -380,8 +398,8 @@ export function ProfileEditUserScreen({ route, navigation }) {
 						<Icon style={styles.backIcon} name="close-outline" />
 					</Button>
 					<Button transparent onPress={() => {
-						//handleEditProfileSubmit();
-						navigation.goBack();
+						handleEditProfileSubmit();
+						//navigation.goBack();
 					}}>
 						<Text style={{ color: color.brandPrimary }}>Save</Text>
 					</Button>
@@ -400,19 +418,19 @@ export function ProfileEditUserScreen({ route, navigation }) {
 						<Form>
 							<Item stackedLabel>
 								<Label>First name</Label>
-								<Input value={userData.firstName} onChange={handleFirstNameChange} />
+								<Input value={firstName} onChangeText={(text) => handleFirstNameChange(text)} />
 							</Item>
 
 							<Item stackedLabel>
 								<Label>Last name</Label>
-								<Input value={userData.lastName} onChange={handleLastNameChange} />
+								<Input value={lastName} onChangeText={(text) => handleLastNameChange(text)} />
 							</Item>
 
 							<Item stackedLabel>
 								<Label>Gender</Label>
-								<Input value={userData.gender} onChange={handleGenderChange} />
+								<Input value={gender} onChangeText={(text) => handleGenderChange(text)} />
 							</Item>
-							{/* <Item stackedLabel>
+							<Item stackedLabel>
 								<Label>DoB</Label>
 								<Item>
 
@@ -425,30 +443,30 @@ export function ProfileEditUserScreen({ route, navigation }) {
 									{showDateOfBirthPicker && (
 										<DateTimePicker
 											testID='dobPicker'
-											value={dateOfBirth}
+											value={moment(dateOfBirth, "YYYY-MM-DD").toDate()}
 											display='default'
-											onChange={(event, date) => handleDateOfBirthChange(date)}
+											onChange={(event, date) => handleDateOfBirthChange(moment(date).format('YYYY-MM-DD').toString())}
 										/>
 									)}
-									<Input>{dateOfBirth.toDateString()}</Input>
+									<Input>{dateOfBirth}</Input>
 								</Item>
-							</Item> */}
+							</Item>
 
 							<Item stackedLabel>
 								<Label>Phone</Label>
-								<Input value={userData.phoneList[0]} onChange={handlePhoneChange} />
+								<Input value={newPhone} onChangeText={(text) => handlePhoneChange(text)} />
 							</Item>
 
 							<Item stackedLabel>
 								<Label>Email</Label>
-								<Input value={userData.emailList[0]} onChange={handleEmailChange} />
+								<Input value={newEmail} onChangeText={(text) => handleEmailChange(text)} />
 							</Item>
 
 							<Item stackedLabel style={{ alignItems: 'stretch' }}>
 								<Label>About me</Label>
 								<Textarea
 									style={{ borderRadius: 10, marginTop: 16, backgroundColor: "#ffffff" }} rowSpan={5} underline={false} bordered={false}
-									value={userData.description} onChange={handleUserDescriptionChange}
+									value={userDescription} onChangeText={(text) => handleUserDescriptionChange(text)}
 								/>
 							</Item>
 
@@ -465,6 +483,49 @@ export function ProfileEditUserScreen({ route, navigation }) {
 									onSelectedItemsChange={onSelectedItemsChange}
 									selectedItems={selectedItems}
 									showCancelButton={true}
+									customChipsRenderer={(chipProperties) => {
+										return (
+											<FlatList
+												horizontal={true}
+												data={chipProperties.selectedItems}
+												scrollEnabled={false}
+												keyExtractor={(item) => item.toString()}
+												renderItem={({ item }) => {
+													return (
+														<View style={{ flexWrap: 'wrap', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row' }}>
+															<View
+																style={{
+																	overflow: 'hidden',
+																	justifyContent: 'center',
+																	height: 34,
+																	borderColor: '#848787',
+																	flexDirection: 'row',
+																	alignItems: 'center',
+																	paddingLeft: 10,
+																	margin: 3,
+																	paddingTop: 0,
+																	paddingRight: 0,
+																	paddingBottom: 0,
+																	borderRadius: 20,
+																	borderWidth: 1,
+																}}>
+
+																<View style={{
+																	marginRight: 5,
+																	flexDirection:'row',
+																}}>
+																	<Text>{skillTag[item]}</Text>
+																	<Item><Icon onPress={()=>handleDeleteSkill(skillTag[item])} style={{color:color.brandLight, marginLeft:5}} name="close-circle-outline" /></Item>
+																</View>
+																
+
+															</View>
+														</View>
+													)
+												}}
+											></FlatList>
+										)
+									}}
 								/>
 							</Item>
 						</Form>

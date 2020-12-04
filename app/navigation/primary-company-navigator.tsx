@@ -2,7 +2,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 import React from 'reactn'
 import { Sidebar } from '../components'
 import { screens } from '../config/screens'
-import { ProfileCompanyScreen, SettingsScreen } from '../screens'
+import { SettingsScreen } from '../screens'
+import { ProfileCompanyNavigator } from './profile-company-navigator'
 import { UserHomeNavigator } from './user-home-navigator'
 
 const Drawer = createDrawerNavigator()
@@ -19,7 +20,7 @@ export function PrimaryCompanyNavigator() {
     >
       <Drawer.Screen
         name={screens.authenticated.company.profile}
-        component={ProfileCompanyScreen}
+        component={ProfileCompanyNavigator}
       />
       <Drawer.Screen
         name={screens.authenticated.company.settings}

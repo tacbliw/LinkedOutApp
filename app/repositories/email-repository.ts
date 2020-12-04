@@ -53,10 +53,8 @@ export class EmailRepository extends Repository {
 
   public async update(oldEmail: string, newEmail: string): Promise<EmailUpdateResponse> {
     return this.http.post('update', {
-      params: {
-        oldEmail,
-        newEmail
-      }
+      oldEmail,
+      newEmail
     }).then((response: AxiosResponse) => response.data)
   }
 }

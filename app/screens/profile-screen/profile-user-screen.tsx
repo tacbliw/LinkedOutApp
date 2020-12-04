@@ -84,7 +84,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: '700',
     left: 5,
-
     // color: "#FFFFFF"
   },
 
@@ -133,16 +132,20 @@ export function ProfileUserScreen({ navigation }) {
     firstName,
     lastName,
     gender,
+    dateOfBirth,
     profilePicture,
     description,
+    getInfo
   ] = userProfileService.useGetUser();
 
   const [
     phoneList,
+    getPhone
   ] = userProfileService.useGetPhone();
 
   const [
     emailList,
+    getMail
   ] = userProfileService.useGetMail();
 
   const [
@@ -154,7 +157,8 @@ export function ProfileUserScreen({ navigation }) {
   ] = userProfileService.useGetExperience();
 
   const [
-    skillList
+    skillList,
+    getSkill
   ] = userProfileService.useGetSkill();
 
   const [educationListRender, setEducationListRender] = useState([])
@@ -186,20 +190,35 @@ export function ProfileUserScreen({ navigation }) {
   }
 
   useEffect(() => {
-		educationList?setEducationListRender(educationList.map(item => {
-			return {
-			  id: item.educationId,
-			  time: moment(item.startDate, 'YYYY-MM-DD').fromNow(),
-			  title: item.schoolName,
-			  description: (
-				<View>
-					<Text style={styles.textDescription}>{item.major}</Text>
-				</View>
-				),
-			}
-		  })):''
-	}, [educationList])
-	
+
+    // Subscribe for the focus Listener
+    const unsubscribe = navigation.addListener('focus', () => {
+      getInfo();
+      getPhone();
+      getMail();
+      getSkill();
+    });
+
+    return () => {
+      unsubscribe;
+    };
+  }, [navigation]);
+
+  useEffect(() => {
+    educationList ? setEducationListRender(educationList.map(item => {
+      return {
+        id: item.educationId,
+        time: moment(item.startDate, 'YYYY-MM-DD').fromNow(),
+        title: item.schoolName,
+        description: (
+          <View>
+            <Text style={styles.textDescription}>{item.major}</Text>
+          </View>
+        ),
+      }
+    })) : ''
+  }, [educationList])
+
 
   return (
     <Screen style={ROOT} preset='scroll'>
@@ -213,13 +232,14 @@ export function ProfileUserScreen({ navigation }) {
           </Button>
           <Button transparent onPress={() => {
             navigation.navigate(screens.authenticated.user.editprofile, {
-            userData: {"firstName": firstName, "lastName": lastName, "gender": gender, "profilePicture": gender, "description": description, "phoneList": phoneList, "emailList": emailList},
-						skillData: skillList,
-						educationData: educationList,
-						experienceData: experienceList
-					})}}>
-						<Icon style={styles.menuIcon} name="create-outline" />
-					</Button>
+              userData: { "firstName": firstName, "lastName": lastName, "gender": gender,"dateOfBirth": dateOfBirth, "profilePicture": profilePicture, "description": description, "phoneList": phoneList, "emailList": emailList },
+              skillData: skillList,
+              educationData: educationList,
+              experienceData: experienceList
+            })
+          }}>
+            <Icon style={styles.menuIcon} name="create-outline" />
+          </Button>
         </Header>
         <Container>
           <View style={styles.topInfo}>
@@ -230,7 +250,7 @@ export function ProfileUserScreen({ navigation }) {
                 style={styles.avatarUser}
                 source={require('./avatar.jpg')}
               ></Thumbnail>
-              <View style={{ marginLeft: 25, justifyContent: 'center' }}>
+              <View style={{ marginLeft: 25, justifyContent: 'center', flex:1 }}>
                 <Text style={styles.userName}>{firstName + ' ' + lastName}</Text>
                 <Text style={styles.about}>
                   <Icon name='location-outline' style={{ fontSize: 16 }}></Icon>
@@ -264,13 +284,13 @@ export function ProfileUserScreen({ navigation }) {
                 <Text>
                   {description}
                 </Text>
-                  <FlatList
-                    data={skillList}
-                    renderItem={renderSkillItem}
-                    horizontal
-                    style ={{marginTop:16}}
-                    keyExtractor={(item) => item}
-                  ></FlatList>
+                <FlatList
+                  data={skillList}
+                  renderItem={renderSkillItem}
+                  horizontal
+                  style={{ marginTop: 16 }}
+                  keyExtractor={(item) => item}
+                ></FlatList>
               </Body>
             </CardItem>
           </Card>
@@ -282,7 +302,7 @@ export function ProfileUserScreen({ navigation }) {
             <CardItem>
               <Timeline
                 data={educationListRender}
-                renderCircle={(rowData, sectionID, rowID)=> {}}
+                renderCircle={(rowData, sectionID, rowID) => { }}
                 timeStyle={{
                   textAlign: 'center',
                   backgroundColor: color.brandInfo,
