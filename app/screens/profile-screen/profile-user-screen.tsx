@@ -8,14 +8,19 @@ import {
   Grid,
   Header,
   Icon,
-
-
   Text,
   Thumbnail
 } from 'native-base'
 import React, { useEffect, useState } from 'react'
-import { FlatList, ScrollView, StyleSheet, View, ViewStyle } from 'react-native'
-import Timeline from "react-native-timeline-flatlist"
+import {
+  FlatList,
+  LogBox,
+  ScrollView,
+  StyleSheet,
+  View,
+  ViewStyle
+} from 'react-native'
+import Timeline from 'react-native-timeline-flatlist'
 import {
   CardJob,
   Container,
@@ -124,11 +129,13 @@ const styles = StyleSheet.create({
   },
 
   textDescription: {
-    color: 'gray'
-  }
+    color: 'gray',
+  },
 })
 
 export function ProfileUserScreen({ navigation }) {
+  LogBox.ignoreAllLogs() // holy fuck im actually using this fucking shit
+
   const [
     firstName,
     lastName,
@@ -136,31 +143,18 @@ export function ProfileUserScreen({ navigation }) {
     dateOfBirth,
     profilePicture,
     description,
-    getInfo
-  ] = userProfileService.useGetUser();
+    getInfo,
+  ] = userProfileService.useGetUser()
 
-  const [
-    phoneList,
-    getPhone
-  ] = userProfileService.useGetPhone();
+  const [phoneList, getPhone] = userProfileService.useGetPhone()
 
-  const [
-    emailList,
-    getMail
-  ] = userProfileService.useGetMail();
+  const [emailList, getMail] = userProfileService.useGetMail()
 
-  const [
-    educationList
-  ] = userProfileService.useGetEducation();
+  const [educationList] = userProfileService.useGetEducation()
 
-  const [
-    experienceList
-  ] = userProfileService.useGetExperience();
+  const [experienceList] = userProfileService.useGetExperience()
 
-  const [
-    skillList,
-    getSkill
-  ] = userProfileService.useGetSkill();
+  const [skillList, getSkill] = userProfileService.useGetSkill()
 
   const [educationListRender, setEducationListRender] = useState([])
 
@@ -185,25 +179,22 @@ export function ProfileUserScreen({ navigation }) {
   }
 
   const renderSkillItem = ({ item }) => {
-    return (
-      <Tag tagText={item}></Tag>
-    )
+    return <Tag tagText={item}></Tag>
   }
 
   useEffect(() => {
-
     // Subscribe for the focus Listener
     const unsubscribe = navigation.addListener('focus', () => {
-      getInfo();
-      getPhone();
-      getMail();
-      getSkill();
-    });
+      getInfo()
+      getPhone()
+      getMail()
+      getSkill()
+    })
 
     return () => {
-      unsubscribe;
-    };
-  }, [navigation]);
+      unsubscribe
+    }
+  }, [navigation])
 
   useEffect(() => {
     educationList ? setEducationListRender(educationList.map(item => {
@@ -220,7 +211,6 @@ export function ProfileUserScreen({ navigation }) {
     })) : ''
   }, [educationList])
 
-
   return (
     <Screen style={ROOT} preset='scroll'>
       <ScrollView>
@@ -231,15 +221,27 @@ export function ProfileUserScreen({ navigation }) {
           >
             <Icon style={styles.backIcon} name='arrow-back-outline' />
           </Button>
-          <Button transparent onPress={() => {
-            navigation.navigate(screens.authenticated.user.editprofile, {
-              userData: { "firstName": firstName, "lastName": lastName, "gender": gender,"dateOfBirth": dateOfBirth, "profilePicture": profilePicture, "description": description, "phoneList": phoneList, "emailList": emailList },
-              skillData: skillList,
-              educationData: educationList,
-              experienceData: experienceList
-            })
-          }}>
-            <Icon style={styles.menuIcon} name="create-outline" />
+          <Button
+            transparent
+            onPress={() => {
+              navigation.navigate(screens.authenticated.user.editprofile, {
+                userData: {
+                  firstName: firstName,
+                  lastName: lastName,
+                  gender: gender,
+                  dateOfBirth: dateOfBirth,
+                  profilePicture: profilePicture,
+                  description: description,
+                  phoneList: phoneList,
+                  emailList: emailList,
+                },
+                skillData: skillList,
+                educationData: educationList,
+                experienceData: experienceList,
+              })
+            }}
+          >
+            <Icon style={styles.menuIcon} name='create-outline' />
           </Button>
         </Header>
         <Container>
@@ -251,8 +253,12 @@ export function ProfileUserScreen({ navigation }) {
                 style={styles.avatarUser}
                 source={{uri: toBackendUrl(profilePicture)}}
               ></Thumbnail>
-              <View style={{ marginLeft: 25, justifyContent: 'center', flex:1 }}>
-                <Text style={styles.userName}>{firstName + ' ' + lastName}</Text>
+              <View
+                style={{ marginLeft: 25, justifyContent: 'center', flex: 1 }}
+              >
+                <Text style={styles.userName}>
+                  {firstName + ' ' + lastName}
+                </Text>
                 <Text style={styles.about}>
                   <Icon name='location-outline' style={{ fontSize: 16 }}></Icon>
                   something
@@ -282,9 +288,7 @@ export function ProfileUserScreen({ navigation }) {
             </CardItem>
             <CardItem>
               <Body>
-                <Text>
-                  {description}
-                </Text>
+                <Text>{description}</Text>
                 <FlatList
                   contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap'}}
                   data={skillList}
@@ -304,7 +308,7 @@ export function ProfileUserScreen({ navigation }) {
             <CardItem>
               <Timeline
                 data={educationListRender}
-                renderCircle={(rowData, sectionID, rowID) => { }}
+                renderCircle={(rowData, sectionID, rowID) => {}}
                 timeStyle={{
                   textAlign: 'center',
                   backgroundColor: color['color-info-500'],
@@ -330,7 +334,6 @@ export function ProfileUserScreen({ navigation }) {
                 renderItem={renderExperienceItem}
                 keyExtractor={(item) => item.id}
               ></FlatList>
-
             </CardItem>
           </Card>
 

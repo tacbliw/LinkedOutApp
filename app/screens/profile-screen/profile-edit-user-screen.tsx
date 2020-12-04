@@ -1,10 +1,32 @@
 import DateTimePicker from '@react-native-community/datetimepicker'
 import moment from 'moment'
-import { Button, Card, CardItem, Form, Header, Icon, Input, Item, Label, Text, Textarea, Thumbnail } from "native-base"
-import React, { useEffect } from "react"
-import { Dimensions, FlatList, KeyboardAvoidingView, Modal, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native"
+import {
+  Button,
+  Card,
+  CardItem,
+  Form,
+  Header,
+  Icon,
+  Input,
+  Item,
+  Label,
+  Text,
+  Textarea,
+  Thumbnail
+} from 'native-base'
+import React, { useEffect } from 'react'
+import {
+  Dimensions,
+  FlatList,
+  KeyboardAvoidingView,
+  Modal,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  ViewStyle
+} from 'react-native'
 import DocumentPicker from 'react-native-document-picker'
-import { ScrollView } from "react-native-gesture-handler"
+import { ScrollView } from 'react-native-gesture-handler'
 import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import Timeline from 'react-native-timeline-flatlist'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -12,195 +34,193 @@ import { useState } from "reactn"
 import { CardJob, Container, Screen } from "../../components"
 import { toBackendUrl } from '../../helpers/string-helper'
 import { tagService } from '../../services/tag-service'
-import { userProfileService } from "../../services/user-profile-service"
-// import { useStores } from "../../models"
-import { color } from "../../theme"
+import { userProfileService } from '../../services/user-profile-service'
+import { color } from '../../theme'
 
 const screenHeight = Dimensions.get('window').height
 const screenWidth = Dimensions.get('window').width
 
 const items = [
-	// this is the parent or 'item'
-	{
-		name: 'Programming Language',
-		id: 0,
-		// these are the children or 'sub items'
-		children: [
-			{
-				name: 'C++',
-				id: 10,
-			},
-			{
-				name: 'C#',
-				id: 11,
-			},
-			{
-				name: 'Python',
-				id: 12,
-			},
-			{
-				name: 'Yasuo',
-				id: 13,
-			},
-			{
-				name: 'Sofm',
-				id: 14,
-			},
-			{
-				name: 'NXT',
-				id: 15,
-			},
-		],
-	},
-	{
-		name: 'Framework',
-		id: 1,
-		// these are the children or 'sub items'
-		children: [
-			{
-				name: 'Django',
-				id: 16,
-			},
-			{
-				name: 'React',
-				id: 17,
-			},
-			{
-				name: 'Pikachu',
-				id: 18,
-			},
-		],
-	},
-];
+  // this is the parent or 'item'
+  {
+    name: 'Programming Language',
+    id: 0,
+    // these are the children or 'sub items'
+    children: [
+      {
+        name: 'C++',
+        id: 10,
+      },
+      {
+        name: 'C#',
+        id: 11,
+      },
+      {
+        name: 'Python',
+        id: 12,
+      },
+      {
+        name: 'Yasuo',
+        id: 13,
+      },
+      {
+        name: 'Sofm',
+        id: 14,
+      },
+      {
+        name: 'NXT',
+        id: 15,
+      },
+    ],
+  },
+  {
+    name: 'Framework',
+    id: 1,
+    // these are the children or 'sub items'
+    children: [
+      {
+        name: 'Django',
+        id: 16,
+      },
+      {
+        name: 'React',
+        id: 17,
+      },
+      {
+        name: 'Pikachu',
+        id: 18,
+      },
+    ],
+  },
+]
 
 const ROOT: ViewStyle = {
-	backgroundColor: color.palette.black,
-	flex: 1,
+  backgroundColor: color.palette.black,
+  flex: 1,
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: color.brandPrimary,
-	},
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: color.brandPrimary,
+  },
 
-	topInfo: {
-		padding: 16,
-	},
+  topInfo: {
+    padding: 16,
+  },
 
-	avatarUser: {
-		width: 120,
-		height: 120,
-		borderRadius: 100
-	},
-	userName: {
-		fontSize: 30,
-		fontWeight: "700",
-		left: 5,
+  avatarUser: {
+    width: 120,
+    height: 120,
+    borderRadius: 100,
+  },
+  userName: {
+    fontSize: 30,
+    fontWeight: '700',
+    left: 5,
 
-		// color: "#FFFFFF"
-	},
+    // color: "#FFFFFF"
+  },
 
-	about: {
-		fontSize: 15,
-		left: 5,
-	},
+  about: {
+    fontSize: 15,
+    left: 5,
+  },
 
-	profileHeader: {
-		// height: 250,
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-		backgroundColor: "#f6f5fb",
-		// backgroundColor: color.backgroundColor, 
-	},
+  profileHeader: {
+    // height: 250,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#f6f5fb',
+    // backgroundColor: color.backgroundColor,
+  },
 
-	backIcon: {
-		color: color.brandDark,
-		fontSize: 24,
-	},
+  backIcon: {
+    color: color.brandDark,
+    fontSize: 24,
+  },
 
-	cardSection: {
-		marginLeft: 16,
-		marginRight: 16,
-	},
+  cardSection: {
+    marginLeft: 16,
+    marginRight: 16,
+  },
 
-	centeredView: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		marginTop: 22,
-		//borderWidth:2
-	},
-	modalView: {
-		marginTop: 100,
-		backgroundColor: "white",
-		borderTopRightRadius: 20,
-		borderTopLeftRadius: 20,
-		//padding: 100,
-		//alignItems: "center",
-		shadowColor: "#000",
-		shadowOffset: {
-			width: 0,
-			height: 2
-		},
-		shadowOpacity: 0.25,
-		shadowRadius: 3.84,
-		elevation: 5,
-		height: screenHeight,
-	},
-	openButton: {
-		backgroundColor: "#F194FF",
-		borderRadius: 20,
-		padding: 10,
-		elevation: 2
-	},
-	textStyle: {
-		color: "white",
-		fontWeight: "bold",
-		textAlign: "center"
-	},
-	modalText: {
-		marginBottom: 15,
-		textAlign: "center"
-	},
-	title: {
-		fontSize: 16,
-		fontWeight: 'bold'
-	},
-	descriptionContainer: {
-		flexDirection: 'column',
-		paddingRight: 50
-	},
-	textDescription: {
-		color: 'gray'
-	},
-	textInputIcon: {
-		color: color.brandPrimary,
-	}
-
-});
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+    //borderWidth:2
+  },
+  modalView: {
+    marginTop: 100,
+    backgroundColor: 'white',
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+    //padding: 100,
+    //alignItems: "center",
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    height: screenHeight,
+  },
+  openButton: {
+    backgroundColor: '#F194FF',
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  descriptionContainer: {
+    flexDirection: 'column',
+    paddingRight: 50,
+  },
+  textDescription: {
+    color: 'gray',
+  },
+  textInputIcon: {
+    color: color.brandPrimary,
+  },
+})
 
 async function chooseFile() {
-	try {
-		const res = await DocumentPicker.pick({
-			type: [DocumentPicker.types.images],
-		});
-		console.log(
-			res.uri,
-			res.type, // mime type
-			res.name,
-			res.size
-		);
-	} catch (err) {
-		if (DocumentPicker.isCancel(err)) {
-			// User cancelled the picker, exit any dialogs or menus and move on
-		} else {
-			throw err;
-		}
-	}
+  try {
+    const res = await DocumentPicker.pick({
+      type: [DocumentPicker.types.images],
+    })
+    console.log(
+      res.uri,
+      res.type, // mime type
+      res.name,
+      res.size,
+    )
+  } catch (err) {
+    if (DocumentPicker.isCancel(err)) {
+      // User cancelled the picker, exit any dialogs or menus and move on
+    } else {
+      throw err
+    }
+  }
 }
 
 export function ProfileEditUserScreen({ route, navigation }) {

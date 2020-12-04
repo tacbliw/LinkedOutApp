@@ -10,7 +10,7 @@ import { phoneRepository } from '../repositories/phone-repository'
 import { skillRepository } from '../repositories/skill-repository'
 import {
   UserGetResponse,
-  userRepository
+  userRepository,
 } from '../repositories/user-repository'
 
 export const userProfileService = {
@@ -56,32 +56,26 @@ export const userProfileService = {
     return [user]
   },
 
-  useGetUser(): [
-    string,
-    string,
-    string,
-    string,
-    string,
-    string,
-    () => void
-  ] {
-    const [firstName, setFirstName] = useState<string>('');
-    const [lastName, setLastName] = useState<string>('');
-    const [gender, setGender] = useState<string>('');
-    const [dateOfBirth, setDateOfBirth] = useState<string>('');
-    const [profilePicture, setProfilePicture] = useState<string>('');
-    const [description, setDescription] = useState<string>('');
-    const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>('accountId')
+  useGetUser(): [string, string, string, string, string, string, () => void] {
+    const [firstName, setFirstName] = useState<string>('')
+    const [lastName, setLastName] = useState<string>('')
+    const [gender, setGender] = useState<string>('')
+    const [dateOfBirth, setDateOfBirth] = useState<string>('')
+    const [profilePicture, setProfilePicture] = useState<string>('')
+    const [description, setDescription] = useState<string>('')
+    const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>(
+      'accountId',
+    )
 
     const getInfo = React.useCallback(async () => {
       try {
-        const response = await userRepository.get(Number(accountId));
-        setFirstName(response.firstname);
-        setLastName(response.lastname);
-        setGender(response.gender);
-        setDateOfBirth(response.dateofbirth);
-        setProfilePicture(response.profilePicture);
-        setDescription(response.description);
+        const response = await userRepository.get(Number(accountId))
+        setFirstName(response.firstname)
+        setLastName(response.lastname)
+        setGender(response.gender)
+        setDateOfBirth(response.dateofbirth)
+        setProfilePicture(response.profilePicture)
+        setDescription(response.description)
         //showInfo(accountId)
       } catch (error) {
         if (error?.response?.data) {
@@ -101,7 +95,7 @@ export const userProfileService = {
       dateOfBirth,
       profilePicture,
       description,
-      getInfo
+      getInfo,
     ]
   },
 
@@ -153,10 +147,7 @@ export const userProfileService = {
     return [experienceList]
   },
 
-  useGetSkill(): [
-    [any],
-    () => void
-  ] {
+  useGetSkill(): [[any], () => void] {
     const [skillList, setSkillList] = useState<any>()
     const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>(
       'accountId',
@@ -177,16 +168,10 @@ export const userProfileService = {
     // React.useEffect(() => {
     //   getSkill()
     // }, [getSkill])
-    return [
-      skillList,
-      getSkill
-    ]
+    return [skillList, getSkill]
   },
 
-  useGetPhone(): [
-    [any],
-    () => void
-  ] {
+  useGetPhone(): [[any], () => void] {
     const [phoneList, setPhoneList] = useState<any>()
     const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>(
       'accountId',
@@ -207,16 +192,10 @@ export const userProfileService = {
     // React.useEffect(() => {
     //   getPhone()
     // }, [getPhone])
-    return [
-      phoneList,
-      getPhone
-    ]
+    return [phoneList, getPhone]
   },
 
-  useGetMail(): [
-    [any],
-    () => void
-  ] {
+  useGetMail(): [[any], () => void] {
     const [emailList, setPhoneList] = useState<any>()
     const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>(
       'accountId',
@@ -237,10 +216,7 @@ export const userProfileService = {
     // React.useEffect(() => {
     //   getMail()
     // }, [getMail])
-    return [
-      emailList,
-      getMail
-    ]
+    return [emailList, getMail]
   },
 
   useUpdateUser(): [
@@ -264,19 +240,23 @@ export const userProfileService = {
     (text: string) => void,
     string,
     (text: string) => void,
-    () => void
+    () => void,
   ] {
-    const [firstName, setFirstName] = useState<string>('');
-    const [lastName, setLastName] = useState<string>('');
-    const [dateOfBirth, setDateOfBirth] = useState<string>('');
-    const [showDateOfBirthPicker, setShowDateOfBirthPicker] = useState<boolean>(false);
-    const [gender, setGender] = useState<string>('');
-    const [userDescription, setUserDescription] = useState<string>('');
-    const [oldPhone, setOldPhone] = useState<string>('');
-    const [newPhone, setNewPhone] = useState<string>('');
-    const [oldEmail, setOldEmail] = useState<string>('');
-    const [newEmail, setNewEmail] = useState<string>('');
-    const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>('accountId')
+    const [firstName, setFirstName] = useState<string>('')
+    const [lastName, setLastName] = useState<string>('')
+    const [dateOfBirth, setDateOfBirth] = useState<string>('')
+    const [showDateOfBirthPicker, setShowDateOfBirthPicker] = useState<boolean>(
+      false,
+    )
+    const [gender, setGender] = useState<string>('')
+    const [userDescription, setUserDescription] = useState<string>('')
+    const [oldPhone, setOldPhone] = useState<string>('')
+    const [newPhone, setNewPhone] = useState<string>('')
+    const [oldEmail, setOldEmail] = useState<string>('')
+    const [newEmail, setNewEmail] = useState<string>('')
+    const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>(
+      'accountId',
+    )
 
     const getInfo = React.useCallback(async () => {
       try {
@@ -327,86 +307,65 @@ export const userProfileService = {
     //   getEmail()
     // }, [getEmail])
 
-    const handleFirstNameChange = useCallback(
-      (text: string) => {
-        setFirstName(text)
-      },
-      [],
-    )
+    const handleFirstNameChange = useCallback((text: string) => {
+      setFirstName(text)
+    }, [])
 
-    const handleLastNameChange = useCallback(
-      (text: string) => {
-        setLastName(text)
-      },
-      [],
-    )
+    const handleLastNameChange = useCallback((text: string) => {
+      setLastName(text)
+    }, [])
 
-    const handleDateOfBirthChange = useCallback(
-      (date: string) => {
-        setShowDateOfBirthPicker(false)
-        setDateOfBirth(date)
-      },
-      [],
-    )
+    const handleDateOfBirthChange = useCallback((date: string) => {
+      setShowDateOfBirthPicker(false)
+      setDateOfBirth(date)
+    }, [])
 
     const handleDateOfBirthPickerPress = useCallback(() => {
       setShowDateOfBirthPicker(true)
     }, [])
 
-    const handleGenderChange = useCallback(
-      (text: string) => {
-        setGender(text)
-      },
-      [],
-    )
+    const handleGenderChange = useCallback((text: string) => {
+      setGender(text)
+    }, [])
 
-    const handleUserDescriptionChange = useCallback(
-      (text: string) => {
-        setUserDescription(text)
-      },
-      [],
-    )
+    const handleUserDescriptionChange = useCallback((text: string) => {
+      setUserDescription(text)
+    }, [])
 
-    const handleOldPhoneChange = useCallback(
-      (text: string) => {
-        setOldPhone(text)
-      },
-      [],
-    )
+    const handleOldPhoneChange = useCallback((text: string) => {
+      setOldPhone(text)
+    }, [])
 
-    const handlePhoneChange = useCallback(
-      (text: string) => {
-        setNewPhone(text)
-      },
-      [],
-    )
+    const handlePhoneChange = useCallback((text: string) => {
+      setNewPhone(text)
+    }, [])
 
-    const handleOldEmailChange = useCallback(
-      (text: string) => {
-        setOldEmail(text)
-      },
-      [],
-    )
+    const handleOldEmailChange = useCallback((text: string) => {
+      setOldEmail(text)
+    }, [])
 
-    const handleEmailChange = useCallback(
-      (text: string) => {
-        setNewEmail(text)
-      },
-      [],
-    )
+    const handleEmailChange = useCallback((text: string) => {
+      setNewEmail(text)
+    }, [])
 
     const handleEditProfileSubmit = React.useCallback(async () => {
       try {
-        await userRepository.update(firstName, lastName, dateOfBirth, gender, userDescription)
-        if (oldPhone != newPhone) {
-          await phoneRepository.update(oldPhone, newPhone);
-          setOldPhone(newPhone);
+        await userRepository.update(
+          firstName,
+          lastName,
+          dateOfBirth,
+          gender,
+          userDescription,
+        )
+        if (oldPhone && oldPhone != newPhone) {
+          await phoneRepository.update(oldPhone, newPhone)
+          setOldPhone(newPhone)
         }
         if (oldEmail != newEmail) {
           await emailRepository.update(oldEmail, newEmail)
           setOldEmail(newEmail)
         }
-        showInfo("edit profile submit")
+        showInfo('edit profile submit')
       } catch (error) {
         if (error?.response?.data?.details) {
           showError(error.response.data.details)
@@ -453,11 +412,13 @@ export const userProfileService = {
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
     () => void,
     (skill: string) => void,
-    ([]) => void
+    ([]) => void,
   ] {
-    const [skillText, setSkillText] = useState<string>('');
-    const [skillList, setSkillList] = useState<any>();
-    const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>('accountId')
+    const [skillText, setSkillText] = useState<string>('')
+    const [skillList, setSkillList] = useState<any>()
+    const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>(
+      'accountId',
+    )
 
     const handleSkillTextChange = useCallback(
       (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
@@ -468,21 +429,21 @@ export const userProfileService = {
 
     const getSkill = React.useCallback(async () => {
       try {
-        const response = await skillRepository.get(Number(accountId));
+        const response = await skillRepository.get(Number(accountId))
         setSkillList(response.skills)
         //showInfo("got skill list");
       } catch (error) {
         if (error?.response?.data) {
-          showError("skill error")
+          showError('skill error')
         }
       }
     }, [accountId])
 
     const handleCreatSkill = React.useCallback(async () => {
       try {
-        const response = await skillRepository.create(skillText);
-        setSkillList(response);
-        showInfo("skill created")
+        const response = await skillRepository.create(skillText)
+        setSkillList(response)
+        showInfo('skill created')
       } catch (error) {
         if (error?.response?.data?.details) {
           showError(error.response.data.details)
@@ -494,7 +455,7 @@ export const userProfileService = {
       try {
         const response = await skillRepository.delete(skill)
         setSkillList(response.skills)
-        showInfo("skill deleted")
+        showInfo('skill deleted')
       } catch (error) {
         if (error?.response?.data?.details) {
           showError(error.response.data.details)
@@ -516,7 +477,7 @@ export const userProfileService = {
       handleSkillTextChange,
       handleCreatSkill,
       handleDeleteSkill,
-      handleSkillListChange
+      handleSkillListChange,
     ]
   },
 
