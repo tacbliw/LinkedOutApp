@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
   imageLogoSplash: {
     alignItems: 'center',
     backgroundColor: color.brandPrimary,
-    color: color.palette.white,
+    color: color.palette.orangeDarker,
     flex: 1,
     justifyContent: 'center',
   },

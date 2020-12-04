@@ -10,7 +10,7 @@ import {
   View
 } from 'native-base'
 import React, { useEffect } from 'react'
-import { FlatList, ScrollView, StyleSheet, ViewStyle } from 'react-native'
+import { FlatList, ScrollView, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native'
 import { PieChart } from 'react-native-chart-kit'
 import { CardTopJob, Container, Screen, Tag } from '../../components'
 import { screens } from '../../config/screens'
@@ -256,10 +256,12 @@ export function ProfileCompanyScreen({ navigation }) {
               </Body>
             </CardItem>
           </Card>
-
           <Card transparent style={styles.cardSection}>
             <CardItem header>
               <Text style={{ fontWeight: '700', fontSize: 20 }}>Top job</Text>
+              <TouchableOpacity onPress={() => navigation.navigate(screens.authenticated.company.jobcreate)}>
+                <Text>Cuoc doi</Text>
+              </TouchableOpacity>
             </CardItem>
             <CardItem>
               <Body>

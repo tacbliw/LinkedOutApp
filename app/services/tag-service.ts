@@ -59,6 +59,7 @@ export const tagService = {
       getAllSpecialtyTag,
       getSpecialtyTagByQuery,
     ]
-  }
+  },
+
   
 }

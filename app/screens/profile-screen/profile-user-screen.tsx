@@ -248,7 +248,7 @@ export function ProfileUserScreen({ navigation }) {
                 square={true}
                 large
                 style={styles.avatarUser}
-                source={require('./avatar.jpg')}
+                source={{uri: "http://10.0.2.2:8000" + profilePicture}}
               ></Thumbnail>
               <View style={{ marginLeft: 25, justifyContent: 'center', flex:1 }}>
                 <Text style={styles.userName}>{firstName + ' ' + lastName}</Text>

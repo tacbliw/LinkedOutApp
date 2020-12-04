@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   useWindowDimensions,
   View,
-  ViewStyle,
+  ViewStyle
 } from 'react-native'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
@@ -47,11 +47,7 @@ export const LoginScreen = function LoginScreen({ navigation }) {
           >
             <Item style={styles.textInput}>
               <Icon style={styles.textInputIcon} name='person' />
-              <Input
-                placeholder='Username'
-                onChange={handleUsernameChange}
-                value={username}
-              />
+              <Input placeholder="Username" onChange={handleUsernameChange} returnKeyType="next"/>
             </Item>
 
             <Item style={styles.textInput}>

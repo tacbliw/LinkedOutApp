@@ -67,6 +67,7 @@ export class CompanyRepository extends Repository {
     description: string,
     accessToken: string
   ): Promise<CompanyCreateResponse> {
+    console.log(specialties)
     return Axios.create({
       withCredentials: true,
       headers: {
@@ -78,7 +79,9 @@ export class CompanyRepository extends Repository {
       website,
       specialties,
       description
-    }).then((response: AxiosResponse) => response.data)
+    }).then((response: AxiosResponse) => response.data).catch(error => {
+      console.log(error.response)
+  });
   }
 
   public async update(name: string, website: string, specialties: string[], description: string): Promise<CompanyUpdateResponse> {

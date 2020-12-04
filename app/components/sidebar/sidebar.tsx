@@ -3,6 +3,7 @@ import * as React from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 import { screens } from '../../config/screens'
 import { accountService } from '../../services/account-service'
+import { userProfileService } from '../../services/user-profile-service'
 import { color } from '../../theme/color'
 import { LogoutButton } from './logout-button/logout-button'
 
@@ -24,6 +25,7 @@ const styles = StyleSheet.create({
     backgroundColor: color.brandPrimary,
     flex: 1,
     paddingBottom: 5,
+    marginTop: 24
   },
   followInfoContainer: {
     alignItems: 'flex-end',
@@ -64,6 +66,17 @@ const styles = StyleSheet.create({
 })
 
 export function Sidebar({ state, descriptors, navigation }) {
+
+  const [
+    firstName,
+    lastName,
+    gender,
+    dateOfBirth,
+    profilePicture,
+    description,
+    getInfo
+  ] = userProfileService.useGetUser();
+
   const mapIcon = {}
   mapIcon[screens.authenticated.user.profile] = 'person'
   mapIcon[screens.authenticated.user.following] = 'heart'
@@ -91,13 +104,12 @@ export function Sidebar({ state, descriptors, navigation }) {
     <Container style={styles.container}>
       <View style={styles.basicInfo}>
         <Image
-          source={require('./avatar.jpg')}
           style={styles.avatar}
           resizeMode='cover'
+          source={{uri: "http://10.0.2.2:8000" + profilePicture}}
         ></Image>
-        <Text style={styles.userName}>Siraj</Text>
-        <Text style={styles.atname}>@thesiraj</Text>
-        <View style={styles.followInfoContainer}>
+        <Text style={styles.userName}>{firstName + " " + lastName}</Text>
+        {/* <View style={styles.followInfoContainer}>
           <View style={styles.followingContainter}>
             <Text style={styles.following}>1 </Text>
             <Text style={{ color: color.brandLight }}>Following</Text>
@@ -106,7 +118,7 @@ export function Sidebar({ state, descriptors, navigation }) {
             <Text style={styles.follower}>215 </Text>
             <Text style={{ color: color.brandLight }}>Followers</Text>
           </View>
-        </View>
+        </View> */}
       </View>
       <List
         style={styles.routeList}

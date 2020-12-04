@@ -35,15 +35,16 @@ export const styles = StyleSheet.create({
   },
 
   inputText: {
-    justifyContent: 'center',
-    fontFamily: 'roboto-regular',
+    justifyContent: 'flex-end',
     color: color.brandDark,
     backgroundColor: color.palette.white,
     height: height * 0.07,
     width: width * 0.8,
     textAlign: 'left',
+    textAlignVertical: 'center',
     lineHeight: 20,
-    fontSize: 20,
+    fontSize: 17,
+    marginLeft: 10
   },
   lineIcon: {
     height: height * 0.08,
@@ -58,8 +59,9 @@ export const styles = StyleSheet.create({
   },
   icon: {
     color: color.brandDark,
-    fontSize: 23,
+    fontSize: 24,
     alignSelf: 'center',
+    marginTop: -5,
   },
 
   registerButton: {
@@ -70,19 +72,17 @@ export const styles = StyleSheet.create({
     borderRadius: 33,
   },
   button: {
-    backgroundColor: color.brandPrimary,
-    borderWidth: 2,
-    borderColor: color.brandPrimary,
+    alignSelf: 'center',
+    backgroundColor: color['color-primary-500'],
     borderRadius: 33,
-    elevation: 10,
-    shadowColor: color.palette.black,
-
+    // elevation: 15,
+    height: height * 0.06,
     justifyContent: 'center',
-    flex: 1,
+    shadowOpacity: 1,
+    shadowRadius: 5,
+    width: width * 0.7,
   },
   register: {
-    fontFamily: 'roboto-700',
-    color: color.palette.white,
     fontSize: 23,
     alignSelf: 'center',
   },

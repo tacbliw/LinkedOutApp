@@ -173,7 +173,7 @@ export const accountService = {
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
     string,
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
-    string,
+    string[],
     (value: any[]) => void,
     string,
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
@@ -188,7 +188,7 @@ export const accountService = {
   // Locals
   const [name, setName] = React.useState<string>()
   const [website, setWebsite] = React.useState<string>()
-  const [specialties, setSpecialties] = React.useState<string>()
+  const [specialties, setSpecialties] = React.useState<string[]>()
   const [description, setDescription] = React.useState<string>()
   const handleChangeCompanyName = React.useCallback(
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
@@ -203,8 +203,9 @@ export const accountService = {
     [],
   )
   const handleChangeSpecialities = React.useCallback(
-    (value: [])  => {
-      setSpecialties(value.toString())
+    (value: string[])  => {
+      console.log(value)
+      setSpecialties(value)
     },
     [],
   )
@@ -216,7 +217,8 @@ export const accountService = {
   )
   const handleCompanyRegister = React.useCallback(async () => {
     try {
-      await companyRepository.create(name, website, [specialties], description, accessToken)
+      console.log({name, website, specialties, description, accessToken})
+      await companyRepository.create(name, website, specialties, description, accessToken)
       saveCredentials(
         accessToken,
         accountId.toString(),
@@ -225,7 +227,7 @@ export const accountService = {
       )
     } catch (error) {
       if (error?.response?.data?.details) {
-        showError(error.response.data.details)
+        showError(error.response)
       }
     }
   }, [name, description, website, specialties, accessToken, accountId, accountType, accountName])

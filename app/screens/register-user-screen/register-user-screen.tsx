@@ -48,6 +48,7 @@ export const RegisterUserScreen = function RegisterUserScreen({
       setShow(false);
       const currentDate = selectedDate || date;
       setDate(currentDate);
+      handleDateOfBirthChange(currentDate)
   };
 
   const [selectedValue, setSelectedValue] = useState('Choose gender')
@@ -109,7 +110,7 @@ export const RegisterUserScreen = function RegisterUserScreen({
             </Item>
           </Form>
           <View style={styles.submitButton}>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={handleUserRegister}>
               <Text style={styles.submit}>Register</Text>
             </TouchableOpacity>
           </View>
