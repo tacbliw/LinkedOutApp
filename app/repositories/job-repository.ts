@@ -90,6 +90,14 @@ export class JobRepository extends Repository {
     }).then((response: AxiosResponse) => response.data)
   }
 
+  public async list(id: number): Promise<JobListResponse> {
+    return this.http.get('list', {
+      params: {
+        id
+      }
+    }).then((response: AxiosResponse) => response.data)
+  }
+
   public async upload(id: number, image: Image): Promise<string> {
     const formData = new FormData()
     console.log(image)

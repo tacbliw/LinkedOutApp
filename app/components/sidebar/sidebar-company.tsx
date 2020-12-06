@@ -19,8 +19,9 @@ const styles = StyleSheet.create({
         width: 100,
     },
     basicInfo: {
-        marginLeft: 20,
+        // marginLeft: 20,
         marginTop: 16,
+        alignItems: 'center'
     },
     container: {
         backgroundColor: color.brandPrimary,

@@ -14,6 +14,7 @@ import { FlatList, ScrollView, StyleSheet, TouchableOpacity, ViewStyle } from 'r
 import { PieChart } from 'react-native-chart-kit'
 import { CardTopJob, Container, Screen, Tag } from '../../components'
 import { screens } from '../../config/screens'
+import { toBackendUrl } from '../../helpers/string-helper'
 import { companyProfileService } from '../../services/company-profile-service'
 // import { useStores } from "../../models"
 import { color } from '../../theme'
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#f6f5fb',
+    backgroundColor: color['color-gray-200'],
     // backgroundColor: color.backgroundColor,
   },
 
@@ -129,6 +130,18 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     marginRight: 16,
   },
+
+  cardHeader: {
+    borderTopLeftRadius: 20, 
+    borderTopRightRadius: 20, 
+    backgroundColor: '#FFFFFF'
+  },
+
+  cardEnd: {
+    borderBottomLeftRadius: 20, 
+    borderBottomRightRadius: 20, 
+    backgroundColor: '#FFFFFF'
+  }
 })
 
 export function ProfileCompanyScreen({ navigation }) {
@@ -138,14 +151,19 @@ export function ProfileCompanyScreen({ navigation }) {
     profilePicture,
     specialties,
     description,
-    getInfo
+    job,
+    getInfo,
+    getCompanyJob
   ] = companyProfileService.useGetCompany();
+
+
 
   useEffect(() => {
 
     // Subscribe for the focus Listener
     const unsubscribe = navigation.addListener('focus', () => {
-      getInfo()
+      // getInfo()
+      // getCompanyJob()
     });
 
     return () => {
@@ -159,13 +177,27 @@ export function ProfileCompanyScreen({ navigation }) {
     )
   }
 
+  const renderCardTopJob = ({ item }) => {
+    return (
+      <CardTopJob
+                  width={300}
+                  height={150}
+                  backgroundImage={toBackendUrl(item.jobPicture)}
+                  label={item.title}
+                  description={item.description}
+                  maxTitleLength={14}
+                  maxDescriptionLength={30}
+                />
+    )
+  }
+
   return (
     <Screen style={ROOT} preset='scroll'>
       <ScrollView>
         <Header noShadow transparent={true} style={styles.profileHeader}>
           <Button
             transparent
-            onPress={() => navigation.navigate(screens.authenticated.user.home)}
+            onPress={() => navigation.goBack()}
           >
             <Icon style={styles.backIcon} name='arrow-back-outline' />
           </Button>
@@ -179,7 +211,7 @@ export function ProfileCompanyScreen({ navigation }) {
           </Button>
         </Header>
 
-        <Container>
+        <Container style={{backgroundColor: color['color-gray-200']}}>
           <View style={styles.topInfo}>
             <View style={{ flexDirection: 'row' }}>
               <Thumbnail
@@ -214,10 +246,10 @@ export function ProfileCompanyScreen({ navigation }) {
           </View>
 
           <Card transparent style={styles.cardSection}>
-            <CardItem header>
+            <CardItem header style={ styles.cardHeader}>
               <Text style={{ fontWeight: '700', fontSize: 20 }}>About us</Text>
             </CardItem>
-            <CardItem>
+            <CardItem style={styles.cardEnd}>
               <Body>
                 <Text>
                   {description}
@@ -235,11 +267,11 @@ export function ProfileCompanyScreen({ navigation }) {
           </Card>
 
           <Card transparent style={styles.cardSection}>
-            <CardItem header>
+            <CardItem header style={ styles.cardHeader}>
               <Text style={{ fontWeight: '700', fontSize: 20 }}>Statistic</Text>
             </CardItem>
             <CardItem
-              style={{ justifyContent: 'center', alignContent: 'center' }}
+              style={[styles.cardEnd, { justifyContent: 'center', alignContent: 'center' }]}
             >
               <Body
                 style={{ justifyContent: 'center', alignContent: 'center' }}
@@ -257,35 +289,20 @@ export function ProfileCompanyScreen({ navigation }) {
             </CardItem>
           </Card>
           <Card transparent style={styles.cardSection}>
-            <CardItem header>
-              <Text style={{ fontWeight: '700', fontSize: 20 }}>Top job</Text>
+            <CardItem header style={[styles.cardHeader, {justifyContent: 'space-between'}]}>
+              <Text style={{ fontWeight: '700', fontSize: 20 }}>Lastest job</Text>
               <TouchableOpacity onPress={() => navigation.navigate(screens.authenticated.company.jobcreate)}>
-                <Text>Cuoc doi</Text>
+                <Text style={{color: color['color-info-500'], fontWeight: 'bold'}}>Add</Text>
               </TouchableOpacity>
             </CardItem>
-            <CardItem>
+            <CardItem style={ styles.cardEnd}>
               <Body>
-                <CardTopJob
-                  width={300}
-                  height={150}
-                  backgroundImage={require('./company.jpg')}
-                  label={'Hiring!!'}
-                  description='HUhu'
-                />
-                <CardTopJob
-                  width={300}
-                  height={150}
-                  backgroundImage={require('./company.jpg')}
-                  label={'Hiring!!'}
-                  description='HUhu'
-                />
-                <CardTopJob
-                  width={300}
-                  height={150}
-                  backgroundImage={require('./company.jpg')}
-                  label={'Hiring!!'}
-                  description='HUhu'
-                />
+                <FlatList 
+                  data={job}
+                  renderItem={renderCardTopJob}
+                  keyExtractor={(item) => item.id.toString()}
+                >
+                </FlatList>
               </Body>
             </CardItem>
           </Card>

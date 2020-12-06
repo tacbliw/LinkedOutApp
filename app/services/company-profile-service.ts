@@ -2,6 +2,8 @@ import React, { useCallback, useState } from "reactn"
 import { GlobalState } from "../config/global"
 import { showError, showInfo } from "../helpers/toast"
 import { companyRepository } from "../repositories/company-repository"
+import { JobObject } from "../repositories/feed-repository"
+import { jobRepository } from "../repositories/job-repository"
 
 export const companyProfileService = {
   useCompanyExist(): boolean {
@@ -33,6 +35,8 @@ export const companyProfileService = {
     string,
     string[],
     string,
+    Array<JobObject>,
+    () => void,
     () => void
   ] {
     const [name, setName] = useState<string>('');
@@ -41,6 +45,7 @@ export const companyProfileService = {
     const [specialties, setSpecialties] = useState<string[]>();
     const [description, setDescription] = useState<string>('');
     const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>('accountId')
+    const [job, setJob] = useState<Array<JobObject>>([]);
     const getInfo = React.useCallback(async () => {
       try {
         const response = await companyRepository.get(Number(accountId));
@@ -55,16 +60,36 @@ export const companyProfileService = {
         }
       }
     }, [accountId])
+
+    const getCompanyJob = React.useCallback(async () => {
+        try {
+          const response = await jobRepository.list(Number(accountId))
+          if (response.length > 3) {
+            setJob(response.reverse().slice(0, 3));  
+          }
+          else
+            setJob(response.reverse());
+        }
+        catch (error) {
+          showError(error.response.data.detail)
+        }
+    }, [accountId])
+
     React.useEffect(() => {
       getInfo()
     }, [getInfo])
+    React.useEffect(() => {
+      getCompanyJob()
+    }, [getCompanyJob])
     return [
       name,
       website,
       profilePicture,
       specialties,
       description,
-      getInfo
+      job,
+      getInfo,
+      getCompanyJob
     ]
   },
 
