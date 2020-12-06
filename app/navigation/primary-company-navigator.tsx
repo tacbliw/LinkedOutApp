@@ -1,10 +1,10 @@
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import React from 'reactn'
-import { Sidebar } from '../components'
+import { SidebarCompany } from '../components/sidebar/sidebar-company'
 import { screens } from '../config/screens'
 import { SettingsScreen } from '../screens'
+import { CompanyHomeNavigator } from './company-home-navigator'
 import { ProfileCompanyNavigator } from './profile-company-navigator'
-import { UserHomeNavigator } from './user-home-navigator'
 
 const Drawer = createDrawerNavigator()
 
@@ -13,7 +13,7 @@ export function PrimaryCompanyNavigator() {
     <Drawer.Navigator
       initialRouteName={screens.authenticated.company.home}
       // https://github.com/react-navigation/react-navigation/issues/7725
-      drawerContent={(props) => <Sidebar {...props} />}
+      drawerContent={(props) => <SidebarCompany {...props} />}
       screenOptions={{
         gestureEnabled: true,
       }}
@@ -28,7 +28,7 @@ export function PrimaryCompanyNavigator() {
       />
       <Drawer.Screen
         name={screens.authenticated.company.home}
-        component={UserHomeNavigator} // temporarily set to user's home
+        component={CompanyHomeNavigator} // temporarily set to user's home
       />
     </Drawer.Navigator>
   )

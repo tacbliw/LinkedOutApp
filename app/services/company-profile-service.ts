@@ -55,9 +55,9 @@ export const companyProfileService = {
         }
       }
     }, [accountId])
-    // React.useEffect(() => {
-    //   getInfo()
-    // }, [getInfo])
+    React.useEffect(() => {
+      getInfo()
+    }, [getInfo])
     return [
       name,
       website,

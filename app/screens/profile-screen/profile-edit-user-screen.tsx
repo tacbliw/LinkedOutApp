@@ -1,29 +1,29 @@
 import DateTimePicker from '@react-native-community/datetimepicker'
 import moment from 'moment'
 import {
-  Button,
-  Card,
-  CardItem,
-  Form,
-  Header,
-  Icon,
-  Input,
-  Item,
-  Label,
-  Text,
-  Textarea,
-  Thumbnail
+	Button,
+	Card,
+	CardItem,
+	Form,
+	Header,
+	Icon,
+	Input,
+	Item,
+	Label,
+	Text,
+	Textarea,
+	Thumbnail
 } from 'native-base'
 import React, { useEffect } from 'react'
 import {
-  Dimensions,
-  FlatList,
-  KeyboardAvoidingView,
-  Modal,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  ViewStyle
+	Dimensions,
+	FlatList,
+	KeyboardAvoidingView,
+	Modal,
+	StyleSheet,
+	TouchableOpacity,
+	View,
+	ViewStyle
 } from 'react-native'
 import DocumentPicker from 'react-native-document-picker'
 import { ScrollView } from 'react-native-gesture-handler'

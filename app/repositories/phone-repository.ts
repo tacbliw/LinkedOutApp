@@ -58,6 +58,13 @@ export class PhoneRepository extends Repository {
     }).then((response: AxiosResponse) => response.data)
   }
 
+  public async create(
+    phone : string
+  ): Promise<PhoneCreateResponse> {
+    return this.http.post('create', {
+      phone
+    }).then((response: AxiosResponse) => response.data)
+  }
 }
 
 export const phoneRepository: PhoneRepository = new PhoneRepository()

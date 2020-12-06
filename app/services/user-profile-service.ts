@@ -10,7 +10,7 @@ import { phoneRepository } from '../repositories/phone-repository'
 import { skillRepository } from '../repositories/skill-repository'
 import {
   UserGetResponse,
-  userRepository,
+  userRepository
 } from '../repositories/user-repository'
 
 export const userProfileService = {
@@ -357,8 +357,11 @@ export const userProfileService = {
           gender,
           userDescription,
         )
-        if (oldPhone && oldPhone != newPhone) {
-          await phoneRepository.update(oldPhone, newPhone)
+        if (oldPhone != newPhone) {
+          if (oldPhone == undefined)
+            await phoneRepository.create(newPhone)
+          else
+            await phoneRepository.update(oldPhone, newPhone)
           setOldPhone(newPhone)
         }
         if (oldEmail != newEmail) {
