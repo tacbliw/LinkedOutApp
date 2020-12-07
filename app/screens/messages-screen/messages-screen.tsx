@@ -1,5 +1,4 @@
 import { Header, Icon, Text, View } from 'native-base'
-import React from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import {
@@ -10,6 +9,8 @@ import {
   Send,
   Time,
 } from 'react-native-gifted-chat'
+import React from 'reactn'
+import { GlobalState } from '../../config/global'
 import { toBackendUrl } from '../../helpers/string-helper'
 import { messageService } from '../../services/message-service'
 import { color } from '../../theme'
@@ -94,19 +95,27 @@ export const MessagesScreen = function MessagesScreen({ route, navigation }) {
     )
   }
 
+  const { accountType } = React.getGlobal<GlobalState>()
+
   const [
     accountId,
-    user,
     messages,
     loading,
     handleLoadOld,
     handleLoadNew,
     handleSend,
-  ] = messageService.useConversation(
-    route.params.id,
-    route.params.name,
-    route.params.profilePicture,
-  )
+  ] =
+    accountType === 'user'
+      ? messageService.useConversationFromUser(
+          route.params.id,
+          route.params.name,
+          route.params.profilePicture,
+        )
+      : messageService.useConversationFromCompany(
+          route.params.id,
+          route.params.name,
+          route.params.profilePicture,
+        )
   return (
     <>
       <Header

@@ -8,7 +8,6 @@ import {
   Label,
   Text,
   Textarea,
-  Thumbnail
 } from 'native-base'
 import React, { useEffect, useState } from 'react'
 import {
@@ -16,12 +15,14 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  ViewStyle
+  ViewStyle,
 } from 'react-native'
 import DocumentPicker from 'react-native-document-picker'
+import FastImage from 'react-native-fast-image'
 import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { Container, Screen } from '../../components'
+import { toBackendUrl } from '../../helpers/string-helper'
 import { companyProfileService } from '../../services/company-profile-service'
 import { tagService } from '../../services/tag-service'
 // import { useStores } from "../../models"
@@ -94,89 +95,75 @@ export function ProfileEditCompanyScreen({ route, navigation }) {
   const [
     name,
     handleCompanyNameChange,
+    profilePicture,
+    handleCompanyProfilePictureChange,
     website,
     handleWebsiteChange,
     specialties,
     handleSpecialtiesChange,
     description,
     handleDescriptionChange,
-    handleEditProfileSubmit
-  ] = companyProfileService.useUpdateCompany();
+    handleEditProfileSubmit,
+  ] = companyProfileService.useUpdateCompany()
 
   const [
-		specialtyTag,
-		getAllSpecialtyTag,
-		getSpecialtyTagByQuery,
-	] = tagService.useSpecialtyTag()
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-  // OR
-  // const rootStore = useStores()
-
-  // Pull in navigation via hook
-  //   const navigation = useNavigation()
-  const { companyData } = route.params;
-  const [selectedItems, setSelectedItems] = useState([]);
+    specialtyTag,
+    getAllSpecialtyTag,
+    getSpecialtyTagByQuery,
+  ] = tagService.useSpecialtyTag()
+  const { companyData } = route.params
+  const [selectedItems, setSelectedItems] = useState([])
   const [dataMultiSelected, setDataMultiSelected] = useState([])
 
   const onSelectedItemsChange = (selectedItems) => {
-    setSelectedItems(selectedItems);
+    setSelectedItems(selectedItems)
     // selectedItems?handleSpecialtiesChange(selectedItems.map(item => specialtyTag.indexOf(item))):'';
-	};
-  
+  }
+
   useEffect(() => {
     getAllSpecialtyTag()
     handleCompanyNameChange(companyData.name)
+    handleCompanyProfilePictureChange(companyData.profilePicture)
     handleWebsiteChange(companyData.website)
     handleSpecialtiesChange(companyData.specialties)
     handleDescriptionChange(companyData.description)
-  }, [null])
+  }, [])
 
   useEffect(() => {
-		setDataMultiSelected([
-			{
-				name: 'Specialty', 
-				id: 1,
-				children: specialtyTag?specialtyTag.map((item, index) =>( {name: item, id: index} )):[]
-			}
-		
-		])
+    setDataMultiSelected([
+      {
+        name: 'Specialty',
+        id: 1,
+        children: specialtyTag
+          ? specialtyTag.map((item, index) => ({ name: item, id: index }))
+          : [],
+      },
+    ])
 
-		specialtyTag?setSelectedItems(specialties.map(item => specialtyTag.indexOf(item))):''
-		
-	}, [specialtyTag])
+    specialtyTag
+      ? setSelectedItems(specialties.map((item) => specialtyTag.indexOf(item)))
+      : ''
+  }, [specialtyTag])
 
   return (
     <Screen style={ROOT} preset='scroll'>
       <ScrollView>
         <Header noShadow transparent={true} style={styles.profileHeader}>
-          <Button
-            transparent
-            onPress={() =>
-              navigation.goBack()
-            }
-          >
+          <Button transparent onPress={() => navigation.goBack()}>
             <Icon style={styles.backIcon} name='close-outline' />
           </Button>
-          <Button transparent onPress={() => {
-            handleEditProfileSubmit()
-           // navigation.goBack()
-          }}>
+          <Button transparent onPress={handleEditProfileSubmit}>
             <Text style={{ color: color.brandPrimary }}>Save</Text>
           </Button>
         </Header>
         <Container>
-          {/* <Button onPress={chooseFile}><Text>LOL</Text></Button> */}
-
           <View style={styles.topInfo}>
             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
               <TouchableOpacity onPress={chooseFile}>
-                <Thumbnail
-                  circular
-                  large
+                <FastImage
                   style={styles.avatarUser}
-                  source={require('./company.jpg')}
-                ></Thumbnail>
+                  source={{ uri: toBackendUrl(profilePicture) }}
+                />
               </TouchableOpacity>
             </View>
 
@@ -192,7 +179,7 @@ export function ProfileEditCompanyScreen({ route, navigation }) {
               </Item>
 
               <Item stackedLabel style={{ alignItems: 'stretch' }}>
-                <Label>About we</Label>
+                <Label>About us</Label>
                 <Textarea
                   style={{
                     borderRadius: 10,
@@ -208,22 +195,27 @@ export function ProfileEditCompanyScreen({ route, navigation }) {
               </Item>
 
               <Item stackedLabel style={{ alignItems: 'stretch' }}>
-								<Label>Specialties</Label>
-								<SectionedMultiSelect
-									items={dataMultiSelected}
-									IconRenderer={MaterialIcons}
-									uniqueKey="id"
-									subKey="children"
-									selectedText="skill"
-									showDropDowns={false}
-									readOnlyHeadings={true}
-									onSelectedItemsChange={onSelectedItemsChange}
-									selectedItems={selectedItems}
+                <Label>Specialties</Label>
+                <SectionedMultiSelect
+                  items={dataMultiSelected}
+                  IconRenderer={MaterialIcons}
+                  uniqueKey='id'
+                  subKey='children'
+                  selectedText='skill'
+                  showDropDowns={false}
+                  readOnlyHeadings={true}
+                  onSelectedItemsChange={onSelectedItemsChange}
+                  selectedItems={selectedItems}
                   showCancelButton={true}
-                  onConfirm={() => { 
-                    handleSpecialtiesChange(selectedItems.map(item => specialtyTag[item].toString()))}}
-								/>
-							</Item>
+                  onConfirm={() => {
+                    handleSpecialtiesChange(
+                      selectedItems.map((item) =>
+                        specialtyTag[item].toString(),
+                      ),
+                    )
+                  }}
+                />
+              </Item>
             </Form>
           </View>
         </Container>

@@ -1,14 +1,18 @@
 import { useNavigation } from '@react-navigation/native'
 import React from 'reactn'
-import { InterestCreateResponse, InterestDeleteResponse, interestRepository } from '../repositories/interest-repository'
+import { showError } from '../helpers/toast'
+import {
+  InterestCreateResponse,
+  InterestDeleteResponse,
+  interestRepository,
+} from '../repositories/interest-repository'
+import {
+  PostListResponse,
+  postRepository,
+} from '../repositories/post-repository'
 
 export const postService = {
-  usePost(id: number): [
-    number,
-    boolean,
-    () => void,
-    () => void,
-  ] {
+  usePost(id: number): [number, boolean, () => void, () => void] {
     const navigation = useNavigation()
     const [interestCount, setInterestCount] = React.useState<number>(0)
     const [interested, setInterested] = React.useState<boolean>(false)
@@ -59,11 +63,26 @@ export const postService = {
       loadInterestCount()
     }, [id])
 
-    return [
-      interestCount,
-      interested,
-      handleInterest,
-      handleCommentButton,
-    ]
+    return [interestCount, interested, handleInterest, handleCommentButton]
+  },
+
+  usePostList(accountId: number): [PostListResponse] {
+    const [postList, setPostList] = React.useState<PostListResponse>([])
+
+    const handleLoadNew = React.useCallback(async () => {
+      try {
+        const response = await postRepository.list(accountId)
+        setPostList(response)
+      } catch (error) {
+        showError('Error when loading post list')
+        console.log(error)
+      }
+    }, [accountId])
+
+    React.useEffect(() => {
+      handleLoadNew()
+    }, [handleLoadNew])
+
+    return [postList]
   },
 }

@@ -1,38 +1,39 @@
 import DateTimePicker from '@react-native-community/datetimepicker'
 import moment from 'moment'
 import {
-	Button,
-	Card,
-	CardItem,
-	Form,
-	Header,
-	Icon,
-	Input,
-	Item,
-	Label,
-	Text,
-	Textarea,
-	Thumbnail
+  Button,
+  Card,
+  CardItem,
+  Form,
+  Header,
+  Icon,
+  Input,
+  Item,
+  Label,
+  Text,
+  Textarea,
+  Thumbnail,
 } from 'native-base'
 import React, { useEffect } from 'react'
 import {
-	Dimensions,
-	FlatList,
-	KeyboardAvoidingView,
-	Modal,
-	StyleSheet,
-	TouchableOpacity,
-	View,
-	ViewStyle
+  Dimensions,
+  FlatList,
+  KeyboardAvoidingView,
+  Modal,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  ViewStyle,
 } from 'react-native'
 import DocumentPicker from 'react-native-document-picker'
 import { ScrollView } from 'react-native-gesture-handler'
 import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import Timeline from 'react-native-timeline-flatlist'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import { useState } from "reactn"
-import { CardJob, Container, Screen } from "../../components"
+import { useState } from 'reactn'
+import { CardJob, Container, Screen } from '../../components'
 import { toBackendUrl } from '../../helpers/string-helper'
+import { ExperienceObject } from '../../repositories/experience-repository'
 import { tagService } from '../../services/tag-service'
 import { userProfileService } from '../../services/user-profile-service'
 import { color } from '../../theme'
@@ -224,555 +225,710 @@ async function chooseFile() {
 }
 
 export function ProfileEditUserScreen({ route, navigation }) {
+  const [
+    firstName,
+    handleFirstNameChange,
+    lastName,
+    handleLastNameChange,
+    dateOfBirth,
+    handleDateOfBirthChange,
+    showDateOfBirthPicker,
+    handleDateOfBirthPickerPress,
+    gender,
+    handleGenderChange,
+    userDescription,
+    handleUserDescriptionChange,
+    oldPhone,
+    handleOldPhoneChange,
+    newPhone,
+    handlePhoneChange,
+    oldEmail,
+    handleOldEmailChange,
+    newEmail,
+    handleEmailChange,
+    handleEditProfileSubmit,
+  ] = userProfileService.useUpdateUser()
 
-	const [
-		firstName,
-		handleFirstNameChange,
-		lastName,
-		handleLastNameChange,
-		dateOfBirth,
-		handleDateOfBirthChange,
-		showDateOfBirthPicker,
-		handleDateOfBirthPickerPress,
-		gender,
-		handleGenderChange,
-		userDescription,
-		handleUserDescriptionChange,
-		oldPhone,
-		handleOldPhoneChange,
-		newPhone,
-		handlePhoneChange,
-		oldEmail,
-		handleOldEmailChange,
-		newEmail,
-		handleEmailChange,
-		handleEditProfileSubmit
-	] = userProfileService.useUpdateUser();
+  const [
+    schoolName,
+    handleSchooleNameChange,
+    startDateEducation,
+    handleStartDateEducationChange,
+    showStartDateEducationPicker,
+    handleStartDateEducationPickerPress,
+    endDateEducation,
+    handleEndDateEducationChange,
+    showEndDateEducationPicker,
+    handleEndDateEducationPickerPress,
+    major,
+    handleMajorChange,
+    degree,
+    handleDegreeChange,
+    handleCreatEducation,
+    educationList,
+    handleEducationChange,
+    handleDeleteEducation,
+  ] = userProfileService.useCreatEducation()
 
-	const [
-		schoolName,
-		handleSchooleNameChange,
-		startDateEducation,
-		handleStartDateEducationChange,
-		showStartDateEducationPicker,
-		handleStartDateEducationPickerPress,
-		endDateEducation,
-		handleEndDateEducationChange,
-		showEndDateEducationPicker,
-		handleEndDateEducationPickerPress,
-		major,
-		handleMajorChange,
-		degree,
-		handleDegreeChange,
-		handleCreatEducation,
-		educationList,
-		handleEducationChange,
-		handleDeleteEducation
-	] = userProfileService.useCreatEducation();
+  const [
+    companyName,
+    handleCompanyNameChange,
+    startDateExperience,
+    handleStartDateExperienceChange,
+    showStartDateExperiencePicker,
+    handleStartDateExperiencePickerPress,
+    endDateExperience,
+    handleEndDateExperienceChange,
+    showEndDateExperiencePicker,
+    handleEndDateExperiencePickerPress,
+    title,
+    handleTitleChange,
+    description,
+    handleDescriptionChange,
+    handleCreatExperience,
+    handleDeleteExperience,
+    itemId,
+    handleItemIdChange,
+    experienceList,
+    handleExperienceChange,
+  ] = userProfileService.useCreatExperience()
 
-	const [
-		companyName,
-		handleCompanyNameChange,
-		startDateExperience,
-		handleStartDateExperienceChange,
-		showStartDateExperiencePicker,
-		handleStartDateExperiencePickerPress,
-		endDateExperience,
-		handleEndDateExperienceChange,
-		showEndDateExperiencePicker,
-		handleEndDateExperiencePickerPress,
-		title,
-		handleTitleChange,
-		description,
-		handleDescriptionChange,
-		handleCreatExperience,
-		handleDeleteExperience,
-		itemId,
-		handleItemIdChange,
-		experienceList,
-		handleExperienceChange
-	] = userProfileService.useCreatExperience();
+  const [
+    skillText,
+    skillList,
+    handleSkillTextChange,
+    handleCreatSkill,
+    handleDeleteSkill,
+    handleSkillListChange,
+  ] = userProfileService.useCreateSkill()
 
-	const [
-		skillText,
-		skillList,
-		handleSkillTextChange,
-		handleCreatSkill,
-		handleDeleteSkill,
-		handleSkillListChange
-	] = userProfileService.useCreateSkill();
+  const [
+    skillTag,
+    getAllSkillTag,
+    getSkillTagByQuery,
+  ] = tagService.useSkillTag()
 
-	const [
-		skillTag,
-		getAllSkillTag,
-		getSkillTagByQuery,
-	] = tagService.useSkillTag()
+  // Pull in one of our MST stores
+  // const { someStore, anotherStore } = useStores()
+  // OR
+  // const rootStore = useStores()
 
-	// Pull in one of our MST stores
-	// const { someStore, anotherStore } = useStores()
-	// OR
-	// const rootStore = useStores()
+  // Pull in navigation via hook
+  //   const navigation = useNavigation()
+  const { userData, skillData, educationData, experienceData } = route.params
+  const [selectedItems, setSelectedItems] = useState([])
+  const [educationModalVisible, setEducationModalVisible] = useState(false)
+  const [experienceModalVisible, setExperienceModalVisible] = useState(false)
+  const [dataMultiSelected, setDataMultiSelected] = useState([])
+  const [educationListRender, setEducationListRender] = useState([])
 
-	// Pull in navigation via hook
-	//   const navigation = useNavigation()
-	const { userData, skillData, educationData, experienceData } = route.params;
-	const [selectedItems, setSelectedItems] = useState([]);
-	const [educationModalVisible, setEducationModalVisible] = useState(false);
-	const [experienceModalVisible, setExperienceModalVisible] = useState(false);
-	const [dataMultiSelected, setDataMultiSelected] = useState([])
-	const [educationListRender, setEducationListRender] = useState([])
+  const onSelectedItemsChange = (selectedItems) => {
+    setSelectedItems(selectedItems)
+  }
 
-	const onSelectedItemsChange = (selectedItems) => {
-		setSelectedItems(selectedItems);
-	};
+  const renderDetail = (rowData, sectionID, rowID) => {
+    let title = <Text style={styles.title}>{rowData.title}</Text>
 
-	const renderDetail = (rowData, sectionID, rowID) => {
-		let title = <Text style={styles.title}>{rowData.title}</Text>
+    return (
+      <View style={{ flex: 1 }}>
+        {title}
+        {rowData.description}
+      </View>
+    )
+  }
 
-		return (
-			<View style={{ flex: 1 }}>
-				{title}
-				{rowData.description}
-			</View>
-		)
-	};
+  const renderExperienceItem = ({ item }: { item: ExperienceObject }) => {
+    return (
+      <CardJob
+        id={item.id}
+        minWidth={screenWidth * 0.8}
+        companyName={item.companyName}
+        position={item.title}
+        avatarUri={toBackendUrl(item.profilePicture)}
+        describe={item.description}
+        deleteAble={true}
+        onDelete={handleDeleteExperience}
+      ></CardJob>
+    )
+  }
 
-	const renderExperienceItem = ({ item }) => {
-		return (
-			<CardJob
-				id={item.id}
-				minWidth={screenWidth * 0.8}
-				companyName={item.companyName}
-				position={item.title}
-				thumnailSource={require('./company.jpg')}
-				describe={item.description}
-				deleteAble={true}
-				onDelete={handleDeleteExperience}
-			></CardJob>
-		)
-	}
+  useEffect(() => {
+    getAllSkillTag()
+    handleEducationChange(
+      educationData.map((item) => {
+        return {
+          //   id: item.educationId,
+          time: moment(item.startDate, 'YYYY-MM-DD')
+            .format('MMM DD')
+            .toString(),
+          title: item.schoolName,
+          description: (
+            <View>
+              <Text style={styles.textDescription}>{item.major}</Text>
+              <TouchableOpacity onPress={() => handleDeleteEducation(item.id)}>
+                <Icon
+                  name='remove-circle'
+                  style={{ color: color.brandDanger }}
+                />
+              </TouchableOpacity>
+            </View>
+          ),
+        }
+      }),
+    )
+    handleExperienceChange(experienceData)
+    handleSkillListChange(skillData)
+    handleFirstNameChange(userData.firstName)
+    handleLastNameChange(userData.lastName)
+    handleGenderChange(userData.gender)
+    handleDateOfBirthChange(userData.dateOfBirth)
+    handleUserDescriptionChange(userData.description)
+    handlePhoneChange(userData.phoneList[0])
+    handleOldPhoneChange(userData.phoneList[0])
+    handleEmailChange(userData.emailList[0])
+    handleOldEmailChange(userData.emailList[0])
+  }, [null])
 
+  useEffect(() => {
+    educationList
+      ? setEducationListRender(
+          educationList.map((item) => {
+            return {
+              id: item.educationId,
+              time: moment(item.startDate, 'YYYY-MM-DD')
+                .format('MMM DD')
+                .toString(),
+              title: item.schoolName,
+              description: (
+                <View>
+                  <Text style={styles.textDescription}>{item.major}</Text>
+                  <TouchableOpacity
+                    onPress={() => handleDeleteEducation(item.id)}
+                  >
+                    <Icon
+                      name='remove-circle'
+                      style={{ color: color.brandDanger }}
+                    />
+                  </TouchableOpacity>
+                </View>
+              ),
+            }
+          }),
+        )
+      : ''
+  }, [educationList])
 
-	useEffect(() => {
-		getAllSkillTag();
-		handleEducationChange(educationData.map(item => {
-			return {
-				//   id: item.educationId,
-				time: moment(item.startDate, 'YYYY-MM-DD').format('MMM DD').toString(),
-				title: item.schoolName,
-				description: (
-					<View>
-						<Text style={styles.textDescription}>{item.major}</Text>
-						<TouchableOpacity onPress={() => handleDeleteEducation(item.id)}><Icon name='remove-circle' style={{ color: color.brandDanger }} /></TouchableOpacity>
-					</View>
-				),
-			}
-		}));
-		handleExperienceChange(experienceData)
-		handleSkillListChange(skillData)
-		handleFirstNameChange(userData.firstName)
-		handleLastNameChange(userData.lastName)
-		handleGenderChange(userData.gender)
-		handleDateOfBirthChange(userData.dateOfBirth)
-		handleUserDescriptionChange(userData.description)
-		handlePhoneChange(userData.phoneList[0])
-		handleOldPhoneChange(userData.phoneList[0])
-		handleEmailChange(userData.emailList[0])
-		handleOldEmailChange(userData.emailList[0])
-	}, [null])
+  useEffect(() => {
+    setDataMultiSelected([
+      {
+        name: 'Skill',
+        id: 1,
+        children: skillTag
+          ? skillTag.map((item, index) => ({ name: item, id: index }))
+          : [],
+      },
+    ])
 
-	useEffect(() => {
-		educationList ? setEducationListRender(educationList.map(item => {
-			return {
-				id: item.educationId,
-				time: moment(item.startDate, 'YYYY-MM-DD').format('MMM DD').toString(),
-				title: item.schoolName,
-				description: (
-					<View>
-						<Text style={styles.textDescription}>{item.major}</Text>
-						<TouchableOpacity onPress={() => handleDeleteEducation(item.id)}><Icon name='remove-circle' style={{ color: color.brandDanger }} /></TouchableOpacity>
-					</View>
-				),
-			}
-		})) : ''
-	}, [educationList])
+    skillTag
+      ? setSelectedItems(skillData.map((item) => skillTag.indexOf(item)))
+      : ''
+  }, [skillTag])
 
-	useEffect(() => {
-		setDataMultiSelected([
-			{
-				name: 'Skill',
-				id: 1,
-				children: skillTag ? skillTag.map((item, index) => ({ name: item, id: index })) : []
-			}
+  useEffect(() => {
+    skillTag
+      ? setSelectedItems(skillList.map((item) => skillTag.indexOf(item)))
+      : ''
+  }, [skillList])
 
-		])
+  return (
+    <Screen style={ROOT} preset='scroll'>
+      <ScrollView>
+        <Header noShadow transparent={true} style={styles.profileHeader}>
+          <Button transparent onPress={() => navigation.goBack()}>
+            <Icon style={styles.backIcon} name='close-outline' />
+          </Button>
+          <Button
+            transparent
+            onPress={() => {
+              handleEditProfileSubmit()
+              //navigation.goBack();
+            }}
+          >
+            <Text style={{ color: color.brandPrimary }}>Save</Text>
+          </Button>
+        </Header>
+        <Container>
+          {/* <Button onPress={chooseFile}><Text>LOL</Text></Button> */}
 
-		skillTag ? setSelectedItems(skillData.map(item => skillTag.indexOf(item))) : ''
+          <View style={styles.topInfo}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              <TouchableOpacity onPress={chooseFile}>
+                <Thumbnail
+                  circular
+                  large
+                  style={styles.avatarUser}
+                  source={{ uri: toBackendUrl(userData.profilePicture) }}
+                ></Thumbnail>
+              </TouchableOpacity>
+            </View>
 
-	}, [skillTag])
+            <Form>
+              <Item stackedLabel>
+                <Label>First name</Label>
+                <Input
+                  value={firstName}
+                  onChangeText={(text) => handleFirstNameChange(text)}
+                />
+              </Item>
 
-	useEffect(() => {
-		skillTag ? setSelectedItems(skillList.map(item => skillTag.indexOf(item))) : ''
-	}, [skillList])
+              <Item stackedLabel>
+                <Label>Last name</Label>
+                <Input
+                  value={lastName}
+                  onChangeText={(text) => handleLastNameChange(text)}
+                />
+              </Item>
 
-	return (
-		<Screen style={ROOT} preset="scroll">
-			<ScrollView >
-				<Header noShadow transparent={true} style={styles.profileHeader}>
-					<Button transparent onPress={() => navigation.goBack()}>
-						<Icon style={styles.backIcon} name="close-outline" />
-					</Button>
-					<Button transparent onPress={() => {
-						handleEditProfileSubmit();
-						//navigation.goBack();
-					}}>
-						<Text style={{ color: color.brandPrimary }}>Save</Text>
-					</Button>
-				</Header>
-				<Container>
-					{/* <Button onPress={chooseFile}><Text>LOL</Text></Button> */}
+              <Item stackedLabel>
+                <Label>Gender</Label>
+                <Input
+                  value={gender}
+                  onChangeText={(text) => handleGenderChange(text)}
+                />
+              </Item>
+              <Item stackedLabel>
+                <Label>Date of birth</Label>
+                <Item>
+                  <Icon
+                    style={styles.textInputIcon}
+                    name='calendar'
+                    onPress={handleDateOfBirthPickerPress}
+                  />
 
-					<View style={styles.topInfo}>
+                  {showDateOfBirthPicker && (
+                    <DateTimePicker
+                      testID='dobPicker'
+                      value={moment(dateOfBirth, 'YYYY-MM-DD').toDate()}
+                      display='default'
+                      onChange={(event, date) =>
+                        handleDateOfBirthChange(
+                          moment(date).format('YYYY-MM-DD').toString(),
+                        )
+                      }
+                    />
+                  )}
+                  <Input>{dateOfBirth}</Input>
+                </Item>
+              </Item>
 
-						<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-							<TouchableOpacity onPress={chooseFile}>
-								<Thumbnail circular large style={styles.avatarUser} source={{uri: toBackendUrl(userData.profilePicture)}}></Thumbnail>
-							</TouchableOpacity>
-						</View>
+              <Item stackedLabel>
+                <Label>Phone</Label>
+                <Input
+                  value={newPhone}
+                  onChangeText={(text) => handlePhoneChange(text)}
+                />
+              </Item>
 
-						<Form>
-							<Item stackedLabel>
-								<Label>First name</Label>
-								<Input value={firstName} onChangeText={(text) => handleFirstNameChange(text)} />
-							</Item>
+              <Item stackedLabel>
+                <Label>Email</Label>
+                <Input
+                  value={newEmail}
+                  onChangeText={(text) => handleEmailChange(text)}
+                />
+              </Item>
 
-							<Item stackedLabel>
-								<Label>Last name</Label>
-								<Input value={lastName} onChangeText={(text) => handleLastNameChange(text)} />
-							</Item>
+              <Item stackedLabel style={{ alignItems: 'stretch' }}>
+                <Label>About me</Label>
+                <Textarea
+                  style={{
+                    borderRadius: 10,
+                    marginTop: 16,
+                    backgroundColor: '#ffffff',
+                  }}
+                  rowSpan={5}
+                  underline={false}
+                  bordered={false}
+                  value={userDescription}
+                  onChangeText={(text) => handleUserDescriptionChange(text)}
+                />
+              </Item>
 
-							<Item stackedLabel>
-								<Label>Gender</Label>
-								<Input value={gender} onChangeText={(text) => handleGenderChange(text)} />
-							</Item>
-							<Item stackedLabel>
-								<Label>Date of birth</Label>
-								<Item>
-
-									<Icon
-										style={styles.textInputIcon}
-										name='calendar'
-										onPress={handleDateOfBirthPickerPress}
-									/>
-
-									{showDateOfBirthPicker && (
-										<DateTimePicker
-											testID='dobPicker'
-											value={moment(dateOfBirth, "YYYY-MM-DD").toDate()}
-											display='default'
-											onChange={(event, date) => handleDateOfBirthChange(moment(date).format('YYYY-MM-DD').toString())}
-										/>
-									)}
-									<Input>{dateOfBirth}</Input>
-								</Item>
-							</Item>
-
-							<Item stackedLabel>
-								<Label>Phone</Label>
-								<Input value={newPhone} onChangeText={(text) => handlePhoneChange(text)} />
-							</Item>
-
-							<Item stackedLabel>
-								<Label>Email</Label>
-								<Input value={newEmail} onChangeText={(text) => handleEmailChange(text)} />
-							</Item>
-
-							<Item stackedLabel style={{ alignItems: 'stretch' }}>
-								<Label>About me</Label>
-								<Textarea
-									style={{ borderRadius: 10, marginTop: 16, backgroundColor: "#ffffff" }} rowSpan={5} underline={false} bordered={false}
-									value={userDescription} onChangeText={(text) => handleUserDescriptionChange(text)}
-								/>
-							</Item>
-
-							<Item stackedLabel style={{ alignItems: 'stretch', borderBottomWidth: 0 }}>
-								<Label>Skill</Label>
-								<SectionedMultiSelect
-									items={dataMultiSelected}
-									IconRenderer={MaterialIcons}
-									uniqueKey="id"
-									subKey="children"
-									selectedText="skill"
-									showDropDowns={false}
-									readOnlyHeadings={true}
-									onSelectedItemsChange={onSelectedItemsChange}
-									selectedItems={selectedItems}
-									colors={{primary: color['color-primary-500']}}
-									showCancelButton={true}
-									renderSelectText = {() => {
-                
-										return <Text>Your skill here</Text>
-									  }}
-									customChipsRenderer={(chipProperties) => {
-										return (
-											<FlatList
-												// horizontal={true}
-												contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap'}}
-												data={chipProperties.selectedItems}
-												scrollEnabled={false}
-												keyExtractor={(item) => item.toString()}
-												renderItem={({ item }) => {
-													return (
-														<View style={{ flexWrap: 'wrap', alignItems: 'center', flexDirection: 'row' }}>
-															<View
-																style={{
-																	// overflow: 'hidden',
-																	justifyContent: 'center',
-																	// height: 34,
-																	flexDirection: 'row',
-																	padding: 5,
-																	margin: 3,
-																	// paddingTop: 0,
-																	// paddingBottom: 0,
-																	borderRadius: 20,
-																	backgroundColor: color['color-primary-500'],
-																}}>
-
-																<View style={{
-																	// marginRight: 5,
-																	flexDirection:'row',
-																	alignItems: 'center',
-																}}>
-																	<Item style={{borderBottomWidth: 0}}><Text style={{color: "white"}}>{skillTag[item]}</Text></Item>
-																	<Item style={{borderBottomWidth: 0}}><Icon onPress={()=>handleDeleteSkill(skillTag[item])} style={{color:color['color-danger-700'], marginLeft: 2}} name="close-circle" /></Item>
-																</View>
-																
-
-															</View>
-														</View>
-													)
-												}}
-											></FlatList>
-										)
-									}}
-								/>
-							</Item>
-						</Form>
-					</View>
-					<Card transparent style={styles.cardSection}>
-						<CardItem header>
-							<Text style={{ fontWeight: "700", fontSize: 20 }}>Education</Text>
-							<View style={{ flexGrow: 1, flexDirection: 'row-reverse' }}>
-								{/* <Button rounded info onPress={() => { setEducationModalVisible(true) }}>
+              <Item
+                stackedLabel
+                style={{ alignItems: 'stretch', borderBottomWidth: 0 }}
+              >
+                <Label>Skill</Label>
+                <SectionedMultiSelect
+                  items={dataMultiSelected}
+                  IconRenderer={MaterialIcons}
+                  uniqueKey='id'
+                  subKey='children'
+                  selectedText='skill'
+                  showDropDowns={false}
+                  readOnlyHeadings={true}
+                  onSelectedItemsChange={onSelectedItemsChange}
+                  selectedItems={selectedItems}
+                  colors={{ primary: color['color-primary-500'] }}
+                  showCancelButton={true}
+                  renderSelectText={() => {
+                    return <Text>Your skill here</Text>
+                  }}
+                  customChipsRenderer={(chipProperties) => {
+                    return (
+                      <FlatList
+                        // horizontal={true}
+                        contentContainerStyle={{
+                          flexDirection: 'column',
+                          // flexWrap: 'wrap',
+                        }}
+                        numColumns={3}
+                        data={chipProperties.selectedItems}
+                        scrollEnabled={false}
+                        keyExtractor={(item) => item.toString()}
+                        renderItem={({ item }) => {
+                          return (
+                            <View
+                              style={{
+                                flexWrap: 'wrap',
+                                alignItems: 'center',
+                                flexDirection: 'row',
+                              }}
+                            >
+                              <View
+                                style={{
+                                  // overflow: 'hidden',
+                                  justifyContent: 'center',
+                                  // height: 34,
+                                  flexDirection: 'row',
+                                  padding: 5,
+                                  margin: 3,
+                                  // paddingTop: 0,
+                                  // paddingBottom: 0,
+                                  borderRadius: 20,
+                                  backgroundColor: color['color-primary-500'],
+                                }}
+                              >
+                                <View
+                                  style={{
+                                    // marginRight: 5,
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                  }}
+                                >
+                                  <Item style={{ borderBottomWidth: 0 }}>
+                                    <Text style={{ color: 'white' }}>
+                                      {skillTag[item]}
+                                    </Text>
+                                  </Item>
+                                  <Item style={{ borderBottomWidth: 0 }}>
+                                    <Icon
+                                      onPress={() =>
+                                        handleDeleteSkill(skillTag[item])
+                                      }
+                                      style={{
+                                        color: color['color-danger-700'],
+                                        marginLeft: 2,
+                                      }}
+                                      name='close-circle'
+                                    />
+                                  </Item>
+                                </View>
+                              </View>
+                            </View>
+                          )
+                        }}
+                      ></FlatList>
+                    )
+                  }}
+                />
+              </Item>
+            </Form>
+          </View>
+          <Card transparent style={styles.cardSection}>
+            <CardItem header>
+              <Text style={{ fontWeight: '700', fontSize: 20 }}>Education</Text>
+              <View style={{ flexGrow: 1, flexDirection: 'row-reverse' }}>
+                {/* <Button rounded info onPress={() => { setEducationModalVisible(true) }}>
 									<Icon name='add-outline' />
 								</Button> */}
-								<TouchableOpacity onPress={() => { setEducationModalVisible(true) }}><Text style={{color: color['color-info-500'], fontWeight: 'bold'}}>Add</Text></TouchableOpacity>
-							</View>
-						</CardItem>
-						<CardItem>
-							<Timeline
-								// circleSize={35}
-								// timeContainerStyle={{minWidth:52, marginTop: -5}}
-								renderCircle={(rowData, sectionID, rowID) => {
-								}}
-								data={educationListRender}
-								renderDetail={renderDetail}
-								// columnFormat='single-column-right'
-								timeStyle={{ backgroundColor: color['color-info-500'], color: 'white', padding: 5, borderRadius: 13, marginTop: 16, marginLeft: 16}}
-							></Timeline>
-							{/* <Mytimeline></Mytimeline> */}
-						</CardItem>
+                <TouchableOpacity
+                  onPress={() => {
+                    setEducationModalVisible(true)
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: color['color-info-500'],
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    Add
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </CardItem>
+            <CardItem>
+              <Timeline
+                // circleSize={35}
+                // timeContainerStyle={{minWidth:52, marginTop: -5}}
+                renderCircle={(rowData, sectionID, rowID) => {}}
+                data={educationListRender}
+                renderDetail={renderDetail}
+                // columnFormat='single-column-right'
+                timeStyle={{
+                  backgroundColor: color['color-info-500'],
+                  color: 'white',
+                  padding: 5,
+                  borderRadius: 13,
+                  marginTop: 16,
+                  marginLeft: 16,
+                }}
+              ></Timeline>
+              {/* <Mytimeline></Mytimeline> */}
+            </CardItem>
 
-						<Modal
-							animationType="slide"
-							transparent={true}
-							visible={educationModalVisible}
-						//presentationStyle='formSheet'
-						>
-							<KeyboardAvoidingView behavior="position" enabled>
-								<ScrollView scrollEnabled={false} keyboardShouldPersistTaps='handled'>
+            <Modal
+              animationType='slide'
+              transparent={true}
+              visible={educationModalVisible}
+              //presentationStyle='formSheet'
+            >
+              <KeyboardAvoidingView behavior='position' enabled>
+                <ScrollView
+                  scrollEnabled={false}
+                  keyboardShouldPersistTaps='handled'
+                >
+                  <View style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+                    <View style={styles.modalView}>
+                      <Form style={{ margin: 25 }}>
+                        <Item stackedLabel>
+                          <Label>School Name</Label>
+                          <Input
+                            value={schoolName}
+                            onChange={handleSchooleNameChange}
+                          />
+                        </Item>
+                        <Item stackedLabel>
+                          <Label>Start Date</Label>
+                          <Item>
+                            <Icon
+                              style={styles.textInputIcon}
+                              name='calendar-outline'
+                              onPress={handleStartDateEducationPickerPress}
+                            />
+                            {showStartDateEducationPicker && (
+                              <DateTimePicker
+                                testID='startDateTimePicker'
+                                value={startDateEducation}
+                                display='default'
+                                onChange={(event, date) =>
+                                  handleStartDateEducationChange(date)
+                                }
+                              />
+                            )}
+                            <Input>{startDateEducation.toDateString()}</Input>
+                          </Item>
+                        </Item>
+                        <Item stackedLabel>
+                          <Label>End Date</Label>
+                          <Item>
+                            <Icon
+                              style={styles.textInputIcon}
+                              name='calendar-outline'
+                              onPress={handleEndDateEducationPickerPress}
+                            />
+                            {showEndDateEducationPicker && (
+                              <DateTimePicker
+                                testID='endDateTimePicker'
+                                value={endDateEducation}
+                                display='default'
+                                onChange={(event, date) =>
+                                  handleEndDateEducationChange(date)
+                                }
+                              />
+                            )}
+                            <Input>{endDateEducation.toDateString()}</Input>
+                          </Item>
+                        </Item>
+                        <Item stackedLabel>
+                          <Label>Major</Label>
+                          <Input value={major} onChange={handleMajorChange} />
+                        </Item>
+                        <Item stackedLabel>
+                          <Label>Degree</Label>
+                          <Input value={degree} onChange={handleDegreeChange} />
+                        </Item>
+                      </Form>
 
-									<View style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-										<View style={styles.modalView}>
-
-											<Form style={{ margin: 25 }}>
-												<Item stackedLabel>
-													<Label>School Name</Label>
-													<Input value={schoolName} onChange={handleSchooleNameChange} />
-												</Item>
-												<Item stackedLabel>
-													<Label>Start Date</Label>
-													<Item>
-														<Icon
-															style={styles.textInputIcon}
-															name='calendar-outline'
-															onPress={handleStartDateEducationPickerPress}
-														/>
-														{showStartDateEducationPicker && (
-															<DateTimePicker
-																testID='startDateTimePicker'
-																value={startDateEducation}
-																display='default'
-																onChange={(event, date) => handleStartDateEducationChange(date)}
-															/>
-														)}
-														<Input>{startDateEducation.toDateString()}</Input>
-													</Item>
-												</Item>
-												<Item stackedLabel>
-													<Label>End Date</Label>
-													<Item>
-														<Icon
-															style={styles.textInputIcon}
-															name='calendar-outline'
-															onPress={handleEndDateEducationPickerPress}
-														/>
-														{showEndDateEducationPicker && (
-															<DateTimePicker
-																testID='endDateTimePicker'
-																value={endDateEducation}
-																display='default'
-																onChange={(event, date) => handleEndDateEducationChange(date)}
-															/>
-														)}
-														<Input>{endDateEducation.toDateString()}</Input>
-													</Item>
-												</Item>
-												<Item stackedLabel>
-													<Label>Major</Label>
-													<Input value={major} onChange={handleMajorChange} />
-												</Item>
-												<Item stackedLabel>
-													<Label>Degree</Label>
-													<Input value={degree} onChange={handleDegreeChange} />
-												</Item>
-
-											</Form>
-
-											<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-												<Button rounded
-													onPress={() => {
-														handleCreatEducation();
-														setEducationModalVisible(!educationModalVisible);
-													}}>
-													<Text style={styles.textStyle}>Add</Text>
-												</Button>
-												<Button rounded
-													onPress={() => {
-														setEducationModalVisible(!educationModalVisible);
-													}}
-												>
-													<Text style={styles.textStyle}>Cancel</Text>
-												</Button>
-											</View>
-										</View>
-									</View>
-								</ScrollView>
-							</KeyboardAvoidingView>
-						</Modal>
-					</Card>
-					<Card transparent style={styles.cardSection}>
-						<CardItem header>
-							<Text style={{ fontWeight: '700', fontSize: 20 }}>Experience</Text>
-							<View style={{ flexGrow: 1, flexDirection: 'row-reverse' }}>
-								{/* <Button rounded info onPress={() => { setExperienceModalVisible(true) }}>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-evenly',
+                        }}
+                      >
+                        <Button
+                          rounded
+                          onPress={() => {
+                            handleCreatEducation()
+                            setEducationModalVisible(!educationModalVisible)
+                          }}
+                        >
+                          <Text style={styles.textStyle}>Add</Text>
+                        </Button>
+                        <Button
+                          rounded
+                          onPress={() => {
+                            setEducationModalVisible(!educationModalVisible)
+                          }}
+                        >
+                          <Text style={styles.textStyle}>Cancel</Text>
+                        </Button>
+                      </View>
+                    </View>
+                  </View>
+                </ScrollView>
+              </KeyboardAvoidingView>
+            </Modal>
+          </Card>
+          <Card transparent style={styles.cardSection}>
+            <CardItem header>
+              <Text style={{ fontWeight: '700', fontSize: 20 }}>
+                Experience
+              </Text>
+              <View style={{ flexGrow: 1, flexDirection: 'row-reverse' }}>
+                {/* <Button rounded info onPress={() => { setExperienceModalVisible(true) }}>
 									<Icon name='add-outline' />
 								</Button> */}
-								<TouchableOpacity onPress={() => { setExperienceModalVisible(true) }}><Text style={{color: color['color-info-500'], fontWeight: 'bold'}}>Add</Text></TouchableOpacity>
-							</View>
-						</CardItem>
-						<CardItem style={{ flexDirection: 'column' }}>
-							<FlatList
-								data={experienceList}
-								renderItem={renderExperienceItem}
-								keyExtractor={(item) => item.id}
-							></FlatList>
-						</CardItem>
-						<Modal
-							animationType="slide"
-							transparent={true}
-							visible={experienceModalVisible}
-						//presentationStyle='formSheet'
-						>
-							<KeyboardAvoidingView behavior="position" enabled>
-								<ScrollView scrollEnabled={false} keyboardShouldPersistTaps='handled'>
-									<View style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-										<View style={styles.modalView}>
-											<Form style={{ margin: 25 }}>
-												<Item stackedLabel>
-													<Label>Company Name</Label>
-													<Input value={companyName} onChange={handleCompanyNameChange} />
-												</Item>
-												<Item stackedLabel>
-													<Label>Start Date</Label>
-													<Item>
-														<Icon
-															style={styles.textInputIcon}
-															name='calendar-outline'
-															onPress={handleStartDateExperiencePickerPress}
-														/>
-														{showStartDateExperiencePicker && (
-															<DateTimePicker
-																testID='startDateTimePicker'
-																value={startDateExperience}
-																display='default'
-																onChange={(event, date) => handleStartDateExperienceChange(date)}
-															/>
-														)}
-														<Input>{startDateExperience.toDateString()}</Input>
-													</Item>
-												</Item>
-												<Item stackedLabel>
-													<Label>End Date</Label>
-													<Item>
-														<Icon
-															style={styles.textInputIcon}
-															name='calendar-outline'
-															onPress={handleEndDateExperiencePickerPress}
-														/>
-														{showEndDateExperiencePicker && (
-															<DateTimePicker
-																testID='endDateTimePicker'
-																value={endDateExperience}
-																display='default'
-																onChange={(event, date) => handleEndDateExperienceChange(date)}
-															/>
-														)}
-														<Input>{endDateExperience.toDateString()}</Input>
-													</Item>
-												</Item>
-												<Item stackedLabel>
-													<Label>Position</Label>
-													<Input value={title} onChange={handleTitleChange} />
-												</Item>
-												<Item stackedLabel>
-													<Label>Describe</Label>
-													<Input value={description} onChange={handleDescriptionChange} />
-												</Item>
-											</Form>
-											<View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-												<Button rounded onPress={() => {
-													handleCreatExperience();
-													setExperienceModalVisible(!experienceModalVisible);
-												}}>
-													<Text style={styles.textStyle}>Add</Text>
-												</Button>
-												<Button rounded
-													onPress={() => {
-														setExperienceModalVisible(!experienceModalVisible);
-													}}
-												>
-													<Text style={styles.textStyle}>Cancel</Text>
-												</Button>
-											</View>
-										</View>
-									</View>
-								</ScrollView>
-							</KeyboardAvoidingView>
-						</Modal>
-					</Card>
-				</Container>
-			</ScrollView>
-		</Screen>
-	)
+                <TouchableOpacity
+                  onPress={() => {
+                    setExperienceModalVisible(true)
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: color['color-info-500'],
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    Add
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </CardItem>
+            <CardItem style={{ flexDirection: 'column' }}>
+              <FlatList
+                data={experienceList}
+                renderItem={renderExperienceItem}
+                keyExtractor={(item) => String(item.id)}
+              ></FlatList>
+            </CardItem>
+            <Modal
+              animationType='slide'
+              transparent={true}
+              visible={experienceModalVisible}
+              //presentationStyle='formSheet'
+            >
+              <KeyboardAvoidingView behavior='position' enabled>
+                <ScrollView
+                  scrollEnabled={false}
+                  keyboardShouldPersistTaps='handled'
+                >
+                  <View style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+                    <View style={styles.modalView}>
+                      <Form style={{ margin: 25 }}>
+                        <Item stackedLabel>
+                          <Label>Company Name</Label>
+                          <Input
+                            value={companyName}
+                            onChange={handleCompanyNameChange}
+                          />
+                        </Item>
+                        <Item stackedLabel>
+                          <Label>Start Date</Label>
+                          <Item>
+                            <Icon
+                              style={styles.textInputIcon}
+                              name='calendar-outline'
+                              onPress={handleStartDateExperiencePickerPress}
+                            />
+                            {showStartDateExperiencePicker && (
+                              <DateTimePicker
+                                testID='startDateTimePicker'
+                                value={startDateExperience}
+                                display='default'
+                                onChange={(event, date) =>
+                                  handleStartDateExperienceChange(date)
+                                }
+                              />
+                            )}
+                            <Input>{startDateExperience.toDateString()}</Input>
+                          </Item>
+                        </Item>
+                        <Item stackedLabel>
+                          <Label>End Date</Label>
+                          <Item>
+                            <Icon
+                              style={styles.textInputIcon}
+                              name='calendar-outline'
+                              onPress={handleEndDateExperiencePickerPress}
+                            />
+                            {showEndDateExperiencePicker && (
+                              <DateTimePicker
+                                testID='endDateTimePicker'
+                                value={endDateExperience}
+                                display='default'
+                                onChange={(event, date) =>
+                                  handleEndDateExperienceChange(date)
+                                }
+                              />
+                            )}
+                            <Input>{endDateExperience.toDateString()}</Input>
+                          </Item>
+                        </Item>
+                        <Item stackedLabel>
+                          <Label>Position</Label>
+                          <Input value={title} onChange={handleTitleChange} />
+                        </Item>
+                        <Item stackedLabel>
+                          <Label>Describe</Label>
+                          <Input
+                            value={description}
+                            onChange={handleDescriptionChange}
+                          />
+                        </Item>
+                      </Form>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-evenly',
+                        }}
+                      >
+                        <Button
+                          rounded
+                          onPress={() => {
+                            handleCreatExperience()
+                            setExperienceModalVisible(!experienceModalVisible)
+                          }}
+                        >
+                          <Text style={styles.textStyle}>Add</Text>
+                        </Button>
+                        <Button
+                          rounded
+                          onPress={() => {
+                            setExperienceModalVisible(!experienceModalVisible)
+                          }}
+                        >
+                          <Text style={styles.textStyle}>Cancel</Text>
+                        </Button>
+                      </View>
+                    </View>
+                  </View>
+                </ScrollView>
+              </KeyboardAvoidingView>
+            </Modal>
+          </Card>
+        </Container>
+      </ScrollView>
+    </Screen>
+  )
 }

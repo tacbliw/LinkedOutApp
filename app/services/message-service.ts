@@ -8,7 +8,7 @@ import {
   ConversationListResponse,
   messageRepository,
 } from '../repositories/message-repository'
-import { UserGetResponse } from '../repositories/user-repository'
+import { companyProfileService } from './company-profile-service'
 import { userProfileService } from './user-profile-service'
 
 export const messageService = {
@@ -97,19 +97,11 @@ export const messageService = {
       handleItemPress,
     ]
   },
-  useConversation(
+  useConversationFromUser(
     otherId: number,
     otherName: string,
     otherProfilePicture: string,
-  ): [
-    number,
-    UserGetResponse,
-    any,
-    boolean,
-    () => void,
-    () => void,
-    (messages: any) => void,
-  ] {
+  ): [number, any, boolean, () => void, () => void, (messages: any) => void] {
     const accountId = parseInt(React.getGlobal<GlobalState>().accountId)
     const [user] = userProfileService.useBasicInfo()
     const [messages, setMessages] = React.useState([])
@@ -203,7 +195,106 @@ export const messageService = {
 
     return [
       accountId,
-      user,
+      messages,
+      loading,
+      handleLoadOld,
+      handleLoadNew,
+      handleSend,
+    ]
+  },
+
+  useConversationFromCompany(
+    otherId: number,
+    otherName: string,
+    otherProfilePicture: string,
+  ): [number, any, boolean, () => void, () => void, (messages: any) => void] {
+    const accountId = parseInt(React.getGlobal<GlobalState>().accountId)
+    const [company] = companyProfileService.useBasicInfo()
+    const [messages, setMessages] = React.useState([])
+    const [loading, setLoading] = React.useState<boolean>(false)
+
+    const handleLoadOld = React.useCallback(async () => {
+      if (messages.length <= 0) return
+      try {
+        const r = await messageRepository.get(
+          otherId,
+          Math.round(messages[messages.length - 1].createdAt.getTime() / 1000),
+        )
+        if (r.length > 0) {
+          setMessages([
+            ...messages,
+            ...r.map((item) => ({
+              _id: item.id,
+              text: item.content,
+              createdAt: new Date(item.publishedDate * 1000),
+              user: {
+                _id: item.senderId,
+                name: item.senderId === accountId ? company.name : otherName,
+                avatar:
+                  item.senderId === accountId
+                    ? toBackendUrl(company.profilePicture)
+                    : toBackendUrl(otherProfilePicture),
+              },
+            })),
+          ])
+        }
+      } catch (error) {
+        console.log(error)
+        if (error.response?.data?.details) {
+          console.log(error.response.data.details)
+        }
+      }
+    }, [messages, accountId, otherId, otherName, otherProfilePicture, company])
+
+    const handleLoadNew = React.useCallback(async () => {
+      try {
+        const r = await messageRepository.get(otherId, 0)
+        if (r.length > 0) {
+          setMessages(
+            r.map((item) => ({
+              _id: item.id,
+              text: item.content,
+              createdAt: new Date(item.publishedDate * 1000),
+              user: {
+                _id: item.senderId,
+                name: item.senderId === accountId ? company.name : otherName,
+                avatar:
+                  item.senderId === accountId
+                    ? toBackendUrl(company.profilePicture)
+                    : toBackendUrl(otherProfilePicture),
+              },
+            })),
+          )
+        }
+      } catch (error) {
+        console.log(error)
+        if (error.response?.data?.details) {
+          console.log(error.response.data.details)
+        }
+      }
+    }, [accountId, otherId, otherName, otherProfilePicture, company])
+
+    const handleSend = React.useCallback(
+      (messages = []) => {
+        console.log(messages)
+        setMessages((previousMessages) =>
+          GiftedChat.append(previousMessages, messages),
+        )
+        try {
+          messageRepository.send(otherId, 'text', messages[0].text)
+        } catch (error) {
+          console.log(error)
+        }
+      },
+      [otherId],
+    )
+
+    React.useEffect(() => {
+      handleLoadNew()
+    }, [handleLoadNew])
+
+    return [
+      accountId,
       messages,
       loading,
       handleLoadOld,

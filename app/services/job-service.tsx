@@ -1,8 +1,8 @@
 import { useNavigation } from '@react-navigation/native'
 import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native'
 import React from 'reactn'
-import { showInfo } from '../helpers/toast'
-import { jobRepository } from '../repositories/job-repository'
+import { showError, showInfo } from '../helpers/toast'
+import { JobListResponse, jobRepository } from '../repositories/job-repository'
 
 export const jobService = {
   useJob(): [
@@ -17,10 +17,10 @@ export const jobService = {
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
-    (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,  
+    (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
     (city: string) => void,
     (skill: string[]) => void,
-    () => void
+    () => void,
   ] {
     const navigation = useNavigation()
 
@@ -32,53 +32,76 @@ export const jobService = {
 
     const [cities, setCities] = React.useState<string[]>([])
     const [skills, setSkills] = React.useState<string[]>([])
-  
+
     const onTitleChange = React.useCallback(
       (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
         setTitle(event.nativeEvent.text)
         console.log(event.nativeEvent.text)
-    }, [])
-  
+      },
+      [],
+    )
+
     const onDescriptionChange = React.useCallback(
       (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
         setDescription(event.nativeEvent.text)
-    }, [])
-  
+      },
+      [],
+    )
+
     const onSeniorityLevelChange = React.useCallback(
       (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
         setSeniorityLevel(event.nativeEvent.text)
-    }, [])
-  
+      },
+      [],
+    )
+
     const onRecruitmentUrlChange = React.useCallback(
       (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
         setRecruitmentUrl(event.nativeEvent.text)
-    }, [])
-  
+      },
+      [],
+    )
+
     const onEmploymentTypeChange = React.useCallback(
       (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
         setEmploymentType(event.nativeEvent.text)
+      },
+      [],
+    )
+
+    const onCityChange = React.useCallback((cities: string) => {
+      setCities([cities])
     }, [])
-  
-    const onCityChange = React.useCallback(
-      (cities: string) => {
-        setCities([cities])
-    }, [])
-  
-    const onSkillsChange = React.useCallback(
-      (skills: string[]) => {
-        setSkills(skills)
+
+    const onSkillsChange = React.useCallback((skills: string[]) => {
+      setSkills(skills)
     }, [])
 
     const handleSave = React.useCallback(async () => {
-      try{
-        const response = await jobRepository.create(title, description, seniorityLevel, employmentType, recruitmentUrl, cities, skills).then(
-          () => showInfo("job created")
-        )
-        
+      try {
+        const response = await jobRepository
+          .create(
+            title,
+            description,
+            seniorityLevel,
+            employmentType,
+            recruitmentUrl,
+            cities,
+            skills,
+          )
+          .then(() => showInfo('job created'))
       } catch (error) {
         console.log(error)
       }
-    }, [title, description, seniorityLevel, employmentType, recruitmentUrl, cities, skills])
+    }, [
+      title,
+      description,
+      seniorityLevel,
+      employmentType,
+      recruitmentUrl,
+      cities,
+      skills,
+    ])
 
     return [
       title,
@@ -95,7 +118,27 @@ export const jobService = {
       onEmploymentTypeChange,
       onCityChange,
       onSkillsChange,
-      handleSave
+      handleSave,
     ]
+  },
+
+  useJobList(accountId: number): [JobListResponse] {
+    const [jobList, setJobList] = React.useState<JobListResponse>([])
+
+    const handleLoadNew = React.useCallback(async () => {
+      try {
+        const response = await jobRepository.list(accountId)
+        setJobList(response)
+      } catch (error) {
+        showError('Error when loading job list')
+        console.log(error)
+      }
+    }, [accountId])
+
+    React.useEffect(() => {
+      handleLoadNew()
+    }, [handleLoadNew])
+
+    return [jobList]
   },
 }

@@ -51,7 +51,7 @@ export class PostRepository extends Repository {
 
   public async list(accountId: number): Promise<PostListResponse> {
     return this.http
-      .get('create', {
+      .get('list', {
         params: {
           id: accountId,
         },

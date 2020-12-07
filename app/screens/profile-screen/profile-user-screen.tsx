@@ -9,56 +9,37 @@ import {
   Header,
   Icon,
   Text,
-  Thumbnail
 } from 'native-base'
-import React, { useEffect, useState } from 'react'
 import {
   FlatList,
   LogBox,
   ScrollView,
   StyleSheet,
   View,
-  ViewStyle
+  ViewStyle,
 } from 'react-native'
+import FastImage from 'react-native-fast-image'
 import Timeline from 'react-native-timeline-flatlist'
+import React, { useEffect, useState } from 'reactn'
 import {
   CardJob,
   Container,
   FollowingUser,
   Screen,
-  Tag
+  Tag,
 } from '../../components'
+import { GlobalState } from '../../config/global'
 import { screens } from '../../config/screens'
 import { toBackendUrl } from '../../helpers/string-helper'
+import { ExperienceObject } from '../../repositories/experience-repository'
+import { followService } from '../../services/follow-service'
+import { postService } from '../../services/post-service'
 import { userProfileService } from '../../services/user-profile-service'
 import { color } from '../../theme'
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.black,
   flex: 1,
 }
-
-const data = [
-  {
-    time: '2006',
-    title: 'Asociación Escuelas Lincoln',
-    description: 'Student',
-  },
-  {
-    time: '2011',
-    title: 'Banksia Park International High School',
-    description: 'Assoc professor',
-  },
-  {
-    time: '2016',
-    title: 'American Cooperative School La Paz',
-    description: 'Trash',
-  },
-  {
-    time: '2020',
-    title: 'University of Engineering and Technology',
-    description: 'Trash (1)',
-  },
-]
 
 const styles = StyleSheet.create({
   backIcon: {
@@ -81,9 +62,9 @@ const styles = StyleSheet.create({
   },
 
   avatarUser: {
-    // width: 90,
-    // height: 90,
     borderRadius: 10,
+    height: 85,
+    width: 85,
   },
 
   userName: {
@@ -136,6 +117,8 @@ const styles = StyleSheet.create({
 export function ProfileUserScreen({ navigation }) {
   LogBox.ignoreAllLogs() // holy fuck im actually using this fucking shit
 
+  const accountId = parseInt(React.getGlobal<GlobalState>().accountId)
+
   const [
     firstName,
     lastName,
@@ -158,21 +141,21 @@ export function ProfileUserScreen({ navigation }) {
 
   const [educationListRender, setEducationListRender] = useState([])
 
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-  // OR
-  // const rootStore = useStores()
+  const [followerCount] = followService.useFollowerCount(accountId)
 
-  // Pull in navigation via hook
-  //   const navigation = useNavigation()
+  const [followingCount] = followService.useFollowingCount(accountId)
 
-  const renderExperienceItem = ({ item }) => {
+  const [companiesFollowed] = followService.useCompanyFollowed(accountId)
+
+  const [postList] = postService.usePostList(accountId)
+
+  const renderExperienceItem = ({ item }: { item: ExperienceObject }) => {
     return (
       <CardJob
         minWidth={350}
         companyName={item.companyName}
         position={item.title}
-        thumnailSource={require('./company.jpg')}
+        avatarUri={toBackendUrl(item.profilePicture)}
         describe={item.description}
       ></CardJob>
     )
@@ -197,18 +180,24 @@ export function ProfileUserScreen({ navigation }) {
   }, [navigation])
 
   useEffect(() => {
-    educationList ? setEducationListRender(educationList.map(item => {
-      return {
-        id: item.educationId,
-        time: moment(item.startDate, 'YYYY-MM-DD').format('MMM DD').toString(),
-        title: item.schoolName,
-        description: (
-          <View>
-            <Text style={styles.textDescription}>{item.major}</Text>
-          </View>
-        ),
-      }
-    })) : ''
+    educationList
+      ? setEducationListRender(
+          educationList.map((item) => {
+            return {
+              id: item.educationId,
+              time: moment(item.startDate, 'YYYY-MM-DD')
+                .format('MMM DD')
+                .toString(),
+              title: item.schoolName,
+              description: (
+                <View>
+                  <Text style={styles.textDescription}>{item.major}</Text>
+                </View>
+              ),
+            }
+          }),
+        )
+      : ''
   }, [educationList])
 
   return (
@@ -247,12 +236,10 @@ export function ProfileUserScreen({ navigation }) {
         <Container>
           <View style={styles.topInfo}>
             <View style={{ flexDirection: 'row' }}>
-              <Thumbnail
-                square={true}
-                large
+              <FastImage
                 style={styles.avatarUser}
-                source={{uri: toBackendUrl(profilePicture)}}
-              ></Thumbnail>
+                source={{ uri: toBackendUrl(profilePicture) }}
+              />
               <View
                 style={{ marginLeft: 25, justifyContent: 'center', flex: 1 }}
               >
@@ -269,15 +256,15 @@ export function ProfileUserScreen({ navigation }) {
 
           <Grid>
             <Col style={styles.socialStatisticContainter}>
-              <Text style={styles.following}>1 </Text>
+              <Text style={styles.following}>{followingCount}</Text>
               <Text style={{ color: color.brandLight }}>Following</Text>
             </Col>
             <Col style={styles.socialStatisticContainter}>
-              <Text style={styles.follower}>215 </Text>
+              <Text style={styles.follower}>{followerCount}</Text>
               <Text style={{ color: color.brandLight }}>Followers</Text>
             </Col>
             <Col style={styles.socialStatisticContainter}>
-              <Text style={styles.follower}>15 </Text>
+              <Text style={styles.follower}>{postList.length}</Text>
               <Text style={{ color: color.brandLight }}>Posts</Text>
             </Col>
           </Grid>
@@ -290,7 +277,11 @@ export function ProfileUserScreen({ navigation }) {
               <Body>
                 <Text>{description}</Text>
                 <FlatList
-                  contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap'}}
+                  contentContainerStyle={{
+                    flexDirection: 'column',
+                    // flexWrap: 'wrap',
+                  }}
+                  numColumns={4}
                   data={skillList}
                   renderItem={renderSkillItem}
                   // horizontal
@@ -315,8 +306,8 @@ export function ProfileUserScreen({ navigation }) {
                   color: 'white',
                   padding: 5,
                   borderRadius: 13,
-                  marginTop: 16, 
-                  marginLeft: 16
+                  marginTop: 16,
+                  marginLeft: 16,
                 }}
               ></Timeline>
             </CardItem>
@@ -332,7 +323,7 @@ export function ProfileUserScreen({ navigation }) {
               <FlatList
                 data={experienceList}
                 renderItem={renderExperienceItem}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => String(item.id)}
               ></FlatList>
             </CardItem>
           </Card>
@@ -341,23 +332,29 @@ export function ProfileUserScreen({ navigation }) {
             <CardItem header>
               <Text style={{ fontWeight: '700', fontSize: 20 }}>Following</Text>
             </CardItem>
-            <CardItem style={styles.followingContainer}>
-              <FollowingUser
-                width={40}
-                height={40}
-                borderRadius={100}
-                label={'Facebook'}
-                thumbnailSource={require('./company.jpg')}
-              ></FollowingUser>
-              <FollowingUser
-                width={40}
-                height={40}
-                borderRadius={100}
-                label={'More'}
-                textThumbnail='+5'
-                textColor={color.brandPrimary}
-              ></FollowingUser>
-            </CardItem>
+            {companiesFollowed.length > 0 ? (
+              <CardItem style={styles.followingContainer}>
+                <FollowingUser
+                  width={40}
+                  height={40}
+                  borderRadius={10}
+                  label={companiesFollowed[0].name}
+                  avatarUri={toBackendUrl(companiesFollowed[0].profilePicture)}
+                ></FollowingUser>
+                {companiesFollowed.length > 1 ? (
+                  <FollowingUser
+                    width={40}
+                    height={40}
+                    borderRadius={100}
+                    label={'More'}
+                    textThumbnail={
+                      '+' + (companiesFollowed.length - 1).toString()
+                    }
+                    textColor={color.brandPrimary}
+                  />
+                ) : null}
+              </CardItem>
+            ) : null}
           </Card>
         </Container>
       </ScrollView>

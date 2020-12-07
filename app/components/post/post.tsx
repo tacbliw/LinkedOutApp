@@ -1,4 +1,4 @@
-import { Card, CardItem, Icon, Text, Thumbnail, View } from 'native-base'
+import { Card, CardItem, Icon, Text, View } from 'native-base'
 import React from 'react'
 import { Dimensions, StyleSheet, TouchableOpacity } from 'react-native'
 import FastImage from 'react-native-fast-image'
@@ -119,7 +119,7 @@ export function Post(props: PostProps) {
     <Card transparent style={{ borderWidth: 10 }}>
       <CardItem header style={styles.topPost}>
         <View style={{ flexDirection: 'row' }}>
-          <Thumbnail
+          <FastImage
             style={styles.postUserAvatar}
             source={{ uri: toBackendUrl(props.post.userProfilePicture) }}
           />

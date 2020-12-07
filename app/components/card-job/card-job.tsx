@@ -1,8 +1,9 @@
-import { Card, CardItem, Icon, Thumbnail } from 'native-base'
+import { Card, CardItem, Icon } from 'native-base'
 import * as React from 'react'
 import { TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
-// import { TouchableOpacity } from 'react-native-gesture-handler'
+import FastImage from 'react-native-fast-image'
 import { Text } from '../'
+import { toBackendUrl } from '../../helpers/string-helper'
 import { color, typography } from '../../theme'
 
 const CONTAINER: ViewStyle = {
@@ -24,7 +25,7 @@ export interface CardJobProps {
   companyName: string
   position: string
   describe: string
-  thumnailSource
+  avatarUri: string
   children?
   deleteAble?: boolean
   id: number
@@ -62,11 +63,10 @@ export function CardJob(props: CardJobProps) {
           borderRadius: 10,
         }}
       >
-        <Thumbnail
-          style={{ borderRadius: 10 }}
-          square
-          source={props.thumnailSource}
-        ></Thumbnail>
+        <FastImage
+          style={{ borderRadius: 10, width: 60, height: 60 }}
+          source={{ uri: toBackendUrl(props.avatarUri) }}
+        />
         <View style={{ marginLeft: 16, flex: 1 }}>
           <View>
             <View

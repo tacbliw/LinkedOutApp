@@ -1,6 +1,7 @@
-import { Card, CardItem, Icon, Thumbnail } from 'native-base'
+import { Card, CardItem, Icon } from 'native-base'
 import * as React from 'react'
 import { Dimensions, StyleSheet, View, ViewStyle } from 'react-native'
+import FastImage from 'react-native-fast-image'
 import { Text } from '../'
 import { toString } from '../../helpers/date-helper'
 import { toBackendUrl } from '../../helpers/string-helper'
@@ -60,7 +61,7 @@ export function JobPost(props: JobPostProps) {
         }}
       >
         <View style={{ flexDirection: 'row' }}>
-          <Thumbnail
+          <FastImage
             style={styles.postCompanyAvatar}
             source={{ uri: toBackendUrl(props.job.companyProfilePicture) }}
           />

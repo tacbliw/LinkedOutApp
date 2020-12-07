@@ -1,8 +1,9 @@
 import Moment from 'moment'
-import { Card, CardItem, Icon, Thumbnail } from 'native-base'
+import { Card, CardItem, Icon } from 'native-base'
 import * as React from 'react'
 import { TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
 import { Text } from '../'
+import { toBackendUrl } from '../../helpers/string-helper'
 import { color, typography } from '../../theme'
 
 const CONTAINER: ViewStyle = {
@@ -39,9 +40,9 @@ export function SearchItemJob(props: SearchItemJobProps) {
       <Card transparent>
         <CardItem style={{ backgroundColor: '#f6f5fb', borderRadius: 15 }}>
           <View style={{ flexDirection: 'row' }}>
-            <Thumbnail
+            <FastImage
               style={{ width: 100, height: 100, borderRadius: 15 }}
-              source={{ uri: 'http://10.0.2.2:8000' + props.jobPicture }}
+              source={{ uri: toBackendUrl(props.jobPicture) }}
             />
             <View
               style={{
