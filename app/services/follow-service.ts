@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import React from 'reactn'
+import React, { useCallback } from 'reactn'
 import { GlobalState } from '../config/global'
 import { showError, showInfo } from '../helpers/toast'
 import {
@@ -72,7 +72,7 @@ export const followService = {
     return [companies]
   },
 
-  useFollowerCount(accountId: number): [number] {
+  useFollowerCount(accountId: number): [number, (num: number) => void] {
     const [count, setCount] = React.useState<number>(0)
 
     const countFollower = React.useCallback(async () => {
@@ -84,12 +84,16 @@ export const followService = {
         console.log(error)
       }
     }, [accountId])
+    const handleCountChange = useCallback((num: number) => {
+      setCount(count + num);
+      console.log("followinggggggggggg")
+    }, [count])
 
     React.useEffect(() => {
       countFollower()
     }, [countFollower])
 
-    return [count]
+    return [count, handleCountChange]
   },
 
   useFollowingCount(accountId: number): [number] {
@@ -111,4 +115,52 @@ export const followService = {
 
     return [count]
   },
+
+  useFollow(accountId: number): [
+    boolean,
+    () => void,
+    () => void
+  ] {
+    const [checkFollowed, setCheckFollowed] = React.useState<boolean>(true)
+    
+    const getCheckFollow = React.useCallback(async () => {
+      try {
+        const response = await followRepository.check(accountId)
+        setCheckFollowed(response.followed)
+      } catch (error) {
+        showError('Error when check follow')
+        console.log(error)
+      }
+    }, [accountId])
+    
+    React.useEffect(() => {
+      getCheckFollow()
+    }, [getCheckFollow])
+    
+    const doFollow = React.useCallback(async () => {
+      try {
+        const response = await followRepository.create(accountId)
+        setCheckFollowed(response.followed)
+      } catch (error) {
+        showError('Error when creat follow')
+        console.log(error)
+      }
+    }, [accountId])
+
+    const doUnFollow = React.useCallback(async () => {
+      try {
+        const response = await followRepository.delete(accountId)
+        setCheckFollowed(response.followed)
+      } catch (error) {
+        showError('Error when delete follow')
+        console.log(error)
+      }
+    }, [accountId])
+
+    return [
+      checkFollowed,
+      doFollow,
+      doUnFollow
+    ]
+  }  
 }
