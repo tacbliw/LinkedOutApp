@@ -1,10 +1,7 @@
-import { observer } from 'mobx-react-lite'
-import { Picker, View } from 'native-base'
+import { Body, Button, Container, Icon, Left, ListItem, Right, Text, View } from 'native-base'
 import React, { useState } from 'react'
-import { Dimensions, StyleSheet, Switch, ViewStyle } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import IoniconsIcon from 'react-native-vector-icons/Ionicons'
-import { Screen, Text } from '../../components'
+import { Dimensions, FlatList, StyleSheet, Switch, ViewStyle } from 'react-native'
+import { Screen } from '../../components'
 import { color } from '../../theme'
 
 const ROOT: ViewStyle = {
@@ -12,7 +9,53 @@ const ROOT: ViewStyle = {
   flex: 1,
 }
 
-export const SettingsScreen = observer(function SettingsScreen(navigation) {
+interface SettingProps {
+  iconName: string,
+  iconColor: string,
+  bodyText: string,
+  rightObject: React.ReactNode,
+}
+
+const setting_list = [
+  {
+    iconName: 'notifications',
+    iconColor: '#ff453a',
+    bodyText: 'Notification',
+    rightObject: (<Switch value={true} />),
+  },
+
+  {
+    iconName: 'newspaper',
+    iconColor: '#0a84ff',
+    bodyText: 'Feed Setting',
+    rightObject: (<></>),
+  },
+
+  {
+    iconName: 'settings',
+    iconColor: '#8e8e93',
+    bodyText: 'General',
+    rightObject: (<></>),
+  },
+
+  {
+    iconName: 'shield',
+    iconColor: '#8fd158',
+    bodyText: 'Privacy and Terms',
+    rightObject: (<></>),
+  },
+
+  {
+    iconName: 'warning',
+    iconColor: '#ff453a',
+    bodyText: 'Delete account',
+    rightObject: (<></>),
+  },
+
+  
+]
+
+export const SettingsScreen = function SettingsScreen(navigation) {
   const [selectedValue, setSelectedValue] = useState('Light')
   const [selectedLanguage, setSelectedLanguage] = useState('English')
   const [isEnabled, setIsEnabled] = useState(false)
@@ -21,117 +64,48 @@ export const SettingsScreen = observer(function SettingsScreen(navigation) {
     <Screen style={ROOT} preset='scroll'>
       <View style={styles.container}>
         {/* // <Text preset="header" text="settingsScreen" />  */}
-        <Text style={styles.header}>SETTINGS</Text>
-        <View>
-          <View style={styles.section}>
-            <View style={styles.line}>
-              <IoniconsIcon
-                name='md-person'
-                style={styles.iconName}
-              ></IoniconsIcon>
-              <Text style={styles.text}> Themes: </Text>
-              <Picker
-                mode='dropdown'
-                selectedValue={selectedValue}
-                style={styles.picker}
-                placeholder='gender'
-                onValueChange={(itemValue) => setSelectedValue(itemValue)}
-              >
-                <Picker.Item label='Dark' value='Dark' />
-                <Picker.Item label='Light' value='Light' />
-              </Picker>
-            </View>
-            <View style={styles.line}>
-              <IoniconsIcon
-                name='md-person'
-                style={styles.iconName}
-              ></IoniconsIcon>
-              <Text style={styles.text}> Languages: </Text>
-              <Picker
-                mode='dropdown'
-                selectedValue={selectedLanguage}
-                style={styles.picker}
-                placeholder='Country'
-                onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
-              >
-                <Picker.Item label='Vietnam' value='Vietnam' />
-                <Picker.Item label='English' value='English' />
-                <Picker.Item label='Français' value='Français' />
-              </Picker>
-            </View>
-          </View>
-          <View style={styles.section}>
-            <View style={styles.line}>
-              <IoniconsIcon
-                name='md-person'
-                style={styles.iconName}
-              ></IoniconsIcon>
-              <Text style={styles.text}> Notification </Text>
-              <Switch
-                trackColor={{
-                  true: color.pickerOption,
-                  false: color.brandLight,
-                }}
-                thumbColor={isEnabled ? color.brandPrimary : color.background}
-                onValueChange={toggleSwitch}
-                value={isEnabled}
-              />
-            </View>
-            <TouchableOpacity style={styles.line} onPress={null}>
-              <IoniconsIcon
-                name='md-person'
-                style={styles.iconName}
-              ></IoniconsIcon>
-              <Text style={styles.text}> Edit profile </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.line} onPress={null}>
-              <IoniconsIcon
-                name='md-person'
-                style={styles.iconName}
-              ></IoniconsIcon>
-              <Text style={styles.text}> Update app</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.line} onPress={null}>
-              <IoniconsIcon
-                name='md-person'
-                style={styles.iconName}
-              ></IoniconsIcon>
-              <Text style={styles.text}> Introduction</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        <Text style={styles.header}>Settings</Text>
+        <Container style={{marginTop: 36}}>
+          <FlatList data={setting_list} renderItem={({item} : {item: SettingProps}) => {
+            return (
+              <ListItem icon style={{marginBottom: 16}}>
+              <Left style={{ borderBottomWidth: 0}}>
+                <Button style={{ backgroundColor: item.iconColor }}>
+                  <Icon active name={item.iconName} />
+                </Button>
+              </Left>
+              <Body style={{ borderBottomWidth: 0}}>
+                <Text>{item.bodyText}</Text>
+              </Body>
+              <Right style={{ borderBottomWidth: 0}}>
+                {item.rightObject}
+              </Right>
+            </ListItem>
+            )
+          }}>
+            </FlatList>
+        </Container>
       </View>
     </Screen>
   )
-})
+}
 
 const { width, height } = Dimensions.get('screen')
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.backgroundSetting,
+    backgroundColor: "#FFFFFF",
   },
   header: {
-    backgroundColor: color.brandPrimary,
-    color: color.palette.white,
     fontSize: 40,
-    width: width,
-    height: height / 8,
-    justifyContent: 'center',
-    textAlign: 'center',
     fontWeight: '700',
-    elevation: 20,
-    borderRadius: 2,
+    marginLeft: 6
   },
   section: {
-    // elevation: 10,
-    // borderRadius: 2,
     marginVertical: height * 0.03,
-    backgroundColor: color.background,
   },
   line: {
     flexDirection: 'row',
-    backgroundColor: '#f9fbe7', //color.background,
     borderBottomWidth: 2,
     borderColor: color.backgroundSetting,
     marginLeft: 0,
@@ -144,7 +118,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: width * 0.55,
     fontFamily: 'roboto-regular',
-    //  backgroundColor:color.brandPrimary,
     marginLeft: 10,
   },
 
