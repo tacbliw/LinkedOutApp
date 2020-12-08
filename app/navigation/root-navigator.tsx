@@ -20,6 +20,7 @@ import {
   WriteFeedScreen,
 } from '../screens'
 import { PostInterestScreen } from '../screens/post-interest-screen/post-interest-screen'
+import { ProfileUserViewScreen } from '../screens/profile-screen/profile-user-view'
 import RootStackStart from './login-navigator'
 import { PrimaryCompanyNavigator } from './primary-company-navigator'
 import { PrimaryUserNavigator } from './primary-user-navigator'
@@ -83,6 +84,11 @@ const RootStack = () => {
             component={PostInterestScreen}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name={screens.authenticated.user.view.user}
+            component={ProfileUserViewScreen}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       )
     } else if (accountType === 'company') {
@@ -110,10 +116,14 @@ const RootStack = () => {
             component={MessagesScreen}
             options={{ headerShown: false }}
           />
-
           <Stack.Screen
             name={screens.authenticated.company.jobcreate}
             component={CreateJobScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name={screens.authenticated.user.view.user}
+            component={ProfileUserViewScreen}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

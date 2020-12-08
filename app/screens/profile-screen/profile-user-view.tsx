@@ -28,7 +28,6 @@ import {
   Screen,
   Tag,
 } from '../../components'
-import { GlobalState } from '../../config/global'
 import { screens } from '../../config/screens'
 import { toBackendUrl } from '../../helpers/string-helper'
 import { ExperienceObject } from '../../repositories/experience-repository'
@@ -114,10 +113,10 @@ const styles = StyleSheet.create({
   },
 })
 
-export function ProfileUserScreen({ navigation }) {
+export function ProfileUserViewScreen({ route, navigation }) {
   LogBox.ignoreAllLogs() // holy fuck im actually using this fucking shit
 
-  const accountId = parseInt(React.getGlobal<GlobalState>().accountId)
+  const { accountId } = route.params
 
   const [educationListRender, setEducationListRender] = useState([])
 
@@ -208,7 +207,7 @@ export function ProfileUserScreen({ navigation }) {
           >
             <Icon style={styles.backIcon} name='arrow-back-outline' />
           </Button>
-          <Button
+          {/* <Button
             transparent
             onPress={() => {
               navigation.navigate(screens.authenticated.user.editprofile, {
@@ -229,7 +228,7 @@ export function ProfileUserScreen({ navigation }) {
             }}
           >
             <Icon style={styles.menuIcon} name='create-outline' />
-          </Button>
+          </Button> */}
         </Header>
         <Container>
           <View style={styles.topInfo}>

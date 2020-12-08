@@ -43,6 +43,10 @@ export const screens = {
       following: 'user-following',
       settings: 'user-settings',
       comment: 'user-comment',
+      view: {
+        user: 'user-view-user',
+        company: 'user-view-company',
+      },
     },
   },
 }

@@ -51,13 +51,16 @@ const mapIconNotification = {
 }
 
 export interface NotificationItemProps {
-  onPress: () => void
+  onPress: (item: NotificationListResponse) => void
   item: NotificationListResponse
 }
 
 export function NotificationItem(props: NotificationItemProps) {
   return (
-    <TouchableOpacity onPress={props.onPress} style={styles.container}>
+    <TouchableOpacity
+      onPress={() => props.onPress(props.item)}
+      style={styles.container}
+    >
       <View style={styles.containerView}>
         <View style={styles.avatarView}>
           <FastImage

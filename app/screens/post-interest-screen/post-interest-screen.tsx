@@ -16,7 +16,7 @@ import { Dimensions, Image } from 'react-native'
 import React from 'reactn'
 import { Comment } from '../../components'
 import { CommentInput } from '../../components/comment/comment-input'
-import { PostObject } from '../../repositories/feed-repository'
+import { postService } from '../../services/post-service'
 import { color } from '../../theme'
 
 const screenWidth = Math.round(Dimensions.get('window').width)
@@ -54,7 +54,12 @@ export const PostInterestScreen = function PostInterestScreen({
   route,
   navigation,
 }) {
-  const { post }: { post: PostObject } = route.params
+  const { postId } = route.params
+  if (route.params.post) {
+    const post = route.params.post
+  } else {
+    const [post] = postService.usePostObjectOnly(postId)
+  }
   return (
     <Container style={{ backgroundColor: '#f6f5fb' }}>
       <Content padder>

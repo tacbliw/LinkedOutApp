@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React from 'reactn'
+import { screens } from '../config/screens'
 import { showError } from '../helpers/toast'
 import {
   NotificationListResponse,
@@ -53,7 +54,21 @@ export const notificationService = {
       setRefreshing(false)
     }, [])
 
-    const handleFeedOpen = React.useCallback(() => {}, [])
+    const handleFeedOpen = React.useCallback(
+      (item: NotificationListResponse) => {
+        if (
+          item.type === 'interest' ||
+          item.type === 'comment' ||
+          item.type === 'post'
+        ) {
+          navigation.navigate(screens.authenticated.user.comment, {
+            postId: item.postJobId,
+            post: null,
+          })
+        }
+      },
+      [],
+    )
 
     React.useEffect(() => {
       handleLoadNew()

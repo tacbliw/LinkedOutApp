@@ -23,7 +23,6 @@ export const postService = {
     const navigation = useNavigation()
     const [interestCount, setInterestCount] = React.useState<number>(0)
     const [interested, setInterested] = React.useState<boolean>(false)
-    console.log(post)
 
     const checkInterest = React.useCallback(async () => {
       try {
@@ -64,6 +63,7 @@ export const postService = {
 
     const handleCommentButton = React.useCallback(() => {
       navigation.navigate(screens.authenticated.user.comment, {
+        postId: post.id,
         post: post,
       })
     }, [])
@@ -71,7 +71,7 @@ export const postService = {
     React.useEffect(() => {
       checkInterest()
       loadInterestCount()
-    }, [post?.id])
+    }, [post.id])
 
     return [interestCount, interested, handleInterest, handleCommentButton]
   },
@@ -149,6 +149,7 @@ export const postService = {
     const handlePostComment = React.useCallback(async () => {
       try {
         await commentRepository.create(postId, comment)
+        handleLoadNew()
       } catch (error) {
         showError('Error occured while posting comment')
         console.log(error)
@@ -160,5 +161,22 @@ export const postService = {
     }, [])
 
     return [commentList, comment, handleCommentChange, handlePostComment]
+  },
+
+  usePostObjectOnly(postId: number): [PostObject] {
+    const [post, setPost] = React.useState<PostObject>(null)
+
+    React.useEffect(() => {
+      postRepository
+        .get(postId)
+        .then((response) => {
+          setPost(response as PostObject)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }, [postId])
+
+    return [post]
   },
 }

@@ -3,14 +3,17 @@ import React, { useCallback, useState } from 'reactn'
 import { GlobalState } from '../config/global'
 import { toPythonString } from '../helpers/date-helper'
 import { showError, showInfo } from '../helpers/toast'
-import { educationRepository } from '../repositories/education-repository'
+import {
+  EducationListRespond,
+  educationRepository,
+} from '../repositories/education-repository'
 import { emailRepository } from '../repositories/email-repository'
 import { experienceRepository } from '../repositories/experience-repository'
 import { phoneRepository } from '../repositories/phone-repository'
 import { skillRepository } from '../repositories/skill-repository'
 import {
   UserGetResponse,
-  userRepository
+  userRepository,
 } from '../repositories/user-repository'
 
 export const userProfileService = {
@@ -99,17 +102,13 @@ export const userProfileService = {
     ]
   },
 
-  useGetEducation(): [[any]] {
-    const [educationList, setEducationList] = useState<any>()
-    const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>(
-      'accountId',
-    )
+  useGetEducation(accountId: number): [EducationListRespond] {
+    const [educationList, setEducationList] = useState<EducationListRespond>()
 
     const getEducation = React.useCallback(async () => {
       try {
-        const response = await educationRepository.get(Number(accountId))
+        const response = await educationRepository.get(accountId)
         setEducationList(response)
-        // showInfo("got education list");
       } catch (error) {
         if (error?.response?.data) {
           showError('education error')
@@ -120,20 +119,17 @@ export const userProfileService = {
     React.useEffect(() => {
       getEducation()
     }, [getEducation])
+
     return [educationList]
   },
 
-  useGetExperience(): [[any]] {
+  useGetExperience(accountId: number): [[any]] {
     const [experienceList, setExperienceList] = useState<any>()
-    const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>(
-      'accountId',
-    )
 
     const getExperience = React.useCallback(async () => {
       try {
-        const response = await experienceRepository.get(Number(accountId))
+        const response = await experienceRepository.get(accountId)
         setExperienceList(response)
-        // showInfo("got experience list");
       } catch (error) {
         if (error?.response?.data) {
           showError('experience error')
@@ -144,20 +140,17 @@ export const userProfileService = {
     React.useEffect(() => {
       getExperience()
     }, [getExperience])
+
     return [experienceList]
   },
 
-  useGetSkill(): [[any], () => void] {
+  useGetSkill(accountId: number): [[any], () => void] {
     const [skillList, setSkillList] = useState<any>()
-    const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>(
-      'accountId',
-    )
 
     const getSkill = React.useCallback(async () => {
       try {
-        const response = await skillRepository.get(Number(accountId))
+        const response = await skillRepository.get(accountId)
         setSkillList(response.skills)
-        //showInfo("got skill list");
       } catch (error) {
         if (error?.response?.data) {
           showError('skill error')
@@ -165,23 +158,16 @@ export const userProfileService = {
       }
     }, [accountId])
 
-    // React.useEffect(() => {
-    //   getSkill()
-    // }, [getSkill])
     return [skillList, getSkill]
   },
 
-  useGetPhone(): [[any], () => void] {
+  useGetPhone(accountId: number): [[any], () => void] {
     const [phoneList, setPhoneList] = useState<any>()
-    const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>(
-      'accountId',
-    )
 
     const getPhone = React.useCallback(async () => {
       try {
-        const response = await phoneRepository.get(Number(accountId))
+        const response = await phoneRepository.get(accountId)
         setPhoneList(response.phones)
-        //showInfo("got phone list");
       } catch (error) {
         if (error?.response?.data) {
           showError('phone error')
@@ -189,23 +175,16 @@ export const userProfileService = {
       }
     }, [accountId])
 
-    // React.useEffect(() => {
-    //   getPhone()
-    // }, [getPhone])
     return [phoneList, getPhone]
   },
 
-  useGetMail(): [[any], () => void] {
+  useGetMail(accountId: number): [[any], () => void] {
     const [emailList, setPhoneList] = useState<any>()
-    const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>(
-      'accountId',
-    )
 
     const getMail = React.useCallback(async () => {
       try {
-        const response = await emailRepository.get(Number(accountId))
+        const response = await emailRepository.get(accountId)
         setPhoneList(response.emails)
-        //showInfo("got phone list");
       } catch (error) {
         if (error?.response?.data) {
           showError('mail error')
@@ -213,9 +192,6 @@ export const userProfileService = {
       }
     }, [accountId])
 
-    // React.useEffect(() => {
-    //   getMail()
-    // }, [getMail])
     return [emailList, getMail]
   },
 
@@ -272,9 +248,6 @@ export const userProfileService = {
         }
       }
     }, [accountId])
-    // React.useEffect(() => {
-    //   getInfo()
-    // }, [null])
 
     const getPhone = React.useCallback(async () => {
       try {
@@ -288,10 +261,6 @@ export const userProfileService = {
       }
     }, [accountId])
 
-    // React.useEffect(() => {
-    //   getPhone()
-    // }, [getPhone])
-
     const getEmail = React.useCallback(async () => {
       try {
         const response = await emailRepository.get(Number(accountId))
@@ -303,9 +272,6 @@ export const userProfileService = {
         }
       }
     }, [accountId])
-    // React.useEffect(() => {
-    //   getEmail()
-    // }, [getEmail])
 
     const handleFirstNameChange = useCallback((text: string) => {
       setFirstName(text)
@@ -357,14 +323,12 @@ export const userProfileService = {
           gender,
           userDescription,
         )
-        if (oldPhone != newPhone) {
-          if (oldPhone == undefined)
-            await phoneRepository.create(newPhone)
-          else
-            await phoneRepository.update(oldPhone, newPhone)
+        if (oldPhone !== newPhone) {
+          if (oldPhone === undefined) await phoneRepository.create(newPhone)
+          else await phoneRepository.update(oldPhone, newPhone)
           setOldPhone(newPhone)
         }
-        if (oldEmail != newEmail) {
+        if (oldEmail !== newEmail) {
           await emailRepository.update(oldEmail, newEmail)
           setOldEmail(newEmail)
         }

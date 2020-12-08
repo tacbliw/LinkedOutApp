@@ -57,6 +57,16 @@ export class PostRepository extends Repository {
     this.baseURL = API_BASE_URL + API_POST_ROUTE
   }
 
+  public async get(postId: number): Promise<PostGetResponse> {
+    return this.http
+      .get('get', {
+        params: {
+          id: postId,
+        },
+      })
+      .then((response: AxiosResponse) => response.data)
+  }
+
   public async list(accountId: number): Promise<PostListResponse> {
     return this.http
       .get('list', {

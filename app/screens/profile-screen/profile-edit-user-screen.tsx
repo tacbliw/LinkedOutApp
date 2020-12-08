@@ -359,7 +359,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
         return {
           //   id: item.educationId,
           time: moment(item.startDate, 'YYYY-MM-DD')
-            .format('MMM DD')
+            .format('MMM YYYY')
             .toString(),
           title: item.schoolName,
           description: (
@@ -390,32 +390,32 @@ export function ProfileEditUserScreen({ route, navigation }) {
   }, [null])
 
   useEffect(() => {
-    educationList
-      ? setEducationListRender(
-          educationList.map((item) => {
-            return {
-              id: item.educationId,
-              time: moment(item.startDate, 'YYYY-MM-DD')
-                .format('MMM DD')
-                .toString(),
-              title: item.schoolName,
-              description: (
-                <View>
-                  <Text style={styles.textDescription}>{item.major}</Text>
-                  <TouchableOpacity
-                    onPress={() => handleDeleteEducation(item.id)}
-                  >
-                    <Icon
-                      name='remove-circle'
-                      style={{ color: color.brandDanger }}
-                    />
-                  </TouchableOpacity>
-                </View>
-              ),
-            }
-          }),
-        )
-      : ''
+    if (educationList && educationList.length > 0) {
+      setEducationListRender(
+        educationList.map((item) => {
+          return {
+            id: item.educationId,
+            time: moment(item.startDate, 'YYYY-MM-DD')
+              .format('MMM YYYY')
+              .toString(),
+            title: item.schoolName,
+            description: (
+              <View>
+                <Text style={styles.textDescription}>{item.major}</Text>
+                <TouchableOpacity
+                  onPress={() => handleDeleteEducation(item.id)}
+                >
+                  <Icon
+                    name='remove-circle'
+                    style={{ color: color.brandDanger }}
+                  />
+                </TouchableOpacity>
+              </View>
+            ),
+          }
+        }),
+      )
+    }
   }, [educationList])
 
   useEffect(() => {
