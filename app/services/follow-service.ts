@@ -1,15 +1,15 @@
 import { useNavigation } from '@react-navigation/native'
 import React from 'reactn'
 import { GlobalState } from '../config/global'
-import { showError } from '../helpers/toast'
+import { showError, showInfo } from '../helpers/toast'
 import {
   CompanyFollowedResponse,
   followRepository,
-  UserFollowedResponse,
+  UserFollowedResponse
 } from '../repositories/follow-repository'
 
 export const followService = {
-  useUserFollowed(): [UserFollowedResponse, boolean, () => void, () => void] {
+  useUserFollowed(): [UserFollowedResponse, boolean, () => void, () => void, (id: number) => void] {
     const navigation = useNavigation()
     const { accountId } = React.getGlobal<GlobalState>()
 
@@ -30,13 +30,24 @@ export const followService = {
       setRefreshing(false)
     }, [accountId])
 
-    const handleItemPress = React.useCallback(() => {}, [])
+    const deleteFollow = React.useCallback(async (id: number) => {
+      try {
+        const response = await followRepository.delete(id)
+        handleLoadNew();
+        showInfo('Unfollow successfully')
+      } catch (error) {
+        showError('Error occured while delete following')
+        console.log(error)
+      }
+    }, [null])
+
+    const handleItemPress = React.useCallback(() => { }, [])
 
     React.useEffect(() => {
       handleLoadNew()
     }, [handleLoadNew])
 
-    return [users, refreshing, handleLoadNew, handleItemPress]
+    return [users, refreshing, handleLoadNew, handleItemPress, deleteFollow]
   },
 
   useCompanyFollowed(accountId: number): [CompanyFollowedResponse] {
