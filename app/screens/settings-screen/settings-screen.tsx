@@ -1,6 +1,23 @@
-import { Body, Button, Container, Icon, Left, ListItem, Right, Text, View } from 'native-base'
+import {
+  Body,
+  Button,
+  Container,
+  Header,
+  Icon,
+  Left,
+  ListItem,
+  Right,
+  Text,
+  View,
+} from 'native-base'
 import React, { useState } from 'react'
-import { Dimensions, FlatList, StyleSheet, Switch, ViewStyle } from 'react-native'
+import {
+  Dimensions,
+  FlatList,
+  StyleSheet,
+  Switch,
+  ViewStyle,
+} from 'react-native'
 import { Screen } from '../../components'
 import { color } from '../../theme'
 
@@ -10,49 +27,47 @@ const ROOT: ViewStyle = {
 }
 
 interface SettingProps {
-  iconName: string,
-  iconColor: string,
-  bodyText: string,
-  rightObject: React.ReactNode,
+  iconName: string
+  iconColor: string
+  bodyText: string
+  rightObject: React.ReactNode
 }
 
-const setting_list = [
+const settingList = [
   {
     iconName: 'notifications',
     iconColor: '#ff453a',
     bodyText: 'Notification',
-    rightObject: (<Switch value={true} />),
+    rightObject: <Switch value={true} />,
   },
 
   {
     iconName: 'newspaper',
     iconColor: '#0a84ff',
     bodyText: 'Feed Setting',
-    rightObject: (<></>),
+    rightObject: <></>,
   },
 
   {
     iconName: 'settings',
     iconColor: '#8e8e93',
     bodyText: 'General',
-    rightObject: (<></>),
+    rightObject: <></>,
   },
 
   {
     iconName: 'shield',
     iconColor: '#8fd158',
     bodyText: 'Privacy and Terms',
-    rightObject: (<></>),
+    rightObject: <></>,
   },
 
   {
     iconName: 'warning',
     iconColor: '#ff453a',
     bodyText: 'Delete account',
-    rightObject: (<></>),
+    rightObject: <></>,
   },
-
-  
 ]
 
 export const SettingsScreen = function SettingsScreen(navigation) {
@@ -63,27 +78,32 @@ export const SettingsScreen = function SettingsScreen(navigation) {
   return (
     <Screen style={ROOT} preset='scroll'>
       <View style={styles.container}>
-        {/* // <Text preset="header" text="settingsScreen" />  */}
-        <Text style={styles.header}>Settings</Text>
-        <Container style={{marginTop: 36}}>
-          <FlatList data={setting_list} renderItem={({item} : {item: SettingProps}) => {
-            return (
-              <ListItem icon style={{marginBottom: 16}}>
-              <Left style={{ borderBottomWidth: 0}}>
-                <Button style={{ backgroundColor: item.iconColor }}>
-                  <Icon active name={item.iconName} />
-                </Button>
-              </Left>
-              <Body style={{ borderBottomWidth: 0}}>
-                <Text>{item.bodyText}</Text>
-              </Body>
-              <Right style={{ borderBottomWidth: 0}}>
-                {item.rightObject}
-              </Right>
-            </ListItem>
-            )
-          }}>
-            </FlatList>
+        <Header transparent>
+          <Left style={{ flexGrow: 1 }}>
+            <Text style={styles.header}>Settings</Text>
+          </Left>
+        </Header>
+        <Container style={{ marginTop: 10 }}>
+          <FlatList
+            data={settingList}
+            renderItem={({ item }: { item: SettingProps }) => {
+              return (
+                <ListItem icon style={{ marginBottom: 16 }}>
+                  <Left style={{ borderBottomWidth: 0 }}>
+                    <Button style={{ backgroundColor: item.iconColor }}>
+                      <Icon active name={item.iconName} />
+                    </Button>
+                  </Left>
+                  <Body style={{ borderBottomWidth: 0 }}>
+                    <Text>{item.bodyText}</Text>
+                  </Body>
+                  <Right style={{ borderBottomWidth: 0 }}>
+                    {item.rightObject}
+                  </Right>
+                </ListItem>
+              )
+            }}
+          ></FlatList>
         </Container>
       </View>
     </Screen>
@@ -94,12 +114,12 @@ const { width, height } = Dimensions.get('screen')
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: '#FFFFFF',
   },
   header: {
-    fontSize: 40,
+    fontSize: 32,
     fontWeight: '700',
-    marginLeft: 6
+    marginLeft: 6,
   },
   section: {
     marginVertical: height * 0.03,
