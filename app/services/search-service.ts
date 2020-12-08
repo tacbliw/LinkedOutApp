@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native'
 import { useCallback, useState } from 'reactn'
+import { screens } from '../config/screens'
 import { searchRepository } from '../repositories/search-repository'
 
 export const searchService = {
@@ -64,23 +65,32 @@ export const searchService = {
   },
   useViewDetail(): [(item: { type: string; id: number }) => void] {
     const navigation = useNavigation()
-    const handleItemClick = useCallback(
+    const handleItemPress = useCallback(
       (item: { type: string; id: number }) => {
         console.log(
           'Viewing item type="' + item.type + '", id="' + item.id + '"',
         )
         if (item.type === 'user') {
           // navigate sang trang user, truyền item.id vào
+          navigation.navigate(screens.authenticated.user.view.user, {
+            accountId: item.id,
+          })
         } else if (item.type === 'company') {
           // navigate sang trang company, truyền item.id vào
+          navigation.navigate(screens.authenticated.user.view.company, {
+            accountId: item.id,
+          })
         } else if (item.type === 'job') {
-          // ???
+          // navigate sang trang company, truyền item.id vào
+          navigation.navigate(screens.authenticated.user.view.company, {
+            accountId: item.id,
+          })
         } else {
           // type deo gi vay ? :D ?
         }
       },
-      [],
+      [navigation],
     )
-    return [handleItemClick]
+    return [handleItemPress]
   },
 }

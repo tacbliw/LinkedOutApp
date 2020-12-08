@@ -23,7 +23,7 @@ export async function errorInterceptor(error: AxiosError) {
 
       case 420:
         if (__DEV__) {
-          if (error?.response?.data?.Message) {
+          if (error?.response?.data?.detail) {
             showError('errors.backend: ' + error.response.data)
           } else {
             showError('errors.420')

@@ -13,7 +13,7 @@ export const notificationService = {
     boolean,
     () => void,
     () => void,
-    () => void,
+    (item: NotificationListResponse) => void,
   ] {
     const navigation = useNavigation()
     const [notificationList, setNotificationList] = React.useState<
@@ -65,9 +65,17 @@ export const notificationService = {
             postId: item.postJobId,
             post: null,
           })
+        } else if (item.type === 'job') {
+          navigation.navigate(screens.authenticated.user.view.company, {
+            accountId: item.accountId,
+          })
+        } else if (item.type === 'follow') {
+          navigation.navigate(screens.authenticated.user.view.user, {
+            accountId: item.accountId,
+          })
         }
       },
-      [],
+      [navigation],
     )
 
     React.useEffect(() => {

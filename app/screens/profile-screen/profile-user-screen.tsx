@@ -8,7 +8,7 @@ import {
   Grid,
   Header,
   Icon,
-  Text
+  Text,
 } from 'native-base'
 import {
   FlatList,
@@ -16,7 +16,7 @@ import {
   ScrollView,
   StyleSheet,
   View,
-  ViewStyle
+  ViewStyle,
 } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import Timeline from 'react-native-timeline-flatlist'
@@ -26,7 +26,7 @@ import {
   Container,
   FollowingUser,
   Screen,
-  Tag
+  Tag,
 } from '../../components'
 import { GlobalState } from '../../config/global'
 import { screens } from '../../config/screens'
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
 
   topInfo: {
     // marginLeft: 16
-    padding: 16,
+    paddingHorizontal: 16,
     marginLeft: 16,
   },
 
@@ -129,7 +129,7 @@ export function ProfileUserScreen({ navigation }) {
     profilePicture,
     description,
     getInfo,
-  ] = userProfileService.useGetUser()
+  ] = userProfileService.useGetUser(accountId)
 
   const [phoneList, getPhone] = userProfileService.useGetPhone(accountId)
 
@@ -204,13 +204,17 @@ export function ProfileUserScreen({ navigation }) {
         <Header noShadow transparent={true} style={styles.profileHeader}>
           <Button
             transparent
-            onPress={() => navigation.navigate(screens.authenticated.user.home)}
+            onPress={() =>
+              navigation.navigate(screens.authenticated.user.home, {
+                screen: screens.authenticated.user.newsfeed.navigator,
+              })
+            }
           >
             <Icon style={styles.backIcon} name='arrow-back-outline' />
           </Button>
           <Button
             transparent
-            onPress={() => 
+            onPress={() =>
               navigation.navigate(screens.authenticated.user.editprofile, {
                 userData: {
                   firstName: firstName,
@@ -225,7 +229,8 @@ export function ProfileUserScreen({ navigation }) {
                 skillData: skillList,
                 educationData: educationList,
                 experienceData: experienceList,
-              })}
+              })
+            }
           >
             <Icon style={styles.menuIcon} name='create-outline' />
           </Button>

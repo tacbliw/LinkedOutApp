@@ -1,23 +1,8 @@
 import { Card, CardItem, Text, View } from 'native-base'
 import * as React from 'react'
-import {
-  FlatList,
-  Image,
-  TextStyle,
-  TouchableOpacity,
-  ViewStyle,
-} from 'react-native'
-import { color, typography } from '../../theme'
-
-const CONTAINER: ViewStyle = {
-  justifyContent: 'center',
-}
-
-const TEXT: TextStyle = {
-  fontFamily: typography.primary,
-  fontSize: 14,
-  color: color.primary,
-}
+import { FlatList, Image, TouchableOpacity, ViewStyle } from 'react-native'
+import { toBackendUrl } from '../../helpers/string-helper'
+import { color } from '../../theme'
 
 export interface SearchItemUserProps {
   /**
@@ -37,8 +22,6 @@ export interface SearchItemUserProps {
  * Describe your component here
  */
 export function SearchItemUser(props: SearchItemUserProps) {
-  const { style } = props
-
   return (
     <TouchableOpacity onPress={props.onPress} style={props.style}>
       <Card transparent>

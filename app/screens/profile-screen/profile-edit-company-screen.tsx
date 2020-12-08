@@ -7,7 +7,7 @@ import {
   Item,
   Label,
   Text,
-  Textarea
+  Textarea,
 } from 'native-base'
 import React, { useEffect, useState } from 'react'
 import {
@@ -16,7 +16,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  ViewStyle
+  ViewStyle,
 } from 'react-native'
 import DocumentPicker from 'react-native-document-picker'
 import FastImage from 'react-native-fast-image'
@@ -153,7 +153,13 @@ export function ProfileEditCompanyScreen({ route, navigation }) {
           <Button transparent onPress={() => navigation.goBack()}>
             <Icon style={styles.backIcon} name='close-outline' />
           </Button>
-          <Button transparent onPress={handleEditProfileSubmit}>
+          <Button
+            transparent
+            onPress={() => {
+              handleEditProfileSubmit()
+              navigation.goBack()
+            }}
+          >
             <Text style={{ color: color.brandPrimary }}>Save</Text>
           </Button>
         </Header>
@@ -215,8 +221,7 @@ export function ProfileEditCompanyScreen({ route, navigation }) {
                         specialtyTag[item].toString(),
                       ),
                     )
-                  }} 
-
+                  }}
                   customChipsRenderer={(chipProperties) => {
                     return (
                       <FlatList
@@ -284,8 +289,6 @@ export function ProfileEditCompanyScreen({ route, navigation }) {
                       ></FlatList>
                     )
                   }}
-
-
                 />
               </Item>
             </Form>

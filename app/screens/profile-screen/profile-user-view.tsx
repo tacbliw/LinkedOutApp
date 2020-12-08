@@ -15,6 +15,7 @@ import {
   LogBox,
   ScrollView,
   StyleSheet,
+  TouchableOpacity,
   View,
   ViewStyle,
 } from 'react-native'
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
 
   topInfo: {
     // marginLeft: 16
-    padding: 16,
+    paddingHorizontal: 16,
     marginLeft: 16,
   },
 
@@ -128,7 +129,7 @@ export function ProfileUserViewScreen({ route, navigation }) {
     profilePicture,
     description,
     getInfo,
-  ] = userProfileService.useGetUser()
+  ] = userProfileService.useGetUser(accountId)
 
   const [phoneList, getPhone] = userProfileService.useGetPhone(accountId)
 
@@ -140,13 +141,19 @@ export function ProfileUserViewScreen({ route, navigation }) {
 
   const [skillList, getSkill] = userProfileService.useGetSkill(accountId)
 
-  const [followerCount] = followService.useFollowerCount(accountId)
+  const [followerCount, handleCountChange] = followService.useFollowerCount(
+    accountId,
+  )
 
   const [followingCount] = followService.useFollowingCount(accountId)
 
   const [companiesFollowed] = followService.useCompanyFollowed(accountId)
 
   const [postCount] = postService.usePostCount(accountId)
+
+  const [checkFollowed, doFollow, doUnFollow] = followService.useFollow(
+    accountId,
+  )
 
   const renderExperienceItem = ({ item }: { item: ExperienceObject }) => {
     return (
@@ -207,28 +214,6 @@ export function ProfileUserViewScreen({ route, navigation }) {
           >
             <Icon style={styles.backIcon} name='arrow-back-outline' />
           </Button>
-          {/* <Button
-            transparent
-            onPress={() => {
-              navigation.navigate(screens.authenticated.user.editprofile, {
-                userData: {
-                  firstName: firstName,
-                  lastName: lastName,
-                  gender: gender,
-                  dateOfBirth: dateOfBirth,
-                  profilePicture: profilePicture,
-                  description: description,
-                  phoneList: phoneList,
-                  emailList: emailList,
-                },
-                skillData: skillList,
-                educationData: educationList,
-                experienceData: experienceList,
-              })
-            }}
-          >
-            <Icon style={styles.menuIcon} name='create-outline' />
-          </Button> */}
         </Header>
         <Container>
           <View style={styles.topInfo}>
@@ -264,6 +249,72 @@ export function ProfileUserViewScreen({ route, navigation }) {
               <Text style={{ color: color.brandLight }}>Posts</Text>
             </Col>
           </Grid>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              flex: 1,
+              paddingHorizontal: 16,
+              paddingBottom: 10,
+            }}
+          >
+            <TouchableOpacity style={{ flexGrow: 8 / 10 }}>
+              {checkFollowed ? (
+                <Button
+                  transparent
+                  full
+                  rounded
+                  style={{
+                    alignSelf: 'center',
+                    borderWidth: 1,
+                    borderColor: color.brandPrimary,
+                  }}
+                  onPress={() => {
+                    doUnFollow()
+                    handleCountChange(-1)
+                  }}
+                >
+                  <Icon
+                    name='checkmark-outline'
+                    style={{ color: color.brandPrimary }}
+                  />
+                  <Text style={{ color: color.brandPrimary }}>Following</Text>
+                </Button>
+              ) : (
+                <Button
+                  transparent
+                  full
+                  rounded
+                  style={{
+                    backgroundColor: color.brandPrimary,
+                    alignSelf: 'center',
+                  }}
+                  onPress={() => {
+                    doFollow()
+                    handleCountChange(1)
+                  }}
+                >
+                  <Icon name='add-outline' style={{ color: 'white' }} />
+                  <Text style={{ color: 'white' }}>Follow</Text>
+                </Button>
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('room', {
+                  id: accountId,
+                  name: firstName + ' ' + lastName,
+                  profilePicture: toBackendUrl(profilePicture),
+                })
+              }}
+            >
+              <Icon
+                name='chatbubbles-outline'
+                style={{ fontSize: 40, color: color.brandPrimary }}
+              />
+            </TouchableOpacity>
+          </View>
 
           <Card transparent style={styles.cardSection}>
             <CardItem header>

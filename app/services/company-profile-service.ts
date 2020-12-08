@@ -3,7 +3,7 @@ import { GlobalState } from '../config/global'
 import { showError, showInfo } from '../helpers/toast'
 import {
   CompanyGetResponse,
-  companyRepository
+  companyRepository,
 } from '../repositories/company-repository'
 import { JobObject } from '../repositories/feed-repository'
 import { jobRepository } from '../repositories/job-repository'
@@ -51,7 +51,9 @@ export const companyProfileService = {
     return [company]
   },
 
-  useGetCompany(accountId: number): [
+  useGetCompany(
+    accountId: number,
+  ): [
     string,
     string,
     string,
@@ -157,8 +159,9 @@ export const companyProfileService = {
     const handleEditProfileSubmit = React.useCallback(async () => {
       try {
         await companyRepository.update(name, website, specialties, description)
-        showInfo('edit profile submit')
+        showInfo('Saved!')
       } catch (error) {
+        console.log(error)
         if (error?.response?.data?.details) {
           showError(error.response.data.details)
         }

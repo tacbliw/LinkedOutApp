@@ -1,6 +1,7 @@
 import { Container, Icon, Left, List, ListItem, Text } from 'native-base'
-import * as React from 'react'
 import { Image, StyleSheet, View } from 'react-native'
+import React from 'reactn'
+import { GlobalState } from '../../config/global'
 import { screens } from '../../config/screens'
 import { toBackendUrl } from '../../helpers/string-helper'
 import { accountService } from '../../services/account-service'
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
     backgroundColor: color.brandPrimary,
     flex: 1,
     paddingBottom: 5,
-    marginTop: 24
+    marginTop: 24,
   },
   followInfoContainer: {
     alignItems: 'flex-end',
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
 })
 
 export function Sidebar({ state, descriptors, navigation }) {
-  
+  const accountId = parseInt(React.getGlobal<GlobalState>().accountId)
   const [
     firstName,
     lastName,
@@ -75,8 +76,8 @@ export function Sidebar({ state, descriptors, navigation }) {
     dateOfBirth,
     profilePicture,
     description,
-    getInfo
-  ] = userProfileService.useGetUser();
+    getInfo,
+  ] = userProfileService.useGetUser(accountId)
 
   const mapIcon = {}
   mapIcon[screens.authenticated.user.profile] = 'person'
@@ -107,9 +108,9 @@ export function Sidebar({ state, descriptors, navigation }) {
         <Image
           style={styles.avatar}
           resizeMode='cover'
-          source={{uri: toBackendUrl(profilePicture)}}
+          source={{ uri: toBackendUrl(profilePicture) }}
         ></Image>
-        <Text style={styles.userName}>{firstName + " " + lastName}</Text>
+        <Text style={styles.userName}>{firstName + ' ' + lastName}</Text>
         {/* <View style={styles.followInfoContainer}>
           <View style={styles.followingContainter}>
             <Text style={styles.following}>1 </Text>

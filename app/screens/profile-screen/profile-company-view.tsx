@@ -6,20 +6,15 @@ import {
   Header,
   Icon,
   Text,
-  View
+  View,
 } from 'native-base'
 import {
   FlatList,
+  LogBox,
   ScrollView,
   StyleSheet,
-
-
-
   TouchableOpacity,
-
-
-
-  ViewStyle
+  ViewStyle,
 } from 'react-native'
 import { PieChart } from 'react-native-chart-kit'
 import FastImage from 'react-native-fast-image'
@@ -86,12 +81,10 @@ const chartConfig = {
 
 const styles = StyleSheet.create({
   profileHeader: {
-    // height: 250,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: color['color-gray-200'],
-    // backgroundColor: color.backgroundColor,
   },
 
   backIcon: {
@@ -105,7 +98,6 @@ const styles = StyleSheet.create({
   },
 
   topInfo: {
-    // marginLeft: 16
     padding: 16,
     marginLeft: 16,
   },
@@ -156,6 +148,7 @@ const styles = StyleSheet.create({
 })
 
 export function ProfileCompanyViewScreen({ route, navigation }) {
+  LogBox.ignoreLogs(['VirtualizedList'])
   const { accountId } = route.params
   const [
     name,
@@ -168,13 +161,13 @@ export function ProfileCompanyViewScreen({ route, navigation }) {
     getCompanyJob,
   ] = companyProfileService.useGetCompany(accountId)
 
-  const [
-    checkFollowed,
-    doFollow,
-    doUnFollow
-  ] = followService.useFollow(accountId)
+  const [checkFollowed, doFollow, doUnFollow] = followService.useFollow(
+    accountId,
+  )
 
-  const [followerCount, handleCountChange] = followService.useFollowerCount(accountId)
+  const [followerCount, handleCountChange] = followService.useFollowerCount(
+    accountId,
+  )
 
   useEffect(() => {
     // Subscribe for the focus Listener
@@ -183,10 +176,8 @@ export function ProfileCompanyViewScreen({ route, navigation }) {
       getCompanyJob()
     })
 
-    return () => {
-      unsubscribe
-    }
-  }, [navigation])
+    return unsubscribe
+  }, [navigation, getCompanyJob, getInfo])
 
   const renderSpecialtyItem = ({ item }) => {
     return <Tag tagText={item}></Tag>
@@ -247,26 +238,75 @@ export function ProfileCompanyViewScreen({ route, navigation }) {
                 </View>
               </View>
             </View>
-            <View style={{ flexDirection: 'row', justifyContent:'space-around', flex:1, marginRight:10}}>
-              <TouchableOpacity style = {{flexGrow:8/10}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                flex: 1,
+                marginRight: 10,
+              }}
+            >
+              <TouchableOpacity style={{ flexGrow: 8 / 10 }}>
                 {checkFollowed ? (
-                  <Button transparent full rounded style={{ alignSelf:'center', borderWidth: 1, borderColor: color['color-primary-500'] }} onPress={() =>{
-                      doUnFollow(); 
-                      handleCountChange(-1);
-                    }}>
-                    <Text style={{ color: color['color-primary-500'] }}>Unfollow</Text>
+                  <Button
+                    transparent
+                    full
+                    rounded
+                    style={{
+                      alignSelf: 'center',
+                      borderWidth: 1,
+                      borderColor: color.brandPrimary,
+                    }}
+                    onPress={() => {
+                      doUnFollow()
+                      handleCountChange(-1)
+                    }}
+                  >
+                    <Icon
+                      name='checkmark-outline'
+                      style={{ color: color.brandPrimary }}
+                    />
+                    <Text style={{ color: color.brandPrimary }}>Following</Text>
                   </Button>
                 ) : (
-                    <Button transparent full rounded style={{ backgroundColor: color.brandPrimary, alignSelf:'center' }} onPress={()=> {
-                      doFollow();
-                      handleCountChange(1);
-                      }}>
-                      <Text style={{ color: 'white' }}>Follow</Text>
-                    </Button>
-                  )}
+                  <Button
+                    transparent
+                    full
+                    rounded
+                    style={{
+                      backgroundColor: color.brandPrimary,
+                      alignSelf: 'center',
+                    }}
+                    onPress={() => {
+                      doFollow()
+                      handleCountChange(1)
+                    }}
+                  >
+                    <Icon name='add-outline' style={{ color: 'white' }} />
+                    <Text style={{ color: 'white' }}>Follow</Text>
+                  </Button>
+                )}
               </TouchableOpacity>
               <TouchableOpacity>
-                <Icon name="chatbubbles-outline" style={{fontSize:40}} />
+                <Button
+                  transparent
+                  full
+                  rounded
+                  style={{
+                    alignSelf: 'center',
+                    borderWidth: 1,
+                    borderColor: color.brandPrimary,
+                  }}
+                  onPress={() => {
+                    navigation.navigate('room', {
+                      id: accountId,
+                      name: name,
+                      profilePicture: toBackendUrl(profilePicture),
+                    })
+                  }}
+                >
+                  <Text style={{ color: color.brandPrimary }}>Contact Now</Text>
+                </Button>
               </TouchableOpacity>
             </View>
           </View>
@@ -322,7 +362,7 @@ export function ProfileCompanyViewScreen({ route, navigation }) {
             >
               <Text style={{ fontWeight: '700', fontSize: 20 }}>
                 Lastest job
-                </Text>
+              </Text>
             </CardItem>
             <CardItem style={styles.cardEnd}>
               <Body>

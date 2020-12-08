@@ -20,6 +20,7 @@ import {
   WriteFeedScreen,
 } from '../screens'
 import { PostInterestScreen } from '../screens/post-interest-screen/post-interest-screen'
+import { ProfileCompanyViewScreen } from '../screens/profile-screen/profile-company-view'
 import { ProfileUserViewScreen } from '../screens/profile-screen/profile-user-view'
 import RootStackStart from './login-navigator'
 import { PrimaryCompanyNavigator } from './primary-company-navigator'
@@ -89,6 +90,11 @@ const RootStack = () => {
             component={ProfileUserViewScreen}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name={screens.authenticated.user.view.company}
+            component={ProfileCompanyViewScreen}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       )
     } else if (accountType === 'company') {
@@ -124,6 +130,11 @@ const RootStack = () => {
           <Stack.Screen
             name={screens.authenticated.user.view.user}
             component={ProfileUserViewScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name={screens.authenticated.user.view.company}
+            component={ProfileCompanyViewScreen}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

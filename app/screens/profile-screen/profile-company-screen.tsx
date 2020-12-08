@@ -6,14 +6,14 @@ import {
   Header,
   Icon,
   Text,
-  View
+  View,
 } from 'native-base'
 import {
   FlatList,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  ViewStyle
+  ViewStyle,
 } from 'react-native'
 import { PieChart } from 'react-native-chart-kit'
 import FastImage from 'react-native-fast-image'
@@ -169,14 +169,12 @@ export function ProfileCompanyScreen({ navigation }) {
   useEffect(() => {
     // Subscribe for the focus Listener
     const unsubscribe = navigation.addListener('focus', () => {
-       getInfo()
-       getCompanyJob()
+      getInfo()
+      getCompanyJob()
     })
 
-    return () => {
-      unsubscribe
-    }
-  }, [navigation])
+    return unsubscribe
+  }, [navigation, getCompanyJob, getInfo])
 
   const renderSpecialtyItem = ({ item }) => {
     return <Tag tagText={item}></Tag>
@@ -200,12 +198,17 @@ export function ProfileCompanyScreen({ navigation }) {
     <Screen style={ROOT} preset='scroll'>
       <ScrollView>
         <Header noShadow transparent={true} style={styles.profileHeader}>
-          <Button transparent onPress={() => navigation.goBack()}>
+          <Button
+            transparent
+            onPress={() => {
+              navigation.navigate(screens.authenticated.company.home)
+            }}
+          >
             <Icon style={styles.backIcon} name='arrow-back-outline' />
           </Button>
           <Button
             transparent
-            onPress={() => 
+            onPress={() =>
               navigation.navigate(screens.authenticated.company.editprofile, {
                 companyData: {
                   name: name,

@@ -14,6 +14,7 @@ import React, { useState } from 'react'
 import {
   Dimensions,
   FlatList,
+  LogBox,
   StyleSheet,
   Switch,
   ViewStyle,
@@ -71,6 +72,7 @@ const settingList = [
 ]
 
 export const SettingsScreen = function SettingsScreen(navigation) {
+  LogBox.ignoreLogs(['VirtualizedList'])
   const [selectedValue, setSelectedValue] = useState('Light')
   const [selectedLanguage, setSelectedLanguage] = useState('English')
   const [isEnabled, setIsEnabled] = useState(false)
