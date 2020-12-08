@@ -96,6 +96,26 @@ export const postService = {
     return [postList]
   },
 
+  usePostCount(accountId: number): [number] {
+    const [postCount, setPostCount] = React.useState<number>(0)
+
+    const handleLoadNew = React.useCallback(async () => {
+      try {
+        const response = await postRepository.count(accountId)
+        setPostCount(response.count)
+      } catch (error) {
+        showError('Error occured while loading post count')
+        console.log(error)
+      }
+    }, [accountId])
+
+    React.useEffect(() => {
+      handleLoadNew()
+    }, [handleLoadNew])
+
+    return [postCount]
+  },
+
   usePostComment(
     postId: number,
   ): [

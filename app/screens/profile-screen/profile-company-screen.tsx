@@ -305,7 +305,7 @@ export function ProfileCompanyScreen({ navigation }) {
               style={[styles.cardHeader, { justifyContent: 'space-between' }]}
             >
               <Text style={{ fontWeight: '700', fontSize: 20 }}>
-                Lastest job
+                Latest jobs
               </Text>
               <TouchableOpacity
                 onPress={() =>

@@ -55,7 +55,6 @@ export const PostInterestScreen = function PostInterestScreen({
   navigation,
 }) {
   const { post }: { post: PostObject } = route.params
-  console.log(post)
   return (
     <Container style={{ backgroundColor: '#f6f5fb' }}>
       <Content padder>

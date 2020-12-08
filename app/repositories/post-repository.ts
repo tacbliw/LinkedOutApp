@@ -43,6 +43,14 @@ export interface PostDeleteRequest {
 
 export interface PostDeleteResponse extends Array<PostObject> {}
 
+export interface PostCountRequest {
+  id: number
+}
+
+export interface PostCountResponse {
+  count: number
+}
+
 export class PostRepository extends Repository {
   constructor() {
     super(httpConfig)
@@ -90,6 +98,16 @@ export class PostRepository extends Repository {
     formData.append('id', id)
     return this.http
       .post('upload', formData)
+      .then((response: AxiosResponse) => response.data)
+  }
+
+  public async count(accountId: number): Promise<PostCountResponse> {
+    return this.http
+      .get('count', {
+        params: {
+          id: accountId,
+        },
+      })
       .then((response: AxiosResponse) => response.data)
   }
 }

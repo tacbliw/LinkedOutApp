@@ -110,6 +110,8 @@ export const CreateJobScreen = function ({ navigation }) {
 
   const [selectedItems, setSelectedItems] = useState([])
 
+  const [locationList] = tagService.useLocation()
+
   const onSelectedItemsChange = (selectedItems) => {
     setSelectedItems(selectedItems)
   }
@@ -174,11 +176,9 @@ export const CreateJobScreen = function ({ navigation }) {
               selectedValue={cities.length === 1 ? cities[0] : undefined}
               onValueChange={onCityChange}
             >
-              <Picker.Item label='Ho Chi Minh City' value='Ho Chi Minh City' />
-              <Picker.Item label='Truc Giang' value='Truc Giang' />
-              <Picker.Item label='Tri Tram' value='Tri Tram' />
-              <Picker.Item label='Muong Het' value='Muong Het' />
-              <Picker.Item label='Lao Cai' value='Lao Cai' />
+              {locationList.map((item) => (
+                <Picker.Item key={item} label={item} value={item} />
+              ))}
             </Picker>
           </Item>
 

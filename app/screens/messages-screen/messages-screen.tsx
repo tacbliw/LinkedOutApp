@@ -74,7 +74,7 @@ export const MessagesScreen = function MessagesScreen({ route, navigation }) {
         wrapperStyle={{
           left: {
             backgroundColor: '#ffffff',
-            minWidth: 60,
+            minWidth: 70,
           },
         }}
       ></Bubble>

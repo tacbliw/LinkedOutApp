@@ -1,13 +1,9 @@
-import { useNavigation } from "@react-navigation/native"
-import { useCallback, useState } from "reactn"
-import { tagRepository } from "../repositories/tag-repository"
+import { useNavigation } from '@react-navigation/native'
+import { useCallback, useEffect, useState } from 'reactn'
+import { tagRepository } from '../repositories/tag-repository'
 
 export const tagService = {
-  useSkillTag(): [
-    string[],
-    () => void,
-    (value: string) => void
-  ] {
+  useSkillTag(): [string[], () => void, (value: string) => void] {
     const [skillTag, setSkillTag] = useState<string[]>()
 
     const [loading, setLoading] = useState<boolean>(false)
@@ -16,27 +12,17 @@ export const tagService = {
     const getAllSkillTag = useCallback(async () => {
       setLoading(true)
       // const response = await searchRepository.search(searchType, searchData, searchSkillsAndSpecialty, searchSkillsAndSpecialty)
-      const response = await tagRepository.getSkill('');
-      setSkillTag(response.tag);
+      const response = await tagRepository.getSkill('')
+      setSkillTag(response.tag)
       setLoading(false)
     }, [skillTag])
 
-    const getSkillTagByQuery = useCallback(async (value: string) => {
-      
-    }, [skillTag])
+    const getSkillTagByQuery = useCallback(async (value: string) => {}, [])
 
-    return [
-      skillTag,
-      getAllSkillTag,
-      getSkillTagByQuery,
-    ]
+    return [skillTag, getAllSkillTag, getSkillTagByQuery]
   },
 
-  useSpecialtyTag(): [
-    string[],
-    () => void,
-    (value: string) => void
-  ] {
+  useSpecialtyTag(): [string[], () => void, (value: string) => void] {
     const [specialtyTag, setSpecialtyTag] = useState<string[]>()
 
     const [loading, setLoading] = useState<boolean>(false)
@@ -45,21 +31,30 @@ export const tagService = {
     const getAllSpecialtyTag = useCallback(async () => {
       setLoading(true)
       // const response = await searchRepository.search(searchType, searchData, searchSkillsAndSpecialty, searchSkillsAndSpecialty)
-      const response = await tagRepository.getSpecialty('');
-      setSpecialtyTag(response.tag);
+      const response = await tagRepository.getSpecialty('')
+      setSpecialtyTag(response.tag)
       setLoading(false)
-    }, [specialtyTag])
+    }, [])
 
-    const getSpecialtyTagByQuery = useCallback(async (value: string) => {
-      
-    }, [specialtyTag])
+    const getSpecialtyTagByQuery = useCallback(async (value: string) => {}, [])
 
-    return [
-      specialtyTag,
-      getAllSpecialtyTag,
-      getSpecialtyTagByQuery,
-    ]
+    return [specialtyTag, getAllSpecialtyTag, getSpecialtyTagByQuery]
   },
 
-  
+  useLocation(): [string[]] {
+    const [locationList, setLocationList] = useState<string[]>([])
+
+    useEffect(() => {
+      tagRepository
+        .getLocation()
+        .then((response) => {
+          setLocationList(response.tag)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }, [])
+
+    return [locationList]
+  },
 }

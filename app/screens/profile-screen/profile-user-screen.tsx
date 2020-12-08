@@ -147,7 +147,7 @@ export function ProfileUserScreen({ navigation }) {
 
   const [companiesFollowed] = followService.useCompanyFollowed(accountId)
 
-  const [postList] = postService.usePostList(accountId)
+  const [postCount] = postService.usePostCount(accountId)
 
   const renderExperienceItem = ({ item }: { item: ExperienceObject }) => {
     return (
@@ -264,7 +264,7 @@ export function ProfileUserScreen({ navigation }) {
               <Text style={{ color: color.brandLight }}>Followers</Text>
             </Col>
             <Col style={styles.socialStatisticContainter}>
-              <Text style={styles.follower}>{postList.length}</Text>
+              <Text style={styles.follower}>{postCount}</Text>
               <Text style={{ color: color.brandLight }}>Posts</Text>
             </Col>
           </Grid>

@@ -1,55 +1,55 @@
-import { AxiosResponse } from "axios"
-import { API_TAG_ROUTE } from "../config/api-const"
-import { API_BASE_URL } from "../config/consts"
-import { httpConfig } from "../config/http/config"
-import { Repository } from "./base-repository"
+import { AxiosResponse } from 'axios'
+import { API_TAG_ROUTE } from '../config/api-const'
+import { API_BASE_URL } from '../config/consts'
+import { httpConfig } from '../config/http/config'
+import { Repository } from './base-repository'
 
 export interface SkillTagRequest {
-  query: string;
+  query: string
 }
 
 export interface SkillTagResponse {
-  tag: string[];
+  tag: string[]
 }
 
 export interface TitleTagRequest {
-  query: string;
+  query: string
 }
 
 export interface TitleTagResponse {
-  tag: string[];
+  tag: string[]
 }
 
 export interface SchoolTagRequest {
-  query: string;
+  query: string
 }
 
 export interface SchoolTagResponse {
-  name: string[];
+  name: string[]
 }
 
 export interface CompanyTagRequest {
-  query: string;
+  query: string
 }
 
 export interface CompanyTagResponse {
-  name: string[];
+  name: string[]
 }
 
 export interface SpecialtyTagRequest {
-  query: string;
+  query: string
 }
 
 export interface SpecialtyTagResponse {
-  tag: string[];
+  tag: string[]
 }
 
 export interface LocationTagRequest {
-  query: string;
+  query: string
 }
 
 export interface LocationTagResponse {
-  tag: string[];
+  tag: string[]
 }
 
 export class TagRepository extends Repository {
@@ -59,19 +59,33 @@ export class TagRepository extends Repository {
   }
 
   public async getSkill(query: string): Promise<SkillTagResponse> {
-    return this.http.get('skill', {
-      params: {
-        query
-      }
-    }).then((response: AxiosResponse) => response.data)
+    return this.http
+      .get('skill', {
+        params: {
+          query,
+        },
+      })
+      .then((response: AxiosResponse) => response.data)
   }
 
   public async getSpecialty(query: string): Promise<SpecialtyTagResponse> {
-    return this.http.get('specialty', {
-      params: {
-        query
-      }
-    }).then((response: AxiosResponse) => response.data)
+    return this.http
+      .get('specialty', {
+        params: {
+          query,
+        },
+      })
+      .then((response: AxiosResponse) => response.data)
+  }
+
+  public async getLocation(): Promise<LocationTagResponse> {
+    return this.http
+      .get('location', {
+        params: {
+          query: '',
+        },
+      })
+      .then((response: AxiosResponse) => response.data)
   }
 }
 
