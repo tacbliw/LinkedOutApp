@@ -41,6 +41,7 @@ export interface JobPostProps {
   style?: ViewStyle
 
   job: JobObject
+  handleItemPress: (job: JobObject) => void
 }
 
 /**
@@ -58,6 +59,9 @@ export function JobPost(props: JobPostProps) {
           justifyContent: 'space-between',
           alignItems: 'flex-start',
           borderRadius: 15,
+        }}
+        onPress={() => {
+          props.handleItemPress(job)
         }}
       >
         <View style={{ flexDirection: 'row' }}>

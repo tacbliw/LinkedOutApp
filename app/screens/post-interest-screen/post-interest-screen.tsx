@@ -1,4 +1,3 @@
-import { observer } from 'mobx-react-lite'
 import {
   Body,
   Card,
@@ -13,15 +12,12 @@ import {
   Thumbnail,
   View,
 } from 'native-base'
-import React from 'react'
-import { Dimensions, Image, ViewStyle } from 'react-native'
+import { Dimensions, Image } from 'react-native'
+import React from 'reactn'
 import { Comment } from '../../components'
 import { CommentInput } from '../../components/comment/comment-input'
+import { PostObject } from '../../repositories/feed-repository'
 import { color } from '../../theme'
-const ROOT: ViewStyle = {
-  backgroundColor: color.palette.black,
-  flex: 1,
-}
 
 const screenWidth = Math.round(Dimensions.get('window').width)
 const screenHeight = Math.round(Dimensions.get('window').height)
@@ -53,20 +49,15 @@ const datas = [
     time: '5:47 am',
   },
 ]
-export const PostInterestScreen = observer(function PostInterestScreen() {
+
+export const PostInterestScreen = function PostInterestScreen({
+  route,
+  navigation,
+}) {
+  const { post }: { post: PostObject } = route.params
+  console.log(post)
   return (
     <Container style={{ backgroundColor: '#f6f5fb' }}>
-      {/* <Header transparent>
-                <Left>
-                </Left>
-                <Body />
-                <Right>
-                    <Button transparent>
-                        <Icon name="close-outline" style={{ color: color.brandLight, fontSize: 30 }} />
-                    </Button>
-                </Right>
-            </Header> */}
-
       <Content padder>
         <Card transparent>
           <CardItem>
@@ -169,4 +160,4 @@ export const PostInterestScreen = observer(function PostInterestScreen() {
       </Content>
     </Container>
   )
-})
+}

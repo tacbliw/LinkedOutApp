@@ -6,13 +6,20 @@
  */
 import {
   NavigationContainer,
-  NavigationContainerRef
+  NavigationContainerRef,
 } from '@react-navigation/native'
 import { createNativeStackNavigator } from 'react-native-screens/native-stack'
 import React from 'reactn'
 import { GlobalState } from '../config/global'
 import { screens } from '../config/screens'
-import { CreateJobScreen, MessagesScreen, ProfileEditCompanyScreen, ProfileEditUserScreen, WriteFeedScreen } from '../screens'
+import {
+  CreateJobScreen,
+  MessagesScreen,
+  ProfileEditCompanyScreen,
+  ProfileEditUserScreen,
+  WriteFeedScreen,
+} from '../screens'
+import { PostInterestScreen } from '../screens/post-interest-screen/post-interest-screen'
 import RootStackStart from './login-navigator'
 import { PrimaryCompanyNavigator } from './primary-company-navigator'
 import { PrimaryUserNavigator } from './primary-user-navigator'
@@ -71,6 +78,11 @@ const RootStack = () => {
             component={WriteFeedScreen}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name={screens.authenticated.user.comment}
+            component={PostInterestScreen}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       )
     } else if (accountType === 'company') {
@@ -88,10 +100,10 @@ const RootStack = () => {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-          name={screens.authenticated.company.editprofile}
-          component={ProfileEditCompanyScreen}
-          options={{ headerShown: false }}
-        />
+            name={screens.authenticated.company.editprofile}
+            component={ProfileEditCompanyScreen}
+            options={{ headerShown: false }}
+          />
           {/* deo co bottom tab de het duoi nay */}
           <Stack.Screen
             name='room' // <- cai deo gi day ? :)
@@ -100,15 +112,10 @@ const RootStack = () => {
           />
 
           <Stack.Screen
-            name={screens.authenticated.company.jobcreate} // <- cai deo gi day ? :)
+            name={screens.authenticated.company.jobcreate}
             component={CreateJobScreen}
             options={{ headerShown: false }}
           />
-          {/* <Stack.Screen
-            name={screens.authenticated.user.newsfeed.write}
-            component={WriteFeedScreen}
-            options={{ headerShown: false }}
-          /> */}
         </Stack.Navigator>
       )
     }

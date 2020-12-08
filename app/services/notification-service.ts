@@ -47,7 +47,7 @@ export const notificationService = {
         const response = await notificationRepository.list(0)
         setNotificationList(response)
       } catch (error) {
-        showError('Error when loading notifications')
+        showError('Error occured while loading notifications')
         console.log(error)
       }
       setRefreshing(false)

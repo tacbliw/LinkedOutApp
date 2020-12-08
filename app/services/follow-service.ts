@@ -24,7 +24,7 @@ export const followService = {
         )
         setUsers(response)
       } catch (error) {
-        showError('Error when loading following list')
+        showError('Error occured while loading following list')
         console.log(error)
       }
       setRefreshing(false)
@@ -49,7 +49,7 @@ export const followService = {
         const response = await followRepository.companyFollowed(accountId)
         setCompanies(response)
       } catch (error) {
-        showError('Error when loading following list')
+        showError('Error occured while loading following list')
         console.log(error)
       }
     }, [accountId])
@@ -69,7 +69,7 @@ export const followService = {
         const response = await followRepository.count(accountId)
         setCount(response.count)
       } catch (error) {
-        showError('Error when loading follower count')
+        showError('Error occured while loading follower count')
         console.log(error)
       }
     }, [accountId])
@@ -89,7 +89,7 @@ export const followService = {
         const response = await followRepository.countFollowed(accountId)
         setCount(response.count)
       } catch (error) {
-        showError('Error when loading following count')
+        showError('Error occured while loading following count')
         console.log(error)
       }
     }, [accountId])

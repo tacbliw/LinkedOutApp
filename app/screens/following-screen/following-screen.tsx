@@ -1,6 +1,6 @@
 import { Badge, Icon, Thumbnail, View } from 'native-base'
-import React from 'react'
 import { FlatList, TouchableOpacity } from 'react-native'
+import React from 'reactn'
 import { Screen, Text } from '../../components'
 import { color } from '../../theme'
 import { styles } from './styles'

@@ -11,7 +11,7 @@ export const screens = {
       main: 'register-main',
       company: 'register-company',
       user: 'register-user',
-    }
+    },
   },
   authenticated: {
     company: {
@@ -23,7 +23,7 @@ export const screens = {
       jobs: 'company-jobs',
       messages: 'company-messages',
       settings: 'company-settings',
-      jobcreate: 'create-job'
+      jobcreate: 'create-job',
     },
     user: {
       navigator: 'user-navigator',
@@ -42,6 +42,7 @@ export const screens = {
       messages: 'user-messages',
       following: 'user-following',
       settings: 'user-settings',
-    }
-  }
+      comment: 'user-comment',
+    },
+  },
 }

@@ -10,6 +10,7 @@ import { showError, showInfo } from '../helpers/toast'
 import {
   FeedGetResponse,
   feedRepository,
+  JobObject,
 } from '../repositories/feed-repository'
 import { postRepository } from '../repositories/post-repository'
 
@@ -107,8 +108,7 @@ export const feedService = {
     FeedGetResponse,
     boolean,
     () => void,
-    () => void,
-    () => void,
+    (job: JobObject) => void,
     () => void,
     () => void,
   ] {
@@ -120,9 +120,7 @@ export const feedService = {
       navigation.navigate(screens.authenticated.user.newsfeed.write)
     }, [navigation])
 
-    const handleViewPost = React.useCallback(() => {}, [])
-
-    const handleViewJob = React.useCallback(() => {}, [])
+    const handleJobPress = React.useCallback((job: JobObject) => {}, [])
 
     const handleLoadOld = React.useCallback(async () => {
       setRefreshing(true)
@@ -152,7 +150,7 @@ export const feedService = {
         const response = await feedRepository.get(0)
         setFeed(response)
       } catch (error) {
-        showError('Error while loading feed')
+        showError('Error occured while loading feed')
         console.log(error)
       }
       setRefreshing(false)
@@ -166,8 +164,7 @@ export const feedService = {
       feed,
       refreshing,
       handleWriteFeed,
-      handleViewPost,
-      handleViewJob,
+      handleJobPress,
       handleLoadOld,
       handleLoadNew,
     ]

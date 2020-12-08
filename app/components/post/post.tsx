@@ -23,9 +23,6 @@ const postActionSheetButton = [
 ]
 
 export interface PostProps {
-  /**
-   * An optional style override useful for padding & margin.
-   */
   post: PostObject
 }
 
@@ -105,16 +102,13 @@ const styles = StyleSheet.create({
 })
 
 export function Post(props: PostProps) {
-  React.useEffect(() => {
-    console.log(props)
-  }, [])
-
   const [
     interestedCount,
     interested,
     handleInterest,
     handleComment,
-  ] = postService.usePost(props.post.id)
+  ] = postService.usePost(props.post)
+
   return (
     <Card transparent style={{ borderWidth: 10 }}>
       <CardItem header style={styles.topPost}>
@@ -131,9 +125,6 @@ export function Post(props: PostProps) {
               {toString(props.post.publishedDate)}
             </Text>
           </View>
-        </View>
-        <View>
-          <Icon name='ellipsis-horizontal-outline'></Icon>
         </View>
       </CardItem>
       <CardItem>

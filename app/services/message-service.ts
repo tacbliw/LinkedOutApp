@@ -57,7 +57,7 @@ export const messageService = {
         const response = await messageRepository.list(0)
         setConversationList(response)
       } catch (error) {
-        showError('Error when loading messages')
+        showError('Error occured while loading messages')
         console.log(error)
       }
       setRefreshing(false)
@@ -68,7 +68,7 @@ export const messageService = {
         const response = await messageRepository.list(0)
         setConversationList(response)
       } catch (error) {
-        showError('Error when loading messages')
+        showError('Error occured while loading messages')
         console.log(error)
       }
     }, [])

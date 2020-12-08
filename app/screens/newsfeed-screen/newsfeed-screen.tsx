@@ -21,37 +21,38 @@ const styles = StyleSheet.create({
   },
 })
 
-const renderFeedItem = ({ item }: { item: PostObject | JobObject }) => {
-  if (item.type === 'post') {
-    return (
-      <ListItem>
-        <Post post={item as PostObject} />
-      </ListItem>
-    )
-  } else if (item.type === 'job') {
-    return (
-      <ListItem>
-        <JobPost job={item as JobObject} />
-      </ListItem>
-    )
-  }
-  return <></>
-}
-
 export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
   const [
     onEndReachedCalledDuringMomentum,
     setOnEndReachedCalledDuringMomentum,
   ] = React.useState<boolean>(true)
+
   const [
     feed,
     refreshing,
     handleWriteFeed,
-    handleViewPost,
-    handleViewJob,
+    handleJobPress,
     handleLoadOld,
     handleLoadNew,
   ] = feedService.useFeed()
+
+  const renderFeedItem = ({ item }: { item: PostObject | JobObject }) => {
+    if (item.type === 'post') {
+      return (
+        <ListItem>
+          <Post post={item as PostObject} />
+        </ListItem>
+      )
+    } else if (item.type === 'job') {
+      return (
+        <ListItem>
+          <JobPost job={item as JobObject} handleItemPress={handleJobPress} />
+        </ListItem>
+      )
+    }
+    return <></>
+  }
+
   return (
     <View style={styles.container}>
       <Header transparent noShadow style={styles.header}>

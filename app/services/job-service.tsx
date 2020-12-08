@@ -130,7 +130,7 @@ export const jobService = {
         const response = await jobRepository.list(accountId)
         setJobList(response)
       } catch (error) {
-        showError('Error when loading job list')
+        showError('Error occured while loading job list')
         console.log(error)
       }
     }, [accountId])
