@@ -1,12 +1,14 @@
 import { Container, Icon, Left, List, ListItem, Text } from 'native-base'
-import * as React from 'react'
 import { Image, StyleSheet, View } from 'react-native'
+import React from 'reactn'
+import { GlobalState } from '../../config/global'
 import { screens } from '../../config/screens'
 import { toBackendUrl } from '../../helpers/string-helper'
 import { accountService } from '../../services/account-service'
 import { companyProfileService } from '../../services/company-profile-service'
 import { color } from '../../theme/color'
 import { LogoutButton } from './logout-button/logout-button'
+
 
 const styles = StyleSheet.create({
     atname: {
@@ -68,7 +70,7 @@ const styles = StyleSheet.create({
 })
 
 export function SidebarCompany({ state, descriptors, navigation }) {
-
+    const accountId = parseInt(React.getGlobal<GlobalState>().accountId)
     const [
         name,
         website,
@@ -76,7 +78,7 @@ export function SidebarCompany({ state, descriptors, navigation }) {
         specialties,
         description,
         getInfo
-    ] = companyProfileService.useGetCompany()
+    ] = companyProfileService.useGetCompany(accountId)
 
     const mapIcon = {}
     mapIcon[screens.authenticated.company.profile] = 'person'
