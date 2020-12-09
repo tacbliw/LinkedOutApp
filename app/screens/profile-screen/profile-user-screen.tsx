@@ -53,12 +53,10 @@ const styles = StyleSheet.create({
   },
 
   profileHeader: {
-    // height: 250,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#f6f5fb',
-    // backgroundColor: color.backgroundColor,
   },
 
   avatarUser: {
@@ -71,7 +69,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: '700',
     left: 5,
-    // color: "#FFFFFF"
   },
 
   about: {
@@ -94,7 +91,6 @@ const styles = StyleSheet.create({
   },
 
   topInfo: {
-    // marginLeft: 16
     paddingHorizontal: 16,
     marginLeft: 16,
   },
@@ -175,7 +171,7 @@ export function ProfileUserScreen({ navigation }) {
     })
 
     return unsubscribe
-  }, [navigation])
+  }, [getInfo, getMail, getPhone, getSkill, navigation])
 
   useEffect(() => {
     if (educationList && educationList.length > 0) {
@@ -267,11 +263,15 @@ export function ProfileUserScreen({ navigation }) {
             </Col>
             <Col style={styles.socialStatisticContainter}>
               <Text style={styles.follower}>{followerCount}</Text>
-              <Text style={{ color: color.brandLight }}>Followers</Text>
+              <Text style={{ color: color.brandLight }}>
+                {followerCount > 1 ? 'Followers' : 'Follower'}
+              </Text>
             </Col>
             <Col style={styles.socialStatisticContainter}>
               <Text style={styles.follower}>{postCount}</Text>
-              <Text style={{ color: color.brandLight }}>Posts</Text>
+              <Text style={{ color: color.brandLight }}>
+                {postCount > 1 ? 'Posts' : 'Post'}
+              </Text>
             </Col>
           </Grid>
 
@@ -285,12 +285,10 @@ export function ProfileUserScreen({ navigation }) {
                 <FlatList
                   contentContainerStyle={{
                     flexDirection: 'column',
-                    // flexWrap: 'wrap',
                   }}
                   numColumns={4}
                   data={skillList}
                   renderItem={renderSkillItem}
-                  // horizontal
                   style={{ marginTop: 16 }}
                   keyExtractor={(item) => item}
                 ></FlatList>

@@ -3,6 +3,7 @@ import React from 'react'
 import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Post } from '../../components'
 import { JobPost } from '../../components/job-post/job-post'
+import { screens } from '../../config/screens'
 import { JobObject, PostObject } from '../../repositories/feed-repository'
 import { feedService } from '../../services/feed-service'
 import { color } from '../../theme'
@@ -11,6 +12,7 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   header: {
     alignItems: 'center',
+    backgroundColor: color.brandPrimary,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -70,12 +72,18 @@ export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
             navigation.openDrawer()
           }}
         >
-          <Icon name='menu-outline' style={{ color: color.brandLight }}></Icon>
+          <Icon
+            name='menu-outline'
+            style={{ color: color.palette.white }}
+          ></Icon>
         </TouchableOpacity>
-        <Thumbnail source={require('./logo.png')} style={styles.logo} />
+        <Thumbnail source={require('./logo-white.png')} style={styles.logo} />
         <Icon
           name='settings-outline'
-          style={{ color: color.brandLight }}
+          style={{ color: color.palette.white }}
+          onPress={() => {
+            navigation.navigate(screens.authenticated.user.settings)
+          }}
         ></Icon>
       </Header>
       <FlatList

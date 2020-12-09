@@ -107,7 +107,7 @@ export const ChatScreen = function ChatScreen({ navigation }) {
       handleLoadNewWithoutEffect()
     })
     return unsubscribe
-  }, [navigation])
+  }, [handleLoadNewWithoutEffect, navigation])
 
   const renderItem = ({ item }: { item: ConversationListResponse }) => {
     return <Item item={item} onPress={handleItemPress} style={{ margin: 16 }} />

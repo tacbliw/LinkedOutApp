@@ -14,7 +14,9 @@ const styles = StyleSheet.create({
   },
 })
 
-export const NotificationsScreen = function NotificationsScreen() {
+export const NotificationsScreen = function NotificationsScreen({
+  navigation,
+}) {
   const [
     onEndReachedCalledDuringMomentum,
     setOnEndReachedCalledDuringMomentum,
@@ -25,8 +27,16 @@ export const NotificationsScreen = function NotificationsScreen() {
     refreshing,
     handleLoadNew,
     handleLoadOld,
+    handleLoadNewWithoutEffect,
     handleFeedOpen,
   ] = notificationService.useNotification()
+
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      handleLoadNewWithoutEffect()
+    })
+    return unsubscribe
+  }, [handleLoadNewWithoutEffect, navigation])
 
   const renderNotifItem = ({ item }: { item: NotificationListResponse }) => {
     return <NotificationItem item={item} onPress={handleFeedOpen} />

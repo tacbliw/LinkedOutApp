@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   orSignInWith: {
     alignSelf: 'center',
     color: color['color-primary-500'],
-    marginTop: width * 0.15,
+    marginTop: width * 0.1,
   },
   rect: {
     alignItems: 'center',

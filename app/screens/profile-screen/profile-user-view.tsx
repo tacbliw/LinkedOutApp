@@ -29,7 +29,6 @@ import {
   Screen,
   Tag,
 } from '../../components'
-import { screens } from '../../config/screens'
 import { toBackendUrl } from '../../helpers/string-helper'
 import { ExperienceObject } from '../../repositories/experience-repository'
 import { followService } from '../../services/follow-service'
@@ -213,10 +212,7 @@ export function ProfileUserViewScreen({ route, navigation }) {
           style={styles.profileHeader}
           androidStatusBarColor={color.brandPrimary}
         >
-          <Button
-            transparent
-            onPress={() => navigation.navigate(screens.authenticated.user.home)}
-          >
+          <Button transparent onPress={() => navigation.goBack()}>
             <Icon style={styles.backIcon} name='arrow-back-outline' />
           </Button>
         </Header>
@@ -247,11 +243,15 @@ export function ProfileUserViewScreen({ route, navigation }) {
             </Col>
             <Col style={styles.socialStatisticContainter}>
               <Text style={styles.follower}>{followerCount}</Text>
-              <Text style={{ color: color.brandLight }}>Followers</Text>
+              <Text style={{ color: color.brandLight }}>
+                {followerCount > 1 ? 'Followers' : 'Follower'}
+              </Text>
             </Col>
             <Col style={styles.socialStatisticContainter}>
               <Text style={styles.follower}>{postCount}</Text>
-              <Text style={{ color: color.brandLight }}>Posts</Text>
+              <Text style={{ color: color.brandLight }}>
+                {postCount > 1 ? 'Posts' : 'Post'}
+              </Text>
             </Col>
           </Grid>
 

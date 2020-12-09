@@ -232,13 +232,17 @@ export function ProfileCompanyViewScreen({ route, navigation }) {
                 >
                   <View style={styles.socialStatisticContainter}>
                     <Text style={styles.follower}>
-                      {followerCount.toString() + 'k'}
+                      {followerCount.toString() + 'K'}
                     </Text>
-                    <Text style={{ color: color.brandLight }}>Followers</Text>
+                    <Text style={{ color: color.brandLight }}>
+                      {followerCount > 1 ? 'Followers' : 'Follower'}
+                    </Text>
                   </View>
                   <View style={styles.socialStatisticContainter}>
                     <Text style={styles.follower}>{job.length}</Text>
-                    <Text style={{ color: color.brandLight }}>Jobs</Text>
+                    <Text style={{ color: color.brandLight }}>
+                      {job.length > 1 ? 'Jobs' : 'Job'}
+                    </Text>
                   </View>
                 </View>
               </View>
