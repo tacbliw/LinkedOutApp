@@ -45,7 +45,7 @@ export const MessagesScreen = function MessagesScreen({ route, navigation }) {
       <Send {...props} containerStyle={{ justifyContent: 'center' }}>
         <Icon
           style={{ fontSize: 26, marginRight: 8, color: color.brandPrimary }}
-          name='arrow-up-outline'
+          name='send'
         ></Icon>
       </Send>
     )
@@ -168,7 +168,7 @@ export const MessagesScreen = function MessagesScreen({ route, navigation }) {
         infiniteScroll
         alwaysShowSend
         scrollToBottom
-      ></GiftedChat>
+      />
     </>
   )
 }
