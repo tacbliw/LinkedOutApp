@@ -115,7 +115,7 @@ export const ChatScreen = function ChatScreen({ navigation }) {
 
   return (
     <Screen>
-      <Header transparent>
+      <Header transparent androidStatusBarColor={color.brandPrimary}>
         <Left>
           <Text style={{ fontSize: 32, fontWeight: '700' }}>Chats</Text>
         </Left>

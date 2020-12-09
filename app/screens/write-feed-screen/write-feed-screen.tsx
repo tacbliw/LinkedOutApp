@@ -122,7 +122,11 @@ export const WriteFeedScreen = function WriteFeedScreen() {
 
   return (
     <View style={styles.ROOT}>
-      <Header transparent style={styles.header}>
+      <Header
+        transparent
+        style={styles.header}
+        androidStatusBarColor={color.brandPrimary}
+      >
         <TouchableOpacity onPress={handleCancel}>
           <Icon name='close-outline' style={{ color: color.brandLight }}></Icon>
         </TouchableOpacity>

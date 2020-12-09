@@ -80,7 +80,7 @@ export const SettingsScreen = function SettingsScreen(navigation) {
   return (
     <Screen style={ROOT} preset='scroll'>
       <View style={styles.container}>
-        <Header transparent>
+        <Header transparent androidStatusBarColor={color.brandPrimary}>
           <Left style={{ flexGrow: 1 }}>
             <Text style={styles.header}>Settings</Text>
           </Left>

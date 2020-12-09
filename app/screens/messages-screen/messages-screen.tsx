@@ -126,6 +126,7 @@ export const MessagesScreen = function MessagesScreen({ route, navigation }) {
           marginTop: 5,
           paddingBottom: 5,
         }}
+        androidStatusBarColor={color.brandPrimary}
       >
         <View
           style={{

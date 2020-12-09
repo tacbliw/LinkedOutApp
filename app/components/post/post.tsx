@@ -1,8 +1,9 @@
 import { useNavigation } from '@react-navigation/native'
 import { Card, CardItem, Icon, Text, View } from 'native-base'
-import React from 'react'
 import { Dimensions, StyleSheet, TouchableOpacity } from 'react-native'
 import FastImage from 'react-native-fast-image'
+import React from 'reactn'
+import { GlobalState } from '../../config/global'
 import { screens } from '../../config/screens'
 import { toString } from '../../helpers/date-helper'
 import { toBackendUrl } from '../../helpers/string-helper'
@@ -104,6 +105,7 @@ const styles = StyleSheet.create({
 })
 
 export function Post(props: PostProps) {
+  const accountId = parseInt(React.getGlobal<GlobalState>().accountId)
   const navigation = useNavigation()
   const [
     interestedCount,
@@ -116,9 +118,13 @@ export function Post(props: PostProps) {
     <Card transparent style={{ borderWidth: 10 }}>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate(screens.authenticated.user.view.user, {
-            accountId: props.post.accountId,
-          })
+          if (props.post.accountId === accountId) {
+            navigation.navigate(screens.authenticated.user.profile)
+          } else {
+            navigation.navigate(screens.authenticated.user.view.user, {
+              accountId: props.post.accountId,
+            })
+          }
         }}
       >
         <CardItem header style={styles.topPost}>

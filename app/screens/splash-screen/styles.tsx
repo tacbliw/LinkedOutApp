@@ -19,7 +19,6 @@ export const styles = StyleSheet.create({
   footer: {
     flex: 1,
     flexDirection: 'row',
-    // marginTop: height / 8,
     width: width,
     justifyContent: 'flex-end',
     alignItems: 'center',
@@ -31,7 +30,7 @@ export const styles = StyleSheet.create({
     width: width,
   },
   iconMsg: {
-    color: color.palette.offWhite, // "rgba(255,220,216,1)",
+    color: color.palette.white, // "rgba(255,220,216,1)",
     fontSize: 40,
   },
   imageLogoSplash: {
@@ -42,7 +41,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   jobsText: {
-    color: color.palette.offWhite, // "#ffffff",
+    color: color.palette.white, // "#ffffff",
     fontFamily: 'roboto-regular',
     fontSize: 35,
     justifyContent: 'center',
@@ -55,6 +54,10 @@ export const styles = StyleSheet.create({
     width: width / 2,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  logoThumbnail: {
+    resizeMode: 'contain',
+    width: 300,
   },
   messageHeader: {
     flexDirection: 'row',
@@ -95,7 +98,7 @@ export const styles = StyleSheet.create({
     position: 'absolute',
   },
   text: {
-    color: color.palette.offWhite, // "rgba(246,213,213,1)",
+    color: color.palette.white, // "rgba(246,213,213,1)",
     flex: 1,
     fontFamily: 'roboto-regular',
     fontSize: 15,

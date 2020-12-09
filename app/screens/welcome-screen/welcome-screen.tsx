@@ -91,20 +91,20 @@ export const WelcomeScreen = observer(function WelcomeScreen() {
       <Wallpaper />
       <Screen
         style={CONTAINER}
-        preset="scroll"
+        preset='scroll'
         backgroundColor={color.transparent}
       >
         <Header
-          headerTx="welcomeScreen.poweredBy"
+          headerTx='welcomeScreen.poweredBy'
           style={HEADER}
           titleStyle={HEADER_TITLE}
         />
         <Text style={TITLE_WRAPPER}>
-          <Text style={TITLE} text="Your new app, " />
-          <Text style={ALMOST} text="almost" />
-          <Text style={TITLE} text="!" />
+          <Text style={TITLE} text='Your new app, ' />
+          <Text style={ALMOST} text='almost' />
+          <Text style={TITLE} text='!' />
         </Text>
-        <Text style={TITLE} preset="header" tx="welcomeScreen.readyForLaunch" />
+        <Text style={TITLE} preset='header' tx='welcomeScreen.readyForLaunch' />
         <Image source={bowserLogo} style={BOWSER} />
         <Text style={CONTENT}>
           This probably isn't what your app is going to look like. Unless your
@@ -121,7 +121,7 @@ export const WelcomeScreen = observer(function WelcomeScreen() {
           <Button
             style={CONTINUE}
             textStyle={CONTINUE_TEXT}
-            tx="welcomeScreen.continue"
+            tx='welcomeScreen.continue'
             onPress={nextScreen}
           />
         </View>

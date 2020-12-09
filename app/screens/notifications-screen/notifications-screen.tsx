@@ -34,7 +34,7 @@ export const NotificationsScreen = function NotificationsScreen() {
 
   return (
     <Screen>
-      <Header transparent>
+      <Header transparent androidStatusBarColor={color.brandPrimary}>
         <Left style={{ flexGrow: 1 }}>
           <Text style={{ fontSize: 32, fontWeight: '700' }}>Notifications</Text>
         </Left>

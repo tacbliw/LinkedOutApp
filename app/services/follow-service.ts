@@ -129,7 +129,7 @@ export const followService = {
   },
 
   useFollow(accountId: number): [boolean, () => void, () => void] {
-    const [checkFollowed, setCheckFollowed] = React.useState<boolean>(true)
+    const [checkFollowed, setCheckFollowed] = React.useState<boolean>(false)
 
     const getCheckFollow = React.useCallback(async () => {
       try {

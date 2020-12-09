@@ -99,7 +99,7 @@ export const FollowingScreen = function FollowingScreen(navigation) {
   return (
     <Screen style={styles.container}>
       <ScrollView>
-        <Header transparent>
+        <Header transparent androidStatusBarColor={color.brandPrimary}>
           <Left style={{ flexGrow: 1 }}>
             <Text style={styles.header}>Following</Text>
           </Left>
