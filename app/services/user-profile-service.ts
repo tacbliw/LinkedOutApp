@@ -2,7 +2,7 @@ import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native'
 import React, { useCallback, useState } from 'reactn'
 import { GlobalState } from '../config/global'
 import { toPythonString } from '../helpers/date-helper'
-import { showError, showInfo } from '../helpers/toast'
+import { showInfo } from '../helpers/toast'
 import {
   EducationListRespond,
   educationRepository,
@@ -59,31 +59,27 @@ export const userProfileService = {
     return [user]
   },
 
-  useGetUser(): [string, string, string, string, string, string, () => void] {
+  useGetUser(
+    accountId: number,
+  ): [string, string, string, string, string, string, () => void] {
     const [firstName, setFirstName] = useState<string>('')
     const [lastName, setLastName] = useState<string>('')
     const [gender, setGender] = useState<string>('')
     const [dateOfBirth, setDateOfBirth] = useState<string>('')
     const [profilePicture, setProfilePicture] = useState<string>('')
     const [description, setDescription] = useState<string>('')
-    const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>(
-      'accountId',
-    )
 
     const getInfo = React.useCallback(async () => {
       try {
-        const response = await userRepository.get(Number(accountId))
+        const response = await userRepository.get(accountId)
         setFirstName(response.firstname)
         setLastName(response.lastname)
         setGender(response.gender)
         setDateOfBirth(response.dateofbirth)
         setProfilePicture(response.profilePicture)
         setDescription(response.description)
-        //showInfo(accountId)
       } catch (error) {
-        if (error?.response?.data) {
-          showInfo('error')
-        }
+        console.log(error)
       }
     }, [accountId])
 
@@ -110,9 +106,7 @@ export const userProfileService = {
         const response = await educationRepository.get(accountId)
         setEducationList(response)
       } catch (error) {
-        if (error?.response?.data) {
-          showError('education error')
-        }
+        console.log(error)
       }
     }, [accountId])
 
@@ -131,9 +125,7 @@ export const userProfileService = {
         const response = await experienceRepository.get(accountId)
         setExperienceList(response)
       } catch (error) {
-        if (error?.response?.data) {
-          showError('experience error')
-        }
+        console.log(error)
       }
     }, [accountId])
 
@@ -152,9 +144,7 @@ export const userProfileService = {
         const response = await skillRepository.get(accountId)
         setSkillList(response.skills)
       } catch (error) {
-        if (error?.response?.data) {
-          showError('skill error')
-        }
+        console.log(error)
       }
     }, [accountId])
 
@@ -169,9 +159,7 @@ export const userProfileService = {
         const response = await phoneRepository.get(accountId)
         setPhoneList(response.phones)
       } catch (error) {
-        if (error?.response?.data) {
-          showError('phone error')
-        }
+        console.log(error)
       }
     }, [accountId])
 
@@ -186,9 +174,7 @@ export const userProfileService = {
         const response = await emailRepository.get(accountId)
         setPhoneList(response.emails)
       } catch (error) {
-        if (error?.response?.data) {
-          showError('mail error')
-        }
+        console.log(error)
       }
     }, [accountId])
 
@@ -243,9 +229,7 @@ export const userProfileService = {
         setDateOfBirth(response.dateofbirth)
         setUserDescription(response.description)
       } catch (error) {
-        if (error?.response?.data) {
-          showInfo('error')
-        }
+        console.log(error)
       }
     }, [accountId])
 
@@ -255,9 +239,7 @@ export const userProfileService = {
         setOldPhone(response.phones[0])
         setNewPhone(response.phones[0])
       } catch (error) {
-        if (error?.response?.data) {
-          showInfo('error')
-        }
+        console.log(error)
       }
     }, [accountId])
 
@@ -267,9 +249,7 @@ export const userProfileService = {
         setOldEmail(response.emails[0])
         setNewEmail(response.emails[0])
       } catch (error) {
-        if (error?.response?.data) {
-          showInfo('error')
-        }
+        console.log(error)
       }
     }, [accountId])
 
@@ -332,11 +312,9 @@ export const userProfileService = {
           await emailRepository.update(oldEmail, newEmail)
           setOldEmail(newEmail)
         }
-        showInfo('edit profile submit')
+        showInfo('Saved!')
       } catch (error) {
-        if (error?.response?.data?.details) {
-          showError(error.response.data.details)
-        }
+        console.log(error)
       }
     }, [
       firstName,
@@ -346,6 +324,8 @@ export const userProfileService = {
       userDescription,
       newPhone,
       newEmail,
+      oldEmail,
+      oldPhone,
     ])
 
     return [
@@ -379,7 +359,7 @@ export const userProfileService = {
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
     () => void,
     (skill: string) => void,
-    ([]) => void,
+    (t_skillList: []) => void,
   ] {
     const [skillText, setSkillText] = useState<string>('')
     const [skillList, setSkillList] = useState<any>()
@@ -398,11 +378,8 @@ export const userProfileService = {
       try {
         const response = await skillRepository.get(Number(accountId))
         setSkillList(response.skills)
-        //showInfo("got skill list");
       } catch (error) {
-        if (error?.response?.data) {
-          showError('skill error')
-        }
+        console.log(error)
       }
     }, [accountId])
 
@@ -410,11 +387,9 @@ export const userProfileService = {
       try {
         const response = await skillRepository.create(skillText)
         setSkillList(response)
-        showInfo('skill created')
+        showInfo('Skill updated!')
       } catch (error) {
-        if (error?.response?.data?.details) {
-          showError(error.response.data.details)
-        }
+        console.log(error)
       }
     }, [skillText])
 
@@ -422,21 +397,15 @@ export const userProfileService = {
       try {
         const response = await skillRepository.delete(skill)
         setSkillList(response.skills)
-        showInfo('skill deleted')
+        showInfo('Skill deleted!')
       } catch (error) {
-        if (error?.response?.data?.details) {
-          showError(error.response.data.details)
-        }
+        console.log(error)
       }
     }, [])
 
-    const handleSkillListChange = React.useCallback(async (t_skillList) => {
+    const handleSkillListChange = React.useCallback(async () => {
       setSkillList(t_skillList)
     }, [])
-
-    // React.useEffect(() => {
-    //   getSkill()
-    // }, [getSkill])
 
     return [
       skillText,
@@ -465,7 +434,7 @@ export const userProfileService = {
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
     () => any,
     [any],
-    ([]) => void,
+    (t_educationList: []) => void,
     (id: number) => void,
   ] {
     const [schoolName, setSchoolName] = useState<string>('')
@@ -538,11 +507,9 @@ export const userProfileService = {
         )
 
         setEducationList(response)
-        showInfo('education created')
+        showInfo('Created!')
       } catch (error) {
-        if (error?.response?.data?.details) {
-          showError(error.response.data.details)
-        }
+        console.log(error)
       }
     }, [schoolName, startDateEducation, endDateEducation, major, degree])
 
@@ -550,15 +517,12 @@ export const userProfileService = {
       try {
         const response = await educationRepository.get(Number(accountId))
         setEducationList(response)
-        //showInfo("got education list");
       } catch (error) {
-        if (error?.response?.data) {
-          showError('education error')
-        }
+        console.log(error)
       }
     }, [accountId])
 
-    const handleEducationChange = React.useCallback(async (t_educationList) => {
+    const handleEducationChange = React.useCallback(async () => {
       setEducationList(t_educationList)
     }, [])
 
@@ -566,11 +530,9 @@ export const userProfileService = {
       try {
         const response = await educationRepository.delete(id)
         setEducationList(response)
-        showInfo('Education deleted')
+        showInfo('Deleted!')
       } catch (error) {
-        if (error?.response?.data?.details) {
-          showError(error.response.data.details)
-        }
+        console.log(error)
       }
     }, [])
 
@@ -685,7 +647,6 @@ export const userProfileService = {
 
     const handleItemIdChange = (id: number) => {
       setItemId(id)
-      //alert(id);
     }
 
     const handleCreatExperience = React.useCallback(async () => {
@@ -698,11 +659,9 @@ export const userProfileService = {
           description,
         )
         setExperienceList(response)
-        showInfo('Experience created')
+        showInfo('Created!')
       } catch (error) {
-        if (error?.response?.data?.details) {
-          showError(error.response.data.details)
-        }
+        console.log(error)
       }
     }, [
       companyName,
@@ -716,11 +675,9 @@ export const userProfileService = {
       try {
         const response = await experienceRepository.delete(id)
         setExperienceList(response)
-        showInfo('Experience deleted')
+        showInfo('Deleted!')
       } catch (error) {
-        if (error?.response?.data?.details) {
-          showError(error.response.data.details)
-        }
+        console.log(error)
       }
     }, [])
 
@@ -728,11 +685,8 @@ export const userProfileService = {
       try {
         const response = await experienceRepository.get(Number(accountId))
         setExperienceList(response)
-        // showInfo("got experience list");
       } catch (error) {
-        if (error?.response?.data) {
-          showError('experience error')
-        }
+        console.log(error)
       }
     }, [accountId])
 
@@ -743,9 +697,6 @@ export const userProfileService = {
       [],
     )
 
-    // React.useEffect(() => {
-    //   getExperience()
-    // }, [getExperience])
     return [
       companyName,
       handleCompanyNameChange,

@@ -308,13 +308,6 @@ export function ProfileEditUserScreen({ route, navigation }) {
     getSkillTagByQuery,
   ] = tagService.useSkillTag()
 
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-  // OR
-  // const rootStore = useStores()
-
-  // Pull in navigation via hook
-  //   const navigation = useNavigation()
   const { userData, skillData, educationData, experienceData } = route.params
   const [selectedItems, setSelectedItems] = useState([])
   const [educationModalVisible, setEducationModalVisible] = useState(false)
@@ -327,7 +320,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
   }
 
   const renderDetail = (rowData, sectionID, rowID) => {
-    let title = <Text style={styles.title}>{rowData.title}</Text>
+    const title = <Text style={styles.title}>{rowData.title}</Text>
 
     return (
       <View style={{ flex: 1 }}>
@@ -387,7 +380,32 @@ export function ProfileEditUserScreen({ route, navigation }) {
     handleOldPhoneChange(userData.phoneList[0])
     handleEmailChange(userData.emailList[0])
     handleOldEmailChange(userData.emailList[0])
-  }, [null])
+  }, [
+    educationData,
+    experienceData,
+    getAllSkillTag,
+    handleDateOfBirthChange,
+    handleDeleteEducation,
+    handleEducationChange,
+    handleEmailChange,
+    handleExperienceChange,
+    handleFirstNameChange,
+    handleGenderChange,
+    handleLastNameChange,
+    handleOldEmailChange,
+    handleOldPhoneChange,
+    handlePhoneChange,
+    handleSkillListChange,
+    handleUserDescriptionChange,
+    skillData,
+    userData.dateOfBirth,
+    userData.description,
+    userData.emailList,
+    userData.firstName,
+    userData.gender,
+    userData.lastName,
+    userData.phoneList,
+  ])
 
   useEffect(() => {
     if (educationList && educationList.length > 0) {
@@ -416,7 +434,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
         }),
       )
     }
-  }, [educationList])
+  }, [educationList, handleDeleteEducation])
 
   useEffect(() => {
     setDataMultiSelected([
@@ -429,16 +447,16 @@ export function ProfileEditUserScreen({ route, navigation }) {
       },
     ])
 
-    skillTag
-      ? setSelectedItems(skillData.map((item) => skillTag.indexOf(item)))
-      : ''
-  }, [skillTag])
+    if (skillTag && skillData) {
+      setSelectedItems(skillData.map((item) => skillTag.indexOf(item)))
+    }
+  }, [skillTag, skillData])
 
   useEffect(() => {
-    skillTag
-      ? setSelectedItems(skillList.map((item) => skillTag.indexOf(item)))
-      : ''
-  }, [skillList])
+    if (skillTag && skillList) {
+      setSelectedItems(skillList.map((item) => skillTag.indexOf(item)))
+    }
+  }, [skillList, skillTag])
 
   return (
     <Screen style={ROOT} preset='scroll'>
@@ -451,7 +469,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
             transparent
             onPress={() => {
               handleEditProfileSubmit()
-              //navigation.goBack();
+              navigation.goBack()
             }}
           >
             <Text style={{ color: color.brandPrimary }}>Save</Text>
@@ -576,10 +594,8 @@ export function ProfileEditUserScreen({ route, navigation }) {
                   customChipsRenderer={(chipProperties) => {
                     return (
                       <FlatList
-                        // horizontal={true}
                         contentContainerStyle={{
                           flexDirection: 'column',
-                          // flexWrap: 'wrap',
                         }}
                         numColumns={3}
                         data={chipProperties.selectedItems}
@@ -596,21 +612,16 @@ export function ProfileEditUserScreen({ route, navigation }) {
                             >
                               <View
                                 style={{
-                                  // overflow: 'hidden',
                                   justifyContent: 'center',
-                                  // height: 34,
                                   flexDirection: 'row',
                                   padding: 5,
                                   margin: 3,
-                                  // paddingTop: 0,
-                                  // paddingBottom: 0,
                                   borderRadius: 20,
                                   backgroundColor: color['color-primary-500'],
                                 }}
                               >
                                 <View
                                   style={{
-                                    // marginRight: 5,
                                     flexDirection: 'row',
                                     alignItems: 'center',
                                   }}
@@ -648,9 +659,6 @@ export function ProfileEditUserScreen({ route, navigation }) {
             <CardItem header>
               <Text style={{ fontWeight: '700', fontSize: 20 }}>Education</Text>
               <View style={{ flexGrow: 1, flexDirection: 'row-reverse' }}>
-                {/* <Button rounded info onPress={() => { setEducationModalVisible(true) }}>
-									<Icon name='add-outline' />
-								</Button> */}
                 <TouchableOpacity
                   onPress={() => {
                     setEducationModalVisible(true)
@@ -669,12 +677,8 @@ export function ProfileEditUserScreen({ route, navigation }) {
             </CardItem>
             <CardItem>
               <Timeline
-                // circleSize={35}
-                // timeContainerStyle={{minWidth:52, marginTop: -5}}
                 renderCircle={(rowData, sectionID, rowID) => {}}
                 data={educationListRender}
-                renderDetail={renderDetail}
-                // columnFormat='single-column-right'
                 timeStyle={{
                   backgroundColor: color['color-info-500'],
                   color: 'white',
@@ -684,14 +688,12 @@ export function ProfileEditUserScreen({ route, navigation }) {
                   marginLeft: 16,
                 }}
               ></Timeline>
-              {/* <Mytimeline></Mytimeline> */}
             </CardItem>
 
             <Modal
               animationType='slide'
               transparent={true}
               visible={educationModalVisible}
-              //presentationStyle='formSheet'
             >
               <KeyboardAvoidingView behavior='position' enabled>
                 <ScrollView
@@ -796,9 +798,6 @@ export function ProfileEditUserScreen({ route, navigation }) {
                 Experience
               </Text>
               <View style={{ flexGrow: 1, flexDirection: 'row-reverse' }}>
-                {/* <Button rounded info onPress={() => { setExperienceModalVisible(true) }}>
-									<Icon name='add-outline' />
-								</Button> */}
                 <TouchableOpacity
                   onPress={() => {
                     setExperienceModalVisible(true)
@@ -826,7 +825,6 @@ export function ProfileEditUserScreen({ route, navigation }) {
               animationType='slide'
               transparent={true}
               visible={experienceModalVisible}
-              //presentationStyle='formSheet'
             >
               <KeyboardAvoidingView behavior='position' enabled>
                 <ScrollView

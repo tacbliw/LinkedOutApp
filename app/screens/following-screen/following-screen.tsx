@@ -1,5 +1,12 @@
-import { Card, CardItem, Header, Icon, Left, Text, Thumbnail, View } from 'native-base'
-import { FlatList, ScrollView, TouchableOpacity, useWindowDimensions } from 'react-native'
+import { Card, CardItem, Header, Icon, Left, Text, View } from 'native-base'
+import {
+  FlatList,
+  LogBox,
+  ScrollView,
+  TouchableOpacity,
+  useWindowDimensions,
+} from 'react-native'
+import FastImage from 'react-native-fast-image'
 import React from 'reactn'
 import { Screen } from '../../components'
 import { toBackendUrl } from '../../helpers/string-helper'
@@ -9,47 +16,69 @@ import { color } from '../../theme/color'
 import { styles } from './styles'
 
 export const FollowingScreen = function FollowingScreen(navigation) {
+  const followingWidth = useWindowDimensions().width / 2 - 50
+  const followingMaxHeight = useWindowDimensions().height / 3
 
-  const following_width = useWindowDimensions().width/2 - 50;
-  const following_max_height = useWindowDimensions().height/3;
+  LogBox.ignoreLogs(['VirtualizedLists should never be nested'])
 
   const EmptyCard = () => {
     return (
-      // <Card transparent style={{width: following_width, minHeight: 400, marginLeft: 15, marginRight: 15}}>
-      // <CardItem style={styles.cardBody}>
-        <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-          <Icon name="body"></Icon>
-          <Text> Wow, such empty </Text>
-          <Icon name="body"></Icon>
-        </View>
-      // </CardItem>
-    // </Card>
+      <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+        <Icon name='body'></Icon>
+        <Text> Wow, such empty </Text>
+        <Icon name='body'></Icon>
+      </View>
     )
   }
 
-  const renderItem = ({ item } : {item: UserFollowedObject}) => {
-    console.log(toBackendUrl(item.profilePicture));
+  const renderItem = ({ item }: { item: UserFollowedObject }) => {
     return (
-      <Card transparent style={{width: following_width, maxHeight: following_max_height, marginLeft: 15, marginRight: 15}}>
+      <Card
+        transparent
+        style={{
+          width: followingWidth,
+          maxHeight: followingMaxHeight,
+          marginLeft: 15,
+          marginRight: 15,
+        }}
+      >
         <CardItem header style={styles.cardHeader}>
-          {/* <Thumbnail ></Thumbnail> */}
-          {/* <FastImage source={{uri: toBackendUrl(item.profilePicture)}} style={{width: 60}}></FastImage> */}
-          <Thumbnail source={{ uri: toBackendUrl(item.profilePicture) }}></Thumbnail>
+          <FastImage
+            source={{ uri: toBackendUrl(item.profilePicture) }}
+            style={{ width: 60, height: 60, borderRadius: 10 }}
+          ></FastImage>
         </CardItem>
         <CardItem style={styles.cardBody}>
           <View>
-            <Text style={{fontWeight: 'bold'}}>{item.firstname + " " + item.lastname}</Text>
+            <Text style={{ fontWeight: 'bold' }}>
+              {item.firstname + ' ' + item.lastname}
+            </Text>
             {/* <Text>{item.description}</Text> */}
           </View>
         </CardItem>
 
         <CardItem style={styles.cardFooter} footer>
-          <View style={{flexGrow: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-            <Text>{item.followedCount} followers</Text>
-            <TouchableOpacity onPress={() => { 
-              deleteFollow(item.id);
-              }}>
-              <Icon style={{color: color['color-danger-500'] }} name="leaf"></Icon>
+          <View
+            style={{
+              flexGrow: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <Text>
+              {item.followedCount}{' '}
+              {item.followedCount > 1 ? 'followers' : 'follower'}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                deleteFollow(item.id)
+              }}
+            >
+              <Icon
+                style={{ color: color['color-danger-500'] }}
+                name='leaf'
+              ></Icon>
             </TouchableOpacity>
           </View>
         </CardItem>
@@ -58,11 +87,11 @@ export const FollowingScreen = function FollowingScreen(navigation) {
   }
 
   const [
-    users, 
-    refreshing, 
+    users,
+    refreshing,
     handleLoadNew,
     handleItemPress,
-    deleteFollow
+    deleteFollow,
   ] = followService.useUserFollowed()
 
   // const [users, setUsers] = React.useState<UserFollowedResponse>([])
@@ -70,36 +99,25 @@ export const FollowingScreen = function FollowingScreen(navigation) {
   return (
     <Screen style={styles.container}>
       <ScrollView>
-      {/* <Header transparent> */}
-      {/* <Left style={{ flexGrow: 1 }}>
-        <Text style={{ fontSize: 32, fontWeight: '700' }}>Notifications</Text>
-      </Left>
-      <Right></Right> */}
-      <Header transparent>
-        <Left style={{ flexGrow: 1 }}>
-          <Text style={styles.header}>Following</Text>
-        </Left>
-      </Header>
+        <Header transparent>
+          <Left style={{ flexGrow: 1 }}>
+            <Text style={styles.header}>Following</Text>
+          </Left>
+        </Header>
 
-      {/* </Header> */}
-      <FlatList
-        contentContainerStyle={{
-          flexDirection: 'column',
-          // flexWrap: 'wrap',
-          // justifyContent: 'center',
-          // alignItems: '',
-          // alignContent: 'center',
-          // alignItems: 'stretch',
-          marginTop: 36,
-          marginBottom: 36,
-          marginLeft: 16
-        }}
-        numColumns={2}
-        data={users}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-        ListEmptyComponent={() => EmptyCard()}
-      ></FlatList>
+        <FlatList
+          contentContainerStyle={{
+            flexDirection: 'column',
+            marginTop: 10,
+            marginBottom: 36,
+            marginLeft: 16,
+          }}
+          numColumns={2}
+          data={users}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id.toString()}
+          ListEmptyComponent={() => EmptyCard()}
+        ></FlatList>
       </ScrollView>
     </Screen>
   )

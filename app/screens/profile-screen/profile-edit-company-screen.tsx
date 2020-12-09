@@ -11,6 +11,7 @@ import {
 } from 'native-base'
 import React, { useEffect, useState } from 'react'
 import {
+  FlatList,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -152,7 +153,13 @@ export function ProfileEditCompanyScreen({ route, navigation }) {
           <Button transparent onPress={() => navigation.goBack()}>
             <Icon style={styles.backIcon} name='close-outline' />
           </Button>
-          <Button transparent onPress={handleEditProfileSubmit}>
+          <Button
+            transparent
+            onPress={() => {
+              handleEditProfileSubmit()
+              navigation.goBack()
+            }}
+          >
             <Text style={{ color: color.brandPrimary }}>Save</Text>
           </Button>
         </Header>
@@ -206,12 +213,80 @@ export function ProfileEditCompanyScreen({ route, navigation }) {
                   readOnlyHeadings={true}
                   onSelectedItemsChange={onSelectedItemsChange}
                   selectedItems={selectedItems}
+                  colors={{ primary: color['color-primary-500'] }}
                   showCancelButton={true}
                   onConfirm={() => {
                     handleSpecialtiesChange(
                       selectedItems.map((item) =>
                         specialtyTag[item].toString(),
                       ),
+                    )
+                  }}
+                  customChipsRenderer={(chipProperties) => {
+                    return (
+                      <FlatList
+                        // horizontal={true}
+                        contentContainerStyle={{
+                          flexDirection: 'column',
+                          // flexWrap: 'wrap',
+                        }}
+                        numColumns={3}
+                        data={chipProperties.selectedItems}
+                        scrollEnabled={false}
+                        keyExtractor={(item) => item.toString()}
+                        renderItem={({ item }) => {
+                          return (
+                            <View
+                              style={{
+                                flexWrap: 'wrap',
+                                alignItems: 'center',
+                                flexDirection: 'row',
+                              }}
+                            >
+                              <View
+                                style={{
+                                  // overflow: 'hidden',
+                                  justifyContent: 'center',
+                                  // height: 34,
+                                  flexDirection: 'row',
+                                  padding: 5,
+                                  margin: 3,
+                                  // paddingTop: 0,
+                                  // paddingBottom: 0,
+                                  borderRadius: 20,
+                                  backgroundColor: color['color-primary-500'],
+                                }}
+                              >
+                                <View
+                                  style={{
+                                    // marginRight: 5,
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                  }}
+                                >
+                                  <Item style={{ borderBottomWidth: 0 }}>
+                                    <Text style={{ color: 'white' }}>
+                                      {specialtyTag[item]}
+                                    </Text>
+                                  </Item>
+                                  {/* <Item style={{ borderBottomWidth: 0 }}>
+                                    <Icon
+                                      onPress={() =>
+                                        handleDeleteSkill(skillTag[item])
+                                      }
+                                      style={{
+                                        color: color['color-danger-700'],
+                                        marginLeft: 2,
+                                      }}
+                                      name='close-circle'
+                                    />
+                                  </Item> */}
+                                </View>
+                              </View>
+                            </View>
+                          )
+                        }}
+                      ></FlatList>
                     )
                   }}
                 />

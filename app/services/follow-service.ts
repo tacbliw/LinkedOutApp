@@ -1,15 +1,21 @@
 import { useNavigation } from '@react-navigation/native'
-import React from 'reactn'
+import React, { useCallback } from 'reactn'
 import { GlobalState } from '../config/global'
 import { showError, showInfo } from '../helpers/toast'
 import {
   CompanyFollowedResponse,
   followRepository,
-  UserFollowedResponse
+  UserFollowedResponse,
 } from '../repositories/follow-repository'
 
 export const followService = {
-  useUserFollowed(): [UserFollowedResponse, boolean, () => void, () => void, (id: number) => void] {
+  useUserFollowed(): [
+    UserFollowedResponse,
+    boolean,
+    () => void,
+    () => void,
+    (id: number) => void,
+  ] {
     const navigation = useNavigation()
     const { accountId } = React.getGlobal<GlobalState>()
 
@@ -30,18 +36,21 @@ export const followService = {
       setRefreshing(false)
     }, [accountId])
 
-    const deleteFollow = React.useCallback(async (id: number) => {
-      try {
-        const response = await followRepository.delete(id)
-        handleLoadNew();
-        showInfo('Unfollow successfully')
-      } catch (error) {
-        showError('Error occured while delete following')
-        console.log(error)
-      }
-    }, [null])
+    const deleteFollow = React.useCallback(
+      async (id: number) => {
+        try {
+          const response = await followRepository.delete(id)
+          handleLoadNew()
+          showInfo('Unfollowed!')
+        } catch (error) {
+          showError('Error occured while delete following')
+          console.log(error)
+        }
+      },
+      [null],
+    )
 
-    const handleItemPress = React.useCallback(() => { }, [])
+    const handleItemPress = React.useCallback(() => {}, [])
 
     React.useEffect(() => {
       handleLoadNew()
@@ -72,7 +81,7 @@ export const followService = {
     return [companies]
   },
 
-  useFollowerCount(accountId: number): [number] {
+  useFollowerCount(accountId: number): [number, (num: number) => void] {
     const [count, setCount] = React.useState<number>(0)
 
     const countFollower = React.useCallback(async () => {
@@ -84,12 +93,19 @@ export const followService = {
         console.log(error)
       }
     }, [accountId])
+    const handleCountChange = useCallback(
+      (num: number) => {
+        setCount(count + num)
+        console.log('followinggggggggggg')
+      },
+      [count],
+    )
 
     React.useEffect(() => {
       countFollower()
     }, [countFollower])
 
-    return [count]
+    return [count, handleCountChange]
   },
 
   useFollowingCount(accountId: number): [number] {
@@ -110,5 +126,45 @@ export const followService = {
     }, [countFollower])
 
     return [count]
+  },
+
+  useFollow(accountId: number): [boolean, () => void, () => void] {
+    const [checkFollowed, setCheckFollowed] = React.useState<boolean>(true)
+
+    const getCheckFollow = React.useCallback(async () => {
+      try {
+        const response = await followRepository.check(accountId)
+        setCheckFollowed(response.followed)
+      } catch (error) {
+        showError('Error while checking follow')
+        console.log(error)
+      }
+    }, [accountId])
+
+    React.useEffect(() => {
+      getCheckFollow()
+    }, [getCheckFollow])
+
+    const doFollow = React.useCallback(async () => {
+      try {
+        const response = await followRepository.create(accountId)
+        setCheckFollowed(response.followed)
+      } catch (error) {
+        showError('Error while creating follow')
+        console.log(error)
+      }
+    }, [accountId])
+
+    const doUnFollow = React.useCallback(async () => {
+      try {
+        const response = await followRepository.delete(accountId)
+        setCheckFollowed(response.followed)
+      } catch (error) {
+        showError('Error while deleting follow')
+        console.log(error)
+      }
+    }, [accountId])
+
+    return [checkFollowed, doFollow, doUnFollow]
   },
 }

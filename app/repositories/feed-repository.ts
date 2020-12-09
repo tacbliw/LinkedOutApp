@@ -1,36 +1,37 @@
-import { AxiosResponse } from "axios"
-import { API_FEED_ROUTE } from "../config/api-const"
-import { API_BASE_URL } from "../config/consts"
-import { httpConfig } from "../config/http/config"
-import { Repository } from "./base-repository"
+import { AxiosResponse } from 'axios'
+import { API_FEED_ROUTE } from '../config/api-const'
+import { API_BASE_URL } from '../config/consts'
+import { httpConfig } from '../config/http/config'
+import { Repository } from './base-repository'
 
 export interface PostObject {
-  type: string;
-  id: number;
-  userFirstname: string;
-  userLastname: string;
-  userProfilePicture: string;
-  content: string;
-  publishedDate: number;
-  postPicture: string;
-  commentCount: number;
+  type: string
+  id: number
+  accountId: number
+  userFirstname: string
+  userLastname: string
+  userProfilePicture: string
+  content: string
+  publishedDate: number
+  postPicture: string
+  commentCount: number
 }
 
 export interface JobObject {
-  type: string;
-  id: number;
-  companyName: string;
-  accountId: number;
-  companyProfilePicture: string;
-  title: string;
-  description: string;
-  seniorityLevel: string;
-  employmentType: string;
-  recruimentUrl: string;
-  publishedDate: number;
-  jobPicture: string;
-  cities: string[];
-  skills: string[];
+  type: string
+  id: number
+  companyName: string
+  accountId: number
+  companyProfilePicture: string
+  title: string
+  description: string
+  seniorityLevel: string
+  employmentType: string
+  recruimentUrl: string
+  publishedDate: number
+  jobPicture: string
+  cities: string[]
+  skills: string[]
 }
 
 export interface FeedGetResponse extends Array<PostObject | JobObject> {}
@@ -44,12 +45,15 @@ export class FeedRepository extends Repository {
   }
 
   public async get(timestamp: number): Promise<FeedGetResponse> {
-    if (timestamp) { // only send with timestamp when it's not null
-      return this.http.get('get', {
-        params: {
-          t: timestamp
-        }
-      }).then((response: AxiosResponse) => response.data)
+    if (timestamp) {
+      // only send with timestamp when it's not null
+      return this.http
+        .get('get', {
+          params: {
+            t: timestamp,
+          },
+        })
+        .then((response: AxiosResponse) => response.data)
     }
     return this.http.get('get').then((response: AxiosResponse) => response.data)
   }

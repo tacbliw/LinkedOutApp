@@ -51,7 +51,9 @@ export const companyProfileService = {
     return [company]
   },
 
-  useGetCompany(): [
+  useGetCompany(
+    accountId: number,
+  ): [
     string,
     string,
     string,
@@ -66,9 +68,6 @@ export const companyProfileService = {
     const [profilePicture, setProfilePicture] = useState<string>('')
     const [specialties, setSpecialties] = useState<string[]>()
     const [description, setDescription] = useState<string>('')
-    const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>(
-      'accountId',
-    )
     const [job, setJob] = useState<Array<JobObject>>([])
     const getInfo = React.useCallback(async () => {
       try {
@@ -160,8 +159,9 @@ export const companyProfileService = {
     const handleEditProfileSubmit = React.useCallback(async () => {
       try {
         await companyRepository.update(name, website, specialties, description)
-        showInfo('edit profile submit')
+        showInfo('Saved!')
       } catch (error) {
+        console.log(error)
         if (error?.response?.data?.details) {
           showError(error.response.data.details)
         }

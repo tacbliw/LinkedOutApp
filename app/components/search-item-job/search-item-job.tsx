@@ -1,8 +1,9 @@
-import Moment from 'moment'
 import { Card, CardItem, Icon } from 'native-base'
 import * as React from 'react'
 import { TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
+import FastImage from 'react-native-fast-image'
 import { Text } from '../'
+import { toString } from '../../helpers/date-helper'
 import { toBackendUrl } from '../../helpers/string-helper'
 import { color, typography } from '../../theme'
 
@@ -63,7 +64,7 @@ export function SearchItemJob(props: SearchItemJobProps) {
                   {props.title}
                 </Text>
                 <Text style={{ color: color.brandLight }}>
-                  {Moment(props.publishedDate).fromNow()}
+                  {toString(props.publishedDate)}
                 </Text>
               </View>
               <View

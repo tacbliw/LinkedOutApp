@@ -1,7 +1,9 @@
+import { useNavigation } from '@react-navigation/native'
 import { Card, CardItem, Icon, Text, View } from 'native-base'
 import React from 'react'
 import { Dimensions, StyleSheet, TouchableOpacity } from 'react-native'
 import FastImage from 'react-native-fast-image'
+import { screens } from '../../config/screens'
 import { toString } from '../../helpers/date-helper'
 import { toBackendUrl } from '../../helpers/string-helper'
 import { PostObject } from '../../repositories/feed-repository'
@@ -102,6 +104,7 @@ const styles = StyleSheet.create({
 })
 
 export function Post(props: PostProps) {
+  const navigation = useNavigation()
   const [
     interestedCount,
     interested,
@@ -111,22 +114,30 @@ export function Post(props: PostProps) {
 
   return (
     <Card transparent style={{ borderWidth: 10 }}>
-      <CardItem header style={styles.topPost}>
-        <View style={{ flexDirection: 'row' }}>
-          <FastImage
-            style={styles.postUserAvatar}
-            source={{ uri: toBackendUrl(props.post.userProfilePicture) }}
-          />
-          <View style={{ marginLeft: 16 }}>
-            <Text
-              style={styles.postUsername}
-            >{`${props.post.userFirstname} ${props.post.userLastname}`}</Text>
-            <Text style={styles.postDate}>
-              {toString(props.post.publishedDate)}
-            </Text>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate(screens.authenticated.user.view.user, {
+            accountId: props.post.accountId,
+          })
+        }}
+      >
+        <CardItem header style={styles.topPost}>
+          <View style={{ flexDirection: 'row' }}>
+            <FastImage
+              style={styles.postUserAvatar}
+              source={{ uri: toBackendUrl(props.post.userProfilePicture) }}
+            />
+            <View style={{ marginLeft: 16 }}>
+              <Text
+                style={styles.postUsername}
+              >{`${props.post.userFirstname} ${props.post.userLastname}`}</Text>
+              <Text style={styles.postDate}>
+                {toString(props.post.publishedDate)}
+              </Text>
+            </View>
           </View>
-        </View>
-      </CardItem>
+        </CardItem>
+      </TouchableOpacity>
       <CardItem>
         <View>
           {props.post.content ? (

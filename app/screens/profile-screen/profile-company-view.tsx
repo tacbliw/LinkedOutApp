@@ -10,6 +10,7 @@ import {
 } from 'native-base'
 import {
   FlatList,
+  LogBox,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -19,8 +20,6 @@ import { PieChart } from 'react-native-chart-kit'
 import FastImage from 'react-native-fast-image'
 import React, { useEffect } from 'reactn'
 import { CardTopJob, Container, Screen, Tag } from '../../components'
-import { GlobalState } from '../../config/global'
-import { screens } from '../../config/screens'
 import { toBackendUrl } from '../../helpers/string-helper'
 import { companyProfileService } from '../../services/company-profile-service'
 import { followService } from '../../services/follow-service'
@@ -82,12 +81,10 @@ const chartConfig = {
 
 const styles = StyleSheet.create({
   profileHeader: {
-    // height: 250,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: color['color-gray-200'],
-    // backgroundColor: color.backgroundColor,
   },
 
   backIcon: {
@@ -101,7 +98,6 @@ const styles = StyleSheet.create({
   },
 
   topInfo: {
-    // marginLeft: 16
     padding: 16,
     marginLeft: 16,
   },
@@ -151,8 +147,9 @@ const styles = StyleSheet.create({
   },
 })
 
-export function ProfileCompanyScreen({ navigation }) {
-  const accountId = parseInt(React.getGlobal<GlobalState>().accountId)
+export function ProfileCompanyViewScreen({ route, navigation }) {
+  LogBox.ignoreLogs(['VirtualizedList'])
+  const { accountId } = route.params
   const [
     name,
     website,
@@ -164,7 +161,13 @@ export function ProfileCompanyScreen({ navigation }) {
     getCompanyJob,
   ] = companyProfileService.useGetCompany(accountId)
 
-  const [followerCount] = followService.useFollowerCount(accountId)
+  const [checkFollowed, doFollow, doUnFollow] = followService.useFollow(
+    accountId,
+  )
+
+  const [followerCount, handleCountChange] = followService.useFollowerCount(
+    accountId,
+  )
 
   useEffect(() => {
     // Subscribe for the focus Listener
@@ -198,29 +201,8 @@ export function ProfileCompanyScreen({ navigation }) {
     <Screen style={ROOT} preset='scroll'>
       <ScrollView>
         <Header noShadow transparent={true} style={styles.profileHeader}>
-          <Button
-            transparent
-            onPress={() => {
-              navigation.navigate(screens.authenticated.company.home)
-            }}
-          >
+          <Button transparent onPress={() => navigation.goBack()}>
             <Icon style={styles.backIcon} name='arrow-back-outline' />
-          </Button>
-          <Button
-            transparent
-            onPress={() =>
-              navigation.navigate(screens.authenticated.company.editprofile, {
-                companyData: {
-                  name: name,
-                  website: website,
-                  profilePicture: profilePicture,
-                  specialties: specialties,
-                  description: description,
-                },
-              })
-            }
-          >
-            <Icon style={styles.menuIcon} name='create-outline' />
           </Button>
         </Header>
 
@@ -255,6 +237,77 @@ export function ProfileCompanyScreen({ navigation }) {
                   </View>
                 </View>
               </View>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                flex: 1,
+                marginRight: 10,
+              }}
+            >
+              <TouchableOpacity style={{ flexGrow: 8 / 10 }}>
+                {checkFollowed ? (
+                  <Button
+                    transparent
+                    full
+                    rounded
+                    style={{
+                      alignSelf: 'center',
+                      borderWidth: 1,
+                      borderColor: color.brandPrimary,
+                    }}
+                    onPress={() => {
+                      doUnFollow()
+                      handleCountChange(-1)
+                    }}
+                  >
+                    <Icon
+                      name='checkmark-outline'
+                      style={{ color: color.brandPrimary }}
+                    />
+                    <Text style={{ color: color.brandPrimary }}>Following</Text>
+                  </Button>
+                ) : (
+                  <Button
+                    transparent
+                    full
+                    rounded
+                    style={{
+                      backgroundColor: color.brandPrimary,
+                      alignSelf: 'center',
+                    }}
+                    onPress={() => {
+                      doFollow()
+                      handleCountChange(1)
+                    }}
+                  >
+                    <Icon name='add-outline' style={{ color: 'white' }} />
+                    <Text style={{ color: 'white' }}>Follow</Text>
+                  </Button>
+                )}
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Button
+                  transparent
+                  full
+                  rounded
+                  style={{
+                    alignSelf: 'center',
+                    borderWidth: 1,
+                    borderColor: color.brandPrimary,
+                  }}
+                  onPress={() => {
+                    navigation.navigate('room', {
+                      id: accountId,
+                      name: name,
+                      profilePicture: toBackendUrl(profilePicture),
+                    })
+                  }}
+                >
+                  <Text style={{ color: color.brandPrimary }}>Contact Now</Text>
+                </Button>
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -308,19 +361,8 @@ export function ProfileCompanyScreen({ navigation }) {
               style={[styles.cardHeader, { justifyContent: 'space-between' }]}
             >
               <Text style={{ fontWeight: '700', fontSize: 20 }}>
-                Latest jobs
+                Lastest job
               </Text>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate(screens.authenticated.company.jobcreate)
-                }
-              >
-                <Text
-                  style={{ color: color['color-info-500'], fontWeight: 'bold' }}
-                >
-                  Add
-                </Text>
-              </TouchableOpacity>
             </CardItem>
             <CardItem style={styles.cardEnd}>
               <Body>

@@ -120,7 +120,11 @@ export const feedService = {
       navigation.navigate(screens.authenticated.user.newsfeed.write)
     }, [navigation])
 
-    const handleJobPress = React.useCallback((job: JobObject) => {}, [])
+    const handleJobPress = React.useCallback((job: JobObject) => {
+      navigation.navigate(screens.authenticated.user.view.company, {
+        accountId: job.accountId,
+      })
+    }, [])
 
     const handleLoadOld = React.useCallback(async () => {
       setRefreshing(true)
