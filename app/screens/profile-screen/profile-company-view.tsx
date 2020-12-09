@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
 })
 
 export function ProfileCompanyViewScreen({ route, navigation }) {
-  LogBox.ignoreLogs(['VirtualizedList'])
+  LogBox.ignoreAllLogs()
   const { accountId } = route.params
   const [
     name,

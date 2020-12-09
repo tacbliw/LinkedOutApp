@@ -10,6 +10,7 @@ import {
 } from 'native-base'
 import {
   FlatList,
+  LogBox,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -152,6 +153,7 @@ const styles = StyleSheet.create({
 })
 
 export function ProfileCompanyScreen({ navigation }) {
+  LogBox.ignoreAllLogs()
   const accountId = parseInt(React.getGlobal<GlobalState>().accountId)
   const [
     name,

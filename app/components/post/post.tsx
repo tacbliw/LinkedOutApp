@@ -115,7 +115,7 @@ export function Post(props: PostProps) {
   ] = postService.usePost(props.post)
 
   return (
-    <Card transparent style={{ borderWidth: 10 }}>
+    <Card transparent>
       <TouchableOpacity
         onPress={() => {
           if (props.post.accountId === accountId) {
