@@ -13,6 +13,7 @@ export const notificationService = {
     boolean,
     () => void,
     () => void,
+    () => void,
     (item: NotificationListResponse) => void,
   ] {
     const navigation = useNavigation()
@@ -54,6 +55,16 @@ export const notificationService = {
       setRefreshing(false)
     }, [])
 
+    const handleLoadNewWithoutEffect = React.useCallback(async () => {
+      try {
+        const response = await notificationRepository.list(0)
+        setNotificationList(response)
+      } catch (error) {
+        showError('Error occured while loading notifications')
+        console.log(error)
+      }
+    }, [])
+
     const handleFeedOpen = React.useCallback(
       (item: NotificationListResponse) => {
         if (
@@ -87,6 +98,7 @@ export const notificationService = {
       refreshing,
       handleLoadNew,
       handleLoadOld,
+      handleLoadNewWithoutEffect,
       handleFeedOpen,
     ]
   },

@@ -3,9 +3,9 @@ import { Badge, Button, Icon, Text } from 'native-base'
 import React from 'react'
 import { View } from 'react-native'
 import { screens } from '../config/screens'
+import { SearchScreen } from '../screens'
 import { color } from '../theme'
 import { ChatNavigator } from './chat-navigator'
-import { NewsfeedNavigator } from './newsfeed-navigator'
 
 const Tabs = createBottomTabNavigator()
 
@@ -14,6 +14,7 @@ function MyTabBar({ state, descriptors, navigation }) {
 
   const mapIcon = {}
   mapIcon[screens.authenticated.company.jobs] = 'home'
+  mapIcon[screens.authenticated.company.search] = 'search'
   mapIcon[screens.authenticated.company.messages] = 'mail'
 
   if (focusedOptions.tabBarVisible === false) {
@@ -94,13 +95,17 @@ export function CompanyHomeNavigator() {
   return (
     <>
       <Tabs.Navigator tabBar={(props) => <MyTabBar {...props} />}>
-        <Tabs.Screen
+        {/* <Tabs.Screen
           name={screens.authenticated.company.jobs}
           component={NewsfeedNavigator}
-        />
+        /> */}
         <Tabs.Screen
           name={screens.authenticated.company.messages}
           component={ChatNavigator}
+        />
+        <Tabs.Screen
+          name={screens.authenticated.company.search}
+          component={SearchScreen}
         />
       </Tabs.Navigator>
     </>

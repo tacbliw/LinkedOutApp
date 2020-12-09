@@ -1,5 +1,6 @@
 import { Container, Icon, Left, List, ListItem, Text } from 'native-base'
-import { Image, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
+import FastImage from 'react-native-fast-image'
 import React from 'reactn'
 import { GlobalState } from '../../config/global'
 import { screens } from '../../config/screens'
@@ -62,6 +63,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   userName: {
+    marginTop: 20,
     color: '#FFFFFF',
     fontSize: 24,
   },
@@ -89,8 +91,6 @@ export function Sidebar({ state, descriptors, navigation }) {
   mapName[screens.authenticated.user.following] = 'Following'
   mapName[screens.authenticated.user.settings] = 'Settings'
 
-  // remove the option to go to Home screen
-  // const { state, descriptors, navigation, ...rest } = props
   const newState = { ...state }
 
   newState.routes = newState.routes.filter(
@@ -105,22 +105,12 @@ export function Sidebar({ state, descriptors, navigation }) {
   return (
     <Container style={styles.container}>
       <View style={styles.basicInfo}>
-        <Image
+        <FastImage
           style={styles.avatar}
           resizeMode='cover'
           source={{ uri: toBackendUrl(profilePicture) }}
-        ></Image>
+        />
         <Text style={styles.userName}>{firstName + ' ' + lastName}</Text>
-        {/* <View style={styles.followInfoContainer}>
-          <View style={styles.followingContainter}>
-            <Text style={styles.following}>1 </Text>
-            <Text style={{ color: color.brandLight }}>Following</Text>
-          </View>
-          <View style={styles.followerContainer}>
-            <Text style={styles.follower}>215 </Text>
-            <Text style={{ color: color.brandLight }}>Followers</Text>
-          </View>
-        </View> */}
       </View>
       <List
         style={styles.routeList}

@@ -28,7 +28,7 @@ export function PrimaryCompanyNavigator() {
       />
       <Drawer.Screen
         name={screens.authenticated.company.home}
-        component={CompanyHomeNavigator} // temporarily set to user's home
+        component={CompanyHomeNavigator}
       />
     </Drawer.Navigator>
   )

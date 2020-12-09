@@ -1,4 +1,4 @@
-import { Form, Icon, Input, Item } from 'native-base'
+import { Form, Icon, Input, Item, Thumbnail } from 'native-base'
 import React from 'react'
 import {
   Dimensions,
@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   useWindowDimensions,
   View,
-  ViewStyle
+  ViewStyle,
 } from 'react-native'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
@@ -37,6 +37,17 @@ export const LoginScreen = function LoginScreen({ navigation }) {
 
   return (
     <Screen style={ROOT} preset='scroll'>
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Thumbnail
+          source={require('./logo-white.png')}
+          style={styles.logoThumbnail}
+        />
+      </View>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
@@ -47,7 +58,11 @@ export const LoginScreen = function LoginScreen({ navigation }) {
           >
             <Item style={styles.textInput}>
               <Icon style={styles.textInputIcon} name='person' />
-              <Input placeholder="Username" onChange={handleUsernameChange} returnKeyType="next"/>
+              <Input
+                placeholder='Username'
+                onChange={handleUsernameChange}
+                returnKeyType='next'
+              />
             </Item>
 
             <Item style={styles.textInput}>
@@ -155,13 +170,18 @@ const styles = StyleSheet.create({
   },
   loginTextButton: {
     alignSelf: 'center',
-    color: '#FFFFFF',
+    color: color.palette.white,
     fontSize: 23,
+  },
+  logoThumbnail: {
+    marginTop: 50,
+    resizeMode: 'contain',
+    width: 300,
   },
   orSignInWith: {
     alignSelf: 'center',
     color: color['color-primary-500'],
-    marginTop: width * 0.15,
+    marginTop: width * 0.1,
   },
   rect: {
     alignItems: 'center',
@@ -169,7 +189,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 44,
     borderTopRightRadius: 44,
     height: height * 0.75,
-    marginTop: height * 0.2,
+    marginTop: height * 0.1,
     shadowOpacity: 10,
     shadowRadius: 10,
     width: width,

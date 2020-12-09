@@ -403,7 +403,7 @@ export const userProfileService = {
       }
     }, [])
 
-    const handleSkillListChange = React.useCallback(async () => {
+    const handleSkillListChange = React.useCallback(async (t_skillList: []) => {
       setSkillList(t_skillList)
     }, [])
 
@@ -522,9 +522,12 @@ export const userProfileService = {
       }
     }, [accountId])
 
-    const handleEducationChange = React.useCallback(async () => {
-      setEducationList(t_educationList)
-    }, [])
+    const handleEducationChange = React.useCallback(
+      async (t_educationList: []) => {
+        setEducationList(t_educationList)
+      },
+      [],
+    )
 
     const handleDeleteEducation = useCallback(async (id: number) => {
       try {

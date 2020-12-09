@@ -461,7 +461,12 @@ export function ProfileEditUserScreen({ route, navigation }) {
   return (
     <Screen style={ROOT} preset='scroll'>
       <ScrollView>
-        <Header noShadow transparent={true} style={styles.profileHeader}>
+        <Header
+          noShadow
+          transparent={true}
+          style={styles.profileHeader}
+          androidStatusBarColor={color.brandPrimary}
+        >
           <Button transparent onPress={() => navigation.goBack()}>
             <Icon style={styles.backIcon} name='close-outline' />
           </Button>
