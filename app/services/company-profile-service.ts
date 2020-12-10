@@ -68,8 +68,12 @@ export const companyProfileService = {
     const [profilePicture, setProfilePicture] = useState<string>('')
     const [specialties, setSpecialties] = useState<string[]>()
     const [description, setDescription] = useState<string>('')
+<<<<<<< Updated upstream
     const [job, setJob] = useState<Array<JobObject>>([])
     
+=======
+    const [job, setJob] = useState<JobObject[]>([])
+>>>>>>> Stashed changes
     const getInfo = React.useCallback(async () => {
       try {
         const response = await companyRepository.get(Number(accountId))
@@ -88,9 +92,7 @@ export const companyProfileService = {
     const getCompanyJob = React.useCallback(async () => {
       try {
         const response = await jobRepository.list(Number(accountId))
-        if (response.length > 3) {
-          setJob(response.reverse().slice(0, 3))
-        } else setJob(response.reverse())
+        setJob(response.reverse())
       } catch (error) {
         showError(error.response.data.detail)
       }
