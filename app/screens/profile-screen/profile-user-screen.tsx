@@ -53,12 +53,10 @@ const styles = StyleSheet.create({
   },
 
   profileHeader: {
-    // height: 250,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#f6f5fb',
-    // backgroundColor: color.backgroundColor,
   },
 
   avatarUser: {
@@ -71,7 +69,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: '700',
     left: 5,
-    // color: "#FFFFFF"
   },
 
   about: {
@@ -94,7 +91,6 @@ const styles = StyleSheet.create({
   },
 
   topInfo: {
-    // marginLeft: 16
     paddingHorizontal: 16,
     marginLeft: 16,
   },
@@ -135,9 +131,13 @@ export function ProfileUserScreen({ navigation }) {
 
   const [emailList, getMail] = userProfileService.useGetMail(accountId)
 
-  const [educationList] = userProfileService.useGetEducation(accountId)
+  const [educationList, getExperience] = userProfileService.useGetEducation(
+    accountId,
+  )
 
-  const [experienceList] = userProfileService.useGetExperience(accountId)
+  const [experienceList, getEducation] = userProfileService.useGetExperience(
+    accountId,
+  )
 
   const [skillList, getSkill] = userProfileService.useGetSkill(accountId)
 
@@ -172,10 +172,20 @@ export function ProfileUserScreen({ navigation }) {
       getPhone()
       getMail()
       getSkill()
+      getExperience()
+      getEducation()
     })
 
     return unsubscribe
-  }, [navigation])
+  }, [
+    getEducation,
+    getExperience,
+    getInfo,
+    getMail,
+    getPhone,
+    getSkill,
+    navigation,
+  ])
 
   useEffect(() => {
     if (educationList && educationList.length > 0) {
@@ -201,7 +211,12 @@ export function ProfileUserScreen({ navigation }) {
   return (
     <Screen style={ROOT} preset='scroll'>
       <ScrollView>
-        <Header noShadow transparent={true} style={styles.profileHeader}>
+        <Header
+          noShadow
+          transparent={true}
+          style={styles.profileHeader}
+          androidStatusBarColor={color.brandPrimary}
+        >
           <Button
             transparent
             onPress={() =>
@@ -262,11 +277,15 @@ export function ProfileUserScreen({ navigation }) {
             </Col>
             <Col style={styles.socialStatisticContainter}>
               <Text style={styles.follower}>{followerCount}</Text>
-              <Text style={{ color: color.brandLight }}>Followers</Text>
+              <Text style={{ color: color.brandLight }}>
+                {followerCount > 1 ? 'Followers' : 'Follower'}
+              </Text>
             </Col>
             <Col style={styles.socialStatisticContainter}>
               <Text style={styles.follower}>{postCount}</Text>
-              <Text style={{ color: color.brandLight }}>Posts</Text>
+              <Text style={{ color: color.brandLight }}>
+                {postCount > 1 ? 'Posts' : 'Post'}
+              </Text>
             </Col>
           </Grid>
 
@@ -280,12 +299,10 @@ export function ProfileUserScreen({ navigation }) {
                 <FlatList
                   contentContainerStyle={{
                     flexDirection: 'column',
-                    // flexWrap: 'wrap',
                   }}
                   numColumns={4}
                   data={skillList}
                   renderItem={renderSkillItem}
-                  // horizontal
                   style={{ marginTop: 16 }}
                   keyExtractor={(item) => item}
                 ></FlatList>

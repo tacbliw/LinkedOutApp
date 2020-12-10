@@ -1,8 +1,9 @@
-import { Fab, Header, Icon, ListItem, Text } from 'native-base'
+import { Fab, Header, Icon, ListItem, Text, Thumbnail } from 'native-base'
 import React from 'react'
 import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Post } from '../../components'
 import { JobPost } from '../../components/job-post/job-post'
+import { screens } from '../../config/screens'
 import { JobObject, PostObject } from '../../repositories/feed-repository'
 import { feedService } from '../../services/feed-service'
 import { color } from '../../theme'
@@ -11,8 +12,13 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   header: {
     alignItems: 'center',
+    backgroundColor: color.brandPrimary,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  logo: {
+    resizeMode: 'contain',
+    width: 120,
   },
   noData: {
     color: color.brandLight,
@@ -55,17 +61,29 @@ export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Header transparent noShadow style={styles.header}>
+      <Header
+        transparent
+        noShadow
+        style={styles.header}
+        androidStatusBarColor={color.brandPrimary}
+      >
         <TouchableOpacity
           onPress={() => {
             navigation.openDrawer()
           }}
         >
-          <Icon name='menu-outline' style={{ color: color.brandLight }}></Icon>
+          <Icon
+            name='menu-outline'
+            style={{ color: color.palette.white }}
+          ></Icon>
         </TouchableOpacity>
+        <Thumbnail source={require('./logo-white.png')} style={styles.logo} />
         <Icon
           name='settings-outline'
-          style={{ color: color.brandLight }}
+          style={{ color: color.palette.white }}
+          onPress={() => {
+            navigation.navigate(screens.authenticated.user.settings)
+          }}
         ></Icon>
       </Header>
       <FlatList
@@ -76,7 +94,6 @@ export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
         onEndReached={handleLoadOld}
         onEndReachedThreshold={0.01}
         keyExtractor={(item, index) => String(index)}
-        ItemSeparatorComponent={() => <></>}
         ListEmptyComponent={
           <ListItem style={styles.noData}>
             <Icon name='file-tray-outline'></Icon>

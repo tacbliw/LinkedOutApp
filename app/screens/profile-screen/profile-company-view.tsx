@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
 const colorList = ['#495867', '#577399', '#BDD5EA', '#FE5F55', '#F7F052', '#F28123', '#D34E24', '#563F1B', '#38726C', '#413C58', '#A3C4BC', '#210F04', '#452103', '#436436']
 
 export function ProfileCompanyViewScreen({ route, navigation }) {
-  LogBox.ignoreLogs(['VirtualizedList'])
+  LogBox.ignoreAllLogs()
   const { accountId } = route.params
   const [
     name,
@@ -191,7 +191,12 @@ export function ProfileCompanyViewScreen({ route, navigation }) {
   return (
     <Screen style={ROOT} preset='scroll'>
       <ScrollView>
-        <Header noShadow transparent={true} style={styles.profileHeader}>
+        <Header
+          noShadow
+          transparent={true}
+          style={styles.profileHeader}
+          androidStatusBarColor={color.brandPrimary}
+        >
           <Button transparent onPress={() => navigation.goBack()}>
             <Icon style={styles.backIcon} name='arrow-back-outline' />
           </Button>
@@ -218,13 +223,17 @@ export function ProfileCompanyViewScreen({ route, navigation }) {
                 >
                   <View style={styles.socialStatisticContainter}>
                     <Text style={styles.follower}>
-                      {followerCount.toString() + 'k'}
+                      {followerCount.toString() + 'K'}
                     </Text>
-                    <Text style={{ color: color.brandLight }}>Followers</Text>
+                    <Text style={{ color: color.brandLight }}>
+                      {followerCount > 1 ? 'Followers' : 'Follower'}
+                    </Text>
                   </View>
                   <View style={styles.socialStatisticContainter}>
                     <Text style={styles.follower}>{job.length}</Text>
-                    <Text style={{ color: color.brandLight }}>Jobs</Text>
+                    <Text style={{ color: color.brandLight }}>
+                      {job.length > 1 ? 'Jobs' : 'Job'}
+                    </Text>
                   </View>
                 </View>
               </View>

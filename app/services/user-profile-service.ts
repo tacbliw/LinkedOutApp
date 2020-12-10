@@ -98,7 +98,7 @@ export const userProfileService = {
     ]
   },
 
-  useGetEducation(accountId: number): [EducationListRespond] {
+  useGetEducation(accountId: number): [EducationListRespond, () => void] {
     const [educationList, setEducationList] = useState<EducationListRespond>()
 
     const getEducation = React.useCallback(async () => {
@@ -110,14 +110,10 @@ export const userProfileService = {
       }
     }, [accountId])
 
-    React.useEffect(() => {
-      getEducation()
-    }, [getEducation])
-
-    return [educationList]
+    return [educationList, getEducation]
   },
 
-  useGetExperience(accountId: number): [[any]] {
+  useGetExperience(accountId: number): [[any], () => void] {
     const [experienceList, setExperienceList] = useState<any>()
 
     const getExperience = React.useCallback(async () => {
@@ -129,11 +125,7 @@ export const userProfileService = {
       }
     }, [accountId])
 
-    React.useEffect(() => {
-      getExperience()
-    }, [getExperience])
-
-    return [experienceList]
+    return [experienceList, getExperience]
   },
 
   useGetSkill(accountId: number): [[any], () => void] {
@@ -403,7 +395,7 @@ export const userProfileService = {
       }
     }, [])
 
-    const handleSkillListChange = React.useCallback(async () => {
+    const handleSkillListChange = React.useCallback(async (t_skillList: []) => {
       setSkillList(t_skillList)
     }, [])
 
@@ -508,6 +500,11 @@ export const userProfileService = {
 
         setEducationList(response)
         showInfo('Created!')
+        setSchoolName('')
+        setStartDateEducation(new Date())
+        setEndDateEducation(new Date())
+        setMajor('')
+        setDegree('')
       } catch (error) {
         console.log(error)
       }
@@ -522,9 +519,12 @@ export const userProfileService = {
       }
     }, [accountId])
 
-    const handleEducationChange = React.useCallback(async () => {
-      setEducationList(t_educationList)
-    }, [])
+    const handleEducationChange = React.useCallback(
+      async (t_educationList: []) => {
+        setEducationList(t_educationList)
+      },
+      [],
+    )
 
     const handleDeleteEducation = useCallback(async (id: number) => {
       try {
@@ -659,6 +659,11 @@ export const userProfileService = {
           description,
         )
         setExperienceList(response)
+        setCompanyName('')
+        setStartDateExperience(new Date())
+        setEndDateExperience(new Date())
+        setTitle('')
+        setDescription('')
         showInfo('Created!')
       } catch (error) {
         console.log(error)

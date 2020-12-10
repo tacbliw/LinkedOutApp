@@ -20,6 +20,7 @@ export const screens = {
       home: 'company-home-navigator',
       profile: 'company-profile',
       editprofile: 'company-edit-profile',
+      search: 'company-search',
       jobs: 'company-jobs',
       messages: 'company-messages',
       settings: 'company-settings',

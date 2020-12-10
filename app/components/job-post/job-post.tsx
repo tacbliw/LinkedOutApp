@@ -19,8 +19,6 @@ const screenHeight = Math.round(Dimensions.get('window').height)
 
 const styles = StyleSheet.create({
   postCompanyAvatar: {
-    // marginLeft: 10,
-    // marginTop: 10,
     borderRadius: 15,
     height: 100,
     resizeMode: 'center',
@@ -55,7 +53,7 @@ export interface JobPostProps {
  */
 export function JobPost(props: JobPostProps) {
   return (
-    <Card transparent style={{ borderWidth: 10 }}>
+    <Card transparent>
       <TouchableOpacity
         onPress={() => {
           props.handleItemPress(props.job)

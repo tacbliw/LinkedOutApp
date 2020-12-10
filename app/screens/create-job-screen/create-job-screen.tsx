@@ -118,7 +118,11 @@ export const CreateJobScreen = function ({ navigation }) {
 
   return (
     <ScrollView style={styles.ROOT}>
-      <Header transparent style={styles.header}>
+      <Header
+        transparent
+        style={styles.header}
+        androidStatusBarColor={color.brandPrimary}
+      >
         <TouchableOpacity
           onPress={() =>
             navigation.navigate(screens.authenticated.company.profile)

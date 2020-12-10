@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback } from 'reactn'
 import { GlobalState } from '../config/global'
+import { screens } from '../config/screens'
 import { showError, showInfo } from '../helpers/toast'
 import {
   CompanyFollowedResponse,
@@ -13,7 +14,7 @@ export const followService = {
     UserFollowedResponse,
     boolean,
     () => void,
-    () => void,
+    (accountId: number) => void,
     (id: number) => void,
   ] {
     const navigation = useNavigation()
@@ -39,7 +40,7 @@ export const followService = {
     const deleteFollow = React.useCallback(
       async (id: number) => {
         try {
-          const response = await followRepository.delete(id)
+          await followRepository.delete(id)
           handleLoadNew()
           showInfo('Unfollowed!')
         } catch (error) {
@@ -47,10 +48,17 @@ export const followService = {
           console.log(error)
         }
       },
-      [null],
+      [handleLoadNew],
     )
 
-    const handleItemPress = React.useCallback(() => {}, [])
+    const handleItemPress = React.useCallback(
+      (accountId: number) => {
+        navigation.navigate(screens.authenticated.user.view.user, {
+          accountId: accountId,
+        })
+      },
+      [navigation],
+    )
 
     React.useEffect(() => {
       handleLoadNew()
@@ -129,7 +137,7 @@ export const followService = {
   },
 
   useFollow(accountId: number): [boolean, () => void, () => void] {
-    const [checkFollowed, setCheckFollowed] = React.useState<boolean>(true)
+    const [checkFollowed, setCheckFollowed] = React.useState<boolean>(false)
 
     const getCheckFollow = React.useCallback(async () => {
       try {

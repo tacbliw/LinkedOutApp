@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native'
-import { useCallback, useState } from 'reactn'
+import React, { useCallback, useState } from 'reactn'
+import { GlobalState } from '../config/global'
 import { screens } from '../config/screens'
 import { searchRepository } from '../repositories/search-repository'
 
@@ -65,6 +66,7 @@ export const searchService = {
   },
   useViewDetail(): [(item: { type: string; id: number }) => void] {
     const navigation = useNavigation()
+    const accountId = parseInt(React.getGlobal<GlobalState>().accountId)
     const handleItemPress = useCallback(
       (item: { type: string; id: number }) => {
         console.log(
@@ -72,9 +74,13 @@ export const searchService = {
         )
         if (item.type === 'user') {
           // navigate sang trang user, truyền item.id vào
-          navigation.navigate(screens.authenticated.user.view.user, {
-            accountId: item.id,
-          })
+          if (item.id === accountId) {
+            navigation.navigate(screens.authenticated.user.profile)
+          } else {
+            navigation.navigate(screens.authenticated.user.view.user, {
+              accountId: item.id,
+            })
+          }
         } else if (item.type === 'company') {
           // navigate sang trang company, truyền item.id vào
           navigation.navigate(screens.authenticated.user.view.company, {

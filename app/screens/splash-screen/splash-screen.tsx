@@ -1,16 +1,11 @@
+import { Thumbnail } from 'native-base'
 import React from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { screens } from '../../config/screens'
 import { styles } from './styles'
 
-export const SplashScreen = ({navigation}) => {
-
-  // useEffect(() => {
-  //   console.log('Splash')
-  //   navigation.navigate(screens.basic.introJobs)
-  // }, [navigation])
-
+export const SplashScreen = ({ navigation }) => {
   return (
     <View>
       <Text style={styles.imageLogoSplash}>AAAAAAAAAAAAAAAAAAAAAAA</Text>
@@ -22,7 +17,10 @@ export const IntroJob = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text>Logo Image</Text>
+        <Thumbnail
+          source={require('./logo-white.png')}
+          style={styles.logoThumbnail}
+        />
       </View>
 
       <View style={styles.middle}>
@@ -64,7 +62,10 @@ export const IntroCompany = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text>Logo Image</Text>
+        <Thumbnail
+          source={require('./logo-white.png')}
+          style={styles.logoThumbnail}
+        />
       </View>
 
       <View style={styles.middle}>

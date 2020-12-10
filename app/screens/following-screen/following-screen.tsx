@@ -19,6 +19,14 @@ export const FollowingScreen = function FollowingScreen(navigation) {
   const followingWidth = useWindowDimensions().width / 2 - 50
   const followingMaxHeight = useWindowDimensions().height / 3
 
+  const [
+    users,
+    refreshing,
+    handleLoadNew,
+    handleItemPress,
+    deleteFollow,
+  ] = followService.useUserFollowed()
+
   LogBox.ignoreLogs(['VirtualizedLists should never be nested'])
 
   const EmptyCard = () => {
@@ -42,64 +50,60 @@ export const FollowingScreen = function FollowingScreen(navigation) {
           marginRight: 15,
         }}
       >
-        <CardItem header style={styles.cardHeader}>
-          <FastImage
-            source={{ uri: toBackendUrl(item.profilePicture) }}
-            style={{ width: 60, height: 60, borderRadius: 10 }}
-          ></FastImage>
-        </CardItem>
-        <CardItem style={styles.cardBody}>
-          <View>
-            <Text style={{ fontWeight: 'bold' }}>
-              {item.firstname + ' ' + item.lastname}
-            </Text>
-            {/* <Text>{item.description}</Text> */}
-          </View>
-        </CardItem>
+        <TouchableOpacity
+          onPress={() => {
+            handleItemPress(item.id)
+          }}
+        >
+          <CardItem header style={styles.cardHeader}>
+            <FastImage
+              source={{ uri: toBackendUrl(item.profilePicture) }}
+              style={{ width: 60, height: 60, borderRadius: 10 }}
+            ></FastImage>
+          </CardItem>
+          <CardItem style={styles.cardBody}>
+            <View>
+              <Text style={{ fontWeight: 'bold' }}>
+                {item.firstname + ' ' + item.lastname}
+              </Text>
+              {/* <Text>{item.description}</Text> */}
+            </View>
+          </CardItem>
 
-        <CardItem style={styles.cardFooter} footer>
-          <View
-            style={{
-              flexGrow: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <Text>
-              {item.followedCount}{' '}
-              {item.followedCount > 1 ? 'followers' : 'follower'}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                deleteFollow(item.id)
+          <CardItem style={styles.cardFooter} footer>
+            <View
+              style={{
+                flexGrow: 1,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
               }}
             >
-              <Icon
-                style={{ color: color['color-danger-500'] }}
-                name='leaf'
-              ></Icon>
-            </TouchableOpacity>
-          </View>
-        </CardItem>
+              <Text>
+                {item.followedCount}{' '}
+                {item.followedCount > 1 ? 'followers' : 'follower'}
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  deleteFollow(item.id)
+                }}
+              >
+                <Icon
+                  style={{ color: color['color-danger-500'] }}
+                  name='checkmark'
+                ></Icon>
+              </TouchableOpacity>
+            </View>
+          </CardItem>
+        </TouchableOpacity>
       </Card>
     )
   }
 
-  const [
-    users,
-    refreshing,
-    handleLoadNew,
-    handleItemPress,
-    deleteFollow,
-  ] = followService.useUserFollowed()
-
-  // const [users, setUsers] = React.useState<UserFollowedResponse>([])
-
   return (
     <Screen style={styles.container}>
       <ScrollView>
-        <Header transparent>
+        <Header transparent androidStatusBarColor={color.brandPrimary}>
           <Left style={{ flexGrow: 1 }}>
             <Text style={styles.header}>Following</Text>
           </Left>
