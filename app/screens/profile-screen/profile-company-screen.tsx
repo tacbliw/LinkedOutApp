@@ -6,18 +6,18 @@ import {
   Header,
   Icon,
   Text,
-  View,
+  View
 } from 'native-base'
 import {
   FlatList,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  ViewStyle,
+  ViewStyle
 } from 'react-native'
 import { PieChart } from 'react-native-chart-kit'
 import FastImage from 'react-native-fast-image'
-import React, { useEffect } from 'reactn'
+import React, { useEffect, useState } from 'reactn'
 import { CardTopJob, Container, Screen, Tag } from '../../components'
 import { GlobalState } from '../../config/global'
 import { screens } from '../../config/screens'
@@ -30,44 +30,6 @@ const ROOT: ViewStyle = {
   backgroundColor: color.palette.black,
   flex: 1,
 }
-
-const data = [
-  {
-    name: 'Seoul',
-    population: 21500000,
-    color: 'rgba(131, 167, 234, 1)',
-    legendFontColor: '#7F7F7F',
-    legendFontSize: 15,
-  },
-  {
-    name: 'Toronto',
-    population: 2800000,
-    color: '#F00',
-    legendFontColor: '#7F7F7F',
-    legendFontSize: 15,
-  },
-  {
-    name: 'Beijing',
-    population: 527612,
-    color: 'red',
-    legendFontColor: '#7F7F7F',
-    legendFontSize: 15,
-  },
-  {
-    name: 'New York',
-    population: 8538000,
-    color: color.brandLight,
-    legendFontColor: '#7F7F7F',
-    legendFontSize: 15,
-  },
-  {
-    name: 'Moscow',
-    population: 11920000,
-    color: 'rgb(0, 0, 255)',
-    legendFontColor: '#7F7F7F',
-    legendFontSize: 15,
-  },
-]
 
 const chartConfig = {
   backgroundGradientFrom: '#1E2923',
@@ -150,7 +112,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
 })
-
+const colorList = ['#495867', '#577399', '#BDD5EA', '#FE5F55', '#F7F052', '#F28123', '#D34E24', '#563F1B', '#38726C', '#413C58', '#A3C4BC', '#210F04', '#452103', '#436436']
 export function ProfileCompanyScreen({ navigation }) {
   const accountId = parseInt(React.getGlobal<GlobalState>().accountId)
   const [
@@ -165,6 +127,7 @@ export function ProfileCompanyScreen({ navigation }) {
   ] = companyProfileService.useGetCompany(accountId)
 
   const [followerCount] = followService.useFollowerCount(accountId)
+  const [statisticData, setStatisticData] = useState<any[]>([])
 
   useEffect(() => {
     // Subscribe for the focus Listener
@@ -175,6 +138,32 @@ export function ProfileCompanyScreen({ navigation }) {
 
     return unsubscribe
   }, [navigation, getCompanyJob, getInfo])
+
+  useEffect(() => {
+    let skillCount = { "": 0 };
+    job.forEach(element => {
+      if (element.skills) {
+        element.skills.forEach((s) =>
+          skillCount[s] = (skillCount[s] || 0) + 1
+        )
+      }
+    });
+    const newStatisticData = []
+    let index = 0
+    Object.keys(skillCount).forEach(i => {
+      if (i) {
+        newStatisticData.push({
+          name: i,
+          population: skillCount[i],
+          color: colorList[index],
+          legendFontColor: '#7F7F7F',
+          legendFontSize: 15,
+        })
+        index++
+      }
+    })
+    setStatisticData(newStatisticData)
+  }, [job])
 
   const renderSpecialtyItem = ({ item }) => {
     return <Tag tagText={item}></Tag>
@@ -291,7 +280,7 @@ export function ProfileCompanyScreen({ navigation }) {
                 style={{ justifyContent: 'center', alignContent: 'center' }}
               >
                 <PieChart
-                  data={data}
+                  data={statisticData}
                   width={350}
                   height={200}
                   chartConfig={chartConfig}

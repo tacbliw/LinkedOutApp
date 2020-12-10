@@ -12,7 +12,7 @@ import {
   Label,
   Text,
   Textarea,
-  Thumbnail,
+  Thumbnail
 } from 'native-base'
 import React, { useEffect } from 'react'
 import {
@@ -23,7 +23,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  ViewStyle,
+  ViewStyle
 } from 'react-native'
 import DocumentPicker from 'react-native-document-picker'
 import { ScrollView } from 'react-native-gesture-handler'
