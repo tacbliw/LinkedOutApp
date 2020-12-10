@@ -5,7 +5,7 @@ import { toPythonString } from '../helpers/date-helper'
 import { showInfo } from '../helpers/toast'
 import {
   EducationListRespond,
-  educationRepository,
+  educationRepository
 } from '../repositories/education-repository'
 import { emailRepository } from '../repositories/email-repository'
 import { experienceRepository } from '../repositories/experience-repository'
@@ -13,7 +13,7 @@ import { phoneRepository } from '../repositories/phone-repository'
 import { skillRepository } from '../repositories/skill-repository'
 import {
   UserGetResponse,
-  userRepository,
+  userRepository
 } from '../repositories/user-repository'
 
 export const userProfileService = {
@@ -347,14 +347,14 @@ export const userProfileService = {
 
   useCreateSkill(): [
     string,
-    [any],
+    string[],
     (event: NativeSyntheticEvent<TextInputChangeEventData>) => void,
     () => void,
     (skill: string) => void,
-    (t_skillList: []) => void,
+    (t_skillList: string[]) => void,
   ] {
     const [skillText, setSkillText] = useState<string>('')
-    const [skillList, setSkillList] = useState<any>()
+    const [skillList, setSkillList] = useState<string[]>()
     const [accountId, setAccountId] = React.useGlobal<GlobalState, 'accountId'>(
       'accountId',
     )
@@ -375,15 +375,14 @@ export const userProfileService = {
       }
     }, [accountId])
 
-    const handleCreatSkill = React.useCallback(async () => {
+    const handleCreateSkills = React.useCallback(async () => {
       try {
-        const response = await skillRepository.create(skillText)
-        setSkillList(response)
+        await skillRepository.create(skillList)
         showInfo('Skill updated!')
       } catch (error) {
         console.log(error)
       }
-    }, [skillText])
+    }, [skillList])
 
     const handleDeleteSkill = useCallback(async (skill: string) => {
       try {
@@ -395,7 +394,7 @@ export const userProfileService = {
       }
     }, [])
 
-    const handleSkillListChange = React.useCallback(async (t_skillList: []) => {
+    const handleSkillListChange = React.useCallback((t_skillList: string[]) => {
       setSkillList(t_skillList)
     }, [])
 
@@ -403,7 +402,7 @@ export const userProfileService = {
       skillText,
       skillList,
       handleSkillTextChange,
-      handleCreatSkill,
+      handleCreateSkills,
       handleDeleteSkill,
       handleSkillListChange,
     ]

@@ -103,7 +103,7 @@ function MyTabBar({ state, descriptors, navigation }) {
               key={label}
               onPress={onPress}
               onLongPress={onLongPress}
-              style={{ flex: 1, backgroundColor: color.brandPrimary }}
+              style={{ flex: 1, backgroundColor: color['color-primary-500'] }}
             >
               <Icon
                 name={isFocused ? mapIcon[label] : mapIcon[label] + '-outline'}

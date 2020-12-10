@@ -42,9 +42,9 @@ export class SkillRepository extends Repository {
     }).then((response: AxiosResponse) => response.data)
   }
 
-  public async create(skill: string): Promise<SkillCreateResponse> {
+  public async create(skills: string[]): Promise<SkillCreateResponse> {
     return this.http.post('create', {
-      skill: skill
+      skills: skills
     }).then((response: AxiosResponse) => response.data)
   }
 

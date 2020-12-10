@@ -45,13 +45,13 @@ export const NewsfeedScreen = function NewsfeedScreen({ navigation }) {
   const renderFeedItem = ({ item }: { item: PostObject | JobObject }) => {
     if (item.type === 'post') {
       return (
-        <ListItem>
+        <ListItem style={{borderBottomWidth: 0}}>
           <Post post={item as PostObject} />
         </ListItem>
       )
     } else if (item.type === 'job') {
       return (
-        <ListItem>
+        <ListItem style={{borderBottomWidth: 0}}>
           <JobPost job={item as JobObject} handleItemPress={handleJobPress} />
         </ListItem>
       )

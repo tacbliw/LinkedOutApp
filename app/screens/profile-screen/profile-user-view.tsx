@@ -8,7 +8,7 @@ import {
   Grid,
   Header,
   Icon,
-  Text,
+  Text
 } from 'native-base'
 import {
   FlatList,
@@ -17,7 +17,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  ViewStyle,
+  ViewStyle
 } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import Timeline from 'react-native-timeline-flatlist'
@@ -27,7 +27,7 @@ import {
   Container,
   FollowingUser,
   Screen,
-  Tag,
+  Tag
 } from '../../components'
 import { toBackendUrl } from '../../helpers/string-helper'
 import { ExperienceObject } from '../../repositories/experience-repository'
@@ -366,6 +366,7 @@ export function ProfileUserViewScreen({ route, navigation }) {
               <Timeline
                 data={educationListRender}
                 renderCircle={(rowData, sectionID, rowID) => {}}
+                timeContainerStyle={{width: 90}}
                 timeStyle={{
                   textAlign: 'center',
                   backgroundColor: color['color-info-500'],

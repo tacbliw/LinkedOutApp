@@ -1,167 +1,159 @@
+import moment from 'moment'
 import {
-  Body,
-  Card,
   CardItem,
   Container,
   Content,
-  Icon,
-  Left,
-  List,
-  ListItem,
+  Input,
+  Item,
+  Spinner,
   Text,
   Thumbnail,
-  View,
+  View
 } from 'native-base'
-import { Dimensions, Image } from 'react-native'
-import React from 'reactn'
-import { Comment } from '../../components'
-import { CommentInput } from '../../components/comment/comment-input'
+import { Dimensions, FlatList, Image, ScrollView, TouchableOpacity } from 'react-native'
+import React, { getGlobal, useEffect, useState } from 'reactn'
+import { GlobalState } from '../../config/global'
+import { toBackendUrl } from '../../helpers/string-helper'
+import { CommentListResponse } from '../../repositories/comment-repository'
 import { postService } from '../../services/post-service'
-import { color } from '../../theme'
+import { userProfileService } from '../../services/user-profile-service'
+import { color } from '../../theme/color'
 
 const screenWidth = Math.round(Dimensions.get('window').width)
 const screenHeight = Math.round(Dimensions.get('window').height)
-const siraj = require('./avatar.jpg')
-const cover = require('./cover.jpg')
-const datas = [
-  {
-    img: siraj,
-    text: 'Kumar Pratik',
-    note: 'Its time to build a difference . .',
-    time: '3:43 pm',
-  },
-  {
-    img: siraj,
-    text: 'Kumar Sanket',
-    note: 'One needs courage to be happy and smiling all time . . ',
-    time: '1:12 pm',
-  },
-  {
-    img: siraj,
-    text: 'Megha',
-    note: 'Live a life style that matchs your vision',
-    time: '10:03 am',
-  },
-  {
-    img: siraj,
-    text: 'Atul Ranjan',
-    note: 'Failure is temporary, giving up makes it permanent',
-    time: '5:47 am',
-  },
-]
 
 export const PostInterestScreen = function PostInterestScreen({
   route,
   navigation,
 }) {
-  const { postId } = route.params
-  if (route.params.post) {
-    const post = route.params.post
-  } else {
-    const [post] = postService.usePostObjectOnly(postId)
+
+  const renderComment = ({ item }: { item: CommentListResponse }) => {
+    return (
+      <View style={{ flexDirection: 'row', marginBottom: 16 }}>
+        <Thumbnail small source={{ uri: toBackendUrl(item.userProfilePicture) }} />
+        <View style={{ marginLeft: 16 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Text style={{ fontWeight: 'bold' }}>{item.userFirstname + " " + item.userLastname}</Text>
+            <Text note style={{ marginLeft: 5 }}>{moment.unix(item.publishedDate).fromNow()}</Text>
+          </View>
+          <View style={{ maxWidth: screenWidth * 0.7 }}>
+            <Text>{item.content}</Text>
+          </View>
+        </View>
+
+      </View>
+    )
   }
-  return (
-    <Container style={{ backgroundColor: '#f6f5fb' }}>
-      <Content padder>
-        <Card transparent>
-          <CardItem>
-            <Left>
-              <Thumbnail circular source={siraj} />
-              <Body>
-                <Text>Siraj</Text>
-                <Text note>@thesiraj</Text>
-              </Body>
-            </Left>
-          </CardItem>
-          <CardItem style={{ justifyContent: 'center' }}>
-            <Image
-              source={cover}
-              style={{
-                height: 200,
-                width: screenWidth * 0.8,
-                borderRadius: 15,
-              }}
-            />
-          </CardItem>
-          <CardItem
-            style={{ flexDirection: 'column', alignItems: 'flex-start' }}
-          >
-            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-              Native Base
-            </Text>
-            <Text>
-              NativeBase is a free and source framework that enable developers
-              to build high-quality mobile apps using React Native iOS and
-              Android apps with a fusion of ES6. NativeBase builds a layer on
-              top of React Native that provides you with basic set of components
-              for mobile application development.
-            </Text>
-          </CardItem>
-          <CardItem>
-            <View style={{ flex: 4 / 10 }}>
-              <Text>People Interest </Text>
+
+  const { postId } = route.params;
+  const [
+    commentList,
+    comment,
+    handleCommentChange,
+    handlePostComment
+  ] = postService.usePostComment(postId)
+
+  const [post, getPostById, setPostByCache] = postService.usePostObjectOnly()
+
+  const accountId = parseInt(getGlobal<GlobalState>().accountId)
+
+  const [loading, setLoading] = useState<Boolean>(true)
+
+  const [
+    firstName,
+    lastName,
+    gender,
+    dateOfBirth,
+    profilePicture,
+    description,
+    getInfo,
+  ] = userProfileService.useGetUser(accountId)
+
+  useEffect(() => {
+    setLoading(true);
+    if (route.params.post) {
+      setPostByCache(route.params.post);
+    }
+    else {
+      getPostById(postId);
+    }
+    setLoading(false);
+  }, [postId])
+
+
+  if (post == null) {
+    return (
+      <Container>
+        <Content>
+          <Spinner style={{ marginTop: 64 }} color={color['color-primary-500']} />
+        </Content>
+      </Container>
+    )
+  }
+  else {
+    return (
+      <ScrollView style={{ backgroundColor: '#FFFFFF' }}>
+        <CardItem style={{ justifyContent: 'center' }}>
+          <Image
+            source={{ uri: toBackendUrl(post.postPicture) }}
+            style={{
+              height: 200,
+              width: screenWidth,
+              // borderRadius: 15,
+            }}
+          />
+        </CardItem>
+        <CardItem
+          style={{ flexDirection: 'column', alignItems: 'flex-start' }}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Thumbnail style={{ borderWidth: 3, borderColor: color["color-primary-500"] }} source={{ uri: toBackendUrl(post.userProfilePicture) }} />
+            <View style={{ marginLeft: 16 }}>
+              <Text style={{ fontWeight: 'bold' }}>{post.userFirstname + " " + post.userLastname}</Text>
+              <Text note>{moment.unix(post.publishedDate).fromNow()}</Text>
             </View>
-            <View
+          </View>
+        </CardItem>
+        <CardItem>
+          <Text>
+            {post.content}
+          </Text>
+        </CardItem>
+        <CardItem bordered>
+        </CardItem>
+        <CardItem style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+          <FlatList
+            inverted
+            data={commentList}
+            renderItem={renderComment}
+            keyExtractor={(item) => item.id.toString()}>
+          </FlatList>
+        </CardItem>
+        <CardItem footer>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
+            <Thumbnail small style={{ borderWidth: 3, borderColor: color["color-info-500"] }} source={{ uri: toBackendUrl(profilePicture) }} />
+            <Item
+              regular
               style={{
-                alignItems: 'flex-start',
-                flex: 6 / 10,
-                flexDirection: 'row',
+                width: screenWidth * 0.7,
+                backgroundColor: '#f6f5fb',
+                marginLeft: 16,
+                marginRight: 16,
+                borderRadius: 100,
+                borderColor: '#f6f5fb',
               }}
             >
-              <List
-                horizontal={true}
-                dataArray={datas.slice(0, 4)}
-                scrollEnabled={false}
-                renderRow={(data) => (
-                  <ListItem thumbnail>
-                    <Image
-                      style={{
-                        borderWidth: 1,
-                        borderColor: color.brandLight,
-                        marginLeft: -15,
-                        width: 40,
-                        height: 40,
-                        borderRadius: 20,
-                      }}
-                      source={data.img}
-                    />
-                  </ListItem>
-                )}
+              <Input
+                placeholder='Say something'
+                onChange={handleCommentChange}
+                onSubmitEditing={handlePostComment}
+                value={comment}
               />
-              <Icon
-                name='ellipsis-horizontal-circle-outline'
-                style={{ fontSize: 40 }}
-              />
-            </View>
-          </CardItem>
-          <CardItem style={{ flexDirection: 'column' }}>
-            <List
-              dataArray={datas}
-              renderRow={(data) => (
-                <ListItem
-                  noIndent
-                  style={{
-                    borderBottomWidth: 1,
-                    marginBottom: 5,
-                    paddingTop: 0,
-                    paddingRight: 0,
-                    paddingLeft: 0,
-                    paddingBottom: 0,
-                  }}
-                >
-                  <Comment
-                    avatar={data.img}
-                    name={data.text}
-                    content={data.note}
-                    time={data.time}
-                  />
-                </ListItem>
-              )}
-            />
-            <CommentInput avatar={siraj} />
-          </CardItem>
-        </Card>
-      </Content>
-    </Container>
-  )
+            </Item>
+            <TouchableOpacity onPress={handlePostComment}><Text style={{ fontWeight: 'bold', color: color['color-info-500'] }}>Send</Text></TouchableOpacity>
+          </View>
+        </CardItem>
+      </ScrollView>
+    )
+  }
 }

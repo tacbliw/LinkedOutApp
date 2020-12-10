@@ -11,8 +11,8 @@ export interface CommentListRequest {
 export interface CommentListResponse {
   id: number;
   accountId: number;
-  userFirstName: string;
-  userLastName: string;
+  userFirstname: string;
+  userLastname: string;
   userProfilePicture: string;
   content: string;
   publishedDate: number;

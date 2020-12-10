@@ -268,7 +268,10 @@ export function ProfileCompanyScreen({ navigation }) {
                 <FlatList
                   data={specialties}
                   renderItem={renderSpecialtyItem}
-                  horizontal
+                  contentContainerStyle={{
+                    flexDirection: 'column',
+                  }}
+                  numColumns={3}
                   style={{ marginTop: 16 }}
                   keyExtractor={(item) => item}
                   scrollEnabled={false}

@@ -7,7 +7,7 @@ import {
   Item,
   Label,
   Text,
-  Textarea,
+  Textarea
 } from 'native-base'
 import React, { useEffect, useState } from 'react'
 import {
@@ -16,7 +16,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  ViewStyle,
+  ViewStyle
 } from 'react-native'
 import DocumentPicker from 'react-native-document-picker'
 import FastImage from 'react-native-fast-image'
@@ -112,6 +112,7 @@ export function ProfileEditCompanyScreen({ route, navigation }) {
     getAllSpecialtyTag,
     getSpecialtyTagByQuery,
   ] = tagService.useSpecialtyTag()
+  
   const { companyData } = route.params
   const [selectedItems, setSelectedItems] = useState([])
   const [dataMultiSelected, setDataMultiSelected] = useState([])
@@ -162,7 +163,7 @@ export function ProfileEditCompanyScreen({ route, navigation }) {
             transparent
             onPress={() => {
               handleEditProfileSubmit()
-              navigation.goBack()
+              // navigation.goBack()
             }}
           >
             <Text style={{ color: color.brandPrimary }}>Save</Text>

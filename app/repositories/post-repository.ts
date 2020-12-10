@@ -9,6 +9,7 @@ import { Repository } from './base-repository'
 interface PostObject {
   id: number
   content: string
+  published_date: Date,
   postPicture?: string
 }
 

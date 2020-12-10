@@ -243,7 +243,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
     skillText,
     skillList,
     handleSkillTextChange,
-    handleCreatSkill,
+    handleCreateSkills,
     handleDeleteSkill,
     handleSkillListChange,
   ] = userProfileService.useCreateSkill()
@@ -255,7 +255,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
   ] = tagService.useSkillTag()
 
   const { userData, skillData, educationData, experienceData } = route.params
-  const [selectedItems, setSelectedItems] = useState([])
+  const [selectedItems, setSelectedItems] = useState<[]>()
   const [educationModalVisible, setEducationModalVisible] = useState(false)
   const [experienceModalVisible, setExperienceModalVisible] = useState(false)
   const [dataMultiSelected, setDataMultiSelected] = useState([])
@@ -263,6 +263,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
 
   const onSelectedItemsChange = (selectedItems) => {
     setSelectedItems(selectedItems)
+    // handleSkillListChange(selectedItems)
   }
 
   const renderDetail = (rowData, sectionID, rowID) => {
@@ -420,7 +421,8 @@ export function ProfileEditUserScreen({ route, navigation }) {
             transparent
             onPress={() => {
               handleEditProfileSubmit()
-              navigation.goBack()
+              handleCreateSkills()
+              // navigation.goBack()
             }}
           >
             <Text style={{ color: color.brandPrimary }}>Save</Text>
@@ -526,6 +528,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
               >
                 <Label>Skill</Label>
                 <SectionedMultiSelect
+                  // hideSelect={true}
                   items={dataMultiSelected}
                   IconRenderer={MaterialIcons}
                   uniqueKey='id'
@@ -537,6 +540,13 @@ export function ProfileEditUserScreen({ route, navigation }) {
                   selectedItems={selectedItems}
                   colors={{ primary: color.brandPrimary }}
                   showCancelButton={true}
+                  onConfirm={() => {
+                    handleSkillListChange(
+                      selectedItems.map((item) =>
+                      skillTag[item].toString(),
+                      ),
+                    );
+                  }}
                   renderSelectText={() => {
                     return <Text>Your skill here</Text>
                   }}

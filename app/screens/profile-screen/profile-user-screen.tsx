@@ -8,7 +8,7 @@ import {
   Grid,
   Header,
   Icon,
-  Text,
+  Text
 } from 'native-base'
 import {
   FlatList,
@@ -16,7 +16,7 @@ import {
   ScrollView,
   StyleSheet,
   View,
-  ViewStyle,
+  ViewStyle
 } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import Timeline from 'react-native-timeline-flatlist'
@@ -26,7 +26,7 @@ import {
   Container,
   FollowingUser,
   Screen,
-  Tag,
+  Tag
 } from '../../components'
 import { GlobalState } from '../../config/global'
 import { screens } from '../../config/screens'

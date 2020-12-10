@@ -3,7 +3,7 @@ import { GlobalState } from '../config/global'
 import { showError, showInfo } from '../helpers/toast'
 import {
   CompanyGetResponse,
-  companyRepository,
+  companyRepository
 } from '../repositories/company-repository'
 import { JobObject } from '../repositories/feed-repository'
 import { jobRepository } from '../repositories/job-repository'
@@ -69,6 +69,7 @@ export const companyProfileService = {
     const [specialties, setSpecialties] = useState<string[]>()
     const [description, setDescription] = useState<string>('')
     const [job, setJob] = useState<Array<JobObject>>([])
+    
     const getInfo = React.useCallback(async () => {
       try {
         const response = await companyRepository.get(Number(accountId))
@@ -98,6 +99,7 @@ export const companyProfileService = {
     React.useEffect(() => {
       getInfo()
     }, [getInfo])
+
     React.useEffect(() => {
       getCompanyJob()
     }, [getCompanyJob])

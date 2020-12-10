@@ -5,17 +5,17 @@ import { screens } from '../config/screens'
 import { showError } from '../helpers/toast'
 import {
   CommentListResponse,
-  commentRepository,
+  commentRepository
 } from '../repositories/comment-repository'
 import { PostObject } from '../repositories/feed-repository'
 import {
   InterestCreateResponse,
   InterestDeleteResponse,
-  interestRepository,
+  interestRepository
 } from '../repositories/interest-repository'
 import {
   PostListResponse,
-  postRepository,
+  postRepository
 } from '../repositories/post-repository'
 
 export const postService = {
@@ -154,7 +154,8 @@ export const postService = {
         showError('Error occured while posting comment')
         console.log(error)
       }
-    }, [postId])
+      setComment("")
+    }, [postId, comment])
 
     React.useEffect(() => {
       handleLoadNew()
@@ -163,20 +164,24 @@ export const postService = {
     return [commentList, comment, handleCommentChange, handlePostComment]
   },
 
-  usePostObjectOnly(postId: number): [PostObject] {
-    const [post, setPost] = React.useState<PostObject>(null)
+  usePostObjectOnly(): [PostObject, (postId: number) => void, (post: PostObject) => void] {
+    const [post, setPost] = React.useState<PostObject>()
 
-    React.useEffect(() => {
-      postRepository
-        .get(postId)
-        .then((response) => {
-          setPost(response as PostObject)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    }, [postId])
+    const getPostById = React.useCallback( async (postId: number) => {
+      try {
+        const response = await postRepository.get(postId)
+        setPost(response)
+      } catch (error) {
+        showError('Error occured')
+        console.log(error)
+      }
 
-    return [post]
+    }, [])
+
+    const setPostByCache = React.useCallback((postcache: PostObject) => {
+      setPost(postcache)
+    }, [])
+
+    return [post, getPostById, setPostByCache]
   },
 }
