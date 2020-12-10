@@ -12,7 +12,7 @@ import {
   Label,
   Text,
   Textarea,
-  Thumbnail,
+  Thumbnail
 } from 'native-base'
 import React, { useEffect } from 'react'
 import {
@@ -23,7 +23,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  ViewStyle,
+  ViewStyle
 } from 'react-native'
 import DocumentPicker from 'react-native-document-picker'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -40,60 +40,6 @@ import { color } from '../../theme'
 
 const screenHeight = Dimensions.get('window').height
 const screenWidth = Dimensions.get('window').width
-
-const items = [
-  // this is the parent or 'item'
-  {
-    name: 'Programming Language',
-    id: 0,
-    // these are the children or 'sub items'
-    children: [
-      {
-        name: 'C++',
-        id: 10,
-      },
-      {
-        name: 'C#',
-        id: 11,
-      },
-      {
-        name: 'Python',
-        id: 12,
-      },
-      {
-        name: 'Yasuo',
-        id: 13,
-      },
-      {
-        name: 'Sofm',
-        id: 14,
-      },
-      {
-        name: 'NXT',
-        id: 15,
-      },
-    ],
-  },
-  {
-    name: 'Framework',
-    id: 1,
-    // these are the children or 'sub items'
-    children: [
-      {
-        name: 'Django',
-        id: 16,
-      },
-      {
-        name: 'React',
-        id: 17,
-      },
-      {
-        name: 'Pikachu',
-        id: 18,
-      },
-    ],
-  },
-]
 
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.black,
@@ -481,8 +427,6 @@ export function ProfileEditUserScreen({ route, navigation }) {
           </Button>
         </Header>
         <Container>
-          {/* <Button onPress={chooseFile}><Text>LOL</Text></Button> */}
-
           <View style={styles.topInfo}>
             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
               <TouchableOpacity onPress={chooseFile}>
@@ -591,7 +535,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
                   readOnlyHeadings={true}
                   onSelectedItemsChange={onSelectedItemsChange}
                   selectedItems={selectedItems}
-                  colors={{ primary: color['color-primary-500'] }}
+                  colors={{ primary: color.brandPrimary }}
                   showCancelButton={true}
                   renderSelectText={() => {
                     return <Text>Your skill here</Text>
@@ -622,7 +566,7 @@ export function ProfileEditUserScreen({ route, navigation }) {
                                   padding: 5,
                                   margin: 3,
                                   borderRadius: 20,
-                                  backgroundColor: color['color-primary-500'],
+                                  backgroundColor: color.brandPrimary,
                                 }}
                               >
                                 <View

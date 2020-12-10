@@ -134,9 +134,13 @@ export function ProfileUserViewScreen({ route, navigation }) {
 
   const [emailList, getMail] = userProfileService.useGetMail(accountId)
 
-  const [educationList] = userProfileService.useGetEducation(accountId)
+  const [educationList, getEducation] = userProfileService.useGetEducation(
+    accountId,
+  )
 
-  const [experienceList] = userProfileService.useGetExperience(accountId)
+  const [experienceList, getExperience] = userProfileService.useGetExperience(
+    accountId,
+  )
 
   const [skillList, getSkill] = userProfileService.useGetSkill(accountId)
 
@@ -177,10 +181,20 @@ export function ProfileUserViewScreen({ route, navigation }) {
       getPhone()
       getMail()
       getSkill()
+      getEducation()
+      getExperience()
     })
 
     return unsubscribe
-  }, [navigation])
+  }, [
+    getEducation,
+    getExperience,
+    getInfo,
+    getMail,
+    getPhone,
+    getSkill,
+    navigation,
+  ])
 
   useEffect(() => {
     if (educationList && educationList.length > 0) {
