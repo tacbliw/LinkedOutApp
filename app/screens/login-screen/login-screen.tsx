@@ -13,6 +13,7 @@ import {
 } from 'react-native'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
+import { useRef } from 'reactn'
 import { Screen } from '../../components'
 import { screens } from '../../config/screens'
 import { accountService } from '../../services/account-service'
@@ -20,11 +21,14 @@ import { color } from '../../theme'
 
 const { width, height } = Dimensions.get('screen')
 const ROOT: ViewStyle = {
-  backgroundColor: color['color-primary-500'],
+  backgroundColor: color.brandPrimary,
   flex: 1,
 }
 
 export const LoginScreen = function LoginScreen({ navigation }) {
+  const usernameRef = useRef()
+  const passwordRef = useRef()
+
   const [
     username,
     handleUsernameChange,
@@ -62,6 +66,10 @@ export const LoginScreen = function LoginScreen({ navigation }) {
                 placeholder='Username'
                 onChange={handleUsernameChange}
                 returnKeyType='next'
+                ref={usernameRef}
+                onSubmitEditing={() => {
+                  passwordRef.current?._root.focus()
+                }}
               />
             </Item>
 
@@ -72,7 +80,9 @@ export const LoginScreen = function LoginScreen({ navigation }) {
                 onChange={handlePasswordChange}
                 value={password}
                 secureTextEntry
+                returnKeyType='send'
                 onSubmitEditing={handleLogin}
+                ref={passwordRef}
               />
             </Item>
 
@@ -124,7 +134,7 @@ export const LoginScreen = function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   buttonLogin: {
     alignSelf: 'center',
-    backgroundColor: color['color-primary-500'],
+    backgroundColor: color.brandPrimary,
     borderRadius: 33,
     // elevation: 15,
     height: height * 0.06,
@@ -137,10 +147,10 @@ const styles = StyleSheet.create({
 
   buttonRegister: {
     alignSelf: 'center',
-    borderColor: color['color-primary-500'],
+    borderColor: color.brandPrimary,
     borderRadius: 33,
     borderWidth: 1,
-    color: color['color-primary-500'],
+    color: color.brandPrimary,
     // elevation: 15,
     height: height * 0.06,
     justifyContent: 'center',
@@ -180,7 +190,7 @@ const styles = StyleSheet.create({
   },
   orSignInWith: {
     alignSelf: 'center',
-    color: color['color-primary-500'],
+    color: color.brandPrimary,
     marginTop: width * 0.1,
   },
   rect: {
@@ -196,7 +206,7 @@ const styles = StyleSheet.create({
   },
   registerTextButton: {
     alignSelf: 'center',
-    color: color['color-primary-500'],
+    color: color.brandPrimary,
     fontSize: 23,
   },
   textInput: {
@@ -205,6 +215,6 @@ const styles = StyleSheet.create({
   },
 
   textInputIcon: {
-    color: color['color-primary-500'],
+    color: color.brandPrimary,
   },
 })

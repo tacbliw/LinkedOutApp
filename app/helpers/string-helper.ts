@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "../config/consts"
+import { API_BASE_URL } from '../config/consts'
 
 export function extensionFromUrl(s: string): string {
   const e = s.split('.')
@@ -6,7 +6,8 @@ export function extensionFromUrl(s: string): string {
 }
 
 export function toBackendUrl(path: string): string {
-  if (path.startsWith('http') || path.startsWith('file')) { // dealing with full URL
+  if (path.startsWith('http') || path.startsWith('file')) {
+    // dealing with full URL
     return path
   }
   if (path.startsWith('.')) {
