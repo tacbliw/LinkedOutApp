@@ -106,7 +106,10 @@ export function SidebarCompany({ state, descriptors, navigation }) {
         <FastImage
           style={styles.avatar}
           resizeMode='cover'
-          source={{ uri: toBackendUrl(profilePicture) }}
+          source={{
+            uri: toBackendUrl(profilePicture) + '?' + new Date(),
+            cache: 'web',
+          }}
         />
         <Text style={styles.userName}>{name}</Text>
       </View>

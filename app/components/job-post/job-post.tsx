@@ -71,7 +71,10 @@ export function JobPost(props: JobPostProps) {
           <View style={{ flexDirection: 'row' }}>
             <FastImage
               style={styles.postCompanyAvatar}
-              source={{ uri: toBackendUrl(props.job.companyProfilePicture) }}
+              source={{
+                uri: toBackendUrl(props.job.companyProfilePicture),
+                cache: 'web',
+              }}
             />
             <View
               style={{

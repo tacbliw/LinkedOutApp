@@ -64,7 +64,10 @@ export function NotificationItem(props: NotificationItemProps) {
       <View style={styles.containerView}>
         <View style={styles.avatarView}>
           <FastImage
-            source={{ uri: toBackendUrl(props.item.profilePicture) }}
+            source={{
+              uri: toBackendUrl(props.item.profilePicture),
+              cache: 'web',
+            }}
             style={styles.avatar}
           />
           <Badge

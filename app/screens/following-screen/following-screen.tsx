@@ -57,7 +57,7 @@ export const FollowingScreen = function FollowingScreen(navigation) {
         >
           <CardItem header style={styles.cardHeader}>
             <FastImage
-              source={{ uri: toBackendUrl(item.profilePicture) }}
+              source={{ uri: toBackendUrl(item.profilePicture), cache: 'web' }}
               style={{ width: 60, height: 60, borderRadius: 10 }}
             ></FastImage>
           </CardItem>

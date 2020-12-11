@@ -65,7 +65,7 @@ export function CardJob(props: CardJobProps) {
       >
         <FastImage
           style={{ borderRadius: 10, width: 60, height: 60 }}
-          source={{ uri: toBackendUrl(props.avatarUri) }}
+          source={{ uri: toBackendUrl(props.avatarUri), cache: 'web' }}
         />
         <View style={{ marginLeft: 16, flex: 1 }}>
           <View>

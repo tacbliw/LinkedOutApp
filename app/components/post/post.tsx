@@ -131,7 +131,12 @@ export function Post(props: PostProps) {
           <View style={{ flexDirection: 'row' }}>
             <FastImage
               style={styles.postUserAvatar}
-              source={{ uri: toBackendUrl(props.post.userProfilePicture) }}
+              source={{
+                uri:
+                  toBackendUrl(props.post.userProfilePicture) +
+                  (props.post.accountId === accountId ? '?' + new Date() : ''),
+                cache: 'web',
+              }}
             />
             <View style={{ marginLeft: 16 }}>
               <Text

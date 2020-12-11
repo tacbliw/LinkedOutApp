@@ -2,9 +2,10 @@ import { Form, Icon, Input, Item, Textarea } from 'native-base'
 import React, { useEffect, useState } from 'react'
 import {
   FlatList,
+  LogBox,
   TouchableOpacity,
   useWindowDimensions,
-  View
+  View,
 } from 'react-native'
 import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -14,32 +15,11 @@ import { tagService } from '../../services/tag-service'
 import { color } from '../../theme/color'
 import { styles } from './styles'
 
-const specialty_picker_items = [
-  {
-    name: 'Specialty',
-    id: 1,
-    // these are the children or 'sub items'
-    children: [
-      {
-        name: 'Django',
-        id: 'Django',
-      },
-      {
-        name: 'React',
-        id: 'React',
-      },
-      {
-        name: 'Pikachu',
-        id: 'Pikachu',
-      },
-    ],
-  },
-]
-
 export const RegisterCompanyScreen = function RegisterCompanyScreen({
   route,
   navigation,
 }) {
+  LogBox.ignoreAllLogs()
   const [
     companyName,
     handleCompanyNameChange,
@@ -63,27 +43,25 @@ export const RegisterCompanyScreen = function RegisterCompanyScreen({
     specialtyTag,
     getAllSpecialtyTag,
     getSpecialtyTagByQuery,
-	] = tagService.useSpecialtyTag()
+  ] = tagService.useSpecialtyTag()
 
   React.useEffect(() => {
     console.log('RegisterCompanyScreen')
-    getAllSpecialtyTag();
+    getAllSpecialtyTag()
   }, [null])
 
   useEffect(() => {
-		setDataMultiSelected([
-			{
-				name: 'Specialty', 
-				id: 1,
-				children: specialtyTag?specialtyTag.map((item, index) =>( {name: item, id: index} )):[]
-			}
-		
-		])
-
-		// specialtyTag?setSelectedItems(specialtyTag.map(item => specialtyTag.indexOf(item))):''
-		
+    setDataMultiSelected([
+      {
+        name: 'Specialty',
+        id: 1,
+        children: specialtyTag
+          ? specialtyTag.map((item, index) => ({ name: item, id: index }))
+          : [],
+      },
+    ])
   }, [specialtyTag])
-  
+
   return (
     <Screen style={styles.container} preset='scroll'>
       <Text style={styles.header}>Tell us more about you!</Text>
@@ -118,57 +96,70 @@ export const RegisterCompanyScreen = function RegisterCompanyScreen({
             />
           </Item>
 
-          <Item style={{borderBottomWidth: 0}}>
-          <SectionedMultiSelect
-                  styles={{}}
-                  items={dataMultiSelected} 
-                  IconRenderer={MaterialIcons}
-                  uniqueKey='id'
-                  subKey='children'
-                  selectedText="Your company specialty"
-                  showDropDowns={false}
-                  readOnlyHeadings={true}
-                  onSelectedItemsChange={onSelectedItemsChange}
-                  selectedItems={selectedItems}
-                  colors={{primary: color['color-primary-500']}}
-                  onConfirm={() => {handleChangeSpecialities(selectedItems.map(item => specialtyTag[item]))}}
-                  renderSelectText = {() => {
-                
-                    return <Text style={{color: color["color-gray-900"]}}>Your company specialty</Text>
-                  }}
-                  customChipsRenderer={(chipProperties) => {
-                    return (
-                              <FlatList
-                              contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap'}}
-                              data={chipProperties.selectedItems}
-                              renderItem={({ item }) => {
-                                return (
-                                  <Text
-                                    style={{
-                                      backgroundColor: color["color-primary-400"],
-                                      color: color["color-gray-100"],
-                                      borderRadius: 100,
-                                      paddingTop: 3,
-                                      paddingBottom: 3,
-                                      paddingLeft: 10,
-                                      paddingRight: 10,
-                                      marginRight: 5,
-                                      marginBottom: 5
-                                    }}
-                                  >
-                                    {specialtyTag[item]}
-                                  </Text>
-                                )
-                              }}
-                              keyExtractor={(item) => item.toString()}
-                            ></FlatList>
+          <Item style={{ borderBottomWidth: 0 }}>
+            <SectionedMultiSelect
+              styles={{}}
+              items={dataMultiSelected}
+              IconRenderer={MaterialIcons}
+              uniqueKey='id'
+              subKey='children'
+              selectedText='Your company specialty'
+              showDropDowns={false}
+              readOnlyHeadings={true}
+              onSelectedItemsChange={onSelectedItemsChange}
+              selectedItems={selectedItems}
+              colors={{ primary: color['color-primary-500'] }}
+              onConfirm={() => {
+                handleChangeSpecialities(
+                  selectedItems.map((item) => specialtyTag[item]),
+                )
+              }}
+              renderSelectText={() => {
+                return (
+                  <Text style={{ color: color['color-gray-900'] }}>
+                    Your company specialty
+                  </Text>
+                )
+              }}
+              customChipsRenderer={(chipProperties) => {
+                return (
+                  <FlatList
+                    contentContainerStyle={{
+                      flexDirection: 'row',
+                      flexWrap: 'wrap',
+                    }}
+                    data={chipProperties.selectedItems}
+                    renderItem={({ item }) => {
+                      return (
+                        <Text
+                          style={{
+                            backgroundColor: color['color-primary-400'],
+                            color: color['color-gray-100'],
+                            borderRadius: 100,
+                            paddingTop: 3,
+                            paddingBottom: 3,
+                            paddingLeft: 10,
+                            paddingRight: 10,
+                            marginRight: 5,
+                            marginBottom: 5,
+                          }}
+                        >
+                          {specialtyTag[item]}
+                        </Text>
                       )
                     }}
+                    keyExtractor={(item) => item.toString()}
+                  ></FlatList>
+                )
+              }}
             />
           </Item>
         </Form>
         <View style={styles.submitButton}>
-          <TouchableOpacity style={styles.button} onPress={handleCompanyRegister}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleCompanyRegister}
+          >
             <Text style={styles.submit}>Register</Text>
           </TouchableOpacity>
         </View>

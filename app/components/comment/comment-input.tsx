@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Dimensions, Image, StyleSheet, TextInput, View } from 'react-native'
+import { Dimensions, StyleSheet, TextInput, View } from 'react-native'
+import FastImage from 'react-native-fast-image'
 const screenWidth = Math.round(Dimensions.get('window').width)
 const styles = StyleSheet.create({
   container: {
@@ -42,11 +43,7 @@ export const CommentInput = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.avatarContainer}>
-        <Image
-          // resizeMode='contain'
-          style={styles.avatar}
-          source={props.avatar}
-        />
+        <FastImage style={styles.avatar} source={props.avatar} />
       </View>
       <View style={styles.contentContainer}>
         <TextInput

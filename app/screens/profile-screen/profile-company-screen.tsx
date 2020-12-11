@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
 
   follower: {
     fontWeight: '700',
+    marginBottom: -20,
   },
 
   cardSection: {
@@ -240,7 +241,10 @@ export function ProfileCompanyScreen({ navigation }) {
             <View style={{ flexDirection: 'row' }}>
               <FastImage
                 style={styles.avatarUser}
-                source={{ uri: toBackendUrl(profilePicture) }}
+                source={{
+                  uri: toBackendUrl(profilePicture) + '?' + new Date(),
+                  cache: 'web',
+                }}
               />
               <View style={{ marginLeft: 25, justifyContent: 'center' }}>
                 <Text style={styles.userName}>{name}</Text>
@@ -259,7 +263,7 @@ export function ProfileCompanyScreen({ navigation }) {
                       {followerCount.toString() + 'K'}
                     </Text>
                     <Text style={{ color: color.brandLight }}>
-                      {followerCount > 1 ? 'Followers' : 'Follower'}
+                      {followerCount > 0 ? 'Followers' : 'Follower'}
                     </Text>
                   </View>
                   <View style={styles.socialStatisticContainter}>

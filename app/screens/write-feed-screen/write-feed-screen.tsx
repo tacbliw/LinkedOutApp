@@ -151,6 +151,7 @@ export const WriteFeedScreen = function WriteFeedScreen() {
                   ? user.profilePicture
                   : 'https://www.w3schools.com/w3images/avatar2.png',
               ),
+              cache: 'web',
             }}
           />
           <Text style={styles.name}>

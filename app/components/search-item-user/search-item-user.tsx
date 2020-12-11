@@ -1,6 +1,7 @@
 import { Card, CardItem, Text, View } from 'native-base'
 import * as React from 'react'
-import { FlatList, Image, TouchableOpacity, ViewStyle } from 'react-native'
+import { FlatList, TouchableOpacity, ViewStyle } from 'react-native'
+import FastImage from 'react-native-fast-image'
 import { toBackendUrl } from '../../helpers/string-helper'
 import { color } from '../../theme'
 
@@ -33,11 +34,11 @@ export function SearchItemUser(props: SearchItemUserProps) {
           }}
         >
           <View style={{ flexDirection: 'row' }}>
-            <Image
+            <FastImage
               // square
               style={{ borderRadius: 15, width: 55, height: 55 }}
-              source={{ uri: toBackendUrl(props.profilePicture) }}
-            ></Image>
+              source={{ uri: toBackendUrl(props.profilePicture), cache: 'web' }}
+            />
             <View style={{ marginLeft: 16, justifyContent: 'space-between' }}>
               <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
                 {props.firstname + ' ' + props.lastname}

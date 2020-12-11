@@ -140,7 +140,10 @@ export const MessagesScreen = function MessagesScreen({ route, navigation }) {
           </TouchableOpacity>
           <FastImage
             style={styles.avatar}
-            source={{ uri: toBackendUrl(route.params.profilePicture) }}
+            source={{
+              uri: toBackendUrl(route.params.profilePicture),
+              cache: 'web',
+            }}
           />
           <Text
             style={{ marginLeft: 10, fontWeight: '700', fontSize: 20 }}

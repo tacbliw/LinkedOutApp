@@ -2,12 +2,12 @@ import { Card, CardItem } from 'native-base'
 import * as React from 'react'
 import {
   FlatList,
-  Image,
   TextStyle,
   TouchableOpacity,
   View,
   ViewStyle,
 } from 'react-native'
+import FastImage from 'react-native-fast-image'
 import { Text } from '../'
 import { toBackendUrl } from '../../helpers/string-helper'
 import { color, typography } from '../../theme'
@@ -52,11 +52,10 @@ export function SearchItemCompany(props: SearchItemCompanyProps) {
           }}
         >
           <View style={{ flexDirection: 'row' }}>
-            <Image
-              // square
+            <FastImage
               style={{ borderRadius: 15, width: 55, height: 55 }}
-              source={{ uri: toBackendUrl(props.profilePicture) }}
-            ></Image>
+              source={{ uri: toBackendUrl(props.profilePicture), cache: 'web' }}
+            />
             <View style={{ marginLeft: 16, justifyContent: 'space-between' }}>
               <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}>
                 {props.name}

@@ -7,7 +7,7 @@ import {
   Item,
   Label,
   Text,
-  Textarea
+  Textarea,
 } from 'native-base'
 import React, { useEffect, useState } from 'react'
 import {
@@ -16,17 +16,17 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  ViewStyle
+  ViewStyle,
 } from 'react-native'
-import DocumentPicker from 'react-native-document-picker'
 import FastImage from 'react-native-fast-image'
+import ImagePicker, { Image } from 'react-native-image-crop-picker'
 import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { Container, Screen } from '../../components'
 import { toBackendUrl } from '../../helpers/string-helper'
+import { companyRepository } from '../../repositories/company-repository'
 import { companyProfileService } from '../../services/company-profile-service'
 import { tagService } from '../../services/tag-service'
-// import { useStores } from "../../models"
 import { color } from '../../theme'
 
 const ROOT: ViewStyle = {
@@ -72,26 +72,6 @@ const styles = StyleSheet.create({
   },
 })
 
-async function chooseFile() {
-  try {
-    const res = await DocumentPicker.pick({
-      type: [DocumentPicker.types.images],
-    })
-    console.log(
-      res.uri,
-      res.type, // mime type
-      res.name,
-      res.size,
-    )
-  } catch (err) {
-    if (DocumentPicker.isCancel(err)) {
-      // User cancelled the picker, exit any dialogs or menus and move on
-    } else {
-      throw err
-    }
-  }
-}
-
 export function ProfileEditCompanyScreen({ route, navigation }) {
   const [
     name,
@@ -112,7 +92,7 @@ export function ProfileEditCompanyScreen({ route, navigation }) {
     getAllSpecialtyTag,
     getSpecialtyTagByQuery,
   ] = tagService.useSpecialtyTag()
-  
+
   const { companyData } = route.params
   const [selectedItems, setSelectedItems] = useState([])
   const [dataMultiSelected, setDataMultiSelected] = useState([])
@@ -121,6 +101,32 @@ export function ProfileEditCompanyScreen({ route, navigation }) {
     setSelectedItems(selectedItems)
     // selectedItems?handleSpecialtiesChange(selectedItems.map(item => specialtyTag.indexOf(item))):'';
   }
+
+  const [, forceUpdate] = React.useReducer((x) => x + 1, 0)
+  const handleSelectPhoto = React.useCallback(() => {
+    ImagePicker.openPicker({
+      mediaType: 'photo',
+      height: 300,
+      width: 300,
+      cropping: true,
+    }).then(
+      (image: Image) => {
+        if (image) {
+          companyRepository
+            .upload(image)
+            .catch((error) => {
+              console.log(error)
+            })
+            .then(() => {
+              forceUpdate()
+            })
+        }
+      },
+      (error) => {
+        console.log(error)
+      },
+    )
+  }, [])
 
   useEffect(() => {
     getAllSpecialtyTag()
@@ -145,7 +151,7 @@ export function ProfileEditCompanyScreen({ route, navigation }) {
     specialtyTag
       ? setSelectedItems(specialties.map((item) => specialtyTag.indexOf(item)))
       : ''
-  }, [specialtyTag])
+  }, [specialties, specialtyTag])
 
   return (
     <Screen style={ROOT} preset='scroll'>
@@ -172,10 +178,13 @@ export function ProfileEditCompanyScreen({ route, navigation }) {
         <Container>
           <View style={styles.topInfo}>
             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-              <TouchableOpacity onPress={chooseFile}>
+              <TouchableOpacity onPress={handleSelectPhoto}>
                 <FastImage
                   style={styles.avatarUser}
-                  source={{ uri: toBackendUrl(profilePicture) }}
+                  source={{
+                    uri: toBackendUrl(profilePicture) + '?' + new Date(),
+                    cache: 'web',
+                  }}
                 />
               </TouchableOpacity>
             </View>
@@ -214,7 +223,7 @@ export function ProfileEditCompanyScreen({ route, navigation }) {
                   IconRenderer={MaterialIcons}
                   uniqueKey='id'
                   subKey='children'
-                  selectedText='skill'
+                  selectedText='sepcialties'
                   showDropDowns={false}
                   readOnlyHeadings={true}
                   onSelectedItemsChange={onSelectedItemsChange}

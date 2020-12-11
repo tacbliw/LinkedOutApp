@@ -6,7 +6,7 @@ import {
   Header,
   Icon,
   Text,
-  View
+  View,
 } from 'native-base'
 import {
   FlatList,
@@ -14,7 +14,7 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  ViewStyle
+  ViewStyle,
 } from 'react-native'
 import { PieChart } from 'react-native-chart-kit'
 import FastImage from 'react-native-fast-image'
@@ -29,7 +29,6 @@ const ROOT: ViewStyle = {
   backgroundColor: color.palette.black,
   flex: 1,
 }
-
 
 const chartConfig = {
   backgroundGradientFrom: '#1E2923',
@@ -109,7 +108,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
 })
-const colorList = ['#495867', '#577399', '#BDD5EA', '#FE5F55', '#F7F052', '#F28123', '#D34E24', '#563F1B', '#38726C', '#413C58', '#A3C4BC', '#210F04', '#452103', '#436436']
+const colorList = [
+  '#495867',
+  '#577399',
+  '#BDD5EA',
+  '#FE5F55',
+  '#F7F052',
+  '#F28123',
+  '#D34E24',
+  '#563F1B',
+  '#38726C',
+  '#413C58',
+  '#A3C4BC',
+  '#210F04',
+  '#452103',
+  '#436436',
+]
 
 export function ProfileCompanyViewScreen({ route, navigation }) {
   LogBox.ignoreAllLogs()
@@ -145,17 +159,17 @@ export function ProfileCompanyViewScreen({ route, navigation }) {
   }, [navigation, getCompanyJob, getInfo])
 
   useEffect(() => {
-    let skillCount = { "": 0 };
-    job.forEach(element => {
+    let skillCount = { '': 0 }
+    job.forEach((element) => {
       if (element.skills) {
-        element.skills.forEach((s) =>
-          skillCount[s] = (skillCount[s] || 0) + 1
+        element.skills.forEach(
+          (s) => (skillCount[s] = (skillCount[s] || 0) + 1),
         )
       }
-    });
+    })
     const newStatisticData = []
     let index = 0
-    Object.keys(skillCount).forEach(i => {
+    Object.keys(skillCount).forEach((i) => {
       if (i) {
         newStatisticData.push({
           name: i,
@@ -169,7 +183,7 @@ export function ProfileCompanyViewScreen({ route, navigation }) {
     })
     setStatisticData(newStatisticData)
   }, [job])
-  
+
   const renderSpecialtyItem = ({ item }) => {
     return <Tag tagText={item}></Tag>
   }
@@ -207,7 +221,7 @@ export function ProfileCompanyViewScreen({ route, navigation }) {
             <View style={{ flexDirection: 'row' }}>
               <FastImage
                 style={styles.avatarUser}
-                source={{ uri: toBackendUrl(profilePicture) }}
+                source={{ uri: toBackendUrl(profilePicture), cache: 'web' }}
               />
               <View style={{ marginLeft: 25, justifyContent: 'center' }}>
                 <Text style={styles.userName}>{name}</Text>

@@ -32,7 +32,7 @@ export function FollowingUser(props: FollowingUserProps) {
             height: props.height,
             borderRadius: props.borderRadius,
           }}
-          source={{ uri: props.avatarUri }}
+          source={{ uri: props.avatarUri, cache: 'web' }}
         />
         <Text style={{ color: color.brandLight, fontSize: 14 }}>
           {props.label}

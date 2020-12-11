@@ -46,7 +46,7 @@ const Item = ({
   >
     <View style={{ flexDirection: 'row' }}>
       <FastImage
-        source={{ uri: toBackendUrl(item.profilePicture) }}
+        source={{ uri: toBackendUrl(item.profilePicture), cache: 'web' }}
         style={styles.avatar}
       />
       <View style={{ flex: 1, justifyContent: 'space-around' }}>

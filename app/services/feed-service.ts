@@ -1,9 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native'
-import ImagePicker, {
-  Image,
-  ImageOrVideo,
-} from 'react-native-image-crop-picker'
+import ImagePicker, { Image } from 'react-native-image-crop-picker'
 import React from 'reactn'
 import { screens } from '../config/screens'
 import { showError, showInfo } from '../helpers/toast'
@@ -28,7 +25,7 @@ export const feedService = {
     const navigation = useNavigation()
     const [content, setContent] = React.useState<string>('')
     const [postDisabled, setPostDisabled] = React.useState<boolean>(true)
-    const [image, setImage] = React.useState<ImageOrVideo>()
+    const [image, setImage] = React.useState<Image>()
 
     React.useEffect(() => {
       if (!content) {

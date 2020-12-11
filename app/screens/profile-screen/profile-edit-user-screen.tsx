@@ -12,7 +12,7 @@ import {
   Label,
   Text,
   Textarea,
-  Thumbnail
+  Thumbnail,
 } from 'native-base'
 import React, { useEffect } from 'react'
 import {
@@ -23,10 +23,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  ViewStyle
+  ViewStyle,
 } from 'react-native'
-import DocumentPicker from 'react-native-document-picker'
 import { ScrollView } from 'react-native-gesture-handler'
+import ImagePicker, { Image } from 'react-native-image-crop-picker'
 import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import Timeline from 'react-native-timeline-flatlist'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -34,6 +34,7 @@ import { useState } from 'reactn'
 import { CardJob, Container, Screen } from '../../components'
 import { toBackendUrl } from '../../helpers/string-helper'
 import { ExperienceObject } from '../../repositories/experience-repository'
+import { userRepository } from '../../repositories/user-repository'
 import { tagService } from '../../services/tag-service'
 import { userProfileService } from '../../services/user-profile-service'
 import { color } from '../../theme'
@@ -150,26 +151,6 @@ const styles = StyleSheet.create({
   },
 })
 
-async function chooseFile() {
-  try {
-    const res = await DocumentPicker.pick({
-      type: [DocumentPicker.types.images],
-    })
-    console.log(
-      res.uri,
-      res.type, // mime type
-      res.name,
-      res.size,
-    )
-  } catch (err) {
-    if (DocumentPicker.isCancel(err)) {
-      // User cancelled the picker, exit any dialogs or menus and move on
-    } else {
-      throw err
-    }
-  }
-}
-
 export function ProfileEditUserScreen({ route, navigation }) {
   const [
     firstName,
@@ -254,6 +235,32 @@ export function ProfileEditUserScreen({ route, navigation }) {
     getSkillTagByQuery,
   ] = tagService.useSkillTag()
 
+  const [, forceUpdate] = React.useReducer((x) => x + 1, 0)
+  const handleSelectPhoto = React.useCallback(() => {
+    ImagePicker.openPicker({
+      mediaType: 'photo',
+      height: 300,
+      width: 300,
+      cropping: true,
+    }).then(
+      (image: Image) => {
+        if (image) {
+          userRepository
+            .upload(image)
+            .catch((error) => {
+              console.log(error)
+            })
+            .then(() => {
+              forceUpdate()
+            })
+        }
+      },
+      (error) => {
+        console.log(error)
+      },
+    )
+  }, [])
+
   const { userData, skillData, educationData, experienceData } = route.params
   const [selectedItems, setSelectedItems] = useState<[]>()
   const [educationModalVisible, setEducationModalVisible] = useState(false)
@@ -264,17 +271,6 @@ export function ProfileEditUserScreen({ route, navigation }) {
   const onSelectedItemsChange = (selectedItems) => {
     setSelectedItems(selectedItems)
     // handleSkillListChange(selectedItems)
-  }
-
-  const renderDetail = (rowData, sectionID, rowID) => {
-    const title = <Text style={styles.title}>{rowData.title}</Text>
-
-    return (
-      <View style={{ flex: 1 }}>
-        {title}
-        {rowData.description}
-      </View>
-    )
   }
 
   const renderExperienceItem = ({ item }: { item: ExperienceObject }) => {
@@ -431,12 +427,15 @@ export function ProfileEditUserScreen({ route, navigation }) {
         <Container>
           <View style={styles.topInfo}>
             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-              <TouchableOpacity onPress={chooseFile}>
+              <TouchableOpacity onPress={handleSelectPhoto}>
                 <Thumbnail
                   circular
                   large
                   style={styles.avatarUser}
-                  source={{ uri: toBackendUrl(userData.profilePicture) }}
+                  source={{
+                    uri:
+                      toBackendUrl(userData.profilePicture) + '?' + new Date(),
+                  }}
                 ></Thumbnail>
               </TouchableOpacity>
             </View>
@@ -542,10 +541,8 @@ export function ProfileEditUserScreen({ route, navigation }) {
                   showCancelButton={true}
                   onConfirm={() => {
                     handleSkillListChange(
-                      selectedItems.map((item) =>
-                      skillTag[item].toString(),
-                      ),
-                    );
+                      selectedItems.map((item) => skillTag[item].toString()),
+                    )
                   }}
                   renderSelectText={() => {
                     return <Text>Your skill here</Text>
