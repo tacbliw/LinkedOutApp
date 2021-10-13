@@ -1,5 +1,9 @@
 # LinkedOutApp
 
+## Server
+
+Get the [server](https://github.com/ultoxtung/LinkedOutServer)
+
 ## Install
 
 - Java SDK: [https://www.oracle.com/java/technologies/javase-jdk15-downloads.html](https://www.oracle.com/java/technologies/javase-jdk15-downloads.html)
